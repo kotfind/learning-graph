@@ -57,10 +57,12 @@ ThemesTab::ThemesTab(QWidget* parent)
 
     // Learned List Switch
     auto* learnedCheck = new QCheckBox(tr("Learned"));
+    learnedCheck->setTristate(true);
     grid->addWidget(learnedCheck, 3, 1);
 
     // In Wishlist Switch
     auto* wishlistCheck = new QCheckBox(tr("In Wishlist"));
+    wishlistCheck->setTristate(true);
     grid->addWidget(wishlistCheck, 4, 1);
 
     // Search Button
