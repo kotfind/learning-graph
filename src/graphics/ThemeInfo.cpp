@@ -9,9 +9,9 @@
 #include <QPushButton>
 #include <QFrame>
 
-ThemeInfo::ThemeInfo(QWidget* parent)
-        : QWidget(parent) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg("Theme"));
+ThemeInfo::ThemeInfo(const QString& themeName, QWidget* parent)
+        : themeName(themeName), QWidget(parent) {
+    setWindowTitle(tr("Theme \"%1\" Info").arg(themeName));
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
@@ -28,7 +28,7 @@ ThemeInfo::ThemeInfo(QWidget* parent)
     auto* themeLbl = new QLabel(tr("Theme:"));
     themeBox->addWidget(themeLbl);
 
-    auto* themeEdit = new QLineEdit("Theme 1");
+    auto* themeEdit = new QLineEdit(themeName);
     themeBox->addWidget(themeEdit);
 
     // Package

@@ -1,5 +1,4 @@
 #include "graphics/GraphicsCore.h"
-#include "graphics/ThemeInfo.h" // TODO: delete me
 
 #include <QApplication>
 
@@ -12,11 +11,8 @@ int main(int argc, char** argv) {
     app.setFont(font);
 
     // Main window
-    GraphicsCore win1;
-    win1.show();
-
-    ThemeInfo win2; // TODO: delete me
-    win2.show();
+    GraphicsCore win;
+    win.show();
 
     return app.exec();
 }

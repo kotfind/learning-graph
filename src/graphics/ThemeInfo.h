@@ -1,6 +1,10 @@
 #include <QWidget>
+#include <QString>
 
 class ThemeInfo : public QWidget {
     public:
-        ThemeInfo(QWidget* parent = nullptr);
+        ThemeInfo(const QString& themeName, QWidget* parent = nullptr);
+
+    private:
+        QString themeName;
 };

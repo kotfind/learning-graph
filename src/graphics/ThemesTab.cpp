@@ -1,11 +1,11 @@
 #include "ThemesTab.h"
+#include "ThemesListWidget.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
-#include <QListWidget>
 #include <QLabel>
 #include <QCheckBox>
 #include <QGroupBox>
@@ -70,7 +70,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
-    auto* themesList = new QListWidget;
+    auto* themesList = new ThemesListWidget;
     themesList->addItems({
         "Theme 1",
         "Theme 2",
