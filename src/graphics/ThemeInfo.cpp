@@ -1,4 +1,4 @@
-#include "ThemeInfo.h"
+#include "ThemeInfoWindow.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -9,7 +9,7 @@
 #include <QPushButton>
 #include <QFrame>
 
-ThemeInfo::ThemeInfo(const QString& themeName, QWidget* parent)
+ThemeInfoWindow::ThemeInfoWindow(const QString& themeName, QWidget* parent)
         : themeName(themeName), QWidget(parent) {
     setWindowTitle(tr("Theme \"%1\" Info").arg(themeName));
 
