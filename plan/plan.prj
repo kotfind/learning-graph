@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 37
+  revision 39
   modified_by 2 "kotfind"
 
 
@@ -44,7 +44,7 @@ format 224
 
   mark_for_import
   
-  classview 128002 "class_view"
+  classview 128002 "ClassView"
     
     classdiagramsettings member_max_width 0 end
     
@@ -64,8 +64,8 @@ format 224
     
     activitydiagramsettings
      end
-    classdiagram 141058 "class_diagram"
-      classdiagramsettings member_max_width 0 end
+    classdiagram 141058 "GraphicsClassDiagram"
+      classdiagramsettings draw_all_relations no member_max_width 0 end
       size 10000x10000
     end
 
@@ -310,18 +310,27 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      classrelation 134786 // workerCore ()
-	relation 134786 ---> name ""
-	  a role_name "workerCore" multiplicity "1" private
-	    classrelation_ref 134786 // workerCore ()
-	  b multiplicity "1" parent class_ref 134530 // WorkerCore
-      end
-
       classrelation 148738 // <generalisation>
 	relation 148738 ---|>
 	  a public
 	    classrelation_ref 148738 // <generalisation>
 	  b parent class_ref 168066 // QMainWindow
+      end
+
+      classrelation 198402 // <composition>
+	relation 198018 *---
+	  a role_name "" public
+	    classrelation_ref 198402 // <composition>
+	  b role_name "" public
+	    classrelation_ref 198530 // <composition>
+      end
+
+      classrelation 198658 // <composition>
+	relation 198146 *---
+	  a role_name "" public
+	    classrelation_ref 198658 // <composition>
+	  b role_name "" public
+	    classrelation_ref 198786 // <composition>
       end
     end
 
@@ -335,6 +344,18 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
+      operation 163330 "builtRequested"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "themeFullname" explicit_type "string"
+	
+	
+	
+	
+	
+      end
+
       operation 203778 "exportRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -359,13 +380,6 @@ format 224
 	
       end
 
-      classrelation 169346 // <dependency>
-	relation 169346 -_->
-	  a public
-	    classrelation_ref 169346 // <dependency>
-	  b parent class_ref 141314 // GraphicsCore
-      end
-
       classrelation 169602 // <generalisation>
 	relation 169602 ---|>
 	  a public
@@ -384,6 +398,18 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
+      operation 163458 "builtRequested"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "themeFullname" explicit_type "string"
+	
+	
+	
+	
+	
+      end
+
       operation 203906 "exportRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -408,18 +434,19 @@ format 224
 	
       end
 
-      classrelation 169474 // <dependency>
-	relation 169474 -_->
-	  a public
-	    classrelation_ref 169474 // <dependency>
-	  b parent class_ref 141314 // GraphicsCore
-      end
-
       classrelation 169730 // <generalisation>
 	relation 169730 ---|>
 	  a public
 	    classrelation_ref 169730 // <generalisation>
 	  b parent class_ref 167938 // QWiget
+      end
+
+      classrelation 199682 // <composition>
+	relation 198658 *---
+	  a role_name "" public
+	    classrelation_ref 199682 // <composition>
+	  b role_name "" public
+	    classrelation_ref 199810 // <composition>
       end
     end
 
@@ -640,18 +667,15 @@ format 224
 	
       end
 
-      classrelation 141314 // <dependency>
-	relation 141314 -_->
-	  a public
-	    classrelation_ref 141314 // <dependency>
-	  b parent class_ref 141314 // GraphicsCore
-      end
-
       classrelation 149122 // <generalisation>
 	relation 149122 ---|>
 	  a public
 	    classrelation_ref 149122 // <generalisation>
 	  b parent class_ref 167938 // QWiget
+      end
+
+      classrelation 198530 // <composition>
+	relation_ref 198018 // <composition>
       end
     end
 
@@ -693,18 +717,23 @@ format 224
 	
       end
 
-      classrelation 141442 // <dependency>
-	relation 141442 -_->
-	  a public
-	    classrelation_ref 141442 // <dependency>
-	  b parent class_ref 141314 // GraphicsCore
-      end
-
       classrelation 149250 // <generalisation>
 	relation 149250 ---|>
 	  a public
 	    classrelation_ref 149250 // <generalisation>
 	  b parent class_ref 167938 // QWiget
+      end
+
+      classrelation 198786 // <composition>
+	relation_ref 198146 // <composition>
+      end
+
+      classrelation 199426 // <composition>
+	relation 198530 *---
+	  a role_name "" public
+	    classrelation_ref 199426 // <composition>
+	  b role_name "" public
+	    classrelation_ref 199554 // <composition>
       end
     end
 
@@ -759,13 +788,6 @@ format 224
 	    classrelation_ref 169090 // <generalisation>
 	  b parent class_ref 167938 // QWiget
       end
-
-      classrelation 190082 // <dependency>
-	relation 190082 -_->
-	  a public
-	    classrelation_ref 190082 // <dependency>
-	  b parent class_ref 188034 // ThemeContextMenuWidget
-      end
     end
 
     class 174594 "ThemesListWidget"
@@ -801,13 +823,6 @@ format 224
 	
       end
 
-      classrelation 176258 // <dependency>
-	relation 176258 -_->
-	  a public
-	    classrelation_ref 176258 // <dependency>
-	  b parent class_ref 161154 // ThemesTab
-      end
-
       classrelation 156034 // <generalisation>
 	relation 156034 ---|>
 	  a public
@@ -815,11 +830,20 @@ format 224
 	  b parent class_ref 174722 // QListWidget
       end
 
-      classrelation 183298 // <dependency>
-	relation 183298 -_->
-	  a public
-	    classrelation_ref 183298 // <dependency>
-	  b parent class_ref 181378 // LearningListWindow
+      classrelation 199170 // <composition>
+	relation 198402 *---
+	  a role_name "" public
+	    classrelation_ref 199170 // <composition>
+	  b role_name "" public
+	    classrelation_ref 199298 // <composition>
+      end
+
+      classrelation 199554 // <composition>
+	relation_ref 198530 // <composition>
+      end
+
+      classrelation 199810 // <composition>
+	relation_ref 198658 // <composition>
       end
     end
 
@@ -844,30 +868,6 @@ format 224
 	MysqlColumn
       end
 
-      operation 163330 "learningGraphBuiltRequested"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "themeFullname" explicit_type "string"
-	
-	
-	
-	
-	
-      end
-
-      operation 163458 "learningListBuiltRequested"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "themeFullname" explicit_type "string"
-	
-	
-	
-	
-	
-      end
-
       classrelation 182914 // <generalisation>
 	relation 182914 ---|>
 	  a public
@@ -875,18 +875,29 @@ format 224
 	  b parent class_ref 187906 // QMenu
       end
 
-      classrelation 183042 // <dependency>
-	relation 183042 -_->
-	  a public
-	    classrelation_ref 183042 // <dependency>
-	  b parent class_ref 174594 // ThemesListWidget
+      classrelation 198018 // (opens)
+	relation 197634 ---> name "opens"
+	  a role_name "" public
+	    classrelation_ref 198018 // (opens)
+	  b parent class_ref 181378 // LearningListWindow
       end
 
-      classrelation 183170 // <dependency>
-	relation 183170 -_->
-	  a public
-	    classrelation_ref 183170 // <dependency>
+      classrelation 198146 // (opens)
+	relation 197762 ---> name "opens"
+	  a role_name "" public
+	    classrelation_ref 198146 // (opens)
 	  b parent class_ref 181250 // LearningGraphWindow
+      end
+
+      classrelation 198274 // (opens)
+	relation 197890 ---> name "opens"
+	  a role_name "" public
+	    classrelation_ref 198274 // (opens)
+	  b parent class_ref 161282 // ThemeInfoWindow
+      end
+
+      classrelation 199298 // <composition>
+	relation_ref 198402 // <composition>
       end
     end
   end
