@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QWidget>
 
 class PackagesTab : public QWidget {

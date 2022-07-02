@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QListWidget>
 
 class ThemesListWidget : public QListWidget {
