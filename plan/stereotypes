@@ -3,7 +3,7 @@
     -_-> 3 "access" "import" "from"
   end
   
-  class_stereotypes  5 "stereotype" "enum_class" "template_typedef" "table" "trait"
+  class_stereotypes  6 "stereotype" "enum" "template_typedef" "table" "trait" "enum_class"
   end
   
   rolepart_stereotypes  0

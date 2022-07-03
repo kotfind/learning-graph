@@ -1,12 +1,12 @@
 format 224
 "plan"
-  revision 39
+  revision 49
   modified_by 2 "kotfind"
 
 
   
   // class settings
-  default_attribute_visibility public default_relation_visibility public default_operation_visibility public
+  default_attribute_visibility private default_relation_visibility public default_operation_visibility public
   
   classdiagramsettings draw_all_relations yes hide_attributes no hide_operations no hide_getset_operations no hide_ports no show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_context no show_members_multiplicity yes show_members_initialization yes show_attribute_modifiers yes member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab yes class_drawing_mode class drawing_language uml show_context_mode no auto_label_position yes show_relation_modifiers yes show_relation_visibility yes show_infonote no shadow yes gradient none show_stereotype_properties yes end
   
@@ -66,6 +66,11 @@ format 224
      end
     classdiagram 141058 "GraphicsClassDiagram"
       classdiagramsettings draw_all_relations no member_max_width 0 end
+      size 10000x10000
+    end
+
+    classdiagram 147586 "WorkerClassDiagram"
+      classdiagramsettings member_max_width 0 end
       size 10000x10000
     end
 
@@ -147,7 +152,7 @@ format 224
       
     end
 
-    class 134530 "WorkerCore"
+    class 201090 "QSqlDatabase"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -157,147 +162,29 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 134530 "getThemesList"
-	stereotype "slot_signal"
-	public return_type class_ref 134786 // Theme
-	multiplicity "*"
-	nparams 4
-	  param in name "themeNameKeyword" explicit_type "string"
-	  param in name "package" explicit_type "string"
-	  param in name "inWishlist" explicit_type "bool"
-	  param in name "learned" explicit_type "bool"
-	
-	
-	
-	
-	
-      end
+    end
 
-      operation 134658 "buildLearningGraph"
-	stereotype "slot_signal"
-	public return_type class_ref 134658 // LearningGraph
-	nparams 1
-	  param in name "themeFullname" explicit_type "string"
-	
-	
-	
-	
-	
-      end
-
-      operation 134914 "exportLearningGraph"
-	stereotype "slot_signal"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "graph" type class_ref 134658 // LearningGraph
-	
-	
-	
-	
-	
-      end
-
-      operation 156290 "buildLearningList"
-	stereotype "slot_signal"
-	public return_type class_ref 154498 // LearningList
-	nparams 1
-	  param in name "themeFullname" explicit_type "string"
-	
-	
-	
-	
-	
-      end
-
-      operation 156418 "exportLearningList"
-	stereotype "slot_signal"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "list" type class_ref 154498 // LearningList
-	
-	
-	
-	
-	
-      end
-
-      operation 135042 "getTheme"
-	stereotype "slot_signal"
-	public return_type class_ref 134786 // Theme
-	nparams 1
-	  param in name "themeFullname" explicit_type "string"
-	
-	
-	
-	
-	
-      end
-
-      operation 135170 "updateTheme"
-	stereotype "slot_signal"
-	public explicit_return_type "string"
-	nparams 1
-	  param in name "theme" type class_ref 134786 // Theme
-	
-	
-	
-	
-	
-	comment "returns theme's name"
-      end
-
-      operation 141826 "createTheme"
-	stereotype "slot_signal"
-	public explicit_return_type "string"
-	nparams 1
-	  param in name "theme" type class_ref 134786 // Theme
-	
-	
-	
-	
-	
-	comment "returns theme's name"
-      end
-
-      operation 141954 "createPackage"
-	stereotype "slot_signal"
-	public explicit_return_type "string"
-	nparams 1
-	  param in name "packageName" explicit_type "string"
-	
-	
-	
-	
-	
-	comment "return package's name"
-      end
-
-      operation 141698 "exportPackage"
-	stereotype "slot_signal"
-	public explicit_return_type "string"
-	nparams 1
-	  param in name "packageName" explicit_type "string"
-	
-	
-	
-	
-	
-	comment "return package's name"
-      end
-
-      operation 142082 "generatePackage"
-	stereotype "slot_signal"
-	public explicit_return_type "string"
-	nparams 2
-	  param in name "packageName" explicit_type "string"
-	  param in name "url" explicit_type "string"
-	
-	
-	
-	
-	
-	comment "returns package's name"
-      end
+    class 214402 "QtCheckState"
+      visibility package stereotype "enum"
+      cpp_decl "${comment}enum ${name} {
+${items}};
+"
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+      python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+      idl_decl "${comment}enum ${name} {
+${items}};
+"
+      explicit_switch_type ""
+      mysql_decl ""
+      
     end
 
     class 141314 "GraphicsCore"
@@ -344,6 +231,17 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
+      attribute 170242 "themeId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 163330 "builtRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -398,6 +296,17 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
+      attribute 170114 "themeId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 163458 "builtRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -450,165 +359,6 @@ format 224
       end
     end
 
-    class 134786 "Theme"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      attribute 128002 "name"
-	public explicit_type "string"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 128130 "packageName"
-	public explicit_type "string"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 128258 "description"
-	public explicit_type "string"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 128386 "inWishlist"
-	public explicit_type "bool"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 128514 "learned"
-	public explicit_type "bool"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 135042 "dependsOn"
-	public explicit_type "string"
-	multiplicity "*"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-	comment "contains themes' names"
-      end
-    end
-
-    class 134658 "LearningGraph"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      attribute 135170 "data"
-	private type class_ref 147970 // LearningGraphVertex
-	multiplicity "*"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      class 147970 "LearningGraphVertex"
-	visibility package 
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 141698 "theme"
-	  public type class_ref 134786 // Theme
-	  cpp_decl ""
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 141826 "dependsOn"
-	  public type class_ref 134786 // Theme
-	  multiplicity "*"
-	  cpp_decl ""
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-      end
-    end
-
-    class 154498 "LearningList"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      attribute 141954 "data"
-	private type class_ref 154498 // LearningList
-	multiplicity "*"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-    end
-
     class 161026 "PackagesTab"
       visibility package 
       cpp_decl ""
@@ -656,17 +406,6 @@ format 224
 	
       end
 
-      operation 197122 "onPackagesUpdated"
-	stereotype "slot"
-	private explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
       classrelation 149122 // <generalisation>
 	relation 149122 ---|>
 	  a public
@@ -689,27 +428,15 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 163074 "liistRequested"
+      operation 163074 "listRequested"
 	stereotype "signal"
 	public explicit_return_type ""
-	multiplicity "*"
-	nparams 4
+	nparams 5
+	  param in name "fields" type class_ref 207618 // ThemeRequest
 	  param in name "themeNameKeyword" explicit_type "string"
-	  param in name "package" explicit_type "string"
-	  param in name "inWishlist" explicit_type "bool"
-	  param in name "learned" explicit_type "bool"
-	
-	
-	
-	
-	
-      end
-
-      operation 190594 "onListGot"
-	stereotype "slot"
-	private return_type class_ref 134786 // Theme
-	multiplicity "*"
-	nparams 0
+	  param in name "packageId" explicit_type "int"
+	  param in name "inWishlist" type class_ref 214402 // QtCheckState
+	  param in name "isLearned" type class_ref 214402 // QtCheckState
 	
 	
 	
@@ -747,8 +474,8 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 148610 "themeName"
-	private explicit_type "string"
+      attribute 148610 "themeId"
+	private explicit_type "int"
 	cpp_decl ""
 	java_decl ""
 	php_decl ""
@@ -782,11 +509,49 @@ format 224
 	
       end
 
+      operation 223490 "onThemeGot"
+	stereotype "slot"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "theme" type class_ref 134786 // Theme
+	
+	
+	
+	
+	
+      end
+
       classrelation 169090 // <generalisation>
 	relation 169090 ---|>
 	  a public
 	    classrelation_ref 169090 // <generalisation>
 	  b parent class_ref 167938 // QWiget
+      end
+
+      operation 223618 "themeRequest"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "fields" type class_ref 207618 // ThemeRequest
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 223746 "requestPackageList"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "fields" type class_ref 207874 // PackageRequest
+	  param in name "packageNameKeyword" explicit_type "string"
+	
+	
+	
+	
+	
       end
     end
 
@@ -800,11 +565,12 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 184066 "showContextMenu"
+      operation 190594 "onListGot"
 	stereotype "slot"
 	private explicit_return_type ""
 	nparams 1
-	  param in name "pos" type class_ref 194562 // QPoint
+	  param in name "list" type class_ref 134786 // Theme
+	multiplicity "*"
 	
 	
 	
@@ -812,10 +578,11 @@ format 224
 	
       end
 
-      operation 197250 "onThemesUpdated"
+      operation 184066 "showContextMenu"
 	stereotype "slot"
 	private explicit_return_type ""
-	nparams 0
+	nparams 1
+	  param in name "pos" type class_ref 194562 // QPoint
 	
 	
 	
@@ -857,8 +624,8 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 148482 "themeName"
-	private explicit_type "string"
+      attribute 148482 "themeId"
+	private explicit_type "int"
 	cpp_decl ""
 	java_decl ""
 	php_decl ""
@@ -898,6 +665,557 @@ format 224
 
       classrelation 199298 // <composition>
 	relation_ref 198402 // <composition>
+      end
+    end
+
+    class 134530 "WorkerCore"
+      visibility package stereotype "Singleton"
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 155266 "instance"
+	class_attribute private explicit_type "WorkerCore"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 210434 "getInstance"
+	class_operation public explicit_return_type "WorkerCore"
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 134530 "getThemesList"
+	stereotype "slot_signal"
+	public return_type class_ref 134786 // Theme
+	multiplicity "*"
+	nparams 5
+	  param in name "fields" type class_ref 207618 // ThemeRequest
+	  param in name "themeNameKeyword" explicit_type "string"
+	  param in name "packageId" explicit_type "int"
+	  param in name "inWishlist" type class_ref 214402 // QtCheckState
+	  param in name "isLearned" type class_ref 214402 // QtCheckState
+	
+	
+	
+	
+	
+      end
+
+      operation 135042 "getTheme"
+	stereotype "slot_signal"
+	public return_type class_ref 134786 // Theme
+	nparams 2
+	  param in name "fields" type class_ref 207618 // ThemeRequest
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 135170 "updateTheme"
+	stereotype "slot_signal"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "theme" type class_ref 134786 // Theme
+	
+	
+	
+	
+	
+	comment "returns theme's id"
+      end
+
+      operation 141826 "createTheme"
+	stereotype "slot_signal"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "theme" type class_ref 134786 // Theme
+	
+	
+	
+	
+	
+	comment "returns theme's id"
+      end
+
+      operation 216962 "getPackage"
+	stereotype "slot_signal"
+	public return_type class_ref 134786 // Theme
+	nparams 2
+	  param in name "fields" type class_ref 207874 // PackageRequest
+	  param in name "Package" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 141954 "createPackage"
+	stereotype "slot_signal"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "packageId" explicit_type "int"
+	
+	
+	
+	
+	
+	comment "return package's id"
+      end
+
+      operation 141698 "exportPackage"
+	stereotype "slot_signal"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "packageId" explicit_type "int"
+	
+	
+	
+	
+	
+	comment "return package's id"
+      end
+
+      operation 142082 "generatePackage"
+	stereotype "slot_signal"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "packageName" explicit_type "string"
+	  param in name "url" explicit_type "string"
+	
+	
+	
+	
+	
+	comment "returns package's id"
+      end
+
+      operation 134658 "buildLearningGraph"
+	stereotype "slot_signal"
+	public return_type class_ref 134658 // LearningGraph
+	nparams 1
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 134914 "exportLearningGraph"
+	stereotype "slot_signal"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "graph" type class_ref 134658 // LearningGraph
+	
+	
+	
+	
+	
+      end
+
+      operation 156290 "buildLearningList"
+	stereotype "slot_signal"
+	public return_type class_ref 154498 // LearningList
+	nparams 1
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 156418 "exportLearningList"
+	stereotype "slot_signal"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "list" type class_ref 154498 // LearningList
+	
+	
+	
+	
+	
+      end
+    end
+
+    class 207618 "ThemeRequest"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 162050 "id"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162178 "name"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162306 "packageName"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162434 "description"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162562 "inWishlist"
+	public type class_ref 214402 // QtCheckState
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162690 "isLearned"
+	public type class_ref 214402 // QtCheckState
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162818 "dependsOn"
+	public explicit_type "bool"
+	multiplicity "*"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 206338 // <dependency>
+	relation 205186 -_->
+	  a public
+	    classrelation_ref 206338 // <dependency>
+	  b parent class_ref 134786 // Theme
+      end
+    end
+
+    class 134786 "Theme"
+      visibility protected 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 155522 "id"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128002 "name"
+	public explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128130 "packageId"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128258 "description"
+	public explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128386 "inWishlist"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128514 "isLearned"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 135042 "dependsOn"
+	public explicit_type "int"
+	multiplicity "*"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "list of dependent themes' ids"
+      end
+    end
+
+    class 134658 "LearningGraph"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 135170 "data"
+	private type class_ref 147970 // LearningGraphVertex
+	multiplicity "*"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 147970 "LearningGraphVertex"
+	visibility package 
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 141698 "themeId"
+	  public explicit_type "int"
+	  cpp_decl ""
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 141826 "dependsOn"
+	  public type class_ref 134786 // Theme
+	  multiplicity "*"
+	  cpp_decl ""
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+    end
+
+    class 154498 "LearningList"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 141954 "themeIds"
+	private explicit_type "int"
+	multiplicity "*"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 207746 "Package"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 162946 "id"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163074 "name"
+	public explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163202 "themeIds"
+	public explicit_type "int"
+	multiplicity "*"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 207874 "PackageRequest"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 163330 "id"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163458 "name"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163586 "themeIds"
+	public explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 206466 // <dependency>
+	relation 205314 -_->
+	  a public
+	    classrelation_ref 206466 // <dependency>
+	  b parent class_ref 207746 // Package
       end
     end
   end
