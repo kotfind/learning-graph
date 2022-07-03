@@ -1,5 +1,5 @@
 #include "ThemeContextMenuWidget.h"
-#include "ThemeInfo.h"
+#include "ThemeInfoWindow.h"
 #include "LearningGraphWindow.h"
 #include "LearningListWindow.h"
 
@@ -7,7 +7,7 @@ ThemeContextMenuWidget::ThemeContextMenuWidget(
     const QString& themeName, QWidget* parent)
         : QMenu(parent), themeName(themeName) {
     addAction(tr("Watch/ Edit"), [&themeName](){
-        (new ThemeInfo(themeName))->show();
+        (new ThemeInfoWindow(themeName))->show();
     });
     addAction(tr("Build Learning Graph"), [&themeName](){
         (new LearningGraphWindow(themeName))->show();

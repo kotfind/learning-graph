@@ -10,7 +10,7 @@
 #include <QFrame>
 
 ThemeInfoWindow::ThemeInfoWindow(const QString& themeName, QWidget* parent)
-        : themeName(themeName), QWidget(parent) {
+        : QWidget(parent), themeName(themeName) {
     setWindowTitle(tr("Theme \"%1\" Info").arg(themeName));
 
     // Main Layout
