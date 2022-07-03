@@ -5,8 +5,8 @@
 
 class LearningGraphWindow : public QWidget {
     public:
-        LearningGraphWindow(const QString& themeName, QWidget* parent = nullptr);
+        LearningGraphWindow(int themeId, QWidget* parent = nullptr);
 
     private:
-        QString themeName;
+        int themeId;
 };

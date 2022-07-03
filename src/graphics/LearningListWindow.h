@@ -5,8 +5,8 @@
 
 class LearningListWindow : public QWidget {
     public:
-        LearningListWindow(const QString& themeName, QWidget* parent = nullptr);
+        LearningListWindow(int themeId, QWidget* parent = nullptr);
 
     private:
-        QString themeName;
+        int themeId;
 };

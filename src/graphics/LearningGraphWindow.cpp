@@ -6,9 +6,9 @@
 #include <QPushButton>
 
 LearningGraphWindow::LearningGraphWindow(
-    const QString& themeName, QWidget* parent)
-        : QWidget(parent), themeName(themeName) {
-    setWindowTitle(QString("%1 Learning Graph").arg(themeName));
+    int themeId, QWidget* parent)
+        : QWidget(parent), themeId(themeId) {
+    setWindowTitle(QString("%1 Learning Graph").arg(themeId));
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);

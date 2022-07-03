@@ -4,15 +4,15 @@
 #include "LearningListWindow.h"
 
 ThemeContextMenuWidget::ThemeContextMenuWidget(
-    const QString& themeName, QWidget* parent)
-        : QMenu(parent), themeName(themeName) {
-    addAction(tr("Watch/ Edit"), [&themeName](){
-        (new ThemeInfoWindow(themeName))->show();
+    int themeId, QWidget* parent)
+        : QMenu(parent), themeId(themeId) {
+    addAction(tr("Watch/ Edit"), [themeId](){
+        (new ThemeInfoWindow(themeId))->show();
     });
-    addAction(tr("Build Learning Graph"), [&themeName](){
-        (new LearningGraphWindow(themeName))->show();
+    addAction(tr("Build Learning Graph"), [&themeId](){
+        (new LearningGraphWindow(themeId))->show();
     });
-    addAction(tr("Build Learning List"), [&themeName](){
-        (new LearningListWindow(themeName))->show();
+    addAction(tr("Build Learning List"), [&themeId](){
+        (new LearningListWindow(themeId))->show();
     });
 }

@@ -7,8 +7,8 @@ class ThemeContextMenuWidget : public QMenu {
     Q_OBJECT
 
     public:
-        ThemeContextMenuWidget(const QString& themeName, QWidget* parent = nullptr);
+        ThemeContextMenuWidget(int themeId, QWidget* parent = nullptr);
 
     private:
-        QString themeName;
+        int themeId;
 };

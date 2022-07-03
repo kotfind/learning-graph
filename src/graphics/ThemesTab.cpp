@@ -1,6 +1,8 @@
 #include "ThemesTab.h"
 #include "ThemesListWidget.h"
 
+#include "../logics/WorkerCore.h"
+
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLineEdit>
@@ -55,28 +57,30 @@ ThemesTab::ThemesTab(QWidget* parent)
     });
     grid->addWidget(packageCombo, 2, 1);
 
-    // Learned List Switch
-    auto* learnedCheck = new QCheckBox(tr("Learned"));
-    learnedCheck->setTristate(true);
-    grid->addWidget(learnedCheck, 3, 1);
-
     // In Wishlist Switch
     auto* wishlistCheck = new QCheckBox(tr("In Wishlist"));
     wishlistCheck->setTristate(true);
     grid->addWidget(wishlistCheck, 4, 1);
 
+    // Learned List Switch
+    auto* learnedCheck = new QCheckBox(tr("Learned"));
+    learnedCheck->setTristate(true);
+    grid->addWidget(learnedCheck, 3, 1);
+
     // Search Button
     auto* searchBtn = new QPushButton(tr("Search"));
+    connect(searchBtn, &QPushButton::clicked, [=]() {
+        emit listRequested(ThemeRequest(), //TODO
+            themeEdit->text(), 
+            1, // TODO
+            wishlistCheck->checkState(),
+            learnedCheck->checkState());
+    });
+    connect(this, &ThemesTab::listRequested,
+            WorkerCore::getInstance(), &WorkerCore::getThemesList);
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
     auto* themesList = new ThemesListWidget;
-    themesList->addItems({
-        "Theme 1",
-        "Theme 2",
-        "Theme 3",
-        "Theme 4",
-        "Theme 5",
-    });
     vbox->addWidget(themesList);
 }
