@@ -20,8 +20,11 @@ ThemesListWidget::ThemesListWidget(QWidget* parent)
 
 void ThemesListWidget::showContextMenu(const QPoint& pos) {
     // XXX Double right click, when menu is opened
-    ThemeContextMenuWidget menu(currentItem()->data(Qt::UserRole).toInt());
-    menu.exec(mapToGlobal(pos));
+    auto* curr = currentItem();
+    if (curr) {
+        ThemeContextMenuWidget menu(curr->data(Qt::UserRole).toInt());
+        menu.exec(mapToGlobal(pos));
+    }
 }
 
 void ThemesListWidget::onListGot(const QVector<Theme>& themes) {
