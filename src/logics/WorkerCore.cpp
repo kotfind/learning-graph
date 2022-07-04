@@ -40,8 +40,7 @@ void WorkerCore::getTheme(const ThemeRequest& fields, int themeId) {
 }
 
 void WorkerCore::getPackagesList(
-    const PackageRequest& fields,
-    const QString& packageNameKeyword) {
+    const PackageRequest& fields) {
     QVector<Package> packages = {
         Package{1, "Package 1", {}},
         Package{2, "Package 2", {}},

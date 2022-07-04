@@ -2,50 +2,59 @@ format 224
 
 classcanvas 128130 class_ref 141314 // GraphicsCore
   classdiagramsettings member_max_width 0 end
-  xyz 649.47 89.39 2000
+  xyz 846.57 97.59 2000
 end
 classcanvas 130178 class_ref 161026 // PackagesTab
   classdiagramsettings member_max_width 0 end
-  xyz 110.085 173.51 2000
+  xyz 305.985 181.91 2000
 end
 classcanvas 130306 class_ref 161154 // ThemesTab
   classdiagramsettings member_max_width 0 end
-  xyz 876.67 208.21 2000
+  xyz 1072.47 215.41 2000
 end
 classcanvas 136834 class_ref 161282 // ThemeInfoWindow
   classdiagramsettings member_max_width 0 end
-  xyz 49.44 295.75 2008
+  xyz 271.04 434.15 2008
 end
 classcanvas 139650 class_ref 168066 // QMainWindow
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 643.69 25.28 2000
+  xyz 839.99 32.68 2000
 end
 classcanvas 141314 class_ref 174594 // ThemesListWidget
   classdiagramsettings member_max_width 0 end
-  xyz 823.92 320.49 2000
+  xyz 345.52 329.19 2000
 end
 classcanvas 144642 class_ref 181250 // LearningGraphWindow
   classdiagramsettings member_max_width 0 end
-  xyz 196.489 596.01 2000
+  xyz 418.089 735.41 2000
 end
 classcanvas 145282 class_ref 181378 // LearningListWindow
   classdiagramsettings member_max_width 0 end
-  xyz 793.39 593.91 2006
+  xyz 1004.19 734.91 2006
 end
 classcanvas 145922 class_ref 174722 // QListWidget
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 1193.44 256.26 2006
+  xyz 882.44 260.76 2006
 end
 classcanvas 147842 class_ref 187906 // QMenu
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 508.53 503.85 2006
+  xyz 730.43 643.35 2006
 end
 classcanvas 148098 class_ref 188034 // ThemeContextMenuWidget
   classdiagramsettings member_max_width 0 end
-  xyz 615.8 487.1 2000
+  xyz 838.1 626.4 2000
+end
+classcanvas 155266 class_ref 220930 // PackagesComboBox
+  classdiagramsettings member_max_width 0 end
+  xyz 28 631.3 2000
+end
+classcanvas 155394 class_ref 221058 // QComboBox
+  classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
+  color mediumgreen
+  xyz 183.3 756.3 2000
 end
 relationcanvas 140034 relation_ref 148738 // <generalisation>
   from ref 128130 z 2001 to ref 139650
@@ -63,17 +72,17 @@ relationcanvas 148226 relation_ref 182914 // <generalisation>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153474 relation_ref 197634 // opens
-  from ref 148098 z 2007 label "opens" italic max_width 255 xyz 776 555 2007 to ref 145282
+  from ref 148098 z 2007 label "opens" italic max_width 255 xyz 992 694 2007 to ref 145282
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153602 relation_ref 197762 // opens
-  from ref 148098 z 2001 label "opens" italic max_width 255 xyz 593 557 2001 to ref 144642
+  from ref 148098 z 2001 label "opens" italic max_width 255 xyz 815 696 2001 to ref 144642
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153730 relation_ref 197890 // opens
-  from ref 148098 z 2009 label "opens" italic max_width 255 xyz 569 449 2009 to ref 136834
+  from ref 148098 z 2009 label "opens" italic max_width 255 xyz 790 586 2009 to ref 136834
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
@@ -88,20 +97,40 @@ relationcanvas 153986 relation_ref 198146 // <composition>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 154242 relation_ref 198402 // <composition>
-  decenter_begin 67
-  from ref 141314 z 2001 to ref 148098
+  geometry HVr
+  decenter_begin 618
+  from ref 141314 z 2001 to point 1069 625
+  line 156802 z 2001 to ref 148098
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 154498 relation_ref 198658 // <composition>
+  decenter_end 703
   from ref 145282 z 2007 to ref 141314
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 154754 relation_ref 198530 // <composition>
   decenter_begin 745
-  decenter_end 182
+  decenter_end 683
   from ref 130306 z 2001 to ref 141314
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 155522 relation_ref 211842 // <generalisation>
+  from ref 155266 z 2001 to ref 155394
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 155778 relation_ref 212098 // <composition>
+  from ref 136834 z 2009 to ref 155266
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 155906 relation_ref 212226 // <composition>
+  geometry VHr
+  from ref 130178 z 2001 to point 232 218
+  line 156418 z 2001 to ref 155266
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

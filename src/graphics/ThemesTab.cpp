@@ -1,12 +1,12 @@
 #include "ThemesTab.h"
 #include "ThemesListWidget.h"
+#include "PackageComboBox.h"
 
 #include "../logics/WorkerCore.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLineEdit>
-#include <QComboBox>
 #include <QPushButton>
 #include <QLabel>
 #include <QCheckBox>
@@ -47,14 +47,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     auto* packageLbl = new QLabel(tr("Package:"));
     grid->addWidget(packageLbl, 2, 0, Qt::AlignRight);
 
-    auto* packageCombo = new QComboBox;
-    packageCombo->addItems({
-        "Package 1",
-        "Package 2",
-        "Package 3",
-        "Package 4",
-        "Package 5",
-    });
+    auto* packageCombo = new PackageComboBox;
     grid->addWidget(packageCombo, 2, 1);
 
     // In Wishlist Switch

@@ -40,7 +40,7 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     auto* packageLbl = new QLabel(tr("Package:"));
     packageBox->addWidget(packageLbl);
 
-    packageCombo = new QComboBox;
+    packageCombo = new PackageComboBox;
     packageBox->addWidget(packageCombo);
 
     // Checkboxes
@@ -87,7 +87,7 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     auto* okBtn = new QPushButton(tr("Ok"));
     hbox->addWidget(okBtn, 0);
 
-    // Connects
+    // Connections
     connect(this, &ThemeInfoWindow::themeRequest,
             WorkerCore::getInstance(), &WorkerCore::getTheme);
     connect(WorkerCore::getInstance(), &WorkerCore::themeGot,
@@ -100,22 +100,9 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
 
 void ThemeInfoWindow::onThemeGot(const Theme& theme) {
     themeEdit->setText(theme.name);
+    packageCombo->setCurrent(theme.packageId);
     isLearnedCheck->setChecked(theme.isLearned);
     inWishlistCheck->setChecked(theme.inWishlist);
     descEdit->setText(theme.description);
-
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
-            [this,&theme](const QVector<Package>& packages) {
-        for (const auto& package : packages) {
-            this->packageCombo->addItem(package.name, package.id);
-            if (theme.packageId == package.id) {
-                this->packageCombo->setCurrentIndex(packageCombo->count() - 1);
-            }
-        }
-        this->setDisabled(false);
-    });
-
-    connect(this, &ThemeInfoWindow::requestPackagesList,
-            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
-    emit requestPackagesList(PackageRequest(), "");
+    this->setDisabled(false);
 }

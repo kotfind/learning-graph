@@ -6,11 +6,12 @@
 #include "../logics/Package.h"
 #include "../logics/PackageRequest.h"
 
+#include "PackageComboBox.h"
+
 #include <QWidget>
 #include <QString>
 #include <QVector>
 #include <QLineEdit>
-#include <QComboBox>
 #include <QCheckBox>
 #include <QTextEdit>
 
@@ -24,7 +25,7 @@ class ThemeInfoWindow : public QWidget {
         int themeId;
 
         QLineEdit* themeEdit;
-        QComboBox* packageCombo;
+        PackageComboBox* packageCombo;
         QCheckBox* isLearnedCheck;
         QCheckBox* inWishlistCheck;
         QTextEdit* descEdit;

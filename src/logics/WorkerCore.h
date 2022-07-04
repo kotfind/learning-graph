@@ -36,6 +36,5 @@ class WorkerCore : public QObject {
         void getTheme(const ThemeRequest& fields, int themeId);
 
         void getPackagesList(
-            const PackageRequest& fields,
-            const QString& packageNameKeyword);
+            const PackageRequest& fields);
 };
