@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../logics/Theme.h"
+#include "../logics/ThemeRequest.h"
 
 #include <QListWidget>
 #include <QVector>
@@ -12,6 +13,12 @@ class ThemesListWidget : public QListWidget {
         ThemesListWidget(QWidget* parent = nullptr);
 
     signals:
+        void listRequested(
+            const ThemeRequest& fields,
+            const QString& themeNameKeyword,
+            int packageId,
+            Qt::CheckState inWishlist,
+            Qt::CheckState isLearned);
 
     private slots:
         void onListGot(const QVector<Theme>& themes);

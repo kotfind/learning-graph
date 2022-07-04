@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 49
+  revision 50
   modified_by 2 "kotfind"
 
 
@@ -428,22 +428,6 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 163074 "listRequested"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 5
-	  param in name "fields" type class_ref 207618 // ThemeRequest
-	  param in name "themeNameKeyword" explicit_type "string"
-	  param in name "packageId" explicit_type "int"
-	  param in name "inWishlist" type class_ref 214402 // QtCheckState
-	  param in name "isLearned" type class_ref 214402 // QtCheckState
-	
-	
-	
-	
-	
-      end
-
       classrelation 149250 // <generalisation>
 	relation 149250 ---|>
 	  a public
@@ -565,6 +549,22 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
+      operation 163074 "listRequested"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "fields" type class_ref 207618 // ThemeRequest
+	  param in name "themeNameKeyword" explicit_type "string"
+	  param in name "packageId" explicit_type "int"
+	  param in name "inWishlist" type class_ref 214402 // QtCheckState
+	  param in name "isLearned" type class_ref 214402 // QtCheckState
+	
+	
+	
+	
+	
+      end
+
       operation 190594 "onListGot"
 	stereotype "slot"
 	private explicit_return_type ""
@@ -1218,5 +1218,6 @@ ${items}};
 	  b parent class_ref 207746 // Package
       end
     end
+
   end
 end

@@ -2,50 +2,50 @@ format 224
 
 classcanvas 128130 class_ref 141314 // GraphicsCore
   classdiagramsettings member_max_width 0 end
-  xyz 649.07 89.19 2000
+  xyz 649.47 89.39 2000
 end
 classcanvas 130178 class_ref 161026 // PackagesTab
   classdiagramsettings member_max_width 0 end
-  xyz 29.885 63.31 2000
+  xyz 110.085 173.51 2000
 end
 classcanvas 130306 class_ref 161154 // ThemesTab
   classdiagramsettings member_max_width 0 end
-  xyz 122.07 184.41 2000
+  xyz 876.67 208.21 2000
 end
 classcanvas 136834 class_ref 161282 // ThemeInfoWindow
   classdiagramsettings member_max_width 0 end
-  xyz 49.44 295.95 2008
+  xyz 49.44 295.75 2008
 end
 classcanvas 139650 class_ref 168066 // QMainWindow
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 643.49 25.28 2000
+  xyz 643.69 25.28 2000
 end
 classcanvas 141314 class_ref 174594 // ThemesListWidget
   classdiagramsettings member_max_width 0 end
-  xyz 825.72 340.69 2000
+  xyz 823.92 320.49 2000
 end
 classcanvas 144642 class_ref 181250 // LearningGraphWindow
   classdiagramsettings member_max_width 0 end
-  xyz 197.689 617.81 2000
+  xyz 196.489 596.01 2000
 end
 classcanvas 145282 class_ref 181378 // LearningListWindow
   classdiagramsettings member_max_width 0 end
-  xyz 794.59 616.51 2006
+  xyz 793.39 593.91 2006
 end
 classcanvas 145922 class_ref 174722 // QListWidget
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 1207.44 354.06 2006
+  xyz 1193.44 256.26 2006
 end
 classcanvas 147842 class_ref 187906 // QMenu
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 510.13 525.85 2006
+  xyz 508.53 503.85 2006
 end
 classcanvas 148098 class_ref 188034 // ThemeContextMenuWidget
   classdiagramsettings member_max_width 0 end
-  xyz 616.8 509.3 2000
+  xyz 615.8 487.1 2000
 end
 relationcanvas 140034 relation_ref 148738 // <generalisation>
   from ref 128130 z 2001 to ref 139650
@@ -63,17 +63,17 @@ relationcanvas 148226 relation_ref 182914 // <generalisation>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153474 relation_ref 197634 // opens
-  from ref 148098 z 2007 label "opens" italic max_width 255 xyz 777 577.5 2007 to ref 145282
+  from ref 148098 z 2007 label "opens" italic max_width 255 xyz 776 555 2007 to ref 145282
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153602 relation_ref 197762 // opens
-  from ref 148098 z 2001 label "opens" italic max_width 255 xyz 594.5 580.5 2001 to ref 144642
+  from ref 148098 z 2001 label "opens" italic max_width 255 xyz 593 557 2001 to ref 144642
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 153730 relation_ref 197890 // opens
-  from ref 148098 z 2009 label "opens" italic max_width 255 xyz 571.5 471 2009 to ref 136834
+  from ref 148098 z 2009 label "opens" italic max_width 255 xyz 569 449 2009 to ref 136834
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
@@ -100,6 +100,7 @@ relationcanvas 154498 relation_ref 198658 // <composition>
 end
 relationcanvas 154754 relation_ref 198530 // <composition>
   decenter_begin 745
+  decenter_end 182
   from ref 130306 z 2001 to ref 141314
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b

@@ -69,18 +69,21 @@ ThemesTab::ThemesTab(QWidget* parent)
 
     // Search Button
     auto* searchBtn = new QPushButton(tr("Search"));
-    connect(searchBtn, &QPushButton::clicked, [=]() {
-        emit listRequested(ThemeRequest(), //TODO
-            themeEdit->text(), 
-            1, // TODO
-            wishlistCheck->checkState(),
-            learnedCheck->checkState());
-    });
-    connect(this, &ThemesTab::listRequested,
-            WorkerCore::getInstance(), &WorkerCore::getThemesList);
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
     auto* themesList = new ThemesListWidget;
     vbox->addWidget(themesList);
+
+
+    // Connections
+    connect(searchBtn, &QPushButton::clicked, [=]() {
+        emit themesList->listRequested(ThemeRequest(), //TODO
+            themeEdit->text(), 
+            1, // TODO
+            wishlistCheck->checkState(),
+            learnedCheck->checkState());
+    });
+    connect(themesList, &ThemesListWidget::listRequested,
+            WorkerCore::getInstance(), &WorkerCore::getThemesList);
 }
