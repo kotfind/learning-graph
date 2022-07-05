@@ -1,9 +1,10 @@
 #include "PackagesTab.h"
 
+#include "../logics/WorkerCore.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QListWidget>
 
 PackagesTab::PackagesTab(QWidget* parent)
         : QWidget(parent) {
@@ -23,13 +24,24 @@ PackagesTab::PackagesTab(QWidget* parent)
     hbox->addWidget(importBtn);
 
     // Packages List
-    auto* packagesList = new QListWidget;
-    packagesList->addItems({
-        "Package 1",
-        "Package 2",
-        "Package 3",
-        "Package 4",
-        "Package 5",
-    });
+    packagesList = new QListWidget;
     vbox->addWidget(packagesList);
+
+    // Connections
+
+    connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
+            this, &PackagesTab::onListGot);
+    connect(this, &PackagesTab::listRequested,
+            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
+
+    emit listRequested(PackageRequest{
+        true, // name
+        false
+    });
+}
+
+void PackagesTab::onListGot(const QVector<Package>& packages) {
+    for (const auto& package : packages) {
+        packagesList->addItem(package.name);
+    }
 }

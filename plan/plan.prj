@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 55
+  revision 56
   modified_by 2 "kotfind"
 
 
@@ -381,6 +381,18 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
+      operation 250114 "listRequested"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "fields" type class_ref 207874 // PackageRequest
+	
+	
+	
+	
+	
+      end
+
       operation 163714 "creationRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -411,6 +423,19 @@ ${items}};
 	nparams 2
 	  param in name "packageName" explicit_type "string"
 	  param in name "url" explicit_type "string"
+	
+	
+	
+	
+	
+      end
+
+      operation 250242 "onListGot"
+	stereotype "slot"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "list" type class_ref 207746 // Package
+	multiplicity "*"
 	
 	
 	
