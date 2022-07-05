@@ -10,7 +10,10 @@ PackageComboBox::PackageComboBox(QWidget* parent)
     connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
             this, &PackageComboBox::onListGot);
 
-    emit listRequested(PackageRequest()); // XXX
+    emit listRequested(PackageRequest{
+        true, // id
+        false
+    });
 }
 
 void PackageComboBox::setCurrent(int packageId) {

@@ -2,6 +2,7 @@
 
 #include <QSqlQuery>
 #include <QApplication>
+#include <QStringList>
 
 WorkerCore* WorkerCore::instance = nullptr;
 
@@ -56,7 +57,34 @@ void WorkerCore::initDb() {
     query.finish();
 }
 
-// Slots
+// Theme
+
+QString themeRequestToString(const ThemeRequest& fields) {
+    QStringList list;
+
+                            list.append("rowid");
+    if (fields.name)        list.append("name");
+                            list.append("package_id");
+    if (fields.description) list.append("description");
+    if (fields.inWishlist)  list.append("in_wishlist");
+    if (fields.isLearned)   list.append("is_learned");
+
+    return list.join(", ");
+}
+
+Theme queryToTheme(const ThemeRequest& fields, const QSqlQuery& query) {
+    int idx = 0;
+
+    Theme theme;
+                            theme.id            = query.value(idx++).toInt();
+    if (fields.name)        theme.name          = query.value(idx++).toString();
+                            theme.package.id    = query.value(idx++).toInt();
+    if (fields.description) theme.description   = query.value(idx++).toString();
+    if (fields.inWishlist)  theme.inWishlist    = query.value(idx++).toBool();
+    if (fields.isLearned)   theme.isLearned     = query.value(idx++).toBool();
+
+    return theme;
+}
 
 void WorkerCore::getThemesList(
     const ThemeRequest& fields,
@@ -64,31 +92,73 @@ void WorkerCore::getThemesList(
     int packageId,
     Qt::CheckState inWishlist,
     Qt::CheckState isLearned) {
-    QVector<Theme> themes = {
-        Theme{1, "Theme 1", 1, "Theme 1 Description", false, false, {}},
-        Theme{2, "Theme 2", 2, "Theme 2 Description", false, true, {}},
-        Theme{3, "Theme 3", 3, "Theme 3 Description", true, false, {}},
-        Theme{4, "Theme 4", 4, "Theme 4 Description", true, true, {}},
-    };
+    // TODO dependsOn
+
+    QSqlQuery query(QString("SELECT %1 FROM themes") // TODO WHERE
+        .arg(themeRequestToString(fields)));
+    query.exec();
+
+    QVector<Theme> themes;
+    while (query.next()) {
+        themes.append(queryToTheme(fields, query));
+    }
     emit themesListGot(themes);
 }
 
 void WorkerCore::getTheme(const ThemeRequest& fields, int themeId) {
-    emit themeGot(Theme{
-        themeId,
-        QString("Theme %1").arg(themeId),
-        themeId,
-        QString("Theme %1 Description").arg(themeId),
-        false, false, {}});
+    QSqlQuery query(QString("SELECT %1 FROM themes WHERE rowid = %2")
+        .arg(themeRequestToString(fields))
+        .arg(themeId)
+        );
+    query.exec();
+    query.first();
+    emit themeGot(queryToTheme(fields, query));
+}
+
+// Package
+
+QString packageRequestToString(const PackageRequest& fields) {
+    QStringList list;
+
+                        list.append("rowid");
+    if (fields.name)    list.append("name");
+
+    return list.join(", ");
+}
+
+Package queryToPackage(const PackageRequest& fields, const QSqlQuery& query) {
+    int idx = 0;
+
+    Package package;
+                        package.id      = query.value(idx++).toInt();
+    if (fields.name)    package.name    = query.value(idx++).toString();
+
+    return package;
 }
 
 void WorkerCore::getPackagesList(
     const PackageRequest& fields) {
-    QVector<Package> packages = {
-        Package{1, "Package 1", {}},
-        Package{2, "Package 2", {}},
-        Package{3, "Package 3", {}},
-        Package{4, "Package 4", {}},
-    };
+    // TODO themeIds
+    QSqlQuery query(QString("SELECT %1 FROM packages")
+        .arg(packageRequestToString(fields)));
+    query.exec();
+
+    QVector<Package> packages;
+    while (query.next()) {
+        packages.append(queryToPackage(fields, query));
+    }
     emit packagesListGot(packages);
+}
+
+void WorkerCore::getPackage(
+    const PackageRequest& fields,
+    int packageId) {
+    // TODO themeIds
+    QSqlQuery query(QString("SELECT %1 FROM packages WHERE rowid = %2")
+            .arg(packageRequestToString(fields))
+            .arg(packageId)
+            );
+    query.exec();
+    query.first();
+    emit packageGot(queryToPackage(fields, query));
 }

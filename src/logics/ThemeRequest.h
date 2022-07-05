@@ -1,11 +1,10 @@
 #pragma once
 
-#include <QVector>
+#include "PackageRequest.h"
 
 struct ThemeRequest {
-    bool id;
     bool name;
-    bool packageId;
+    PackageRequest package;
     bool description;
     bool inWishlist;
     bool isLearned;

@@ -31,6 +31,7 @@ class WorkerCore : public QObject {
         void themesListGot(const QVector<Theme>& themes);
         void themeGot(const Theme& theme);
         void packagesListGot(const QVector<Package>& packages);
+        void packageGot(const Package& packages);
 
     public slots:
         void getThemesList(
@@ -43,4 +44,7 @@ class WorkerCore : public QObject {
 
         void getPackagesList(
             const PackageRequest& fields);
+        void getPackage(
+            const PackageRequest& fields,
+            int packageId);
 };

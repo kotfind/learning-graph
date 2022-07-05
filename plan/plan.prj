@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 53
+  revision 55
   modified_by 2 "kotfind"
 
 
@@ -940,17 +940,6 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 162050 "id"
-	public explicit_type "bool"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
       attribute 162178 "name"
 	public explicit_type "bool"
 	cpp_decl ""
@@ -962,8 +951,8 @@ ${items}};
 	MysqlColumn
       end
 
-      attribute 162306 "packageName"
-	public explicit_type "bool"
+      attribute 162306 "package"
+	public type class_ref 207874 // PackageRequest
 	cpp_decl ""
 	java_decl ""
 	php_decl ""
@@ -1008,7 +997,6 @@ ${items}};
 
       attribute 162818 "dependsOn"
 	public explicit_type "bool"
-	multiplicity "*"
 	cpp_decl ""
 	java_decl ""
 	php_decl ""
@@ -1058,8 +1046,8 @@ ${items}};
 	MysqlColumn
       end
 
-      attribute 128130 "packageId"
-	public explicit_type "int"
+      attribute 128130 "package"
+	public type class_ref 207746 // Package
 	cpp_decl ""
 	java_decl ""
 	php_decl ""
@@ -1103,7 +1091,7 @@ ${items}};
       end
 
       attribute 135042 "dependsOn"
-	public explicit_type "int"
+	public type class_ref 134786 // Theme
 	multiplicity "*"
 	cpp_decl ""
 	java_decl ""
@@ -1112,7 +1100,6 @@ ${items}};
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
-	comment "list of dependent themes' ids"
       end
     end
 
@@ -1251,17 +1238,6 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 163330 "id"
-	public explicit_type "bool"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
       attribute 163458 "name"
 	public explicit_type "bool"
 	cpp_decl ""

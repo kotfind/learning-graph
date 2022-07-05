@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Package.h"
+
 #include <QVector>
 #include <QString>
 
 struct Theme {
     int id;
     QString name;
-    int packageId;
+    Package package;
     QString description;
     bool inWishlist;
     bool isLearned;
