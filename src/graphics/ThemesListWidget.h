@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../logics/Theme.h"
-#include "../logics/ThemeRequest.h"
+#include "../datatypes/Theme.h"
+#include "../datatypes/ThemeRequest.h"
 
 #include <QListWidget>
 #include <QVector>

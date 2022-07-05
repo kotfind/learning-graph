@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../logics/Theme.h"
-#include "../logics/ThemeRequest.h"
+#include "../datatypes/Theme.h"
+#include "../datatypes/ThemeRequest.h"
 
-#include "../logics/Package.h"
-#include "../logics/PackageRequest.h"
+#include "../datatypes/Package.h"
+#include "../datatypes/PackageRequest.h"
 
 #include "PackageComboBox.h"
 

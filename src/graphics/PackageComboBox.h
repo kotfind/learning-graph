@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../logics/Package.h"
-#include "../logics/PackageRequest.h"
+#include "../datatypes/Package.h"
+#include "../datatypes/PackageRequest.h"
 
 #include <QComboBox>
 #include <QVector>

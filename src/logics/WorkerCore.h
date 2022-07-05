@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Theme.h"
-#include "ThemeRequest.h"
+#include "../datatypes/Theme.h"
+#include "../datatypes/ThemeRequest.h"
 
-#include "Package.h"
-#include "PackageRequest.h"
+#include "../datatypes/Package.h"
+#include "../datatypes/PackageRequest.h"
 
 #include <QObject>
 #include <QString>
