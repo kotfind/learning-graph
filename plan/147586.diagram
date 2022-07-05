@@ -2,35 +2,35 @@ format 224
 
 classcanvas 128130 class_ref 134786 // Theme
   classdiagramsettings member_max_width 0 end
-  xyz 151 359 2000
+  xyz 153 433 2000
 end
 classcanvas 128258 class_ref 134658 // LearningGraph
   classdiagramsettings member_max_width 0 end
-  xyz 562 473 2000
+  xyz 564 547 2000
 end
 classcanvas 128386 class_ref 154498 // LearningList
   classdiagramsettings member_max_width 0 end
-  xyz 857 473 2000
+  xyz 859 547 2000
 end
 classcanvas 128514 class_ref 147970 // LearningGraphVertex
   classdiagramsettings member_max_width 0 end
-  xyz 588 563 2006
+  xyz 590 637 2006
 end
 classcanvas 128898 class_ref 207618 // ThemeRequest
   classdiagramsettings member_max_width 0 end
-  xyz 126 563 2005
+  xyz 128 637 2005
 end
 classcanvas 129154 class_ref 207746 // Package
   classdiagramsettings member_max_width 0 end
-  xyz 380 435 2000
+  xyz 382 509 2000
 end
 classcanvas 129282 class_ref 207874 // PackageRequest
   classdiagramsettings member_max_width 0 end
-  xyz 382 563 2005
+  xyz 384 637 2005
 end
 classcanvas 129538 class_ref 134530 // WorkerCore
   classdiagramsettings member_max_width 0 end
-  xyz 39 13 2005
+  xyz 38 13 2005
 end
 line 128642 ---+
   from ref 128514 z 2007 to ref 128258

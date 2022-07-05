@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QString>
 #include <QVector>
+#include <QSqlDatabase>
 
 class WorkerCore : public QObject {
     Q_OBJECT
@@ -19,7 +20,12 @@ class WorkerCore : public QObject {
     private:
         WorkerCore();
 
+        void initDb();
+
         static WorkerCore* instance;
+
+        const QString dbFilename = "learning_graph.db"; // XXX
+        QSqlDatabase db;
 
     signals:
         void themesListGot(const QVector<Theme>& themes);

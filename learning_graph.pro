@@ -1,6 +1,6 @@
 TARGET = learning_graph
 
-QT += widgets
+QT += widgets sql
 
 CONFIG += c++17
 

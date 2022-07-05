@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 52
+  revision 53
   modified_by 2 "kotfind"
 
 
@@ -717,8 +717,40 @@ ${items}};
 	MysqlColumn
       end
 
+      attribute 183426 "dbFilename"
+	const_attribute private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 183298 "db"
+	private type class_ref 201090 // QSqlDatabase
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 210434 "getInstance"
 	class_operation public explicit_return_type "WorkerCore"
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 243586 "initDb"
+	private explicit_return_type "void"
 	nparams 0
 	
 	
