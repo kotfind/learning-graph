@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 62
+  revision 63
   modified_by 2 "kotfind"
 
 
@@ -393,17 +393,6 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 250114 "listRequested"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
       operation 163714 "creationRequested"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -441,19 +430,6 @@ ${items}};
 	
       end
 
-      operation 250242 "onListGot"
-	stereotype "slot"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "list" type class_ref 207746 // Package
-	multiplicity "*"
-	
-	
-	
-	
-	
-      end
-
       classrelation 149122 // <generalisation>
 	relation 149122 ---|>
 	  a public
@@ -473,15 +449,94 @@ ${items}};
 	    classrelation_ref 213762 // <composition>
       end
 
-      operation 257154 "onPackagesChanged"
-	stereotype "slot"
-	private explicit_return_type ""
+      classrelation 220546 // <composition>
+	relation 219010 *---
+	  a role_name "" public
+	    classrelation_ref 220546 // <composition>
+	  b role_name "" public
+	    classrelation_ref 220674 // <composition>
+      end
+    end
+
+    class 227586 "PackagesListWidget"
+      visibility protected 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 250114 "listRequested"
+	stereotype "signal"
+	public explicit_return_type ""
 	nparams 0
 	
 	
 	
 	
 	
+      end
+
+      operation 283906 "deletePackage"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "packageId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+
+      operation 284162 "updatePackage"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "package" type class_ref 207746 // Package
+	
+	
+	
+	
+	
+      end
+
+      operation 250242 "onListGot"
+	stereotype "slot"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "list" type class_ref 207746 // Package
+	multiplicity "*"
+	
+	
+	
+	
+	
+      end
+
+      operation 284034 "showContextMenu"
+	stereotype "slot"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "pos" type class_ref 194562 // QPoint
+	
+	
+	
+	
+	
+      end
+
+      classrelation 220418 // <generalisation>
+	relation 218882 ---|>
+	  a public
+	    classrelation_ref 220418 // <generalisation>
+	  b parent class_ref 174722 // QListWidget
+      end
+
+      classrelation 220674 // <composition>
+	relation_ref 219010 // <composition>
       end
     end
 

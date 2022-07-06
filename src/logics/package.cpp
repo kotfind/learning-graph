@@ -70,3 +70,29 @@ void WorkerCore::createPackage(const Package& package) {
     query.exec();
     emit packagesChanged();
 }
+
+void WorkerCore::updatePackage(const Package& package) {
+    if (!checkPackage(package)) {
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("UPDATE packages "
+        "SET name = :name "
+        "WHERE rowid = :rowid");
+    query.bindValue(":rowid",       package.id);
+    query.bindValue(":name",        package.name);
+    query.exec();
+
+    emit packagesChanged();
+}
+
+void WorkerCore::deletePackage(int packageId) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM packages "
+        "WHERE rowid = :rowid");
+    query.bindValue(":rowid", packageId);
+    query.exec();
+
+    emit packagesChanged();
+}

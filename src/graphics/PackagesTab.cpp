@@ -1,6 +1,7 @@
 #include "PackagesTab.h"
 
 #include "../logics/WorkerCore.h"
+#include "PackagesListWidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -27,33 +28,20 @@ PackagesTab::PackagesTab(QWidget* parent)
     hbox->addWidget(importBtn);
 
     // Packages List
-    packagesList = new QListWidget;
+    auto* packagesList = new PackagesListWidget;
     vbox->addWidget(packagesList);
 
     // Connections
 
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
-            this, &PackagesTab::onListGot);
-    connect(this, &PackagesTab::listRequested,
-            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
     connect(this, &PackagesTab::creationRequested,
             WorkerCore::getInstance(), &WorkerCore::createPackage);
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
-            this, &PackagesTab::listRequested);
 
-    emit listRequested();
-}
-
-void PackagesTab::onListGot(const QVector<Package>& packages) {
-    packagesList->clear();
-    for (const auto& package : packages) {
-        packagesList->addItem(package.name);
-    }
+    emit packagesList->listRequested();
 }
 
 void PackagesTab::onCreateBtn() {
     bool ok;
-    QString name = QInputDialog::getText(this, tr("New package"),
+    auto name = QInputDialog::getText(this, tr("New package"),
         tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
         emit creationRequested(Package{-1, name});
