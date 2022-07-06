@@ -9,7 +9,6 @@
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
     setWindowTitle(tr("Theme \"%1\" Info").arg(themeId));
-    setDisabled(true);
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
@@ -79,21 +78,32 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
 
     hbox->addStretch(1);
 
-    // Edit Button
-    auto* editBtn = new QPushButton(tr("Cancel"));
-    hbox->addWidget(editBtn, 0);
+    // Cancel Button
+    auto* cancelBtn = new QPushButton(tr("Cancel"));
+    connect(cancelBtn, &QPushButton::clicked,
+            this, &ThemeInfoWindow::close);
+    hbox->addWidget(cancelBtn, 0);
 
-    // Ok Button
-    auto* okBtn = new QPushButton(tr("Ok"));
-    hbox->addWidget(okBtn, 0);
+    // Save Button
+    auto* saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
+    connect(saveBtn, &QPushButton::clicked,
+            this, &ThemeInfoWindow::onSaveClicked);
+    hbox->addWidget(saveBtn, 0);
 
     // Connections
     connect(this, &ThemeInfoWindow::themeRequest,
             WorkerCore::getInstance(), &WorkerCore::getTheme);
     connect(WorkerCore::getInstance(), &WorkerCore::themeGot,
             this, &ThemeInfoWindow::onThemeGot);
+    connect(this, &ThemeInfoWindow::creationRequest,
+            WorkerCore::getInstance(), &WorkerCore::createTheme);
+    connect(this, &ThemeInfoWindow::updateRequest,
+            WorkerCore::getInstance(), &WorkerCore::updateTheme);
 
-    emit themeRequest(themeId);
+    if (themeId != -1) {
+        setDisabled(true);
+        emit themeRequest(themeId);
+    }
 }
 
 // Slots
@@ -104,5 +114,22 @@ void ThemeInfoWindow::onThemeGot(const Theme& theme) {
     isLearnedCheck->setChecked(theme.isLearned);
     inWishlistCheck->setChecked(theme.inWishlist);
     descEdit->setText(theme.description);
-    this->setDisabled(false);
+    setDisabled(false);
+}
+
+void ThemeInfoWindow::onSaveClicked() {
+    Theme theme {
+        themeId,
+        themeEdit->text().trimmed(),
+        Package {
+            packageCombo->currentData().toInt(),
+            QString()
+        },
+        descEdit->toPlainText(),
+        inWishlistCheck->isChecked(),
+        isLearnedCheck->isChecked()
+    };
+
+    emit (themeId == -1 ? creationRequest(theme) : updateRequest(theme));
+    emit close();
 }

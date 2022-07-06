@@ -1,6 +1,7 @@
 #include "ThemesTab.h"
 #include "ThemesListWidget.h"
 #include "PackageComboBox.h"
+#include "ThemeInfoWindow.h"
 
 #include "../logics/WorkerCore.h"
 
@@ -81,4 +82,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     });
     connect(themesList, &ThemesListWidget::listRequested,
             WorkerCore::getInstance(), &WorkerCore::getThemesList);
+    connect(createBtn, &QPushButton::clicked, []() {
+        (new ThemeInfoWindow(-1))->show();
+    });
 }

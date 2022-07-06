@@ -66,3 +66,62 @@ void WorkerCore::getTheme(int themeId) {
 
     emit themeGot(theme);
 }
+
+bool checkTheme(const Theme& theme) {
+    if (theme.name.isEmpty()) {
+        emit WorkerCore::getInstance()->errorGot(
+            WorkerCore::tr("Name should not be empty."));
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT rowid FROM themes "
+        "WHERE package_id = :package_id "
+            "AND name = :name "
+            "AND NOT rowid = :rowid");
+    query.exec();
+    if (query.first()) {
+        emit WorkerCore::getInstance()->errorGot(
+            WorkerCore::tr("Theme \"%1\" already exists.")
+                .arg(theme.name));
+        return false;
+    }
+    return true;
+}
+
+void WorkerCore::createTheme(const Theme& theme) {
+    if (!checkTheme(theme)) {
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO themes"
+        "(name, package_id, description, in_wishlist, is_learned) "
+        "VALUES "
+        "(:name, :package_id, :description, :in_wishlist, :is_learned)");
+    query.bindValue(":name",        theme.name);
+    query.bindValue(":package_id",  theme.package.id);
+    query.bindValue(":description", theme.description);
+    query.bindValue(":in_wishlist", theme.inWishlist);
+    query.bindValue(":is_learned",  theme.isLearned);
+    query.exec();
+}
+
+void WorkerCore::updateTheme(const Theme& theme) {
+    if (!checkTheme(theme)) {
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("UPDATE themes "
+        "SET name = :name, package_id = :package_id, description = :description, "
+            "in_wishlist = :in_wishlist, is_learned = :is_learned "
+        "WHERE rowid = :rowid");
+    query.bindValue(":rowid",       theme.id);
+    query.bindValue(":name",        theme.name);
+    query.bindValue(":package_id",  theme.package.id);
+    query.bindValue(":description", theme.description);
+    query.bindValue(":in_wishlist", theme.inWishlist);
+    query.bindValue(":is_learned",  theme.isLearned);
+    query.exec();
+}

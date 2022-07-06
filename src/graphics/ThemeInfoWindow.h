@@ -30,8 +30,10 @@ class ThemeInfoWindow : public QWidget {
 
     signals:
         void themeRequest(int themeId);
-        void requestPackagesList(const QString& packageNameKeyword);
+        void creationRequest(const Theme& theme);
+        void updateRequest(const Theme& theme);
 
     private slots:
         void onThemeGot(const Theme& theme);
+        void onSaveClicked();
 };

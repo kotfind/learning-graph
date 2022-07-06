@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../datatypes/Theme.h"
-
 #include "../datatypes/Package.h"
 
 #include <QObject>
@@ -42,6 +41,8 @@ class WorkerCore : public QObject {
             Qt::CheckState inWishlist,
             Qt::CheckState isLearned);
         void getTheme(int themeId);
+        void createTheme(const Theme& theme);
+        void updateTheme(const Theme& theme);
 
         void getPackagesList();
         void getPackage(int packageId);
