@@ -84,7 +84,7 @@ ThemesTab::ThemesTab(QWidget* parent)
                 false,
             },
             themeEdit->text(), 
-            1, // TODO
+            packageCombo->currentData().toInt(),
             wishlistCheck->checkState(),
             learnedCheck->checkState());
     });

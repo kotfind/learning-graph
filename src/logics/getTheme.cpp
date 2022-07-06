@@ -3,6 +3,8 @@
 #include <QStringList>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QDebug>
+#include <QSqlError>
 
 QString themeRequestToString(const ThemeRequest& fields) {
     QStringList list;
@@ -31,6 +33,24 @@ Theme queryToTheme(const ThemeRequest& fields, const QSqlQuery& query) {
     return theme;
 }
 
+QString formWhere(
+    const QString& themeNameKeyword,
+    int packageId,
+    Qt::CheckState inWishlist,
+    Qt::CheckState isLearned) {
+    auto res = QString("name LIKE \"\%%2\%\"").arg(themeNameKeyword);
+    if (packageId != -1) {
+        res += QString(" AND package_id = %1").arg(packageId);
+    }
+    if (inWishlist != Qt::PartiallyChecked) {
+        res += QString(" AND in_wishlist = %1").arg(inWishlist == Qt::Checked ? 1 : 0);
+    }
+    if (isLearned != Qt::PartiallyChecked) {
+        res += QString(" AND isLearned = %1").arg(isLearned == Qt::Checked ? 1 : 0);
+    }
+    return res;
+}
+
 void WorkerCore::getThemesList(
     const ThemeRequest& fields,
     const QString& themeNameKeyword,
@@ -39,8 +59,10 @@ void WorkerCore::getThemesList(
     Qt::CheckState isLearned) {
     // TODO dependsOn
 
-    QSqlQuery query(QString("SELECT %1 FROM themes") // TODO WHERE
-        .arg(themeRequestToString(fields)));
+    QSqlQuery query(QString("SELECT %1 FROM themes "
+        "WHERE %2")
+            .arg(themeRequestToString(fields))
+            .arg(formWhere(themeNameKeyword, packageId, inWishlist, isLearned)));
     query.exec();
 
     QVector<Theme> themes;
