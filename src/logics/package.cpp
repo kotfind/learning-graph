@@ -37,20 +37,36 @@ void WorkerCore::getPackage(int packageId) {
     emit packageGot(package);
 }
 
-void WorkerCore::createPackage(const QString& name) {
-    QSqlQuery selectQuery;
-    selectQuery.prepare("SELECT rowid FROM packages WHERE name = :name");
-    selectQuery.bindValue(":name", name);
-    selectQuery.exec();
-    if (selectQuery.first()) {
-        emit errorGot(tr("Package \"%1\" already exists").arg(name));
+bool checkPackage(const Package& package) {
+    if (package.name.isEmpty()) {
+        emit WorkerCore::getInstance()->errorGot(
+            WorkerCore::tr("Name should not be empty."));
+        return false;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT rowid FROM packages "
+        "WHERE name = :name AND NOT rowid = :rowid");
+    query.bindValue(":name", package.name);
+    query.bindValue(":rowid", package.id);
+    query.exec();
+    if (query.first()) {
+        emit WorkerCore::getInstance()->errorGot(
+            WorkerCore::tr("Package \"%1\" already exists.").arg(package.name));
+        return false;
+    }
+
+    return true;
+}
+
+void WorkerCore::createPackage(const Package& package) {
+    if (!checkPackage(package)) {
         return;
     }
-    selectQuery.finish();
 
-    QSqlQuery insertQuery;
-    insertQuery.prepare("INSERT INTO packages(name) VALUES (:name)");
-    insertQuery.bindValue(":name", name);
-    insertQuery.exec();
+    QSqlQuery query;
+    query.prepare("INSERT INTO packages(name) VALUES (:name)");
+    query.bindValue(":name", package.name);
+    query.exec();
     emit packagesChanged();
 }

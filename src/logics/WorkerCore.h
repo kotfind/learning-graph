@@ -46,5 +46,5 @@ class WorkerCore : public QObject {
 
         void getPackagesList();
         void getPackage(int packageId);
-        void createPackage(const QString& name);
+        void createPackage(const Package& package);
 };

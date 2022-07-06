@@ -54,9 +54,8 @@ void PackagesTab::onListGot(const QVector<Package>& packages) {
 void PackagesTab::onCreateBtn() {
     bool ok;
     QString name = QInputDialog::getText(this, tr("New package"),
-        tr("New package name:"), QLineEdit::Normal, "", &ok);
-    if (!ok || name.isEmpty()) {
-        return;
+        tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
+    if (ok) {
+        emit creationRequested(Package{-1, name});
     }
-    emit creationRequested(name);
 }

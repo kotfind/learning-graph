@@ -16,7 +16,7 @@ class PackagesTab : public QWidget {
 
     signals:
         void listRequested();
-        void creationRequested(const QString& package);
+        void creationRequested(const Package& package);
 
     private slots:
         void onCreateBtn();
