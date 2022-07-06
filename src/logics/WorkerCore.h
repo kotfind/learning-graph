@@ -43,6 +43,7 @@ class WorkerCore : public QObject {
         void getTheme(int themeId);
         void createTheme(const Theme& theme);
         void updateTheme(const Theme& theme);
+        void deleteTheme(int themeId);
 
         void getPackagesList();
         void getPackage(int packageId);

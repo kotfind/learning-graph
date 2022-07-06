@@ -11,4 +11,7 @@ class ThemeContextMenuWidget : public QMenu {
 
     private:
         int themeId;
+
+    signals:
+        void deleteTheme(int themeId);
 };

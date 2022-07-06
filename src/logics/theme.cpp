@@ -125,3 +125,11 @@ void WorkerCore::updateTheme(const Theme& theme) {
     query.bindValue(":is_learned",  theme.isLearned);
     query.exec();
 }
+
+void WorkerCore::deleteTheme(int themeId) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM themes "
+        "WHERE rowid = :rowid");
+    query.bindValue(":rowid", themeId);
+    query.exec();
+}

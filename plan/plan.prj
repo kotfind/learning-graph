@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 59
+  revision 60
   modified_by 2 "kotfind"
 
 
@@ -726,6 +726,18 @@ ${items}};
       classrelation 199298 // <composition>
 	relation_ref 198402 // <composition>
       end
+
+      operation 270338 "deleteTheme"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
     end
 
     class 134530 "WorkerCore"
@@ -820,8 +832,8 @@ ${items}};
       end
 
       operation 135170 "updateTheme"
-	stereotype "slot_signal"
-	public explicit_return_type "int"
+	stereotype "slot"
+	public explicit_return_type ""
 	nparams 1
 	  param in name "theme" type class_ref 134786 // Theme
 	
@@ -829,12 +841,11 @@ ${items}};
 	
 	
 	
-	comment "returns theme's id"
       end
 
       operation 141826 "createTheme"
-	stereotype "slot_signal"
-	public explicit_return_type "int"
+	stereotype "slot"
+	public explicit_return_type ""
 	nparams 1
 	  param in name "theme" type class_ref 134786 // Theme
 	
@@ -842,7 +853,18 @@ ${items}};
 	
 	
 	
-	comment "returns theme's id"
+      end
+
+      operation 270594 "deleteTheme"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "themeId" explicit_type "int"
+	
+	
+	
+	
+	
       end
 
       operation 230402 "getPackagesList"
@@ -880,6 +902,18 @@ ${items}};
 	
 	
 	comment "return package's id"
+      end
+
+      operation 270466 "deletePackage"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "packageId" explicit_type "int"
+	
+	
+	
+	
+	
       end
 
       operation 141698 "exportPackage"
@@ -1056,7 +1090,6 @@ ${items}};
 	mysql_decl ""
 	MysqlColumn
       end
-
     end
 
     class 134658 "LearningGraph"
@@ -1170,7 +1203,6 @@ ${items}};
 	mysql_decl ""
 	MysqlColumn
       end
-
     end
 
     class 220930 "PackagesComboBox"
