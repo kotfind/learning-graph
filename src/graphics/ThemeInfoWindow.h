@@ -1,10 +1,8 @@
 #pragma once
 
 #include "../datatypes/Theme.h"
-#include "../datatypes/ThemeRequest.h"
 
 #include "../datatypes/Package.h"
-#include "../datatypes/PackageRequest.h"
 
 #include "PackageComboBox.h"
 
@@ -31,10 +29,8 @@ class ThemeInfoWindow : public QWidget {
         QTextEdit* descEdit;
 
     signals:
-        void themeRequest(const ThemeRequest& fields, int themeId);
-        void requestPackagesList(
-            const PackageRequest& fields,
-            const QString& packageNameKeyword);
+        void themeRequest(int themeId);
+        void requestPackagesList(const QString& packageNameKeyword);
 
     private slots:
         void onThemeGot(const Theme& theme);

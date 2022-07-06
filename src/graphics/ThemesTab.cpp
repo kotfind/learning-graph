@@ -74,17 +74,6 @@ ThemesTab::ThemesTab(QWidget* parent)
     // Connections
     connect(searchBtn, &QPushButton::clicked, [=]() {
         emit themesList->listRequested(
-            ThemeRequest{
-                true, // name
-                PackageRequest{
-                    true, // name
-                    false // themeIds
-                },
-                false,
-                false,
-                false,
-                false,
-            },
             themeEdit->text(), 
             packageCombo->currentData().toInt(),
             wishlistCheck->checkState(),

@@ -93,17 +93,7 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     connect(WorkerCore::getInstance(), &WorkerCore::themeGot,
             this, &ThemeInfoWindow::onThemeGot);
 
-    emit themeRequest(ThemeRequest{
-        true, // name
-        PackageRequest {
-            true, // name
-            false
-        },
-        true, // description
-        true, // inWishlist
-        true, // isLearned
-        false
-    }, themeId);
+    emit themeRequest(themeId);
 }
 
 // Slots

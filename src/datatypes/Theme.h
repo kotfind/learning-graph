@@ -2,7 +2,6 @@
 
 #include "Package.h"
 
-#include <QVector>
 #include <QString>
 
 struct Theme {
@@ -12,5 +11,4 @@ struct Theme {
     QString description;
     bool inWishlist;
     bool isLearned;
-    QVector<int> dependsOn;
 };

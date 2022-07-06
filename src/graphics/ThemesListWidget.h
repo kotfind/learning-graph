@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../datatypes/Theme.h"
-#include "../datatypes/ThemeRequest.h"
 
 #include <QListWidget>
 #include <QVector>
@@ -14,7 +13,6 @@ class ThemesListWidget : public QListWidget {
 
     signals:
         void listRequested(
-            const ThemeRequest& fields,
             const QString& themeNameKeyword,
             int packageId,
             Qt::CheckState inWishlist,

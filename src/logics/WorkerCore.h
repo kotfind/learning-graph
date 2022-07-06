@@ -1,10 +1,8 @@
 #pragma once
 
 #include "../datatypes/Theme.h"
-#include "../datatypes/ThemeRequest.h"
 
 #include "../datatypes/Package.h"
-#include "../datatypes/PackageRequest.h"
 
 #include <QObject>
 #include <QString>
@@ -39,17 +37,13 @@ class WorkerCore : public QObject {
 
     public slots:
         void getThemesList(
-            const ThemeRequest& fields,
             const QString& themeNameKeyword,
             int packageId,
             Qt::CheckState inWishlist,
             Qt::CheckState isLearned);
-        void getTheme(const ThemeRequest& fields, int themeId);
+        void getTheme(int themeId);
 
-        void getPackagesList(
-            const PackageRequest& fields);
-        void getPackage(
-            const PackageRequest& fields,
-            int packageId);
+        void getPackagesList();
+        void getPackage(int packageId);
         void createPackage(const QString& name);
 };

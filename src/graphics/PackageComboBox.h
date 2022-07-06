@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../datatypes/Package.h"
-#include "../datatypes/PackageRequest.h"
 
 #include <QComboBox>
 #include <QVector>
@@ -19,9 +18,8 @@ class PackageComboBox : public QComboBox {
         bool hasOptionAny = false;
 
     signals:
-        void listRequested(const PackageRequest& fields);
+        void listRequested();
 
     private slots:
         void onListGot(const QVector<Package>& packages);
-        void onPackagesChanged();
 };

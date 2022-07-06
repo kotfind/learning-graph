@@ -39,12 +39,9 @@ PackagesTab::PackagesTab(QWidget* parent)
     connect(this, &PackagesTab::creationRequested,
             WorkerCore::getInstance(), &WorkerCore::createPackage);
     connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
-            this, &PackagesTab::onPackagesChanged);
+            this, &PackagesTab::listRequested);
 
-    emit listRequested(PackageRequest{
-        true, // name
-        false
-    });
+    emit listRequested();
 }
 
 void PackagesTab::onListGot(const QVector<Package>& packages) {
@@ -62,11 +59,4 @@ void PackagesTab::onCreateBtn() {
         return;
     }
     emit creationRequested(name);
-}
-
-void PackagesTab::onPackagesChanged() {
-    emit listRequested(PackageRequest{
-        true, // name
-        false
-    });
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../datatypes/PackageRequest.h"
 #include "../datatypes/Package.h"
 
 #include <QWidget>
@@ -16,11 +15,10 @@ class PackagesTab : public QWidget {
         QListWidget* packagesList;
 
     signals:
-        void listRequested(const PackageRequest& fields);
+        void listRequested();
         void creationRequested(const QString& package);
 
     private slots:
         void onCreateBtn();
         void onListGot(const QVector<Package>& packages);
-        void onPackagesChanged();
 };
