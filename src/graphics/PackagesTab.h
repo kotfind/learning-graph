@@ -17,7 +17,10 @@ class PackagesTab : public QWidget {
 
     signals:
         void listRequested(const PackageRequest& fields);
+        void creationRequested(const QString& package);
 
     private slots:
+        void onCreateBtn();
         void onListGot(const QVector<Package>& packages);
+        void onPackagesChanged();
 };

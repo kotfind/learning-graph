@@ -11,6 +11,8 @@ PackageComboBox::PackageComboBox(QWidget* parent)
             WorkerCore::getInstance(), &WorkerCore::getPackagesList);
     connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
             this, &PackageComboBox::onListGot);
+    connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
+            this, &PackageComboBox::onPackagesChanged);
 
     emit listRequested(PackageRequest{
         true, // id
@@ -53,4 +55,11 @@ void PackageComboBox::onListGot(const QVector<Package>& packages) {
     }
     setCurrent(currentId);
     setDisabled(false);
+}
+
+void PackageComboBox::onPackagesChanged() {
+    emit listRequested(PackageRequest{
+        true, // id
+        false
+    });
 }

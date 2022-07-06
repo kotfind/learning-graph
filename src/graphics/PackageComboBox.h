@@ -23,4 +23,5 @@ class PackageComboBox : public QComboBox {
 
     private slots:
         void onListGot(const QVector<Package>& packages);
+        void onPackagesChanged();
 };

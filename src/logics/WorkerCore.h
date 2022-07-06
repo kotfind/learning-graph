@@ -28,10 +28,14 @@ class WorkerCore : public QObject {
         QSqlDatabase db;
 
     signals:
+        void errorGot(const QString& error);
+
         void themesListGot(const QVector<Theme>& themes);
         void themeGot(const Theme& theme);
+
         void packagesListGot(const QVector<Package>& packages);
         void packageGot(const Package& packages);
+        void packagesChanged();
 
     public slots:
         void getThemesList(
@@ -47,4 +51,5 @@ class WorkerCore : public QObject {
         void getPackage(
             const PackageRequest& fields,
             int packageId);
+        void createPackage(const QString& name);
 };

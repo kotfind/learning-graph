@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QInputDialog>
 
 PackagesTab::PackagesTab(QWidget* parent)
         : QWidget(parent) {
@@ -17,6 +18,8 @@ PackagesTab::PackagesTab(QWidget* parent)
 
     // Create Button
     auto* createBtn = new QPushButton(tr("New package"));
+    connect(createBtn, &QPushButton::clicked,
+            this, &PackagesTab::onCreateBtn);
     hbox->addWidget(createBtn);
 
     // Import Button
@@ -33,6 +36,10 @@ PackagesTab::PackagesTab(QWidget* parent)
             this, &PackagesTab::onListGot);
     connect(this, &PackagesTab::listRequested,
             WorkerCore::getInstance(), &WorkerCore::getPackagesList);
+    connect(this, &PackagesTab::creationRequested,
+            WorkerCore::getInstance(), &WorkerCore::createPackage);
+    connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
+            this, &PackagesTab::onPackagesChanged);
 
     emit listRequested(PackageRequest{
         true, // name
@@ -45,4 +52,21 @@ void PackagesTab::onListGot(const QVector<Package>& packages) {
     for (const auto& package : packages) {
         packagesList->addItem(package.name);
     }
+}
+
+void PackagesTab::onCreateBtn() {
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("New package"),
+        tr("New package name:"), QLineEdit::Normal, "", &ok);
+    if (!ok || name.isEmpty()) {
+        return;
+    }
+    emit creationRequested(name);
+}
+
+void PackagesTab::onPackagesChanged() {
+    emit listRequested(PackageRequest{
+        true, // name
+        false
+    });
 }

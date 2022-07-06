@@ -3,6 +3,8 @@
 #include <QStringList>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QDebug>
+#include <QSqlError>
 
 QString packageRequestToString(const PackageRequest& fields) {
     QStringList list;
@@ -48,4 +50,22 @@ void WorkerCore::getPackage(
     query.exec();
     query.first();
     emit packageGot(queryToPackage(fields, query));
+}
+
+void WorkerCore::createPackage(const QString& name) {
+    QSqlQuery selectQuery;
+    selectQuery.prepare("SELECT rowid FROM packages WHERE name = :name");
+    selectQuery.bindValue(":name", name);
+    selectQuery.exec();
+    if (selectQuery.first()) {
+        emit errorGot(tr("Package \"%1\" already exists").arg(name));
+        return;
+    }
+    selectQuery.finish();
+
+    QSqlQuery insertQuery;
+    insertQuery.prepare("INSERT INTO packages(name) VALUES (:name)");
+    insertQuery.bindValue(":name", name);
+    insertQuery.exec();
+    emit packagesChanged();
 }
