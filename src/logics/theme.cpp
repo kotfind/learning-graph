@@ -47,10 +47,10 @@ void WorkerCore::getThemesList(
 }
 
 void WorkerCore::getTheme(int themeId) {
-    QSqlQuery query(QString("SELECT "
+    QSqlQuery query;
+    query.prepare("SELECT "
         "rowid, name, package_id, description, in_wishlist, is_learned "
-        "FROM themes WHERE rowid = :id")
-        );
+        "FROM themes WHERE rowid = :id");
     query.bindValue(":id", themeId);
     query.exec();
     query.first();
