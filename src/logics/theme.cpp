@@ -105,6 +105,8 @@ void WorkerCore::createTheme(const Theme& theme) {
     query.bindValue(":in_wishlist", theme.inWishlist);
     query.bindValue(":is_learned",  theme.isLearned);
     query.exec();
+
+    emit themesChanged();
 }
 
 void WorkerCore::updateTheme(const Theme& theme) {
@@ -124,6 +126,8 @@ void WorkerCore::updateTheme(const Theme& theme) {
     query.bindValue(":in_wishlist", theme.inWishlist);
     query.bindValue(":is_learned",  theme.isLearned);
     query.exec();
+
+    emit themesChanged();
 }
 
 void WorkerCore::deleteTheme(int themeId) {
@@ -132,4 +136,6 @@ void WorkerCore::deleteTheme(int themeId) {
         "WHERE rowid = :rowid");
     query.bindValue(":rowid", themeId);
     query.exec();
+
+    emit themesChanged();
 }

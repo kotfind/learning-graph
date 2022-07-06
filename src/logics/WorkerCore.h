@@ -29,6 +29,7 @@ class WorkerCore : public QObject {
 
         void themesListGot(const QVector<Theme>& themes);
         void themeGot(const Theme& theme);
+        void themesChanged();
 
         void packagesListGot(const QVector<Package>& packages);
         void packageGot(const Package& packages);

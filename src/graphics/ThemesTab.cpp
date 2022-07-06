@@ -1,16 +1,11 @@
 #include "ThemesTab.h"
-#include "ThemesListWidget.h"
-#include "PackageComboBox.h"
 #include "ThemeInfoWindow.h"
 
 #include "../logics/WorkerCore.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QLabel>
-#include <QCheckBox>
 #include <QGroupBox>
 
 ThemesTab::ThemesTab(QWidget* parent)
@@ -41,25 +36,25 @@ ThemesTab::ThemesTab(QWidget* parent)
     auto* themeLbl = new QLabel(tr("Theme:"));
     grid->addWidget(themeLbl, 1, 0, Qt::AlignRight);
 
-    auto* themeEdit = new QLineEdit;
-    grid->addWidget(themeEdit, 1, 1);
+    nameEdit = new QLineEdit;
+    grid->addWidget(nameEdit, 1, 1);
 
     // Package
     auto* packageLbl = new QLabel(tr("Package:"));
     grid->addWidget(packageLbl, 2, 0, Qt::AlignRight);
 
-    auto* packageCombo = new PackageComboBox;
+    packageCombo = new PackageComboBox;
     packageCombo->setAny(true);
     grid->addWidget(packageCombo, 2, 1);
 
     // In Wishlist Switch
-    auto* wishlistCheck = new QCheckBox(tr("In Wishlist"));
+    wishlistCheck = new QCheckBox(tr("In Wishlist"));
     wishlistCheck->setTristate(true);
     wishlistCheck->setCheckState(Qt::PartiallyChecked);
     grid->addWidget(wishlistCheck, 4, 1);
 
     // Learned List Switch
-    auto* learnedCheck = new QCheckBox(tr("Learned"));
+    learnedCheck = new QCheckBox(tr("Learned"));
     learnedCheck->setTristate(true);
     grid->addWidget(learnedCheck, 3, 1);
 
@@ -68,21 +63,25 @@ ThemesTab::ThemesTab(QWidget* parent)
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
-    auto* themesList = new ThemesListWidget;
+    themesList = new ThemesListWidget;
     vbox->addWidget(themesList);
 
-
     // Connections
-    connect(searchBtn, &QPushButton::clicked, [=]() {
-        emit themesList->listRequested(
-            themeEdit->text(), 
-            packageCombo->currentData().toInt(),
-            wishlistCheck->checkState(),
-            learnedCheck->checkState());
-    });
+    connect(searchBtn, &QPushButton::clicked,
+            this, &ThemesTab::onSearchReuqested);
     connect(themesList, &ThemesListWidget::listRequested,
             WorkerCore::getInstance(), &WorkerCore::getThemesList);
     connect(createBtn, &QPushButton::clicked, []() {
         (new ThemeInfoWindow(-1))->show();
     });
+    connect(WorkerCore::getInstance(), &WorkerCore::themesChanged,
+            this, &ThemesTab::onSearchReuqested);
+}
+
+void ThemesTab::onSearchReuqested() {
+    emit themesList->listRequested(
+        nameEdit->text(),
+        packageCombo->currentData().toInt(),
+        wishlistCheck->checkState(),
+        learnedCheck->checkState());
 }

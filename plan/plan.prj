@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 60
+  revision 61
   modified_by 2 "kotfind"
 
 
@@ -513,6 +513,17 @@ ${items}};
 	  b role_name "" public
 	    classrelation_ref 199554 // <composition>
       end
+
+      operation 277122 "onSearchRequested"
+	stereotype "slot"
+	private explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
     end
 
     class 161282 "ThemeInfoWindow"
@@ -1004,6 +1015,17 @@ ${items}};
       end
 
       operation 257282 "packagesChanged"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 277378 "themesChanged"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 0
