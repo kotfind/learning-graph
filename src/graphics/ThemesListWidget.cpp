@@ -22,7 +22,7 @@ void ThemesListWidget::showContextMenu(const QPoint& pos) {
     // XXX Double right click, when menu is opened
     auto* curr = currentItem();
     if (curr) {
-        ThemeContextMenuWidget menu(curr->data(Qt::UserRole).toInt());
+        ThemeContextMenuWidget menu(curr->data(Qt::UserRole).toInt(), curr->text());
         menu.exec(mapToGlobal(pos));
     }
 }

@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 61
+  revision 62
   modified_by 2 "kotfind"
 
 
@@ -695,17 +695,6 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 148482 "themeId"
-	private explicit_type "int"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
       classrelation 182914 // <generalisation>
 	relation 182914 ---|>
 	  a public

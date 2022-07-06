@@ -8,14 +8,15 @@
 #include <QMessageBox>
 
 ThemeContextMenuWidget::ThemeContextMenuWidget(
-    int themeId, QWidget* parent)
-        : QMenu(parent), themeId(themeId) {
+    int themeId, const QString& themeName, QWidget* parent)
+        : QMenu(parent) {
     addAction(tr("Watch/ Edit"), [themeId](){
         (new ThemeInfoWindow(themeId))->show();
     });
-    addAction(tr("Delete"), [this, themeId](){
+    addAction(tr("Delete"), [this, themeId, &themeName](){
         if (QMessageBox::question(this, "Question",
-                tr("Delete this theme?")) == QMessageBox::Yes) {
+                tr("Delete theme \"%1\"?").arg(themeName))
+                == QMessageBox::Yes) {
             emit deleteTheme(themeId);
         }
     });
