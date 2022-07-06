@@ -54,6 +54,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     // In Wishlist Switch
     auto* wishlistCheck = new QCheckBox(tr("In Wishlist"));
     wishlistCheck->setTristate(true);
+    wishlistCheck->setCheckState(Qt::PartiallyChecked);
     grid->addWidget(wishlistCheck, 4, 1);
 
     // Learned List Switch
