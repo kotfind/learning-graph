@@ -48,6 +48,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     grid->addWidget(packageLbl, 2, 0, Qt::AlignRight);
 
     auto* packageCombo = new PackageComboBox;
+    packageCombo->setAny(true);
     grid->addWidget(packageCombo, 2, 1);
 
     // In Wishlist Switch

@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 56
+  revision 57
   modified_by 2 "kotfind"
 
 
@@ -1363,6 +1363,29 @@ ${items}};
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      attribute 189954 "hasOptionAny"
+	private explicit_type "bool"
+	init_value "false"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 256770 "setAny"
+	public explicit_return_type "boid"
+	nparams 1
+	  param in name "v" explicit_type "bool"
+	
+	
+	
+	
+	
       end
     end
   end

@@ -12,9 +12,11 @@ class PackageComboBox : public QComboBox {
     public:
         PackageComboBox(QWidget* parent = nullptr);
         void setCurrent(int packageId);
+        void setAny(bool v);
 
     private:
         int currentId;
+        bool hasOptionAny = false;
 
     signals:
         void listRequested(const PackageRequest& fields);

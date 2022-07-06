@@ -28,10 +28,26 @@ void PackageComboBox::setCurrent(int packageId) {
     }
 }
 
+void PackageComboBox::setAny(bool v) {
+    if (hasOptionAny == v) {
+        return;
+    }
+    hasOptionAny = v;
+
+    if (hasOptionAny) {
+        insertItem(0, tr("<Any>"), -1);
+    } else {
+        removeItem(0);
+    }
+}
+
 // Slots
 
 void PackageComboBox::onListGot(const QVector<Package>& packages) {
     clear();
+    if (hasOptionAny) {
+        addItem(tr("<Any>"), -1);
+    }
     for (const auto& package : packages) {
         addItem(package.name, package.id);
     }
