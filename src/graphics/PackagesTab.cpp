@@ -41,6 +41,7 @@ PackagesTab::PackagesTab(QWidget* parent)
 }
 
 void PackagesTab::onListGot(const QVector<Package>& packages) {
+    packagesList->clear();
     for (const auto& package : packages) {
         packagesList->addItem(package.name);
     }

@@ -1,6 +1,8 @@
 #include "PackageComboBox.h"
 #include "../logics/WorkerCore.h"
 
+#include <QDebug>
+
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
     setDisabled(true);
@@ -29,6 +31,7 @@ void PackageComboBox::setCurrent(int packageId) {
 // Slots
 
 void PackageComboBox::onListGot(const QVector<Package>& packages) {
+    clear();
     for (const auto& package : packages) {
         addItem(package.name, package.id);
     }
