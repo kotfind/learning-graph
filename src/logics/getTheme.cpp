@@ -46,7 +46,7 @@ QString formWhere(
         res += QString(" AND in_wishlist = %1").arg(inWishlist == Qt::Checked ? 1 : 0);
     }
     if (isLearned != Qt::PartiallyChecked) {
-        res += QString(" AND isLearned = %1").arg(isLearned == Qt::Checked ? 1 : 0);
+        res += QString(" AND is_learned = %1").arg(isLearned == Qt::Checked ? 1 : 0);
     }
     return res;
 }
