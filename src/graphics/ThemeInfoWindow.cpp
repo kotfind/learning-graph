@@ -9,6 +9,7 @@
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
     setWindowTitle(tr("Theme \"%1\" Info").arg(themeId));
+    setWindowModality(Qt::ApplicationModal);
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
