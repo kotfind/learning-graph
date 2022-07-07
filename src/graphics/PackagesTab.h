@@ -11,7 +11,7 @@ class PackagesTab : public QWidget {
         PackagesTab(QWidget* parent = nullptr);
 
     signals:
-        void creationRequested(const Package& package);
+        void create(const Package& package);
 
     private slots:
         void onCreateBtn();

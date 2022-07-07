@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 63
+  revision 64
   modified_by 2 "kotfind"
 
 
@@ -266,7 +266,7 @@ ${items}};
 	MysqlColumn
       end
 
-      operation 163330 "builtRequested"
+      operation 163330 "build"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -278,7 +278,7 @@ ${items}};
 	
       end
 
-      operation 203778 "exportRequested"
+      operation 203778 "export"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -331,7 +331,7 @@ ${items}};
 	MysqlColumn
       end
 
-      operation 163458 "builtRequested"
+      operation 163458 "built"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -343,7 +343,7 @@ ${items}};
 	
       end
 
-      operation 203906 "exportRequested"
+      operation 203906 "export"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -393,7 +393,7 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 163714 "creationRequested"
+      operation 163714 "create"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -405,7 +405,7 @@ ${items}};
 	
       end
 
-      operation 163842 "exportRequested"
+      operation 163842 "export"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -417,7 +417,7 @@ ${items}};
 	
       end
 
-      operation 163970 "generationRequested"
+      operation 163970 "generate"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 2
@@ -468,7 +468,7 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 250114 "listRequested"
+      operation 250114 "getList"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 0
@@ -602,7 +602,7 @@ ${items}};
 	MysqlColumn
       end
 
-      operation 163202 "creationRequested"
+      operation 163202 "create"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -614,7 +614,7 @@ ${items}};
 	
       end
 
-      operation 163586 "updateRequested"
+      operation 163586 "update"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1
@@ -676,7 +676,7 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 163074 "listRequested"
+      operation 163074 "getList"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 4
@@ -1281,7 +1281,7 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 230274 "listRequested"
+      operation 230274 "getList"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 1

@@ -15,7 +15,7 @@ PackagesListWidget::PackagesListWidget(QWidget* parent)
     connect(this, &PackagesListWidget::customContextMenuRequested,
             this, &PackagesListWidget::showContextMenu);
 
-    connect(this, &PackagesListWidget::listRequested,
+    connect(this, &PackagesListWidget::getList,
             WorkerCore::getInstance(), &WorkerCore::getPackagesList);
     connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
             WorkerCore::getInstance(), &WorkerCore::getPackagesList);

@@ -13,7 +13,7 @@ class PackagesListWidget : public QListWidget {
         PackagesListWidget(QWidget* parent = nullptr);
 
     signals:
-        void listRequested();
+        void getList();
         void deletePackage(int packageId);
         void updatePackage(const Package& package);
 

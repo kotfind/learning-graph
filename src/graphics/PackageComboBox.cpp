@@ -7,14 +7,14 @@ PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
     setDisabled(true);
 
-    connect(this, &PackageComboBox::listRequested,
+    connect(this, &PackageComboBox::getList,
             WorkerCore::getInstance(), &WorkerCore::getPackagesList);
     connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
             this, &PackageComboBox::onListGot);
     connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
-            this, &PackageComboBox::listRequested);
+            this, &PackageComboBox::getList);
 
-    emit listRequested();
+    emit getList();
 }
 
 void PackageComboBox::setCurrent(int packageId) {

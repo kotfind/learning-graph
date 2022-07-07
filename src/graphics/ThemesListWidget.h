@@ -12,7 +12,7 @@ class ThemesListWidget : public QListWidget {
         ThemesListWidget(QWidget* parent = nullptr);
 
     signals:
-        void listRequested(
+        void getList(
             const QString& themeNameKeyword,
             int packageId,
             Qt::CheckState inWishlist,

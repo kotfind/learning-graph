@@ -33,10 +33,10 @@ PackagesTab::PackagesTab(QWidget* parent)
 
     // Connections
 
-    connect(this, &PackagesTab::creationRequested,
+    connect(this, &PackagesTab::create,
             WorkerCore::getInstance(), &WorkerCore::createPackage);
 
-    emit packagesList->listRequested();
+    emit packagesList->getList();
 }
 
 void PackagesTab::onCreateBtn() {
@@ -44,6 +44,6 @@ void PackagesTab::onCreateBtn() {
     auto name = QInputDialog::getText(this, tr("New package"),
         tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
-        emit creationRequested(Package{-1, name});
+        emit create(Package{-1, name});
     }
 }

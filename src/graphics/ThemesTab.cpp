@@ -69,7 +69,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     // Connections
     connect(searchBtn, &QPushButton::clicked,
             this, &ThemesTab::onSearchReuqested);
-    connect(themesList, &ThemesListWidget::listRequested,
+    connect(themesList, &ThemesListWidget::getList,
             WorkerCore::getInstance(), &WorkerCore::getThemesList);
     connect(createBtn, &QPushButton::clicked, []() {
         (new ThemeInfoWindow(-1))->show();
@@ -79,7 +79,7 @@ ThemesTab::ThemesTab(QWidget* parent)
 }
 
 void ThemesTab::onSearchReuqested() {
-    emit themesList->listRequested(
+    emit themesList->getList(
         nameEdit->text(),
         packageCombo->currentData().toInt(),
         wishlistCheck->checkState(),
