@@ -76,6 +76,9 @@ ThemesTab::ThemesTab(QWidget* parent)
     });
     connect(WorkerCore::getInstance(), &WorkerCore::themesChanged,
             this, &ThemesTab::onSearchReuqested);
+
+    // Request themes on start
+    searchBtn->click();
 }
 
 void ThemesTab::onSearchReuqested() {
