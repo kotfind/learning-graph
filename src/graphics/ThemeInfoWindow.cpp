@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QFrame>
+#include <QDebug>
 
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
@@ -123,7 +124,7 @@ void ThemeInfoWindow::onSaveClicked() {
         themeId,
         themeEdit->text().trimmed(),
         Package {
-            packageCombo->currentData().toInt(),
+            packageCombo->currentData().toInt(), // XXX currentData may be invalid
             QString()
         },
         descEdit->toPlainText(),
