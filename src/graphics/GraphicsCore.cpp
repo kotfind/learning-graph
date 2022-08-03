@@ -26,5 +26,5 @@ GraphicsCore::GraphicsCore(QWidget* parent)
 }
 
 void GraphicsCore::onErrorGot(const QString& error) {
-    QMessageBox::critical(this, "Error", error);
+    QMessageBox::critical(this, tr("Error"), error);
 }

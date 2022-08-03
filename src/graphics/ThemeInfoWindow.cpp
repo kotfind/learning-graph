@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QFrame>
 #include <QDebug>
+#include <QMessageBox>
 
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
@@ -120,11 +121,16 @@ void ThemeInfoWindow::onThemeGot(const Theme& theme) {
 }
 
 void ThemeInfoWindow::onSaveClicked() {
+    if (!packageCombo->currentData().isValid()) {
+        QMessageBox::critical(this, tr("Error"), tr("Package should be selected"));
+        return;
+    }
+
     Theme theme {
         themeId,
         themeEdit->text().trimmed(),
         Package {
-            packageCombo->currentData().toInt(), // XXX currentData may be invalid
+            packageCombo->currentData().toInt(),
             QString()
         },
         descEdit->toPlainText(),
