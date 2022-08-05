@@ -1,7 +1,7 @@
 #include "ThemeContextMenuWidget.h"
 #include "ThemeInfoWindow.h"
-#include "LearningGraphWindow.h"
-#include "LearningListWindow.h"
+#include "LearningGraphTab.h"
+#include "LearningListTab.h"
 
 #include "../logics/WorkerCore.h"
 
@@ -22,10 +22,10 @@ ThemeContextMenuWidget::ThemeContextMenuWidget(
     });
     addSeparator();
     addAction(tr("Build Learning Graph"), [&themeId](){
-        (new LearningGraphWindow(themeId))->show();
+        // TODO
     });
     addAction(tr("Build Learning List"), [&themeId](){
-        (new LearningListWindow(themeId))->show();
+        // TODO
     });
 
     // Connections

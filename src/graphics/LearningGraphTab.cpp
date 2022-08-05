@@ -1,14 +1,12 @@
-#include "LearningGraphWindow.h"
+#include "LearningGraphTab.h"
 
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 
-LearningGraphWindow::LearningGraphWindow(
-    int themeId, QWidget* parent)
-        : QWidget(parent), themeId(themeId) {
-    setWindowTitle(QString("%1 Learning Graph").arg(themeId));
+LearningGraphTab::LearningGraphTab(QWidget* parent)
+        : QWidget(parent) {
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);

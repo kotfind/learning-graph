@@ -1,17 +1,17 @@
-#include "LearningListWindow.h"
+#include "LearningListTab.h"
 #include "ThemesListWidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 
-LearningListWindow::LearningListWindow(
-    int themeId, QWidget* parent)
-        : QWidget(parent), themeId(themeId) {
+LearningListTab::LearningListTab(QWidget* parent)
+        : QWidget(parent) {
     setWindowTitle(QString("%1 Learning List").arg(themeId));
 
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
+    vbox->setSpacing(15);
     setLayout(vbox);
 
     // List
