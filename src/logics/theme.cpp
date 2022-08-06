@@ -1,24 +1,12 @@
 #include "WorkerCore.h"
+#include "sqlDefines.h"
 
 #include <QStringList>
 #include <QSqlQuery>
 #include <QVariant>
 #include <QDebug>
+#include <QVector>
 #include <QSqlError>
-
-QString formWhere(int packageId, Qt::CheckState inWishlist, Qt::CheckState isLearned) {
-    auto res = QString("name LIKE :like");
-    if (packageId != -1) {
-        res += QString(" AND package_id = %1").arg(packageId);
-    }
-    if (inWishlist != Qt::PartiallyChecked) {
-        res += QString(" AND in_wishlist = %1").arg(inWishlist == Qt::Checked ? 1 : 0);
-    }
-    if (isLearned != Qt::PartiallyChecked) {
-        res += QString(" AND is_learned = %1").arg(isLearned == Qt::Checked ? 1 : 0);
-    }
-    return res;
-}
 
 void WorkerCore::getThemesList(
     const QString& themeNameKeyword,
@@ -26,20 +14,44 @@ void WorkerCore::getThemesList(
     Qt::CheckState inWishlist,
     Qt::CheckState isLearned) {
 
-    QSqlQuery query;
+    QString queryString = " \
+           SELECT id, name \
+           FROM themes \
+           WHERE TRUE";
+    QVector<QVariant> params;
 
-    query.prepare("SELECT rowid, name FROM themes WHERE " +
-        formWhere(packageId, inWishlist, isLearned));
-    query.bindValue(":like", "%" + themeNameKeyword + "%");
-    query.exec();
+    if (themeNameKeyword.size()) {
+        queryString += " AND name LIKE ?";
+        params.append("%" + themeNameKeyword + "%");
+    }
+
+    if (packageId != -1) {
+        queryString += " AND package_id = ?";
+        params.append(packageId);
+    }
+
+    if (inWishlist != Qt::PartiallyChecked) {
+        queryString += QString(" AND in_wishlist = ?");
+        params.append(inWishlist == Qt::Checked);
+    }
+
+    if (isLearned != Qt::PartiallyChecked) {
+        queryString += QString(" AND is_learned = ?");
+        params.append(isLearned == Qt::Checked);
+    }
+
+    QSqlQuery query;
+    LOG_PREPARE(query, queryString);
+    for (const auto& param : params) {
+        query.addBindValue(param);
+    }
+    LOG_EXEC(query)
 
     QVector<Theme> themes;
     while (query.next()) {
         Theme theme;
-
-        theme.id            = query.value(0).toInt();
-        theme.name          = query.value(1).toString();
-        // TODO package name
+        theme.id    = query.value(0).toInt();
+        theme.name  = query.value(1).toString();
 
         themes.append(theme);
     }
@@ -48,15 +60,15 @@ void WorkerCore::getThemesList(
 
 void WorkerCore::getTheme(int themeId) {
     QSqlQuery query;
-    query.prepare("SELECT "
-        "rowid, name, package_id, description, in_wishlist, is_learned "
-        "FROM themes WHERE rowid = :id");
-    query.bindValue(":id", themeId);
-    query.exec();
+    LOG_PREPARE(query, " \
+        SELECT * \
+        FROM themes \
+        WHERE id = ?")
+    query.addBindValue(themeId);
+    LOG_EXEC(query)
     query.first();
 
     Theme theme;
-
     theme.id            = query.value(0).toInt();
     theme.name          = query.value(1).toString();
     theme.package.id    = query.value(2).toInt();
@@ -75,11 +87,17 @@ bool checkTheme(const Theme& theme) {
     }
 
     QSqlQuery query;
-    query.prepare("SELECT rowid FROM themes "
-        "WHERE package_id = :package_id "
-            "AND name = :name "
-            "AND NOT rowid = :rowid");
-    query.exec();
+    LOG_PREPARE(query, " \
+        SELECT rowid FROM themes \
+        WHERE package_id = ? \
+          AND name = ? \
+          AND NOT id = ? \
+    ")
+    query.addBindValue(theme.package.id);
+    query.addBindValue(theme.name);
+    query.addBindValue(theme.id);
+    LOG_EXEC(query)
+
     if (query.first()) {
         emit WorkerCore::getInstance()->errorGot(
             WorkerCore::tr("Theme \"%1\" already exists.")
@@ -95,16 +113,17 @@ void WorkerCore::createTheme(const Theme& theme) {
     }
 
     QSqlQuery query;
-    query.prepare("INSERT INTO themes"
-        "(name, package_id, description, in_wishlist, is_learned) "
-        "VALUES "
-        "(:name, :package_id, :description, :in_wishlist, :is_learned)");
-    query.bindValue(":name",        theme.name);
-    query.bindValue(":package_id",  theme.package.id);
-    query.bindValue(":description", theme.description);
-    query.bindValue(":in_wishlist", theme.inWishlist);
-    query.bindValue(":is_learned",  theme.isLearned);
-    query.exec();
+    LOG_PREPARE(query, " \
+        INSERT \
+        INTO themes(name, package_id, description, in_wishlist, is_learned) \
+        VALUES (?, ?, ?, ?, ?) \
+    ")
+    query.addBindValue(theme.name);
+    query.addBindValue(theme.package.id);
+    query.addBindValue(theme.description);
+    query.addBindValue(theme.inWishlist);
+    query.addBindValue(theme.isLearned);
+    LOG_EXEC(query)
 
     emit themesChanged();
 }
@@ -115,27 +134,35 @@ void WorkerCore::updateTheme(const Theme& theme) {
     }
 
     QSqlQuery query;
-    query.prepare("UPDATE themes "
-        "SET name = :name, package_id = :package_id, description = :description, "
-            "in_wishlist = :in_wishlist, is_learned = :is_learned "
-        "WHERE rowid = :rowid");
-    query.bindValue(":rowid",       theme.id);
-    query.bindValue(":name",        theme.name);
-    query.bindValue(":package_id",  theme.package.id);
-    query.bindValue(":description", theme.description);
-    query.bindValue(":in_wishlist", theme.inWishlist);
-    query.bindValue(":is_learned",  theme.isLearned);
-    query.exec();
+    LOG_PREPARE(query, " \
+        UPDATE themes \
+        SET name = ?, \
+            package_id = ?, \
+            description = ?, \
+            in_wishlist = ?, \
+            is_learned = ? \
+        WHERE id = ? \
+    ")
+    query.addBindValue(theme.name);
+    query.addBindValue(theme.package.id);
+    query.addBindValue(theme.description);
+    query.addBindValue(theme.inWishlist);
+    query.addBindValue(theme.isLearned);
+    query.addBindValue(theme.id);
+    LOG_EXEC(query)
 
     emit themesChanged();
 }
 
 void WorkerCore::deleteTheme(int themeId) {
     QSqlQuery query;
-    query.prepare("DELETE FROM themes "
-        "WHERE rowid = :rowid");
-    query.bindValue(":rowid", themeId);
-    query.exec();
+    LOG_PREPARE(query, " \
+        DELETE \
+        FROM themes \
+        WHERE id = ? \
+    ")
+    query.addBindValue(themeId);
+    LOG_EXEC(query)
 
     emit themesChanged();
 }

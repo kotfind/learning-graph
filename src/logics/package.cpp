@@ -1,4 +1,5 @@
 #include "WorkerCore.h"
+#include "sqlDefines.h"
 
 #include <QStringList>
 #include <QSqlQuery>
@@ -7,8 +8,11 @@
 #include <QSqlError>
 
 void WorkerCore::getPackagesList() {
-    QSqlQuery query(QString("SELECT rowid, name FROM packages"));
-    query.exec();
+    QSqlQuery query(" \
+        SELECT * \
+        FROM packages\
+    ");
+    LOG_EXEC(query)
 
     QVector<Package> packages;
     while (query.next()) {
@@ -24,13 +28,16 @@ void WorkerCore::getPackagesList() {
 
 void WorkerCore::getPackage(int packageId) {
     QSqlQuery query;
-    query.prepare("SELECT rowid, name FROM packages WHERE rowid = :id");
-    query.bindValue(":id", packageId);
-    query.exec();
+    LOG_PREPARE(query, "\
+        SELECT * \
+        FROM packages \
+        WHERE id = ? \
+    ")
+    query.addBindValue(packageId);
+    LOG_EXEC(query)
     query.first();
 
     Package package;
-    
     package.id      = query.value(0).toInt();
     package.name    = query.value(1).toString();
 
@@ -45,11 +52,15 @@ bool checkPackage(const Package& package) {
     }
 
     QSqlQuery query;
-    query.prepare("SELECT rowid FROM packages "
-        "WHERE name = :name AND NOT rowid = :rowid");
-    query.bindValue(":name", package.name);
-    query.bindValue(":rowid", package.id);
-    query.exec();
+    LOG_PREPARE(query, " \
+        SELECT id \
+        FROM packages \
+        WHERE name = ? \
+          AND NOT id = ? \
+        ")
+    query.addBindValue(package.name);
+    query.addBindValue(package.id);
+    LOG_EXEC(query)
     if (query.first()) {
         emit WorkerCore::getInstance()->errorGot(
             WorkerCore::tr("Package \"%1\" already exists.").arg(package.name));
@@ -65,9 +76,13 @@ void WorkerCore::createPackage(const Package& package) {
     }
 
     QSqlQuery query;
-    query.prepare("INSERT INTO packages(name) VALUES (:name)");
-    query.bindValue(":name", package.name);
-    query.exec();
+    LOG_PREPARE(query, " \
+        INSERT \
+        INTO packages(name) \
+        VALUES (?) \
+        ")
+    query.addBindValue(package.name);
+    LOG_EXEC(query)
     emit packagesChanged();
 }
 
@@ -77,22 +92,26 @@ void WorkerCore::updatePackage(const Package& package) {
     }
 
     QSqlQuery query;
-    query.prepare("UPDATE packages "
-        "SET name = :name "
-        "WHERE rowid = :rowid");
-    query.bindValue(":rowid",       package.id);
-    query.bindValue(":name",        package.name);
-    query.exec();
+    LOG_PREPARE(query, " \
+        UPDATE packages \
+        SET name = ? \
+        WHERE id = ? \
+    ")
+    query.addBindValue(package.name);
+    query.addBindValue(package.id);
+    LOG_EXEC(query)
 
     emit packagesChanged();
 }
 
 void WorkerCore::deletePackage(int packageId) {
     QSqlQuery query;
-    query.prepare("DELETE FROM packages "
-        "WHERE rowid = :rowid");
-    query.bindValue(":rowid", packageId);
-    query.exec();
+    LOG_PREPARE(query, " \
+        DELETE FROM packages \
+        WHERE id = ? \
+    ")
+    query.addBindValue(packageId);
+    LOG_EXEC(query)
 
     emit packagesChanged();
 }
