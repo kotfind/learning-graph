@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
