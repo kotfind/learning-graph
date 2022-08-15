@@ -34,6 +34,5 @@ class ThemeInfoWindow : public QWidget {
         void updateRequest(const Theme& theme);
 
     private slots:
-        void onThemeGot(const Theme& theme);
         void onSaveClicked();
 };

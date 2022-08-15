@@ -3,9 +3,10 @@
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
 
-#include "../logics/WorkerCore.h"
+#include "../logics/sqlDefines.h"
 
 #include <QMessageBox>
+#include <QSqlQuery>
 
 ThemeContextMenuWidget::ThemeContextMenuWidget(
     int themeId, const QString& themeName, QWidget* parent)
@@ -14,10 +15,19 @@ ThemeContextMenuWidget::ThemeContextMenuWidget(
         (new ThemeInfoWindow(themeId))->show();
     });
     addAction(tr("Delete"), [this, themeId, &themeName](){
-        if (QMessageBox::question(this, "Question",
+        if (QMessageBox::question(
+                this,
+                "Question",
                 tr("Delete theme \"%1\"?").arg(themeName))
-                == QMessageBox::Yes) {
-            emit deleteTheme(themeId);
+                    == QMessageBox::Yes) {
+            QSqlQuery query;
+            LOG_PREPARE(query, " \
+                DELETE \
+                FROM themes \
+                WHERE id = ? \
+            ")
+            query.addBindValue(themeId);
+            LOG_EXEC(query)
         }
     });
     addSeparator();
@@ -27,8 +37,4 @@ ThemeContextMenuWidget::ThemeContextMenuWidget(
     addAction(tr("Build Learning List"), [&themeId](){
         // TODO
     });
-
-    // Connections
-    connect(this, &ThemeContextMenuWidget::deleteTheme,
-            WorkerCore::getInstance(), &WorkerCore::deleteTheme);
 }

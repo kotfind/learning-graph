@@ -4,8 +4,6 @@
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
 
-#include "../logics/WorkerCore.h"
-
 #include <QTabWidget>
 #include <QMessageBox>
 #include <QSplitter>
@@ -40,12 +38,4 @@ GraphicsCore::GraphicsCore(QWidget* parent)
     // Splitter stretch
     splitter->setStretchFactor(0, 0);
     splitter->setStretchFactor(1, 1);
-
-    // Connections
-    connect(WorkerCore::getInstance(), &WorkerCore::errorGot,
-            this, &GraphicsCore::onErrorGot);
-}
-
-void GraphicsCore::onErrorGot(const QString& error) {
-    QMessageBox::critical(this, tr("Error"), error);
 }

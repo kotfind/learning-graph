@@ -20,7 +20,4 @@ class ThemesTab : public QWidget {
         PackageComboBox* packageCombo;
         QCheckBox* wishlistCheck;
         QCheckBox* learnedCheck;
-
-    private slots:
-        void onSearchReuqested();
 };

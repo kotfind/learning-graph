@@ -1,11 +1,12 @@
 #include "PackagesListWidget.h"
 
-#include "../logics/WorkerCore.h"
+#include "../logics/sqlDefines.h"
 
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QSqlQuery>
 
 PackagesListWidget::PackagesListWidget(QWidget* parent)
         : QListWidget(parent) {
@@ -15,23 +16,16 @@ PackagesListWidget::PackagesListWidget(QWidget* parent)
     connect(this, &PackagesListWidget::customContextMenuRequested,
             this, &PackagesListWidget::showContextMenu);
 
-    connect(this, &PackagesListWidget::getList,
-            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
-            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
-            this, &PackagesListWidget::onListGot);
-    connect(this, &PackagesListWidget::deletePackage,
-            WorkerCore::getInstance(), &WorkerCore::deletePackage);
-    connect(this, &PackagesListWidget::updatePackage,
-            WorkerCore::getInstance(), &WorkerCore::updatePackage);
-}
+    QSqlQuery query;
+    LOG_PREPARE(query, " \
+        SELECT name, id \
+        FROM packages \
+    ")
+    LOG_EXEC(query)
 
-void PackagesListWidget::onListGot(const QVector<Package>& packages) {
-    clear();
-    for (const auto& package : packages) {
-        auto* item = new QListWidgetItem(package.name);
-        item->setData(Qt::UserRole, package.id);
+    while (query.next()) {
+        auto* item = new QListWidgetItem(query.value(0).toString());
+        item->setData(Qt::UserRole, query.value(1));
         addItem(item);
     }
 }
@@ -45,10 +39,19 @@ void PackagesListWidget::showContextMenu(const QPoint& pos) {
     QMenu menu;
 
     menu.addAction(tr("Delete"), [=]() {
-        if (QMessageBox::question(this, "Question",
+        if (QMessageBox::question(
+                this,
+                "Question",
                 tr("Delete package \"%1\"?").arg(curr->text()))
-                == QMessageBox::Yes) {
-            emit deletePackage(curr->data(Qt::UserRole).toInt());
+                    == QMessageBox::Yes) {
+            QSqlQuery query;
+            LOG_PREPARE(query, " \
+                DELETE \
+                FROM packages \
+                WHERE id = ? \
+            ")
+            query.addBindValue(curr->data(Qt::UserRole).toInt());
+            LOG_EXEC(query)
         }
     });
 
@@ -56,11 +59,17 @@ void PackagesListWidget::showContextMenu(const QPoint& pos) {
         bool ok;
         auto name = QInputDialog::getText(this, tr("Rename package"),
             tr("Package name:"), QLineEdit::Normal, curr->text(), &ok).trimmed();
+
         if (ok) {
-            emit updatePackage(Package{
-                curr->data(Qt::UserRole).toInt(),
-                name
-            });
+            QSqlQuery query;
+            LOG_PREPARE(query, " \
+                UPDATE packages \
+                SET name = ? \
+                WHERE id = ? \
+            ")
+            query.addBindValue(name);
+            query.addBindValue(curr->data(Qt::UserRole).toInt());
+            LOG_EXEC(query)
         }
     });
 

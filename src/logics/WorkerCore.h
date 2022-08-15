@@ -13,6 +13,7 @@ class WorkerCore : public QObject {
 
     public:
         static WorkerCore* getInstance();
+        QSqlDatabase db;
 
     private:
         WorkerCore();
@@ -22,7 +23,6 @@ class WorkerCore : public QObject {
         static WorkerCore* instance;
 
         const QString dbFilename = "learning_graph.db"; // XXX
-        QSqlDatabase db;
 
     signals:
         void errorGot(const QString& error);

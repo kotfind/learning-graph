@@ -10,9 +10,6 @@ class PackagesTab : public QWidget {
     public:
         PackagesTab(QWidget* parent = nullptr);
 
-    signals:
-        void create(const Package& package);
-
     private slots:
         void onCreateBtn();
 };

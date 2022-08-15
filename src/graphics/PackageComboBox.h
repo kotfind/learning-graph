@@ -16,10 +16,4 @@ class PackageComboBox : public QComboBox {
     private:
         int currentId;
         bool hasOptionAny = false;
-
-    signals:
-        void getList();
-
-    private slots:
-        void onListGot(const QVector<Package>& packages);
 };

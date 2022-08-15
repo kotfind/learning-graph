@@ -1,12 +1,13 @@
 #include "ThemesTab.h"
 #include "ThemeInfoWindow.h"
 
-#include "../logics/WorkerCore.h"
+#include "../logics/sqlDefines.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QGroupBox>
+#include <QSqlQuery>
 
 ThemesTab::ThemesTab(QWidget* parent)
         : QWidget(parent) {
@@ -67,24 +68,10 @@ ThemesTab::ThemesTab(QWidget* parent)
     vbox->addWidget(themesList);
 
     // Connections
-    connect(searchBtn, &QPushButton::clicked,
-            this, &ThemesTab::onSearchReuqested);
-    connect(themesList, &ThemesListWidget::getList,
-            WorkerCore::getInstance(), &WorkerCore::getThemesList);
     connect(createBtn, &QPushButton::clicked, []() {
         (new ThemeInfoWindow(-1))->show();
     });
-    connect(WorkerCore::getInstance(), &WorkerCore::themesChanged,
-            this, &ThemesTab::onSearchReuqested);
 
     // Request themes on start
     searchBtn->click();
-}
-
-void ThemesTab::onSearchReuqested() {
-    emit themesList->getList(
-        nameEdit->text(),
-        packageCombo->currentData().toInt(),
-        wishlistCheck->checkState(),
-        learnedCheck->checkState());
 }

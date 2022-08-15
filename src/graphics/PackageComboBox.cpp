@@ -1,20 +1,33 @@
 #include "PackageComboBox.h"
+#include "../logics/sqlDefines.h"
 #include "../logics/WorkerCore.h"
 
 #include <QDebug>
+#include <QSqlQuery>
 
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
-    setDisabled(true);
+    clear();
 
-    connect(this, &PackageComboBox::getList,
-            WorkerCore::getInstance(), &WorkerCore::getPackagesList);
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesListGot,
-            this, &PackageComboBox::onListGot);
-    connect(WorkerCore::getInstance(), &WorkerCore::packagesChanged,
-            this, &PackageComboBox::getList);
+    if (hasOptionAny) {
+        addItem(tr("<Any>"), -1);
+    }
 
-    emit getList();
+    QSqlQuery query(WorkerCore::getInstance()->db);
+    LOG_PREPARE(query, " \
+        SELECT name, id \
+        FROM packages \
+    ")
+    LOG_EXEC(query)
+
+    while (query.next()) {
+        addItem(
+            query.value(0).toString(),
+            query.value(1).toInt()
+        );
+    }
+
+    setCurrent(currentId);
 }
 
 void PackageComboBox::setCurrent(int packageId) {
@@ -38,18 +51,4 @@ void PackageComboBox::setAny(bool v) {
     } else {
         removeItem(0);
     }
-}
-
-// Slots
-
-void PackageComboBox::onListGot(const QVector<Package>& packages) {
-    clear();
-    if (hasOptionAny) {
-        addItem(tr("<Any>"), -1);
-    }
-    for (const auto& package : packages) {
-        addItem(package.name, package.id);
-    }
-    setCurrent(currentId);
-    setDisabled(false);
 }

@@ -1,5 +1,5 @@
 #include "ThemeInfoWindow.h"
-#include "../logics/WorkerCore.h"
+#include "../logics/sqlDefines.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -7,6 +7,7 @@
 #include <QFrame>
 #include <QDebug>
 #include <QMessageBox>
+#include <QSqlQuery>
 
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
@@ -93,51 +94,95 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
             this, &ThemeInfoWindow::onSaveClicked);
     hbox->addWidget(saveBtn, 0);
 
-    // Connections
-    connect(this, &ThemeInfoWindow::themeRequest,
-            WorkerCore::getInstance(), &WorkerCore::getTheme);
-    connect(WorkerCore::getInstance(), &WorkerCore::themeGot,
-            this, &ThemeInfoWindow::onThemeGot);
-    connect(this, &ThemeInfoWindow::creationRequest,
-            WorkerCore::getInstance(), &WorkerCore::createTheme);
-    connect(this, &ThemeInfoWindow::updateRequest,
-            WorkerCore::getInstance(), &WorkerCore::updateTheme);
-
+    // Load Theme
     if (themeId != -1) {
-        setDisabled(true);
-        emit themeRequest(themeId);
+        QSqlQuery query;
+        LOG_PREPARE(query, " \
+            SELECT name, package_id, is_learned, in_wishlist, description\
+            FROM themes \
+            WHERE id = ?")
+        query.addBindValue(themeId);
+        LOG_EXEC(query)
+        query.first();
+
+        themeEdit->setText(query.value(0).toString());
+        packageCombo->setCurrent(query.value(1).toInt());
+        isLearnedCheck->setChecked(query.value(2).toBool());
+        inWishlistCheck->setChecked(query.value(3).toBool());
+        descEdit->setText(query.value(4).toString());
     }
 }
 
 // Slots
 
-void ThemeInfoWindow::onThemeGot(const Theme& theme) {
-    themeEdit->setText(theme.name);
-    packageCombo->setCurrent(theme.package.id);
-    isLearnedCheck->setChecked(theme.isLearned);
-    inWishlistCheck->setChecked(theme.inWishlist);
-    descEdit->setText(theme.description);
-    setDisabled(false);
-}
-
 void ThemeInfoWindow::onSaveClicked() {
+    // Check package
     if (!packageCombo->currentData().isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("Package should be selected"));
         return;
     }
 
-    Theme theme {
-        themeId,
-        themeEdit->text().trimmed(),
-        Package {
-            packageCombo->currentData().toInt(),
-            QString()
-        },
-        descEdit->toPlainText(),
-        inWishlistCheck->isChecked(),
-        isLearnedCheck->isChecked()
-    };
+    // Set some vars
+    auto themeName = themeEdit->text().trimmed();
+    auto packageId = packageCombo->currentData().toInt();
 
-    emit (themeId == -1 ? creationRequest(theme) : updateRequest(theme));
+    // Check theme
+    if (themeName.isEmpty()) {
+        QMessageBox::critical(this, tr("Error"), tr("Name should not be empty."));
+        return;
+    }
+
+    QSqlQuery query;
+    LOG_PREPARE(query, " \
+        SELECT 1 FROM themes \
+        WHERE package_id = ? \
+          AND name = ? \
+          AND NOT id = ? \
+    ")
+    query.addBindValue(packageId);
+    query.addBindValue(themeName);
+    query.addBindValue(themeId);
+    LOG_EXEC(query)
+
+    if (query.first()) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            tr("Theme \"%1\" already exists.").arg(themeName)
+            );
+        return;
+    }
+    query.finish();
+
+    // Create / update theme
+    if (themeId == -1) {
+        LOG_PREPARE(query, " \
+            INSERT \
+            INTO themes(name, package_id, description, in_wishlist, is_learned) \
+            VALUES (:name, :package_id, :description, :in_wishlist, :is_learned) \
+        ")
+    } else {
+        LOG_PREPARE(query, " \
+            UPDATE themes \
+            SET name = :name, \
+                package_id = :package_id, \
+                description = :description, \
+                in_wishlist = :in_wishlist, \
+                is_learned = :is_learned \
+            WHERE id = :id \
+        ")
+    }
+
+    query.bindValue(":name", themeName);
+    query.bindValue(":package_id", packageId);
+    query.bindValue(":description", descEdit->toPlainText());
+    query.bindValue(":in_wishlist", inWishlistCheck->isChecked());
+    query.bindValue(":is_learned", isLearnedCheck->isChecked());
+    if (themeId != -1) {
+        query.bindValue(":id", themeId);
+    }
+
+    LOG_EXEC(query)
+
     emit close();
 }
