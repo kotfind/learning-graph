@@ -1,7 +1,7 @@
 #include "ThemesListWidget.h"
 #include "ThemeContextMenuWidget.h"
 
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QMenu>
 #include <QListWidgetItem>

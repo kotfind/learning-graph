@@ -1,16 +1,15 @@
 #pragma once
 
-#include "../datatypes/Package.h"
+#include "Theme.h"
 
 #include <QListWidget>
 #include <QVector>
-#include <QPoint>
 
-class PackagesListWidget : public QListWidget {
+class ThemesListWidget : public QListWidget {
     Q_OBJECT
 
     public:
-        PackagesListWidget(QWidget* parent = nullptr);
+        ThemesListWidget(QWidget* parent = nullptr);
 
     private slots:
         void showContextMenu(const QPoint& pos);

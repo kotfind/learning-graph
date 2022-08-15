@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../datatypes/Package.h"
+#include "Package.h"
 
 #include <QWidget>
 

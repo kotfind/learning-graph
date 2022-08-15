@@ -1,7 +1,7 @@
 #include "ThemesTab.h"
 #include "ThemeInfoWindow.h"
 
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>

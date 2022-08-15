@@ -1,5 +1,5 @@
 #include "ThemeInfoWindow.h"
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QHBoxLayout>
 #include <QLabel>

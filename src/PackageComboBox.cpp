@@ -1,5 +1,5 @@
 #include "PackageComboBox.h"
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QDebug>
 #include <QSqlQuery>

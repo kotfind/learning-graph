@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../datatypes/Theme.h"
+#include "Theme.h"
 
-#include "../datatypes/Package.h"
+#include "Package.h"
 
 #include "PackageComboBox.h"
 

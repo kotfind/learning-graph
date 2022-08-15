@@ -3,7 +3,7 @@
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
 
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QMessageBox>
 #include <QSqlQuery>

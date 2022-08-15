@@ -1,6 +1,6 @@
 #include "PackagesListWidget.h"
 
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 
 #include <QListWidgetItem>
 #include <QMenu>

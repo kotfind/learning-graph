@@ -1,6 +1,6 @@
 #include "PackagesTab.h"
 
-#include "../logics/sqlDefines.h"
+#include "sqlDefines.h"
 #include "PackagesListWidget.h"
 
 #include <QVBoxLayout>

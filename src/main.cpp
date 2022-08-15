@@ -1,5 +1,5 @@
-#include "graphics/GraphicsCore.h"
-#include "logics/dbLogics.h"
+#include "GraphicsCore.h"
+#include "dbLogics.h"
 
 #include <QApplication>
 
