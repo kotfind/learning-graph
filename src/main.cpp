@@ -1,4 +1,5 @@
 #include "graphics/GraphicsCore.h"
+#include "logics/dbLogics.h"
 
 #include <QApplication>
 
@@ -9,6 +10,11 @@ int main(int argc, char** argv) {
     auto font = app.font();
     font.setPointSize(12);
     app.setFont(font);
+
+    // Db
+    if (!initDb()) {
+        return 1;
+    }
 
     // Main window
     GraphicsCore win;

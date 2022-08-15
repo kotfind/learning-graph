@@ -1,9 +1,15 @@
-#include "WorkerCore.h"
 #include "sqlDefines.h"
+#include "dbLogics.h"
 
 #include <QSqlQuery>
+#include <QFileInfo>
+#include <QSqlError>
+#include <QDebug>
+#include <QString>
+#include <QStandardPaths>
+#include <QDir>
 
-void WorkerCore::initDb() {
+void createTables() {
     QSqlQuery query;
 
     LOG_PREPARE(query, " \
@@ -36,4 +42,38 @@ void WorkerCore::initDb() {
         )")
     LOG_EXEC(query)
     query.finish();
+}
+
+QString getDbFilename() {
+    auto path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    if (path.isEmpty()) {
+        return "";
+    } else {
+        QDir().mkpath(path);
+        return path + "/learning_graph.sqlite";
+    }
+}
+
+bool initDb() {
+    auto dbFilename = getDbFilename();
+    if (dbFilename.isEmpty()) {
+        qDebug() << "Couldn't get database file path";
+        return false;
+    }
+    qDebug() << QString("Using %1 as database").arg(dbFilename);
+
+    bool firstRun = !QFileInfo::exists(dbFilename);
+
+    auto db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbFilename);
+    if (!db.open()) {
+        qDebug() << db.lastError();
+        return false;
+    }
+
+    if (firstRun) {
+        createTables();
+    }
+
+    return true;
 }

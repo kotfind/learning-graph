@@ -1,6 +1,5 @@
 #include "PackageComboBox.h"
 #include "../logics/sqlDefines.h"
-#include "../logics/WorkerCore.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -13,7 +12,7 @@ PackageComboBox::PackageComboBox(QWidget* parent)
         addItem(tr("<Any>"), -1);
     }
 
-    QSqlQuery query(WorkerCore::getInstance()->db);
+    QSqlQuery query;
     LOG_PREPARE(query, " \
         SELECT name, id \
         FROM packages \
