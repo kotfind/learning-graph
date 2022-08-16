@@ -1,4 +1,4 @@
-#include "GraphicsCore.h"
+#include "MainWindow.h"
 #include "ThemesTab.h"
 #include "PackagesTab.h"
 #include "LearningGraphTab.h"
@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QSplitter>
 
-GraphicsCore::GraphicsCore(QWidget* parent)
+MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
     setWindowTitle(tr("Learning Graph"));
 

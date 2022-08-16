@@ -1,4 +1,4 @@
-#include "GraphicsCore.h"
+#include "MainWindow.h"
 #include "dbLogics.h"
 
 #include <QApplication>
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     }
 
     // Main window
-    GraphicsCore win;
+    MainWindow win;
     win.show();
 
     return app.exec();

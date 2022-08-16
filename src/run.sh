@@ -4,5 +4,5 @@ set -e
 
 cd ../build
 qmake6 ..
-compiledb make -j4
+compiledb make -j
 ./learning_graph
