@@ -1,4 +1,4 @@
-#include "ThemeContextMenuWidget.h"
+#include "ThemeContextMenu.h"
 #include "ThemeInfoWindow.h"
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 
-ThemeContextMenuWidget::ThemeContextMenuWidget(
+ThemeContextMenu::ThemeContextMenu(
     int themeId, const QString& themeName, QWidget* parent)
         : QMenu(parent) {
     addAction(tr("Watch/ Edit"), [themeId](){

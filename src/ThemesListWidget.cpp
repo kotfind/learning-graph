@@ -1,5 +1,5 @@
 #include "ThemesListWidget.h"
-#include "ThemeContextMenuWidget.h"
+#include "ThemeContextMenu.h"
 
 #include "sqlDefines.h"
 
@@ -33,7 +33,7 @@ void ThemesListWidget::showContextMenu(const QPoint& pos) {
     // XXX Double right click, when menu is opened
     auto* curr = currentItem();
     if (curr) {
-        ThemeContextMenuWidget menu(curr->data(Qt::UserRole).toInt(), curr->text());
+        ThemeContextMenu menu(curr->data(Qt::UserRole).toInt(), curr->text());
         menu.exec(mapToGlobal(pos));
     }
 }
