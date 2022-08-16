@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Package.h"
-
 #include <QComboBox>
 #include <QVector>
 

@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Theme.h"
-
-#include "Package.h"
-
 #include "PackageComboBox.h"
 
 #include <QWidget>
@@ -27,11 +23,6 @@ class ThemeInfoWindow : public QWidget {
         QCheckBox* isLearnedCheck;
         QCheckBox* inWishlistCheck;
         QTextEdit* descEdit;
-
-    signals:
-        void themeRequest(int themeId);
-        void creationRequest(const Theme& theme);
-        void updateRequest(const Theme& theme);
 
     private slots:
         void onSaveClicked();

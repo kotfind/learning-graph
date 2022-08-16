@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Theme.h"
-
 #include <QListWidget>
 #include <QVector>
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Package.h"
-
 #include <QListWidget>
 #include <QVector>
 #include <QPoint>

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Package.h"
-
 #include <QWidget>
 
 class PackagesTab : public QWidget {
