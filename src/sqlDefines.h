@@ -16,7 +16,8 @@ if (!(query).prepare(str)) { \
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError(); \
-}
+} \
+(query).setForwardOnly(true);
 
 #define LOG_EXEC(query) \
 if (!(query).exec()) { \
