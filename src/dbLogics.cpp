@@ -24,7 +24,7 @@ void createTables() {
         CREATE TABLE IF NOT EXISTS themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
-            package_id INT NOT NULL REFERENCES packages(rowid), \
+            package_id INT NOT NULL REFERENCES packages(id), \
             description TEXT, \
             in_wishlist INT CHECK(in_wishlist in (0, 1)), \
             is_learned INT CHECK(is_learned in (0, 1)), \
@@ -36,8 +36,8 @@ void createTables() {
     LOG_PREPARE(query, " \
         CREATE TABLE theme_dependencies( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            from_id INT NOT NULL REFERENCES themes(rowid), \
-            to_id INT NOT NULL REFERENCES themes(rowid), \
+            from_id INT NOT NULL REFERENCES themes(id), \
+            to_id INT NOT NULL REFERENCES themes(id), \
             UNIQUE (from_id, to_id) \
         )")
     LOG_EXEC(query)

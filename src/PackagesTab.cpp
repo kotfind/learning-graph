@@ -39,35 +39,38 @@ void PackagesTab::onCreateBtn() {
     auto name = QInputDialog::getText(this, tr("New package"),
         tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
-        // Check package
-        if (name.isEmpty()) {
-            QMessageBox::critical(this, tr("Error"), tr("Name should not be empty"));
-            return;
-        }
-
-        QSqlQuery query;
-        LOG_PREPARE(query, " \
-            SELECT 1 \
-            FROM packages \
-            WHERE name = ? \
-            ")
-        query.addBindValue(name);
-        LOG_EXEC(query)
-
-        if (query.first()) {
-            QMessageBox::critical(this, tr("Error"), tr("Package \"%1\" already exists.").arg(name));
-            return;
-        }
-
-        query.finish();
-
         // Add package
+        QSqlQuery query;
         LOG_PREPARE(query, " \
             INSERT \
             INTO packages(name) \
-            VALUES (?) \
+            VALUES (NULLIF(?, '')) \
         ")
         query.addBindValue(name);
-        LOG_EXEC(query)
+
+        if (!query.exec()) {
+            auto code = query.lastError().nativeErrorCode().toInt();
+            switch(code) {
+                case SQLITE_CONSTRAINT_UNIQUE:
+                    QMessageBox::critical(
+                        this,
+                        tr("Error"),
+                        tr("Name is not unique.")
+                    );
+                    return;
+
+                case SQLITE_CONSTRAINT_NOTNULL:
+                    QMessageBox::critical(
+                        this,
+                        tr("Error"),
+                        tr("Name should not be empty.")
+                    );
+                    return;
+
+                default:
+                    LOG_FAILED_QUERY(query);
+                    break;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlQuery>
+#include <QSqlDatabase>
 
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         : QWidget(parent), themeId(themeId) {
@@ -122,49 +123,19 @@ void ThemeInfoWindow::onSaveClicked() {
         return;
     }
 
-    // Set some vars
-    auto themeName = themeEdit->text().trimmed();
-    auto packageId = packageCombo->currentData().toInt();
-
-    // Check theme
-    if (themeName.isEmpty()) {
-        QMessageBox::critical(this, tr("Error"), tr("Name should not be empty."));
-        return;
-    }
-
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
-        SELECT 1 FROM themes \
-        WHERE package_id = ? \
-          AND name = ? \
-          AND NOT id = ? \
-    ")
-    query.addBindValue(packageId);
-    query.addBindValue(themeName);
-    query.addBindValue(themeId);
-    LOG_EXEC(query)
-
-    if (query.first()) {
-        QMessageBox::critical(
-            this,
-            tr("Error"),
-            tr("Theme \"%1\" already exists.").arg(themeName)
-            );
-        return;
-    }
-    query.finish();
-
     // Create / update theme
+    QSqlQuery query;
+
     if (themeId == -1) {
         LOG_PREPARE(query, " \
             INSERT \
             INTO themes(name, package_id, description, in_wishlist, is_learned) \
-            VALUES (:name, :package_id, :description, :in_wishlist, :is_learned) \
+            VALUES (NULLIF(:name, ''), :package_id, :description, :in_wishlist, :is_learned) \
         ")
     } else {
         LOG_PREPARE(query, " \
             UPDATE themes \
-            SET name = :name, \
+            SET name = NULLIF(:name, ''), \
                 package_id = :package_id, \
                 description = :description, \
                 in_wishlist = :in_wishlist, \
@@ -173,8 +144,8 @@ void ThemeInfoWindow::onSaveClicked() {
         ")
     }
 
-    query.bindValue(":name", themeName);
-    query.bindValue(":package_id", packageId);
+    query.bindValue(":name", themeEdit->text().trimmed());
+    query.bindValue(":package_id", packageCombo->currentData().toInt());
     query.bindValue(":description", descEdit->toPlainText());
     query.bindValue(":in_wishlist", inWishlistCheck->isChecked());
     query.bindValue(":is_learned", isLearnedCheck->isChecked());
@@ -182,7 +153,30 @@ void ThemeInfoWindow::onSaveClicked() {
         query.bindValue(":id", themeId);
     }
 
-    LOG_EXEC(query)
+    if (!query.exec()) {
+        auto code = query.lastError().nativeErrorCode().toInt();
+        switch(code) {
+            case SQLITE_CONSTRAINT_UNIQUE:
+                QMessageBox::critical(
+                    this,
+                    tr("Error"),
+                    tr("Name is not unique.")
+                );
+                return;
+
+            case SQLITE_CONSTRAINT_NOTNULL:
+                QMessageBox::critical(
+                    this,
+                    tr("Error"),
+                    tr("Name should not be empty.")
+                );
+                return;
+
+            default:
+                LOG_FAILED_QUERY(query);
+                break;
+        }
+    }
 
     emit close();
 }

@@ -1,3 +1,5 @@
+lessThan(QT_MAJOR_VERSION, 6): error("requires Qt6")
+
 TARGET = learning_graph
 
 QT += widgets sql
