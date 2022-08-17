@@ -8,5 +8,7 @@ class LearningGraphTab : public QWidget {
         LearningGraphTab(QWidget* parent = nullptr);
 
     private:
+        void ui();
+
         int themeId;
 };

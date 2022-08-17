@@ -7,8 +7,10 @@
 
 LearningListTab::LearningListTab(QWidget* parent)
         : QWidget(parent) {
-    setWindowTitle(QString("%1 Learning List").arg(themeId));
+    ui();
+}
 
+void LearningListTab::ui() {
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     vbox->setSpacing(15);

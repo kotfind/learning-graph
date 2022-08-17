@@ -7,7 +7,10 @@
 
 LearningGraphTab::LearningGraphTab(QWidget* parent)
         : QWidget(parent) {
+    ui();
+}
 
+void LearningGraphTab::ui() {
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     vbox->setSpacing(15);
@@ -30,4 +33,5 @@ LearningGraphTab::LearningGraphTab(QWidget* parent)
 
     auto* okBtn = new QPushButton("Ok");
     hbox->addWidget(okBtn);
+
 }

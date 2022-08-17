@@ -1,4 +1,5 @@
 #include "ThemeContextMenu.h"
+
 #include "ThemeInfoWindow.h"
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"

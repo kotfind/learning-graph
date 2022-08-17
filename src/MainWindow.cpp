@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+
 #include "ThemesTab.h"
 #include "PackagesTab.h"
 #include "LearningGraphTab.h"
@@ -11,7 +12,10 @@
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
     setWindowTitle(tr("Learning Graph"));
+    ui();
+}
 
+void MainWindow::ui() {
     auto* splitter = new QSplitter(Qt::Horizontal, this);
     setCentralWidget(splitter);
 

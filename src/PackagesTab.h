@@ -8,6 +8,12 @@ class PackagesTab : public QWidget {
     public:
         PackagesTab(QWidget* parent = nullptr);
 
+    private:
+        void ui();
+
+    signals:
+        void packagesUpdated();
+
     private slots:
         void onCreateBtn();
 };

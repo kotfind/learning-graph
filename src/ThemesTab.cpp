@@ -1,6 +1,6 @@
 #include "ThemesTab.h"
-#include "ThemeInfoWindow.h"
 
+#include "ThemeInfoWindow.h"
 #include "sqlDefines.h"
 
 #include <QVBoxLayout>
@@ -11,12 +11,24 @@
 
 ThemesTab::ThemesTab(QWidget* parent)
         : QWidget(parent) {
+    ui();
+
+    // Connections
+    connect(createBtn, &QPushButton::clicked, []() {
+        (new ThemeInfoWindow(-1))->show();
+    });
+
+    // Request themes on start
+    searchBtn->click();
+}
+
+void ThemesTab::ui() {
     // Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
 
     // Create Button
-    auto* createBtn = new QPushButton(tr("New theme"));
+    createBtn = new QPushButton(tr("New theme"));
     vbox->addWidget(createBtn);
 
     // Search section
@@ -60,18 +72,10 @@ ThemesTab::ThemesTab(QWidget* parent)
     grid->addWidget(learnedCheck, 3, 1);
 
     // Search Button
-    auto* searchBtn = new QPushButton(tr("Search"));
+    searchBtn = new QPushButton(tr("Search"));
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
     themesList = new ThemesListWidget;
     vbox->addWidget(themesList);
-
-    // Connections
-    connect(createBtn, &QPushButton::clicked, []() {
-        (new ThemeInfoWindow(-1))->show();
-    });
-
-    // Request themes on start
-    searchBtn->click();
 }

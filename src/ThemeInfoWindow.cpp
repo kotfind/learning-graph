@@ -1,4 +1,5 @@
 #include "ThemeInfoWindow.h"
+
 #include "sqlDefines.h"
 
 #include <QHBoxLayout>
@@ -15,6 +16,28 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     setWindowTitle(tr("Theme \"%1\" Info").arg(themeId));
     setWindowModality(Qt::ApplicationModal);
 
+    ui();
+
+    // Load Theme
+    if (themeId != -1) {
+        QSqlQuery query;
+        LOG_PREPARE(query, " \
+            SELECT name, package_id, is_learned, in_wishlist, description\
+            FROM themes \
+            WHERE id = ?")
+        query.addBindValue(themeId);
+        LOG_EXEC(query)
+        query.first();
+
+        themeEdit->setText(query.value(0).toString());
+        packageCombo->setCurrent(query.value(1).toInt());
+        isLearnedCheck->setChecked(query.value(2).toBool());
+        inWishlistCheck->setChecked(query.value(3).toBool());
+        descEdit->setText(query.value(4).toString());
+    }
+}
+
+void ThemeInfoWindow::ui() {
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
@@ -94,27 +117,7 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     connect(saveBtn, &QPushButton::clicked,
             this, &ThemeInfoWindow::onSaveClicked);
     hbox->addWidget(saveBtn, 0);
-
-    // Load Theme
-    if (themeId != -1) {
-        QSqlQuery query;
-        LOG_PREPARE(query, " \
-            SELECT name, package_id, is_learned, in_wishlist, description\
-            FROM themes \
-            WHERE id = ?")
-        query.addBindValue(themeId);
-        LOG_EXEC(query)
-        query.first();
-
-        themeEdit->setText(query.value(0).toString());
-        packageCombo->setCurrent(query.value(1).toInt());
-        isLearnedCheck->setChecked(query.value(2).toBool());
-        inWishlistCheck->setChecked(query.value(3).toBool());
-        descEdit->setText(query.value(4).toString());
-    }
 }
-
-// Slots
 
 void ThemeInfoWindow::onSaveClicked() {
     // Check package

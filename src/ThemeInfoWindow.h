@@ -16,6 +16,8 @@ class ThemeInfoWindow : public QWidget {
         ThemeInfoWindow(int themeId, QWidget* parent = nullptr);
 
     private:
+        void ui();
+
         int themeId;
 
         QLineEdit* themeEdit;

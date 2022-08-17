@@ -12,6 +12,10 @@
 
 PackagesTab::PackagesTab(QWidget* parent)
         : QWidget(parent) {
+    ui();
+}
+
+void PackagesTab::ui() {
     // Layouts
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);

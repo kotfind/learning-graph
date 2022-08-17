@@ -8,5 +8,7 @@ class LearningListTab : public QWidget {
         LearningListTab(QWidget* parent = nullptr);
 
     private:
+        void ui();
+
         int themeId;
 };
