@@ -36,6 +36,13 @@ ThemeTab::ThemeTab(QWidget* parent)
         &ThemeTab::update
     );
 
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated,
+        this,
+        &ThemeTab::update
+    );
+
     update();
 }
 
@@ -100,9 +107,13 @@ void ThemeTab::ui() {
 
 void ThemeTab::update() {
     QString queryString = " \
-       SELECT name, id \
-       FROM themes \
-       WHERE TRUE \
+        SELECT id, name, (\
+            SELECT name \
+            FROM packages \
+            WHERE package_id = id \
+        ) \
+        FROM themes \
+        WHERE TRUE \
     ";
     QVector<QVariant> params;
 
@@ -139,8 +150,11 @@ void ThemeTab::update() {
 
     themesList->clear();
     while (query.next()) {
-        auto* item = new QListWidgetItem(query.value(0).toString());
-        item->setData(Qt::UserRole, query.value(1));
+        auto name = QString("%1 (%2)")
+            .arg(query.value(1).toString())
+            .arg(query.value(2).toString());
+        auto* item = new QListWidgetItem(name);
+        item->setData(Qt::UserRole, query.value(0));
         themesList->addItem(item);
     }
 }

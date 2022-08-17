@@ -34,6 +34,13 @@ PackageListWidget::PackageListWidget(QWidget* parent)
         this,
         &PackageListWidget::update
     );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &PackageListWidget::update
+    );
 }
 
 void PackageListWidget::update() {
@@ -41,14 +48,21 @@ void PackageListWidget::update() {
 
     QSqlQuery query;
     LOG_PREPARE(query, " \
-        SELECT name, id \
-        FROM packages \
+        SELECT p.id, p.name, ( \
+            SELECT COUNT(*) \
+            FROM themes t \
+            WHERE t.package_id = p.id \
+        ) \
+        FROM packages p \
     ")
     LOG_EXEC(query)
 
     while (query.next()) {
-        auto* item = new QListWidgetItem(query.value(0).toString());
-        item->setData(Qt::UserRole, query.value(1));
+        auto name = tr("%1 (%2 themes)")
+            .arg(query.value(1).toString())
+            .arg(query.value(2).toInt());
+        auto* item = new QListWidgetItem(name);
+        item->setData(Qt::UserRole, query.value(0));
         addItem(item);
     }
 }
