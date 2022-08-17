@@ -9,6 +9,12 @@ class ThemeContextMenu : public QMenu {
     public:
         ThemeContextMenu(int themeId, const QString& themeName, QWidget* parent = nullptr);
 
+    private:
+        void ui();
+
+        const int themeId;
+        const QString themeName;
+
     signals:
         void themesUpdated();
 };

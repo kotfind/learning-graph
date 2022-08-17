@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 74
+  revision 75
   modified_by 2 "kotfind"
 
 
@@ -564,7 +564,6 @@ ${items}};
       classrelation 199810 // <composition>
 	relation_ref 198658 // <composition>
       end
-
     end
 
     class 188034 "ThemeContextMenu"
@@ -611,6 +610,28 @@ ${items}};
 	
 	
 	
+      end
+
+      attribute 196482 "themeId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 196610 "themeName"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
     end
 

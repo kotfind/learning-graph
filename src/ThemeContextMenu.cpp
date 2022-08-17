@@ -12,18 +12,22 @@
 
 ThemeContextMenu::ThemeContextMenu(
     int themeId, const QString& themeName, QWidget* parent)
-        : QMenu(parent) {
+        : QMenu(parent), themeId(themeId), themeName(themeName) {
+    ui();
+
     connect(
         this,
         &ThemeContextMenu::themesUpdated,
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated
     );
+}
 
-    addAction(tr("Watch/ Edit"), [themeId](){
+void ThemeContextMenu::ui() {
+    addAction(tr("Watch/ Edit"), [this](){
         (new ThemeInfoWindow(themeId))->show();
     });
-    addAction(tr("Delete"), [this, themeId, &themeName](){
+    addAction(tr("Delete"), [this](){
         if (QMessageBox::question(
                 this,
                 "Question",
@@ -42,10 +46,10 @@ ThemeContextMenu::ThemeContextMenu(
         }
     });
     addSeparator();
-    addAction(tr("Build Learning Graph"), [&themeId](){
+    addAction(tr("Build Learning Graph"), [](){
         // TODO
     });
-    addAction(tr("Build Learning List"), [&themeId](){
+    addAction(tr("Build Learning List"), [](){
         // TODO
     });
 }
