@@ -100,7 +100,7 @@ void ThemeTab::ui() {
 
 void ThemeTab::update() {
     QString queryString = " \
-       SELECT id, name \
+       SELECT name, id \
        FROM themes \
        WHERE TRUE \
     ";
