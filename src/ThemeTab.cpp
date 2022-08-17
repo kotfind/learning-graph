@@ -119,7 +119,7 @@ void ThemeTab::update() {
 
     auto themeName = nameEdit->text().trimmed();
     if (themeName.size()) {
-        queryString += " AND name LIKE ('%' + ? + '%')";
+        queryString += " AND themes.name LIKE '%' || ? || '%'";
         params.append(themeName);
     }
 
