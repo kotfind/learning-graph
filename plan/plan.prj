@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 75
+  revision 76
   modified_by 2 "kotfind"
 
 
@@ -412,6 +412,17 @@ ${items}};
       end
 
       operation 304642 "packagesUpdated"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 317954 "themesUpdated"
 	stereotype "signal"
 	public explicit_return_type ""
 	nparams 0

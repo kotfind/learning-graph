@@ -29,6 +29,13 @@ PackageListWidget::PackageListWidget(QWidget* parent)
     );
 
     connect(
+        this,
+        &PackageListWidget::themesUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated
+    );
+
+    connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::packagesUpdated,
         this,
@@ -81,16 +88,29 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
                 "Question",
                 tr("Delete package \"%1\"?").arg(curr->text()))
                     == QMessageBox::Yes) {
+
+            auto packageId = curr->data(Qt::UserRole).toInt();
+
             QSqlQuery query;
             LOG_PREPARE(query, " \
                 DELETE \
                 FROM packages \
                 WHERE id = ? \
             ")
-            query.addBindValue(curr->data(Qt::UserRole).toInt());
+            query.addBindValue(packageId);
+            LOG_EXEC(query)
+            query.finish();
+
+            LOG_PREPARE(query, " \
+                DELETE \
+                FROM themes \
+                WHERE package_id = ? \
+            ")
+            query.addBindValue(packageId);
             LOG_EXEC(query)
 
             emit packagesUpdated();
+            emit themesUpdated();
         }
     });
 

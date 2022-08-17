@@ -12,6 +12,7 @@ class PackageListWidget : public QListWidget {
 
     signals:
         void packagesUpdated();
+        void themesUpdated();
 
     public slots:
         void update();
