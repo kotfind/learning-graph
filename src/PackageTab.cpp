@@ -2,6 +2,7 @@
 
 #include "sqlDefines.h"
 #include "PackageListWidget.h"
+#include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -13,6 +14,13 @@
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
     ui();
+
+    connect(
+        this,
+        &PackageTab::packagesUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated
+    );
 }
 
 void PackageTab::ui() {
@@ -35,6 +43,7 @@ void PackageTab::ui() {
 
     // Packages List
     auto* packagesList = new PackageListWidget;
+    packagesList->update();
     vbox->addWidget(packagesList);
 }
 
@@ -76,5 +85,6 @@ void PackageTab::onCreateBtn() {
                     break;
             }
         }
+        emit packagesUpdated();
     }
 }

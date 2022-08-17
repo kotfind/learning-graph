@@ -3,6 +3,7 @@
 #include "ThemeInfoWindow.h"
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
+#include "GlobalSignalHandler.h"
 
 #include "sqlDefines.h"
 
@@ -12,6 +13,13 @@
 ThemeContextMenu::ThemeContextMenu(
     int themeId, const QString& themeName, QWidget* parent)
         : QMenu(parent) {
+    connect(
+        this,
+        &ThemeContextMenu::themesUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated
+    );
+
     addAction(tr("Watch/ Edit"), [themeId](){
         (new ThemeInfoWindow(themeId))->show();
     });
@@ -29,6 +37,8 @@ ThemeContextMenu::ThemeContextMenu(
             ")
             query.addBindValue(themeId);
             LOG_EXEC(query)
+
+            emit themesUpdated();
         }
     });
     addSeparator();

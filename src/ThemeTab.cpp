@@ -2,6 +2,7 @@
 
 #include "ThemeInfoWindow.h"
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -13,13 +14,29 @@ ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
     ui();
 
-    // Connections
-    connect(createBtn, &QPushButton::clicked, []() {
-        (new ThemeInfoWindow(-1))->show();
-    });
+    connect(
+        createBtn,
+        &QPushButton::clicked,
+        []() {
+            (new ThemeInfoWindow(-1))->show();
+        }
+    );
 
-    // Request themes on start
-    searchBtn->click();
+    connect(
+        searchBtn,
+        &QPushButton::clicked,
+        this,
+        &ThemeTab::update
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &ThemeTab::update
+    );
+
+    update();
 }
 
 void ThemeTab::ui() {
@@ -58,6 +75,7 @@ void ThemeTab::ui() {
 
     packageCombo = new PackageComboBox;
     packageCombo->setAny(true);
+    packageCombo->setCurrent(-1);
     grid->addWidget(packageCombo, 2, 1);
 
     // In Wishlist Switch
@@ -78,4 +96,51 @@ void ThemeTab::ui() {
     // Themes List
     themesList = new ThemeListWidget;
     vbox->addWidget(themesList);
+}
+
+void ThemeTab::update() {
+    QString queryString = " \
+       SELECT id, name \
+       FROM themes \
+       WHERE TRUE \
+    ";
+    QVector<QVariant> params;
+
+    auto themeName = nameEdit->text().trimmed();
+    if (themeName.size()) {
+        queryString += " AND name LIKE ('%' + ? + '%')";
+        params.append(themeName);
+    }
+
+    auto packageId = packageCombo->currentData().toInt();
+    if (packageId != -1) {
+        queryString += " AND package_id = ?";
+        params.append(packageId);
+    }
+
+    auto inWishlist = wishlistCheck->checkState();
+    if (inWishlist != Qt::PartiallyChecked) {
+        queryString += QString(" AND in_wishlist = ?");
+        params.append(inWishlist == Qt::Checked);
+    }
+
+    auto isLearned = learnedCheck->checkState();
+    if (isLearned != Qt::PartiallyChecked) {
+        queryString += QString(" AND is_learned = ?");
+        params.append(isLearned == Qt::Checked);
+    }
+
+    QSqlQuery query;
+    LOG_PREPARE(query, queryString);
+    for (const auto& param : params) {
+        query.addBindValue(param);
+    }
+    LOG_EXEC(query)
+
+    themesList->clear();
+    while (query.next()) {
+        auto* item = new QListWidgetItem(query.value(0).toString());
+        item->setData(Qt::UserRole, query.value(1));
+        themesList->addItem(item);
+    }
 }

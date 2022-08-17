@@ -24,4 +24,7 @@ class ThemeTab : public QWidget {
         QCheckBox* learnedCheck;
         QPushButton* createBtn;
         QPushButton* searchBtn;
+
+    public slots:
+        void update();
 };

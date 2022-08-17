@@ -10,6 +10,12 @@ class PackageListWidget : public QListWidget {
     public:
         PackageListWidget(QWidget* parent = nullptr);
 
+    signals:
+        void packagesUpdated();
+
+    public slots:
+        void update();
+
     private slots:
         void showContextMenu(const QPoint& pos);
 };

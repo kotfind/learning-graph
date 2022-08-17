@@ -17,6 +17,7 @@ class ThemeInfoWindow : public QWidget {
 
     private:
         void ui();
+        void load();
 
         int themeId;
 
@@ -25,6 +26,9 @@ class ThemeInfoWindow : public QWidget {
         QCheckBox* isLearnedCheck;
         QCheckBox* inWishlistCheck;
         QTextEdit* descEdit;
+
+    signals:
+        void themesUpdated();
 
     private slots:
         void onSaveClicked();

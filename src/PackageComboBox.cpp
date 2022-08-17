@@ -1,12 +1,24 @@
 #include "PackageComboBox.h"
 
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QDebug>
 #include <QSqlQuery>
 
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated,
+        this,
+        &PackageComboBox::update
+    );
+
+    update();
+}
+
+void PackageComboBox::update() {
     clear();
 
     if (hasOptionAny) {

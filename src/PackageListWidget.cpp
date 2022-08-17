@@ -1,6 +1,7 @@
 #include "PackageListWidget.h"
 
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QListWidgetItem>
 #include <QMenu>
@@ -13,8 +14,30 @@ PackageListWidget::PackageListWidget(QWidget* parent)
     setSelectionMode(QListWidget::NoSelection);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &PackageListWidget::customContextMenuRequested,
-            this, &PackageListWidget::showContextMenu);
+    connect(
+        this,
+        &PackageListWidget::customContextMenuRequested,
+        this,
+        &PackageListWidget::showContextMenu
+    );
+
+    connect(
+        this,
+        &PackageListWidget::packagesUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated,
+        this,
+        &PackageListWidget::update
+    );
+}
+
+void PackageListWidget::update() {
+    clear();
 
     QSqlQuery query;
     LOG_PREPARE(query, " \
@@ -52,6 +75,8 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             ")
             query.addBindValue(curr->data(Qt::UserRole).toInt());
             LOG_EXEC(query)
+
+            emit packagesUpdated();
         }
     });
 
@@ -70,6 +95,8 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             query.addBindValue(name);
             query.addBindValue(curr->data(Qt::UserRole).toInt());
             LOG_EXEC(query)
+
+            emit packagesUpdated();
         }
     });
 

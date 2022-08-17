@@ -14,4 +14,7 @@ class PackageComboBox : public QComboBox {
     private:
         int currentId;
         bool hasOptionAny = false;
+
+    public slots:
+        void update();
 };

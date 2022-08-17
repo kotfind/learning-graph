@@ -1,6 +1,7 @@
 #include "ThemeInfoWindow.h"
 
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -17,8 +18,17 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
     setWindowModality(Qt::ApplicationModal);
 
     ui();
+    load();
 
-    // Load Theme
+    connect(
+        this,
+        &ThemeInfoWindow::themesUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated
+    );
+}
+
+void ThemeInfoWindow::load() {
     if (themeId != -1) {
         QSqlQuery query;
         LOG_PREPARE(query, " \
@@ -181,5 +191,6 @@ void ThemeInfoWindow::onSaveClicked() {
         }
     }
 
+    emit themesUpdated();
     emit close();
 }

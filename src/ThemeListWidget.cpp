@@ -1,11 +1,8 @@
 #include "ThemeListWidget.h"
 #include "ThemeContextMenu.h"
 
-#include "sqlDefines.h"
-
 #include <QMenu>
 #include <QListWidgetItem>
-#include <QSqlQuery>
 
 ThemeListWidget::ThemeListWidget(QWidget* parent)
         : QListWidget(parent) {
@@ -14,19 +11,6 @@ ThemeListWidget::ThemeListWidget(QWidget* parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &ThemeListWidget::customContextMenuRequested,
             this, &ThemeListWidget::showContextMenu);
-
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
-        SELECT name, id \
-        FROM themes \
-    ")
-    LOG_EXEC(query)
-
-    while (query.next()) {
-        auto* item = new QListWidgetItem(query.value(0).toString());
-        item->setData(Qt::UserRole, query.value(1));
-        addItem(item);
-    }
 }
 
 void ThemeListWidget::showContextMenu(const QPoint& pos) {
