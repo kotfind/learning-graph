@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ThemesListWidget.h"
+#include "ThemeListWidget.h"
 #include "PackageComboBox.h"
 
 #include <QWidget>
@@ -8,16 +8,16 @@
 #include <QCheckBox>
 #include <QLineEdit>
 
-class ThemesTab : public QWidget {
+class ThemeTab : public QWidget {
     Q_OBJECT
 
     public:
-        ThemesTab(QWidget* parent = nullptr);
+        ThemeTab(QWidget* parent = nullptr);
 
     private:
         void ui();
 
-        ThemesListWidget* themesList;
+        ThemeListWidget* themesList;
         QLineEdit* nameEdit;
         PackageComboBox* packageCombo;
         QCheckBox* wishlistCheck;

@@ -2,12 +2,13 @@
 
 #include <QListWidget>
 #include <QVector>
+#include <QPoint>
 
-class ThemesListWidget : public QListWidget {
+class PackageListWidget : public QListWidget {
     Q_OBJECT
 
     public:
-        ThemesListWidget(QWidget* parent = nullptr);
+        PackageListWidget(QWidget* parent = nullptr);
 
     private slots:
         void showContextMenu(const QPoint& pos);

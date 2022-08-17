@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 
-#include "ThemesTab.h"
-#include "PackagesTab.h"
+#include "ThemeTab.h"
+#include "PackageTab.h"
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
 
@@ -23,10 +23,10 @@ void MainWindow::ui() {
     auto* leftTabs = new QTabWidget;
     splitter->addWidget(leftTabs);
 
-    auto* themesTab = new ThemesTab;
+    auto* themesTab = new ThemeTab;
     leftTabs->addTab(themesTab, tr("Themes"));
 
-    auto* packagesTab = new PackagesTab;
+    auto* packagesTab = new PackageTab;
     leftTabs->addTab(packagesTab, tr("Packages"));
 
     // Right tabs

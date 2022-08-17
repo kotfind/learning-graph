@@ -1,4 +1,4 @@
-#include "PackagesListWidget.h"
+#include "PackageListWidget.h"
 
 #include "sqlDefines.h"
 
@@ -8,13 +8,13 @@
 #include <QInputDialog>
 #include <QSqlQuery>
 
-PackagesListWidget::PackagesListWidget(QWidget* parent)
+PackageListWidget::PackageListWidget(QWidget* parent)
         : QListWidget(parent) {
     setSelectionMode(QListWidget::NoSelection);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &PackagesListWidget::customContextMenuRequested,
-            this, &PackagesListWidget::showContextMenu);
+    connect(this, &PackageListWidget::customContextMenuRequested,
+            this, &PackageListWidget::showContextMenu);
 
     QSqlQuery query;
     LOG_PREPARE(query, " \
@@ -30,7 +30,7 @@ PackagesListWidget::PackagesListWidget(QWidget* parent)
     }
 }
 
-void PackagesListWidget::showContextMenu(const QPoint& pos) {
+void PackageListWidget::showContextMenu(const QPoint& pos) {
     auto* curr = currentItem();
     if (!curr) {
         return;

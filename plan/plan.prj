@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 72
+  revision 73
   modified_by 2 "kotfind"
 
 
@@ -318,7 +318,7 @@ ${items}};
       end
     end
 
-    class 161026 "PackagesTab"
+    class 161026 "PackageTab"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -367,7 +367,7 @@ ${items}};
       end
     end
 
-    class 227586 "PackagesListWidget"
+    class 227586 "PackageListWidget"
       visibility protected 
       cpp_decl ""
       java_decl ""
@@ -423,7 +423,7 @@ ${items}};
       end
     end
 
-    class 161154 "ThemesTab"
+    class 161154 "ThemeTab"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -509,7 +509,7 @@ ${items}};
       end
     end
 
-    class 174594 "ThemesListWidget"
+    class 174594 "ThemeListWidget"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -613,7 +613,7 @@ ${items}};
       end
     end
 
-    class 220930 "PackagesComboBox"
+    class 220930 "PackageComboBox"
       visibility package 
       cpp_decl ""
       java_decl ""

@@ -1,4 +1,4 @@
-#include "ThemesTab.h"
+#include "ThemeTab.h"
 
 #include "ThemeInfoWindow.h"
 #include "sqlDefines.h"
@@ -9,7 +9,7 @@
 #include <QGroupBox>
 #include <QSqlQuery>
 
-ThemesTab::ThemesTab(QWidget* parent)
+ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
     ui();
 
@@ -22,7 +22,7 @@ ThemesTab::ThemesTab(QWidget* parent)
     searchBtn->click();
 }
 
-void ThemesTab::ui() {
+void ThemeTab::ui() {
     // Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
@@ -76,6 +76,6 @@ void ThemesTab::ui() {
     grid->addWidget(searchBtn, 5, 0, 1, 2);
 
     // Themes List
-    themesList = new ThemesListWidget;
+    themesList = new ThemeListWidget;
     vbox->addWidget(themesList);
 }

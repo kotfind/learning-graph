@@ -1,4 +1,4 @@
-#include "ThemesListWidget.h"
+#include "ThemeListWidget.h"
 #include "ThemeContextMenu.h"
 
 #include "sqlDefines.h"
@@ -7,13 +7,13 @@
 #include <QListWidgetItem>
 #include <QSqlQuery>
 
-ThemesListWidget::ThemesListWidget(QWidget* parent)
+ThemeListWidget::ThemeListWidget(QWidget* parent)
         : QListWidget(parent) {
     setSelectionMode(QListWidget::NoSelection);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &ThemesListWidget::customContextMenuRequested,
-            this, &ThemesListWidget::showContextMenu);
+    connect(this, &ThemeListWidget::customContextMenuRequested,
+            this, &ThemeListWidget::showContextMenu);
 
     QSqlQuery query;
     LOG_PREPARE(query, " \
@@ -29,7 +29,7 @@ ThemesListWidget::ThemesListWidget(QWidget* parent)
     }
 }
 
-void ThemesListWidget::showContextMenu(const QPoint& pos) {
+void ThemeListWidget::showContextMenu(const QPoint& pos) {
     // XXX Double right click, when menu is opened
     auto* curr = currentItem();
     if (curr) {

@@ -1,7 +1,7 @@
-#include "PackagesTab.h"
+#include "PackageTab.h"
 
 #include "sqlDefines.h"
-#include "PackagesListWidget.h"
+#include "PackageListWidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -10,12 +10,12 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 
-PackagesTab::PackagesTab(QWidget* parent)
+PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
     ui();
 }
 
-void PackagesTab::ui() {
+void PackageTab::ui() {
     // Layouts
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
@@ -26,7 +26,7 @@ void PackagesTab::ui() {
     // Create Button
     auto* createBtn = new QPushButton(tr("New package"));
     connect(createBtn, &QPushButton::clicked,
-            this, &PackagesTab::onCreateBtn);
+            this, &PackageTab::onCreateBtn);
     hbox->addWidget(createBtn);
 
     // Import Button
@@ -34,11 +34,11 @@ void PackagesTab::ui() {
     hbox->addWidget(importBtn);
 
     // Packages List
-    auto* packagesList = new PackagesListWidget;
+    auto* packagesList = new PackageListWidget;
     vbox->addWidget(packagesList);
 }
 
-void PackagesTab::onCreateBtn() {
+void PackageTab::onCreateBtn() {
     bool ok;
     auto name = QInputDialog::getText(this, tr("New package"),
         tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();

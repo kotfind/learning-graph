@@ -2,11 +2,11 @@
 
 #include <QWidget>
 
-class PackagesTab : public QWidget {
+class PackageTab : public QWidget {
     Q_OBJECT
 
     public:
-        PackagesTab(QWidget* parent = nullptr);
+        PackageTab(QWidget* parent = nullptr);
 
     private:
         void ui();
