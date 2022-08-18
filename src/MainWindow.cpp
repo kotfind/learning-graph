@@ -3,7 +3,7 @@
 #include "ThemeTab.h"
 #include "PackageTab.h"
 #include "GraphTab.h"
-#include "LearningGraphTab.h"
+#include "GraphEditTab.h"
 #include "LearningListTab.h"
 
 #include <QTabWidget>
@@ -37,7 +37,7 @@ void MainWindow::ui() {
     auto* rightTabs = new QTabWidget;
     splitter->addWidget(rightTabs);
 
-    auto* graphTab = new LearningGraphTab;
+    auto* graphTab = new GraphEditTab;
     rightTabs->addTab(graphTab, tr("Learning Graph"));
 
     auto* listTab = new LearningListTab;

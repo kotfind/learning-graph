@@ -1,16 +1,16 @@
-#include "LearningGraphTab.h"
+#include "GraphEditTab.h"
 
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 
-LearningGraphTab::LearningGraphTab(QWidget* parent)
+GraphEditTab::GraphEditTab(QWidget* parent)
         : QWidget(parent) {
     ui();
 }
 
-void LearningGraphTab::ui() {
+void GraphEditTab::ui() {
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     vbox->setSpacing(15);

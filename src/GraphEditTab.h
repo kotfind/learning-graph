@@ -3,9 +3,9 @@
 #include <QWidget>
 #include <QString>
 
-class LearningGraphTab : public QWidget {
+class GraphEditTab : public QWidget {
     public:
-        LearningGraphTab(QWidget* parent = nullptr);
+        GraphEditTab(QWidget* parent = nullptr);
 
     private:
         void ui();
