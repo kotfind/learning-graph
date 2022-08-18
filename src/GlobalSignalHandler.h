@@ -16,4 +16,5 @@ class GlobalSignalHandler : public QObject {
     signals:
         void themesUpdated();
         void packagesUpdated();
+        void graphsUpdated();
 };

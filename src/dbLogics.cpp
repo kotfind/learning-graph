@@ -12,6 +12,7 @@
 void createTables() {
     QSqlQuery query;
 
+    // Packages
     LOG_PREPARE(query, " \
         CREATE TABLE packages( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
@@ -20,8 +21,9 @@ void createTables() {
     LOG_EXEC(query)
     query.finish();
 
+    // Themes
     LOG_PREPARE(query, " \
-        CREATE TABLE IF NOT EXISTS themes( \
+        CREATE TABLE themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
             package_id INT NOT NULL REFERENCES packages(id), \
@@ -33,12 +35,37 @@ void createTables() {
     LOG_EXEC(query)
     query.finish();
 
+    // Theme Dependencies
     LOG_PREPARE(query, " \
         CREATE TABLE theme_dependencies( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             from_id INT NOT NULL REFERENCES themes(id), \
             to_id INT NOT NULL REFERENCES themes(id), \
             UNIQUE (from_id, to_id) \
+        )")
+    LOG_EXEC(query)
+    query.finish();
+
+    // Graphs
+    LOG_PREPARE(query, " \
+        CREATE TABLE graphs( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            name VARCHAR(255) NOT NULL UNIQUE, \
+            xoffset INTEGER NOT NULL, \
+            yoffset INTEGER NOT NULL \
+        )")
+    LOG_EXEC(query)
+    query.finish();
+
+    // graphNodes
+    LOG_PREPARE(query, " \
+        CREATE TABLE graphNodes( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            graphId INTEGER REFERENCES graphs(id), \
+            themeId INTEGER REFERENCES themes(id), \
+            x INTEGER NOT NULL, \
+            y INTEGER NOT NULL, \
+            UNIQUE (graphId, themeId) \
         )")
     LOG_EXEC(query)
     query.finish();

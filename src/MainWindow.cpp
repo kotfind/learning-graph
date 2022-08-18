@@ -2,6 +2,7 @@
 
 #include "ThemeTab.h"
 #include "PackageTab.h"
+#include "GraphTab.h"
 #include "LearningGraphTab.h"
 #include "LearningListTab.h"
 
@@ -28,6 +29,9 @@ void MainWindow::ui() {
 
     auto* packagesTab = new PackageTab;
     leftTabs->addTab(packagesTab, tr("Packages"));
+
+    auto* graphsTab = new GraphTab;
+    leftTabs->addTab(graphsTab, tr("Graphs"));
 
     // Right tabs
     auto* rightTabs = new QTabWidget;
