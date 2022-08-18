@@ -58,7 +58,7 @@ void PackageListWidget::update() {
         SELECT p.id, p.name, ( \
             SELECT COUNT(*) \
             FROM themes t \
-            WHERE t.package_id = p.id \
+            WHERE t.packageId = p.id \
         ) \
         FROM packages p \
     ")
@@ -104,7 +104,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             LOG_PREPARE(query, " \
                 DELETE \
                 FROM themes \
-                WHERE package_id = ? \
+                WHERE packageId = ? \
             ")
             query.addBindValue(packageId);
             LOG_EXEC(query)

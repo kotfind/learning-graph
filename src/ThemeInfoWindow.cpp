@@ -32,9 +32,10 @@ void ThemeInfoWindow::load() {
     if (themeId != -1) {
         QSqlQuery query;
         LOG_PREPARE(query, " \
-            SELECT name, package_id, is_learned, in_wishlist, description\
+            SELECT name, packageId, isLearned, inWishlist, description \
             FROM themes \
-            WHERE id = ?")
+            WHERE id = ? \
+        ")
         query.addBindValue(themeId);
         LOG_EXEC(query)
         query.first();
@@ -142,26 +143,26 @@ void ThemeInfoWindow::onSaveClicked() {
     if (themeId == -1) {
         LOG_PREPARE(query, " \
             INSERT \
-            INTO themes(name, package_id, description, in_wishlist, is_learned) \
-            VALUES (NULLIF(:name, ''), :package_id, :description, :in_wishlist, :is_learned) \
+            INTO themes(name, packageId, description, inWishlist, isLearned) \
+            VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
         ")
     } else {
         LOG_PREPARE(query, " \
             UPDATE themes \
             SET name = NULLIF(:name, ''), \
-                package_id = :package_id, \
+                packageId = :packageId, \
                 description = :description, \
-                in_wishlist = :in_wishlist, \
-                is_learned = :is_learned \
+                inWishlist = :inWishlist, \
+                isLearned = :isLearned \
             WHERE id = :id \
         ")
     }
 
     query.bindValue(":name", themeEdit->text().trimmed());
-    query.bindValue(":package_id", packageCombo->currentData().toInt());
+    query.bindValue(":packageId", packageCombo->currentData().toInt());
     query.bindValue(":description", descEdit->toPlainText());
-    query.bindValue(":in_wishlist", inWishlistCheck->isChecked());
-    query.bindValue(":is_learned", isLearnedCheck->isChecked());
+    query.bindValue(":inWishlist", inWishlistCheck->isChecked());
+    query.bindValue(":isLearned", isLearnedCheck->isChecked());
     if (themeId != -1) {
         query.bindValue(":id", themeId);
     }

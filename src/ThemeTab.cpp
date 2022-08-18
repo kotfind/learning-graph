@@ -110,7 +110,7 @@ void ThemeTab::update() {
         SELECT id, name, (\
             SELECT name \
             FROM packages \
-            WHERE package_id = id \
+            WHERE packageId = id \
         ) \
         FROM themes \
         WHERE TRUE \
@@ -125,19 +125,19 @@ void ThemeTab::update() {
 
     auto packageId = packageCombo->currentData().toInt();
     if (packageId != -1) {
-        queryString += " AND package_id = ?";
+        queryString += " AND packageId = ?";
         params.append(packageId);
     }
 
     auto inWishlist = wishlistCheck->checkState();
     if (inWishlist != Qt::PartiallyChecked) {
-        queryString += QString(" AND in_wishlist = ?");
+        queryString += QString(" AND inWishlist = ?");
         params.append(inWishlist == Qt::Checked);
     }
 
     auto isLearned = learnedCheck->checkState();
     if (isLearned != Qt::PartiallyChecked) {
-        queryString += QString(" AND is_learned = ?");
+        queryString += QString(" AND isLearned = ?");
         params.append(isLearned == Qt::Checked);
     }
 

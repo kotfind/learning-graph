@@ -26,22 +26,22 @@ void createTables() {
         CREATE TABLE themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
-            package_id INT NOT NULL REFERENCES packages(id), \
+            packageId INT NOT NULL REFERENCES packages(id), \
             description TEXT, \
-            in_wishlist INT CHECK(in_wishlist in (0, 1)), \
-            is_learned INT CHECK(is_learned in (0, 1)), \
-            UNIQUE (package_id, name) \
+            inWishlist INT CHECK(inWishlist in (0, 1)), \
+            isLearned INT CHECK(isLearned in (0, 1)), \
+            UNIQUE (packageId, name) \
         )")
     LOG_EXEC(query)
     query.finish();
 
     // Theme Dependencies
     LOG_PREPARE(query, " \
-        CREATE TABLE theme_dependencies( \
+        CREATE TABLE themeEdges( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            from_id INT NOT NULL REFERENCES themes(id), \
-            to_id INT NOT NULL REFERENCES themes(id), \
-            UNIQUE (from_id, to_id) \
+            fromId INT NOT NULL REFERENCES themes(id), \
+            toId INT NOT NULL REFERENCES themes(id), \
+            UNIQUE (fromId, toId) \
         )")
     LOG_EXEC(query)
     query.finish();
