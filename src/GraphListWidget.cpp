@@ -113,7 +113,31 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
             ")
             query.addBindValue(name);
             query.addBindValue(curr->data(Qt::UserRole).toInt());
-            LOG_EXEC(query)
+
+            if (!query.exec()) {
+                auto code = query.lastError().nativeErrorCode().toInt();
+                switch(code) {
+                    case SQLITE_CONSTRAINT_UNIQUE:
+                        QMessageBox::critical(
+                            this,
+                            tr("Error"),
+                            tr("Name is not unique.")
+                        );
+                        return;
+
+                    case SQLITE_CONSTRAINT_NOTNULL:
+                        QMessageBox::critical(
+                            this,
+                            tr("Error"),
+                            tr("Name should not be empty.")
+                        );
+                        return;
+
+                    default:
+                        LOG_FAILED_QUERY(query);
+                        break;
+                }
+            }
 
             emit graphsUpdated();
         }
