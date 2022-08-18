@@ -8,12 +8,17 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QTextEdit>
+#include <QKeyEvent>
+#include <QPushButton>
 
 class ThemeInfoWindow : public QWidget {
     Q_OBJECT
 
     public:
         ThemeInfoWindow(int themeId, QWidget* parent = nullptr);
+
+    protected:
+        void keyPressEvent(QKeyEvent*) override;
 
     private:
         void ui();
@@ -26,10 +31,13 @@ class ThemeInfoWindow : public QWidget {
         QCheckBox* isLearnedCheck;
         QCheckBox* inWishlistCheck;
         QTextEdit* descEdit;
+        QPushButton* cancelBtn;
+        QPushButton* saveBtn;
 
     signals:
         void themesUpdated();
 
     private slots:
-        void onSaveClicked();
+        void cancel();
+        void save();
 };

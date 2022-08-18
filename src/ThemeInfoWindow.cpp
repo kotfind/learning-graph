@@ -5,7 +5,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPushButton>
 #include <QFrame>
 #include <QDebug>
 #include <QMessageBox>
@@ -26,6 +25,33 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated
     );
+
+    connect(
+        cancelBtn,
+        &QPushButton::pressed,
+        this,
+        &ThemeInfoWindow::cancel
+    );
+
+    connect(
+        saveBtn,
+        &QPushButton::pressed,
+        this,
+        &ThemeInfoWindow::save
+    );
+}
+
+void ThemeInfoWindow::keyPressEvent(QKeyEvent* e) {
+    switch(e->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            emit save();
+            break;
+
+        case Qt::Key_Escape:
+            emit cancel();
+            break;
+    }
 }
 
 void ThemeInfoWindow::load() {
@@ -118,19 +144,15 @@ void ThemeInfoWindow::ui() {
     hbox->addStretch(1);
 
     // Cancel Button
-    auto* cancelBtn = new QPushButton(tr("Cancel"));
-    connect(cancelBtn, &QPushButton::clicked,
-            this, &ThemeInfoWindow::close);
+    cancelBtn = new QPushButton(tr("Cancel"));
     hbox->addWidget(cancelBtn, 0);
 
     // Save Button
-    auto* saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
-    connect(saveBtn, &QPushButton::clicked,
-            this, &ThemeInfoWindow::onSaveClicked);
+    saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
     hbox->addWidget(saveBtn, 0);
 }
 
-void ThemeInfoWindow::onSaveClicked() {
+void ThemeInfoWindow::save() {
     // Check package
     if (!packageCombo->currentData().isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("Package should be selected"));
@@ -193,5 +215,9 @@ void ThemeInfoWindow::onSaveClicked() {
     }
 
     emit themesUpdated();
+    emit close();
+}
+
+void ThemeInfoWindow::cancel() {
     emit close();
 }
