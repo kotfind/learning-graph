@@ -9,6 +9,7 @@ find_package(Qt6 REQUIRED
     Core
     Widgets
     Sql
+    Svg
 )
 
 qt_standard_project_setup()
@@ -39,4 +40,15 @@ target_link_libraries(learning_graph
     Qt6::Core
     Qt6::Widgets
     Qt6::Sql
+    Qt6::Svg
+)
+
+qt_add_resources(learning_graph "res"
+    PREFIX "/"
+    BASE "res/"
+    FILES
+        "res/arrow.svg"
+        "res/pointer.svg"
+        "res/plus1.svg"
+        "res/plus2.svg"
 )

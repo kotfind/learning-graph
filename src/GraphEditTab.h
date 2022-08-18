@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QWidget>
+#include <QMainWindow>
 #include <QString>
 
-class GraphEditTab : public QWidget {
+class GraphEditTab : public QMainWindow {
     public:
         GraphEditTab(QWidget* parent = nullptr);
 
