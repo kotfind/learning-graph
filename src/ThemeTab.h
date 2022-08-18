@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QKeyEvent>
 
 class ThemeTab : public QWidget {
     Q_OBJECT
@@ -24,6 +25,9 @@ class ThemeTab : public QWidget {
         QCheckBox* learnedCheck;
         QPushButton* createBtn;
         QPushButton* searchBtn;
+
+    protected:
+        void keyPressEvent(QKeyEvent*) override;
 
     public slots:
         void update();

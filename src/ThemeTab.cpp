@@ -46,6 +46,15 @@ ThemeTab::ThemeTab(QWidget* parent)
     update();
 }
 
+void ThemeTab::keyPressEvent(QKeyEvent* e) {
+    switch (e->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            emit update();
+            break;
+    }
+}
+
 void ThemeTab::ui() {
     // Layout
     auto* vbox = new QVBoxLayout(this);
