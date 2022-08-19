@@ -1,5 +1,7 @@
 #include "GraphEditTab.h"
 
+#include "GraphNodeWidget.h"
+
 #include <QWidget>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -78,11 +80,17 @@ void GraphEditTab::uiBody() {
     widget->setLayout(bodyVBox);
     bodyVBox->setSpacing(10);
 
-    // Place for Graph
-    auto* frame = new QFrame;
-    frame->setFrameStyle(QFrame::StyledPanel);
-    frame->setMinimumSize({300, 200});
-    bodyVBox->addWidget(frame);
+    // Graph Frame
+    auto* graphFrame = new QFrame;
+    graphFrame->setFrameStyle(QFrame::StyledPanel);
+    graphFrame->setMinimumSize({300, 200});
+    bodyVBox->addWidget(graphFrame);
+
+    // Demo
+    for (int i = 0; i < 5; ++i) {
+        auto d = 50 * (i + 1);
+        (new GraphNodeWidget(graphFrame))->move(d, d);
+    }
 }
 
 void GraphEditTab::uiFooter() {
