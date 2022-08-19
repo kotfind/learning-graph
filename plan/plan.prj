@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 76
+  revision 77
   modified_by 2 "kotfind"
 
 
@@ -242,9 +242,17 @@ ${items}};
 	  b role_name "" public
 	    classrelation_ref 227586 // <composition>
       end
+
+      classrelation 235138 // <composition>
+	relation 232706 *---
+	  a role_name "" public
+	    classrelation_ref 235138 // <composition>
+	  b role_name "" public
+	    classrelation_ref 235266 // <composition>
+      end
     end
 
-    class 181250 "LearningGraphTab"
+    class 181250 "GraphEditTab"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -254,7 +262,7 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 170242 "themeId"
+      attribute 170242 "graphId"
 	private explicit_type "int"
 	cpp_decl ""
 	java_decl ""
@@ -274,6 +282,26 @@ ${items}};
 
       classrelation 227586 // <composition>
 	relation_ref 225666 // <composition>
+      end
+
+      classrelation 234626 // <composition>
+	relation 232450 *---
+	  a role_name "" public
+	    classrelation_ref 234626 // <composition>
+	  b role_name "" public
+	    classrelation_ref 234754 // <composition>
+      end
+
+      operation 324610 "modeChanged"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "mode" type class_ref 240898 // GraphEditMode
+	
+	
+	
+	
+	
       end
     end
 
@@ -755,6 +783,235 @@ ${items}};
 
       operation 297986 "packagesUpdated"
 	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 324994 "graphsUpdated"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+    end
+
+    class 240642 "GraphNodeWidget"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 203138 "nodeId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203266 "dragPoint"
+	private type class_ref 194562 // QPoint
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 234370 // <composition>
+	relation 232322 *---
+	  a role_name "" multiplicity "1" public
+	    classrelation_ref 234370 // <composition>
+	  b role_name "" multiplicity "*" public
+	    classrelation_ref 234498 // <composition>
+      end
+
+      classrelation 235010 // <composition>
+	relation_ref 232578 // <composition>
+      end
+    end
+
+    class 240770 "GraphCanvasWidget"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 203394 "mode"
+	private type class_ref 240898 // GraphEditMode
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 234498 // <composition>
+	relation_ref 232322 // <composition>
+      end
+
+      classrelation 234754 // <composition>
+	relation_ref 232450 // <composition>
+      end
+
+      operation 324738 "setMode"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "mode" type class_ref 240898 // GraphEditMode
+	
+	
+	
+	
+	
+      end
+
+      classrelation 234882 // <composition>
+	relation 232578 *---
+	  a role_name "" multiplicity "*" public
+	    classrelation_ref 234882 // <composition>
+	  b role_name "" multiplicity "1" public
+	    classrelation_ref 235010 // <composition>
+      end
+    end
+
+    class 240898 "GraphEditMode"
+      visibility protected stereotype "enum"
+      cpp_decl "${comment}enum ${name} {
+${items}};
+"
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+      python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+      idl_decl "${comment}enum ${name} {
+${items}};
+"
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      associated_diagram classdiagram_ref 141058 // ClassDiagram
+      attribute 203650 "CURSOR_EDIT_MODE"
+	public type class_ref 240898 // GraphEditMode
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203778 "ARROW_EDIT_MODE"
+	public type class_ref 240898 // GraphEditMode
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203906 "NEW_NODE_EDIT_MODE"
+	public type class_ref 240898 // GraphEditMode
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 241026 "GraphTab"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 235266 // <composition>
+	relation_ref 232706 // <composition>
+      end
+
+      operation 324866 "graphsUpdated"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 235522 // <composition>
+	relation 232962 *---
+	  a role_name "" public
+	    classrelation_ref 235522 // <composition>
+	  b role_name "" public
+	    classrelation_ref 235650 // <composition>
+      end
+    end
+
+    class 241154 "GraphListWidget"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 235394 // <generalisation>
+	relation 232834 ---|>
+	  a public
+	    classrelation_ref 235394 // <generalisation>
+	  b parent class_ref 174722 // QListWidget
+      end
+
+      classrelation 235650 // <composition>
+	relation_ref 232962 // <composition>
+      end
+
+      operation 325122 "update"
+	stereotype "slot"
 	public explicit_return_type ""
 	nparams 0
 	
