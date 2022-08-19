@@ -2,7 +2,6 @@
 
 #include <QWidget>
 #include <QFrame>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QToolBar>
@@ -16,10 +15,15 @@ GraphEditTab::GraphEditTab(QWidget* parent)
 }
 
 void GraphEditTab::ui() {
-    auto* widget = new QWidget;
+    widget = new QWidget;
     setCentralWidget(widget);
 
-    // Toolbar
+    uiHeader();
+    uiBody();
+    uiFooter();
+}
+
+void GraphEditTab::uiHeader() {
     auto* toolbar = addToolBar("Graph Toolbar");
     auto* toolBtns = new QButtonGroup(this);
 
@@ -47,21 +51,25 @@ void GraphEditTab::ui() {
     addNodeBtn->setCheckable(true);
     toolBtns->addButton(addNodeBtn);
     toolbar->addWidget(addNodeBtn);
+}
 
+void GraphEditTab::uiBody() {
     // Main Layout
-    auto* vbox = new QVBoxLayout;
-    widget->setLayout(vbox);
-    vbox->setSpacing(10);
+    bodyVBox = new QVBoxLayout;
+    widget->setLayout(bodyVBox);
+    bodyVBox->setSpacing(10);
 
     // Place for Graph
     auto* frame = new QFrame;
     frame->setFrameStyle(QFrame::StyledPanel);
     frame->setMinimumSize({300, 200});
-    vbox->addWidget(frame);
+    bodyVBox->addWidget(frame);
+}
 
+void GraphEditTab::uiFooter() {
     // Buttons
     auto* hbox = new QHBoxLayout;
-    vbox->addLayout(hbox);
+    bodyVBox->addLayout(hbox);
 
     hbox->addStretch(1);
 
