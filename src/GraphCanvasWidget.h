@@ -1,8 +1,9 @@
 #pragma once
 
-#include <QFrame>
-
 #include "GraphEditMode.h"
+
+#include <QFrame>
+#include <QMouseEvent>
 
 class GraphCanvasWidget : public QFrame {
     Q_OBJECT
@@ -14,6 +15,9 @@ class GraphCanvasWidget : public QFrame {
         int graphId;
 
         GraphEditMode mode;
+
+    protected:
+        void mousePressEvent(QMouseEvent*) override;
 
     public slots:
         void open(int graphId);
