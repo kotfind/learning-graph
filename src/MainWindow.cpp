@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 void MainWindow::ui() {
-    auto* splitter = new QSplitter(Qt::Horizontal, this);
+    auto* splitter = new QSplitter(Qt::Horizontal);
     setCentralWidget(splitter);
 
     // Left Tabs

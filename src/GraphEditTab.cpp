@@ -49,7 +49,7 @@ void GraphEditTab::ui() {
     toolbar->addWidget(addNodeBtn);
 
     // Main Layout
-    auto* vbox = new QVBoxLayout(this);
+    auto* vbox = new QVBoxLayout;
     widget->setLayout(vbox);
     vbox->setSpacing(10);
 
