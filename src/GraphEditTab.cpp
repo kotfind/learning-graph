@@ -22,7 +22,7 @@ GraphEditTab::GraphEditTab(QWidget* parent)
     connect(
         this,
         &GraphEditTab::modeChanged,
-        graphFrame,
+        graphCanvas,
         &GraphCanvasWidget::setMode
     );
 }
@@ -91,16 +91,10 @@ void GraphEditTab::uiBody() {
     bodyVBox->setSpacing(10);
 
     // Graph Frame
-    graphFrame = new GraphCanvasWidget;
-    graphFrame->setFrameStyle(QFrame::StyledPanel);
-    graphFrame->setMinimumSize({300, 200});
-    bodyVBox->addWidget(graphFrame);
-
-    // Demo
-    for (int i = 0; i < 5; ++i) {
-        auto d = 50 * (i + 1);
-        (new GraphNodeWidget(graphFrame))->move(d, d);
-    }
+    graphCanvas = new GraphCanvasWidget;
+    graphCanvas->setFrameStyle(QFrame::StyledPanel);
+    graphCanvas->setMinimumSize({300, 200});
+    bodyVBox->addWidget(graphCanvas);
 }
 
 void GraphEditTab::uiFooter() {
@@ -133,6 +127,6 @@ void GraphEditTab::open(int graphId) {
     query.next();
 
     nameLabel->setText(query.value(0).toString());
-    graphFrame->open(graphId);
+    graphCanvas->open(graphId);
     setDisabled(false);
 }

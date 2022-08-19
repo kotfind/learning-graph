@@ -26,7 +26,7 @@ class GraphEditTab : public QMainWindow {
 
         QWidget* widget;
         QVBoxLayout* bodyVBox;
-        GraphCanvasWidget* graphFrame;
+        GraphCanvasWidget* graphCanvas;
         QLabel* nameLabel;
 
     signals:
