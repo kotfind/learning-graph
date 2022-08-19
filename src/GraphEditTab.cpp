@@ -7,7 +7,10 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QButtonGroup>
+#include <QCheckBox>
 #include <QIcon>
+#include <QSlider>
+#include <QLabel>
 
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
@@ -73,6 +76,32 @@ void GraphEditTab::uiFooter() {
 
     hbox->addStretch(1);
 
+    // Depth Slider
+    auto* depthLabel = new QLabel("Depth:");
+    hbox->addWidget(depthLabel);
+
+    auto* depthSlider = new QSlider(Qt::Horizontal);
+    depthSlider->setMinimumWidth(200);
+    depthSlider->setRange(5, 100);
+    hbox->addWidget(depthSlider);
+
+    auto* depthNumLabel = new QLabel;
+    connect(
+        depthSlider,
+        &QSlider::valueChanged,
+        [depthNumLabel](int val) {
+            depthNumLabel->setText(QString("(%1)").arg(val, 3));
+        }
+    );
+    hbox->addWidget(depthNumLabel);
+    depthSlider->setValue(5);
+    emit depthSlider->valueChanged(5); // idkn last line won't do it
+
+    // Learned Checkbox
+    auto* learnedCheckbox = new QCheckBox(tr("Show Learned Themes"));
+    hbox->addWidget(learnedCheckbox);
+
+    // Export Button
     auto* exportBtn = new QPushButton("Export");
     hbox->addWidget(exportBtn);
 }
