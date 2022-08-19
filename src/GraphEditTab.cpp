@@ -90,6 +90,10 @@ void GraphEditTab::uiFooter() {
     auto* hbox = new QHBoxLayout;
     bodyVBox->addLayout(hbox);
 
+    // Graph name
+    auto* nameLabel = new QLabel(tr("No Graph Loaded"));
+    hbox->addWidget(nameLabel);
+
     hbox->addStretch(1);
 
     // Export Button

@@ -16,7 +16,7 @@ class GraphEditTab : public QMainWindow {
         void uiBody();
         void uiFooter();
 
-        int themeId;
+        int graphId;
 
         QWidget* widget;
         QVBoxLayout* bodyVBox;
