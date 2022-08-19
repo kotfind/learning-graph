@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphEditMode.h"
+#include "GraphNodeWidget.h"
 
 #include <QFrame>
 #include <QMouseEvent>
@@ -23,4 +24,6 @@ class GraphCanvasWidget : public QFrame {
         void open(int graphId);
 
         void setMode(GraphEditMode mode);
+
+    friend GraphNodeWidget;
 };

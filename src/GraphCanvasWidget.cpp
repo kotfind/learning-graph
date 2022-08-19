@@ -1,7 +1,5 @@
 #include "GraphCanvasWidget.h"
 
-#include "GraphNodeWidget.h"
-
 #include <QDebug>
 
 GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)

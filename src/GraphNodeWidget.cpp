@@ -1,5 +1,7 @@
 #include "GraphNodeWidget.h"
 
+#include "GraphCanvasWidget.h"
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QDebug>
@@ -20,7 +22,9 @@ void GraphNodeWidget::mousePressEvent(QMouseEvent* e) {
 }
 
 void GraphNodeWidget::mouseMoveEvent(QMouseEvent* e) {
-    move(mapToParent(e->pos() - dragPoint));
+    if (((GraphCanvasWidget*)parent())->mode/* XXX */ == CURSOR_EDIT_MODE) {
+        move(mapToParent(e->pos() - dragPoint));
+    }
 }
 
 void GraphNodeWidget::mouseReleaseEvent(QMouseEvent* e) {
