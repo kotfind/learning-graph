@@ -46,9 +46,9 @@ target_link_libraries(learning_graph
 
 qt_add_resources(learning_graph "res"
     PREFIX "/"
-    BASE "res/"
+    BASE "img/"
     FILES
-        "res/arrow.svg"
-        "res/pointer.svg"
-        "res/plus.svg"
+        "img/arrow.svg"
+        "img/pointer.svg"
+        "img/plus.svg"
 )
