@@ -7,6 +7,7 @@
 #include <QString>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QLabel>
 
 class GraphEditTab : public QMainWindow {
     Q_OBJECT
@@ -26,7 +27,11 @@ class GraphEditTab : public QMainWindow {
         QWidget* widget;
         QVBoxLayout* bodyVBox;
         GraphCanvasWidget* graphFrame;
+        QLabel* nameLabel;
 
     signals:
         void modeChanged(GraphEditMode mode);
+
+    public slots:
+        void open(int graphId);
 };

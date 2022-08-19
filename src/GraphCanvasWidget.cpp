@@ -6,5 +6,9 @@ GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)
 
 void GraphCanvasWidget::setMode(GraphEditMode mode) {
     this->mode = mode;
-    qDebug() << mode;
+}
+
+void GraphCanvasWidget::open(int graphId) {
+    this->graphId = graphId;
+    // TODO
 }

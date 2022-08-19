@@ -6,15 +6,15 @@ classcanvas 128130 class_ref 141314 // MainWindow
 end
 classcanvas 130178 class_ref 161026 // PackageTab
   classdiagramsettings member_max_width 0 end
-  xyz 376.985 117.61 2000
+  xyz 376.385 117.21 2000
 end
 classcanvas 130306 class_ref 161154 // ThemeTab
   classdiagramsettings member_max_width 0 end
-  xyz 929.97 241.01 2000
+  xyz 929.37 241.01 2000
 end
 classcanvas 136834 class_ref 161282 // ThemeInfoWindow
   classdiagramsettings member_max_width 0 end
-  xyz 1169.84 458.45 2008
+  xyz 1169.24 458.85 2008
 end
 classcanvas 139650 class_ref 168066 // QMainWindow
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
@@ -23,66 +23,66 @@ classcanvas 139650 class_ref 168066 // QMainWindow
 end
 classcanvas 141314 class_ref 174594 // ThemeListWidget
   classdiagramsettings member_max_width 0 end
-  xyz 736.82 362.59 2000
+  xyz 736.22 362.19 2000
 end
 classcanvas 144642 class_ref 181250 // GraphEditTab
   classdiagramsettings member_max_width 0 end
-  xyz 1548.99 110.21 2000
+  xyz 1520.59 102.11 2000
 end
 classcanvas 145282 class_ref 181378 // LearningListTab
   classdiagramsettings member_max_width 0 end
-  xyz 759.89 241.01 2006
+  xyz 759.49 241.01 2006
 end
 classcanvas 145922 class_ref 174722 // QListWidget
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 463.24 375.86 2006
+  xyz 463.64 375.46 2006
 end
 classcanvas 147842 class_ref 187906 // QMenu
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 687.63 480.25 2006
+  xyz 687.03 480.85 2006
 end
 classcanvas 148098 class_ref 188034 // ThemeContextMenu
   classdiagramsettings member_max_width 0 end
-  xyz 801.6 449.8 2000
+  xyz 801.2 449.4 2000
 end
 classcanvas 155266 class_ref 220930 // PackageComboBox
   classdiagramsettings member_max_width 0 end
-  xyz 1178.9 201.3 2000
+  xyz 1178.5 201.7 2000
 end
 classcanvas 155394 class_ref 221058 // QComboBox
   classdiagramsettings hide_attributes yes hide_operations yes member_max_width 0 end
   color mediumgreen
-  xyz 1329.3 370 2000
+  xyz 1329.7 370.6 2000
 end
 classcanvas 156546 class_ref 227586 // PackageListWidget
   classdiagramsettings member_max_width 0 end
-  xyz 326.7 213.8 2000
+  xyz 326.1 213.6 2000
 end
 classcanvas 158466 class_ref 234114 // GlobalSignalHandler
   classdiagramsettings member_max_width 0 end
-  xyz 351.8 460.7 2000
+  xyz 351.2 460.3 2000
 end
 classcanvas 158594 class_ref 240642 // GraphNodeWidget
   classdiagramsettings member_max_width 0 end
-  xyz 1695.7 380.5 2000
+  xyz 1668.8 412.7 2000
 end
 classcanvas 158722 class_ref 240770 // GraphCanvasWidget
   classdiagramsettings member_max_width 0 end
-  xyz 1581.8 230.2 2000
+  xyz 1557 235.3 2000
 end
 classcanvas 158850 class_ref 240898 // GraphEditMode
   classdiagramsettings hide_operations yes member_max_width 0 end
-  xyz 2067.7 115 2000
+  xyz 2067.1 115.6 2000
 end
 classcanvas 159490 class_ref 241026 // GraphTab
   classdiagramsettings member_max_width 0 end
-  xyz 20.4 114.8 2006
+  xyz 22.2 114.5 2006
 end
 classcanvas 160002 class_ref 241154 // GraphListWidget
   classdiagramsettings member_max_width 0 end
-  xyz 59.9 362.6 2000
+  xyz 22.3 352.7 2000
 end
 relationcanvas 146178 relation_ref 156034 // <generalisation>
   from ref 141314 z 2007 to ref 145922
@@ -172,11 +172,11 @@ end
 relationcanvas 159362 relation_ref 232578 // <composition>
   from ref 158722 z 2001 to ref 158594
   no_role_a no_role_b
-  multiplicity_a_pos 1765 354 3000 multiplicity_b_pos 1761 312 3000
+  multiplicity_a_pos 1738 384 3000 multiplicity_b_pos 1736 359 3000
 end
 relationcanvas 159618 relation_ref 232706 // <composition>
-  from ref 128130 z 2007 to point 707.8 64
-  line 159746 z 2007 to point 379 66.6
+  from ref 128130 z 2007 to point 708.2 64
+  line 159746 z 2007 to point 379 67.4
   line 159874 z 2007 to ref 159490
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b

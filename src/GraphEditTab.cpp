@@ -1,6 +1,7 @@
 #include "GraphEditTab.h"
 
 #include "GraphNodeWidget.h"
+#include "sqlDefines.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -11,12 +12,12 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QIcon>
-#include <QLabel>
 #include <QSpinBox>
 
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
     ui();
+    setDisabled(true);
 
     connect(
         this,
@@ -108,7 +109,7 @@ void GraphEditTab::uiFooter() {
     bodyVBox->addLayout(hbox);
 
     // Graph name
-    auto* nameLabel = new QLabel(tr("No Graph Loaded"));
+    nameLabel = new QLabel(tr("No Graph Loaded"));
     hbox->addWidget(nameLabel);
 
     hbox->addStretch(1);
@@ -116,4 +117,22 @@ void GraphEditTab::uiFooter() {
     // Export Button
     auto* exportBtn = new QPushButton("Export");
     hbox->addWidget(exportBtn);
+}
+
+void GraphEditTab::open(int graphId) {
+    this->graphId = graphId;
+
+    QSqlQuery query;
+    LOG_PREPARE(query, " \
+        SELECT name \
+        FROM graphs \
+        WHERE id = ? \
+    ")
+    query.addBindValue(graphId);
+    LOG_EXEC(query)
+    query.next();
+
+    nameLabel->setText(query.value(0).toString());
+    graphFrame->open(graphId);
+    setDisabled(false);
 }

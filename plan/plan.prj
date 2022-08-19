@@ -303,6 +303,18 @@ ${items}};
 	
 	
       end
+
+      operation 325250 "open"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "graphId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
     end
 
     class 181378 "LearningListTab"
@@ -897,6 +909,29 @@ ${items}};
 	  b role_name "" multiplicity "1" public
 	    classrelation_ref 235010 // <composition>
       end
+
+      attribute 204034 "graphId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 325378 "open"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "graphId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
     end
 
     class 240898 "GraphEditMode"
@@ -987,6 +1022,18 @@ ${items}};
 	  b role_name "" public
 	    classrelation_ref 235650 // <composition>
       end
+
+      operation 325634 "open"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "graphId" explicit_type "int"
+	
+	
+	
+	
+	
+      end
     end
 
     class 241154 "GraphListWidget"
@@ -1014,6 +1061,18 @@ ${items}};
 	stereotype "slot"
 	public explicit_return_type ""
 	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 325506 "open"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "graphId" explicit_type "int"
 	
 	
 	

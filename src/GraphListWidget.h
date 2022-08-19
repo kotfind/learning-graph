@@ -12,6 +12,7 @@ class GraphListWidget : public QListWidget {
 
     signals:
         void graphsUpdated();
+        void open(int graphId);
 
     public slots:
         void update();

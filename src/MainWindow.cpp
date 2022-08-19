@@ -2,8 +2,6 @@
 
 #include "ThemeTab.h"
 #include "PackageTab.h"
-#include "GraphTab.h"
-#include "GraphEditTab.h"
 #include "LearningListTab.h"
 
 #include <QTabWidget>
@@ -13,7 +11,15 @@
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
     setWindowTitle(tr("Learning Graph"));
+
     ui();
+
+    connect(
+        graphsTab,
+        &GraphTab::open,
+        graphEditTab,
+        &GraphEditTab::open
+    );
 }
 
 void MainWindow::ui() {
@@ -30,15 +36,15 @@ void MainWindow::ui() {
     auto* packagesTab = new PackageTab;
     leftTabs->addTab(packagesTab, tr("Packages"));
 
-    auto* graphsTab = new GraphTab;
+    graphsTab = new GraphTab;
     leftTabs->addTab(graphsTab, tr("Graphs"));
 
     // Right tabs
     auto* rightTabs = new QTabWidget;
     splitter->addWidget(rightTabs);
 
-    auto* graphTab = new GraphEditTab;
-    rightTabs->addTab(graphTab, tr("Learning Graph"));
+    graphEditTab = new GraphEditTab;
+    rightTabs->addTab(graphEditTab, tr("Edit Graph"));
 
     auto* listTab = new LearningListTab;
     rightTabs->addTab(listTab, tr("Learning List"));

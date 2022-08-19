@@ -11,8 +11,12 @@ class GraphCanvasWidget : public QFrame {
         GraphCanvasWidget(QWidget* parent = nullptr);
 
     private:
+        int graphId;
+
         GraphEditMode mode;
 
     public slots:
+        void open(int graphId);
+
         void setMode(GraphEditMode mode);
 };

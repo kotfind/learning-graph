@@ -1,7 +1,6 @@
 #include "GraphTab.h"
 
 #include "sqlDefines.h"
-#include "GraphListWidget.h"
 #include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>
@@ -20,6 +19,13 @@ GraphTab::GraphTab(QWidget* parent)
         &GraphTab::graphsUpdated,
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::graphsUpdated
+    );
+
+    connect(
+        graphsList,
+        &GraphListWidget::open,
+        this,
+        &GraphTab::open
     );
 }
 
@@ -42,7 +48,7 @@ void GraphTab::ui() {
     hbox->addWidget(importBtn);
 
     // Graphs List
-    auto* graphsList = new GraphListWidget;
+    graphsList = new GraphListWidget;
     graphsList->update();
     vbox->addWidget(graphsList);
 }

@@ -68,6 +68,10 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
 
     QMenu menu;
 
+    menu.addAction(tr("Open"), [=]() {
+        emit open(curr->data(Qt::UserRole).toInt());
+    });
+
     menu.addAction(tr("Delete"), [=]() {
         if (QMessageBox::question(
                 this,

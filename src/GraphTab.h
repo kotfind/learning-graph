@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GraphListWidget.h"
+
 #include <QWidget>
 
 class GraphTab : public QWidget {
@@ -11,8 +13,11 @@ class GraphTab : public QWidget {
     private:
         void ui();
 
+        GraphListWidget* graphsList;
+
     signals:
         void graphsUpdated();
+        void open(int graphId);
 
     private slots:
         void onCreateBtn();
