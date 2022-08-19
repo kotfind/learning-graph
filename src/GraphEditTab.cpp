@@ -17,6 +17,13 @@
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
     ui();
+
+    connect(
+        this,
+        &GraphEditTab::modeChanged,
+        graphFrame,
+        &GraphCanvasWidget::setMode
+    );
 }
 
 void GraphEditTab::ui() {
@@ -31,25 +38,33 @@ void GraphEditTab::ui() {
 void GraphEditTab::uiHeader() {
     // Mode Bar
     auto* modeBar = addToolBar("Mode Bar");
+
     auto* modeBtns = new QButtonGroup(this);
+    connect(
+        modeBtns,
+        &QButtonGroup::idPressed,
+        [this] (int id) {
+            emit modeChanged((GraphEditMode)id);
+        }
+    );
 
     auto* pointerBtn = new QToolButton;
     pointerBtn->setIcon(QIcon(":pointer.svg"));
     pointerBtn->setCheckable(true);
     pointerBtn->setChecked(true);
-    modeBtns->addButton(pointerBtn);
+    modeBtns->addButton(pointerBtn, CURSOR_EDIT_MODE);
     modeBar->addWidget(pointerBtn);
 
     auto* arrowBtn = new QToolButton;
     arrowBtn->setIcon(QIcon(":arrow.svg"));
     arrowBtn->setCheckable(true);
-    modeBtns->addButton(arrowBtn);
+    modeBtns->addButton(arrowBtn, ARROW_EDIT_MODE);
     modeBar->addWidget(arrowBtn);
 
     auto* newNodeBtn = new QToolButton;
     newNodeBtn->setIcon(QIcon(":plus.svg"));
     newNodeBtn->setCheckable(true);
-    modeBtns->addButton(newNodeBtn);
+    modeBtns->addButton(newNodeBtn, NEW_NODE_EDIT_MODE);
     modeBar->addWidget(newNodeBtn);
 
     // Settings Bar
@@ -75,7 +90,7 @@ void GraphEditTab::uiBody() {
     bodyVBox->setSpacing(10);
 
     // Graph Frame
-    auto* graphFrame = new QFrame;
+    graphFrame = new GraphCanvasWidget;
     graphFrame->setFrameStyle(QFrame::StyledPanel);
     graphFrame->setMinimumSize({300, 200});
     bodyVBox->addWidget(graphFrame);

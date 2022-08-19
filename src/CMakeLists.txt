@@ -33,6 +33,7 @@ add_executable(learning_graph
     GraphListWidget.cpp
     GraphTab.cpp
     GraphNodeWidget.cpp
+    GraphCanvasWidget.cpp
 
     LearningListTab.cpp
 )

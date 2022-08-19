@@ -1,11 +1,16 @@
 #pragma once
 
+#include "GraphCanvasWidget.h"
+#include "GraphEditMode.h"
+
 #include <QMainWindow>
 #include <QString>
 #include <QWidget>
 #include <QVBoxLayout>
 
 class GraphEditTab : public QMainWindow {
+    Q_OBJECT
+
     public:
         GraphEditTab(QWidget* parent = nullptr);
 
@@ -20,4 +25,8 @@ class GraphEditTab : public QMainWindow {
 
         QWidget* widget;
         QVBoxLayout* bodyVBox;
+        GraphCanvasWidget* graphFrame;
+
+    signals:
+        void modeChanged(GraphEditMode mode);
 };
