@@ -47,16 +47,10 @@ void GraphEditTab::uiHeader() {
     modeBar->addWidget(arrowBtn);
 
     auto* newNodeBtn = new QToolButton;
-    newNodeBtn->setIcon(QIcon(":plus1.svg"));
+    newNodeBtn->setIcon(QIcon(":plus.svg"));
     newNodeBtn->setCheckable(true);
     modeBtns->addButton(newNodeBtn);
     modeBar->addWidget(newNodeBtn);
-
-    auto* addNodeBtn = new QToolButton;
-    addNodeBtn->setIcon(QIcon(":plus2.svg"));
-    addNodeBtn->setCheckable(true);
-    modeBtns->addButton(addNodeBtn);
-    modeBar->addWidget(addNodeBtn);
 
     // Settings Bar
     auto* settingsBar = addToolBar("Settings Bar");
