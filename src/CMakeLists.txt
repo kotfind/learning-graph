@@ -22,7 +22,7 @@ add_executable(learning_graph
     ComboboxIdDialog.cpp
 
     ThemeContextMenu.cpp
-    ThemeInfoWindow.cpp
+    ThemeInfoDialog.cpp
     ThemeListWidget.cpp
     ThemeTab.cpp
 

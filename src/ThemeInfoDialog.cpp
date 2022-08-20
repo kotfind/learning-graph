@@ -1,4 +1,4 @@
-#include "ThemeInfoWindow.h"
+#include "ThemeInfoDialog.h"
 
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
@@ -10,17 +10,16 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 
-ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
-        : QWidget(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(themeId));
-    setWindowModality(Qt::ApplicationModal);
+ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
+        : QDialog(parent), themeId(themeId) {
+    setWindowTitle(tr("Theme \"%1\" Info").arg(themeId)); // TODO: themeId -> themeName
 
     ui();
     load();
 
     connect(
         this,
-        &ThemeInfoWindow::themesUpdated,
+        &ThemeInfoDialog::themesUpdated,
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated
     );
@@ -29,31 +28,29 @@ ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
         cancelBtn,
         &QPushButton::pressed,
         this,
-        &ThemeInfoWindow::cancel
+        &ThemeInfoDialog::reject
     );
 
     connect(
         saveBtn,
         &QPushButton::pressed,
         this,
-        &ThemeInfoWindow::save
+        &ThemeInfoDialog::accept
+    );
+
+    connect(
+        this,
+        &ThemeInfoDialog::accepted,
+        this,
+        &ThemeInfoDialog::save
     );
 }
 
-void ThemeInfoWindow::keyPressEvent(QKeyEvent* e) {
-    switch(e->key()) {
-        case Qt::Key_Enter:
-        case Qt::Key_Return:
-            emit save();
-            break;
-
-        case Qt::Key_Escape:
-            emit cancel();
-            break;
-    }
+int ThemeInfoDialog::getId() {
+    return themeId;
 }
 
-void ThemeInfoWindow::load() {
+void ThemeInfoDialog::load() {
     if (themeId != -1) {
         PREPARE_NEW(query, " \
             SELECT name, packageId, isLearned, inWishlist, description \
@@ -72,7 +69,7 @@ void ThemeInfoWindow::load() {
     }
 }
 
-void ThemeInfoWindow::ui() {
+void ThemeInfoDialog::ui() {
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
@@ -147,10 +144,11 @@ void ThemeInfoWindow::ui() {
 
     // Save Button
     saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
+    saveBtn->setDefault(true);
     hbox->addWidget(saveBtn, 0);
 }
 
-void ThemeInfoWindow::save() {
+void ThemeInfoDialog::save() {
     // Check package
     if (!packageCombo->currentData().isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("Package should be selected"));
@@ -211,10 +209,9 @@ void ThemeInfoWindow::save() {
         }
     }
 
-    emit themesUpdated();
-    emit close();
-}
+    if (themeId == -1) {
+        themeId = query.lastInsertId().toInt();
+    }
 
-void ThemeInfoWindow::cancel() {
-    emit close();
+    emit themesUpdated();
 }

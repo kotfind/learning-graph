@@ -1,6 +1,6 @@
 #include "ThemeContextMenu.h"
 
-#include "ThemeInfoWindow.h"
+#include "ThemeInfoDialog.h"
 #include "GraphEditTab.h"
 #include "LearningListTab.h"
 #include "GlobalSignalHandler.h"
@@ -24,7 +24,7 @@ ThemeContextMenu::ThemeContextMenu(
 
 void ThemeContextMenu::ui() {
     addAction(tr("Watch/ Edit"), [this](){
-        (new ThemeInfoWindow(themeId))->show();
+        (new ThemeInfoDialog(themeId, this))->exec();
     });
     addAction(tr("Delete"), [this](){
         if (QMessageBox::question(

@@ -2,7 +2,7 @@
 
 #include "PackageComboBox.h"
 
-#include <QWidget>
+#include <QDialog>
 #include <QString>
 #include <QVector>
 #include <QLineEdit>
@@ -11,14 +11,13 @@
 #include <QKeyEvent>
 #include <QPushButton>
 
-class ThemeInfoWindow : public QWidget {
+class ThemeInfoDialog : public QDialog {
     Q_OBJECT
 
     public:
-        ThemeInfoWindow(int themeId, QWidget* parent = nullptr);
+        ThemeInfoDialog(int themeId, QWidget* parent = nullptr);
 
-    protected:
-        void keyPressEvent(QKeyEvent*) override;
+        int getId();
 
     private:
         void ui();
@@ -38,6 +37,5 @@ class ThemeInfoWindow : public QWidget {
         void themesUpdated();
 
     private slots:
-        void cancel();
         void save();
 };

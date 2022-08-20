@@ -1,6 +1,6 @@
 #include "ThemeTab.h"
 
-#include "ThemeInfoWindow.h"
+#include "ThemeInfoDialog.h"
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
 
@@ -16,8 +16,8 @@ ThemeTab::ThemeTab(QWidget* parent)
     connect(
         createBtn,
         &QPushButton::clicked,
-        []() {
-            (new ThemeInfoWindow(-1))->show();
+        [this]() {
+            (new ThemeInfoDialog(-1, this))->exec();
         }
     );
 
