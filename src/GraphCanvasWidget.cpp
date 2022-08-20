@@ -3,6 +3,7 @@
 #include "ComboboxIdDialog.h"
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
+#include "ThemeInfoDialog.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -63,6 +64,7 @@ void GraphCanvasWidget::mousePressEvent(QMouseEvent* e) {
 void GraphCanvasWidget::newNode(QPoint pos) {
     ComboboxIdDialog d(this);
     d.setLabel(tr("Choose theme to add:"));
+    d.addItem(tr("<New Node>"), -1);
 
     PREPARE_NEW(query, " \
         SELECT id, name, ( \
@@ -80,9 +82,7 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     query.addBindValue(graphId);
     LOG_EXEC(query)
 
-    bool queryIsEmpty = true;
     while (query.next()) {
-        queryIsEmpty = false;
         d.addItem(
             QString("%1 (%2)")
                 .arg(query.value(1).toString())
@@ -91,20 +91,22 @@ void GraphCanvasWidget::newNode(QPoint pos) {
         );
     }
 
-    if (queryIsEmpty) {
-        QMessageBox::critical(
-            this,
-            tr("Error"),
-            tr("No themes to add.")
-        );
-        return;
-    }
-
     if (d.exec() == QDialog::Rejected) {
         return;
     }
 
     auto themeId = d.getId();
+
+    if (themeId == -1) {
+        ThemeInfoDialog d(-1, this);
+
+        if (d.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        themeId = d.getId();
+    }
+
     LOG_PREPARE(query, " \
         INSERT \
         INTO graphNodes(graphId, themeId, x, y) \
