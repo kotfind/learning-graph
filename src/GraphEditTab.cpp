@@ -13,6 +13,7 @@
 #include <QCheckBox>
 #include <QIcon>
 #include <QSpinBox>
+#include <QSettings>
 
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
@@ -24,6 +25,12 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         graphCanvas,
         &GraphCanvasWidget::setMode
     );
+
+    // Load from settings
+    QSettings settings;
+    if (settings.contains("graph/id")) {
+        open(settings.value("graph/id").toInt());
+    }
 }
 
 void GraphEditTab::ui() {
@@ -126,4 +133,8 @@ void GraphEditTab::open(int graphId) {
 
     nameLabel->setText(query.value(0).toString());
     graphCanvas->open(graphId);
+
+    // Write to settings
+    QSettings settings;
+    settings.setValue("graph/id", graphId);
 }
