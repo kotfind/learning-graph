@@ -17,7 +17,6 @@
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
     ui();
-    setDisabled(true);
 
     connect(
         this,
@@ -127,5 +126,4 @@ void GraphEditTab::open(int graphId) {
 
     nameLabel->setText(query.value(0).toString());
     graphCanvas->open(graphId);
-    setDisabled(false);
 }

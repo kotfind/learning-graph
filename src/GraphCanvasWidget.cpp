@@ -9,6 +9,8 @@
 
 GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)
         : QFrame(parent) {
+    setDisabled(true);
+
     connect(
         this,
         &GraphCanvasWidget::graphsUpdated,
@@ -37,6 +39,8 @@ void GraphCanvasWidget::open(int graphId) {
             this
         ))->show();
     }
+
+    setDisabled(false);
 }
 
 void GraphCanvasWidget::mousePressEvent(QMouseEvent* e) {
