@@ -26,6 +26,8 @@ void GraphCanvasWidget::setMode(GraphEditMode mode) {
 void GraphCanvasWidget::open(int graphId) {
     this->graphId = graphId;
 
+    clear();
+
     PREPARE_NEW(query, " \
         SELECT id \
         FROM graphNodes \
@@ -41,6 +43,13 @@ void GraphCanvasWidget::open(int graphId) {
     }
 
     setDisabled(false);
+}
+
+void GraphCanvasWidget::clear() {
+    auto nodes = findChildren<GraphNodeWidget*>();
+    for (auto* node : nodes) {
+        node->deleteLater();
+    }
 }
 
 void GraphCanvasWidget::mousePressEvent(QMouseEvent* e) {

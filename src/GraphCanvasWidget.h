@@ -29,6 +29,8 @@ class GraphCanvasWidget : public QFrame {
     public slots:
         void open(int graphId);
 
+        void clear();
+
         void setMode(GraphEditMode mode);
 
     friend GraphNodeWidget;
