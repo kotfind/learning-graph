@@ -45,16 +45,33 @@ void GraphCanvasWidget::newNode(QPoint pos) {
             WHERE id = packageId \
         ) \
         FROM themes \
+        WHERE id NOT IN ( \
+            SELECT themeId \
+            FROM graphNodes \
+            WHERE graphId = ? \
+        ) \
     ")
+    query.addBindValue(graphId);
     LOG_EXEC(query)
 
+    bool queryIsEmpty = true;
     while (query.next()) {
+        queryIsEmpty = false;
         d.addItem(
             QString("%1 (%2)")
                 .arg(query.value(1).toString())
                 .arg(query.value(2).toString()),
             query.value(0).toInt()
         );
+    }
+
+    if (queryIsEmpty) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            tr("No themes to add.")
+        );
+        return;
     }
 
     if (d.exec() == QDialog::Rejected) {
@@ -71,21 +88,7 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     query.addBindValue(themeId);
     query.addBindValue(pos.x());
     query.addBindValue(pos.y());
-
-    if (!query.exec()) {
-        switch (ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("This theme exists in graph.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query)
-        }
-    }
+    LOG_EXEC(query)
 
     (new GraphNodeWidget(
         query.lastInsertId().toInt(),
