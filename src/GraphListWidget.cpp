@@ -102,9 +102,22 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
     });
 
     menu.addAction(tr("Rename"), [=]() {
+        auto graphId = curr->data(Qt::UserRole).toInt();
+
+        PREPARE_NEW(query, " \
+            SELECT name \
+            FROM graphs \
+            WHERE id = ? \
+        ");
+        query.addBindValue(graphId);
+        LOG_EXEC(query)
+        query.next();
+        auto oldName = query.value(0).toString();
+        query.finish();
+
         bool ok;
         auto name = QInputDialog::getText(this, tr("Rename graph"),
-            tr("Graph name:"), QLineEdit::Normal, curr->text(), &ok).trimmed();
+            tr("Graph name:"), QLineEdit::Normal, oldName, &ok).trimmed();
 
         if (ok) {
             PREPARE_NEW(query, " \
@@ -113,7 +126,7 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
                 WHERE id = ? \
             ")
             query.addBindValue(name);
-            query.addBindValue(curr->data(Qt::UserRole).toInt());
+            query.addBindValue(graphId);
 
             if (!query.exec()) {
                 switch(ERR_CODE(query)) {

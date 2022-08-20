@@ -114,9 +114,22 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
     });
 
     menu.addAction(tr("Rename"), [=]() {
+        auto packageId = curr->data(Qt::UserRole).toInt();
+
+        PREPARE_NEW(query, " \
+            SELECT name \
+            FROM packages \
+            WHERE id = ? \
+        ");
+        query.addBindValue(packageId);
+        LOG_EXEC(query)
+        query.next();
+        auto oldName = query.value(0).toString();
+        query.finish();
+
         bool ok;
         auto name = QInputDialog::getText(this, tr("Rename package"),
-            tr("Package name:"), QLineEdit::Normal, curr->text(), &ok).trimmed();
+            tr("Package name:"), QLineEdit::Normal, oldName, &ok).trimmed();
 
         if (ok) {
             PREPARE_NEW(query, " \
@@ -125,7 +138,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
                 WHERE id = ? \
             ")
             query.addBindValue(name);
-            query.addBindValue(curr->data(Qt::UserRole).toInt());
+            query.addBindValue(packageId);
 
             if (!query.exec()) {
                 switch(ERR_CODE(query)) {
