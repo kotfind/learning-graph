@@ -4,6 +4,7 @@
 #include "sqlDefines.h"
 
 #include <QDebug>
+#include <QMessageBox>
 
 GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)
         : QFrame(parent) {
@@ -55,8 +56,34 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     }
 
     auto themeId = d.getId();
+    LOG_PREPARE(query, " \
+        INSERT \
+        INTO graphNodes(graphId, themeId, x, y) \
+        VALUES (?, ?, ?, ?) \
+    ")
+    query.addBindValue(graphId);
+    query.addBindValue(themeId);
+    query.addBindValue(pos.x());
+    query.addBindValue(pos.y());
 
-    auto* node = new GraphNodeWidget(themeId, this); // FIXME: themeId -> nodeId
-    node->move(pos);
-    node->show();
+    if (!query.exec()) {
+        auto code = query.lastError().nativeErrorCode().toInt();
+        switch (code) {
+            case SQLITE_CONSTRAINT_UNIQUE:
+                QMessageBox::critical(
+                    this,
+                    tr("Error"),
+                    tr("This theme exists in graph.")
+                );
+                return;
+
+            default:
+                LOG_FAILED_QUERY(query)
+        }
+    }
+
+    (new GraphNodeWidget(
+        query.lastInsertId().toInt(),
+        this
+    ))->show();
 }
