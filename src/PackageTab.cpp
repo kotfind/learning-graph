@@ -62,8 +62,7 @@ void PackageTab::onCreateBtn() {
         query.addBindValue(name);
 
         if (!query.exec()) {
-            auto code = query.lastError().nativeErrorCode().toInt();
-            switch(code) {
+            switch(ERR_CODE(query)) {
                 case SQLITE_CONSTRAINT_UNIQUE:
                     QMessageBox::critical(
                         this,
