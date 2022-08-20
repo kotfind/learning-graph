@@ -23,6 +23,9 @@ class GraphCanvasWidget : public QFrame {
     protected:
         void mousePressEvent(QMouseEvent*) override;
 
+    signals:
+        void graphsUpdated();
+
     public slots:
         void open(int graphId);
 

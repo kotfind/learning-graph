@@ -2,12 +2,19 @@
 
 #include "ComboboxIdDialog.h"
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QDebug>
 #include <QMessageBox>
 
 GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)
         : QFrame(parent) {
+    connect(
+        this,
+        &GraphCanvasWidget::graphsUpdated,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::graphsUpdated
+    );
 }
 
 void GraphCanvasWidget::setMode(GraphEditMode mode) {
@@ -85,4 +92,6 @@ void GraphCanvasWidget::newNode(QPoint pos) {
         query.lastInsertId().toInt(),
         this
     ))->show();
+
+    emit graphsUpdated();
 }
