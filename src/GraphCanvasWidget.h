@@ -5,6 +5,7 @@
 
 #include <QFrame>
 #include <QMouseEvent>
+#include <QPoint>
 
 class GraphCanvasWidget : public QFrame {
     Q_OBJECT
@@ -13,6 +14,8 @@ class GraphCanvasWidget : public QFrame {
         GraphCanvasWidget(QWidget* parent = nullptr);
 
     private:
+        void newNode(QPoint pos);
+
         int graphId;
 
         GraphEditMode mode;
