@@ -25,19 +25,24 @@ void GraphNodeWidget::ui() {
 
 void GraphNodeWidget::load() {
     PREPARE_NEW(query, " \
-        SELECT name, x, y \
-        FROM graphNodes, themes \
-        WHERE graphNodes.id = ? \
-          AND themeId = themes.id \
+        SELECT t.name, p.name, n.x, n.y \
+        FROM graphNodes n, themes t, packages p \
+        WHERE n.id = ? \
+          AND n.themeId = t.id \
+          AND p.id = t.packageId \
     ")
     query.addBindValue(nodeId);
     LOG_EXEC(query)
     query.next();
 
-    nameLabel->setText(query.value(0).toString());
+    nameLabel->setText(
+        QString("%1 (%2)")
+            .arg(query.value(0).toString())
+            .arg(query.value(1).toString())
+    );
     move(
-        query.value(1).toInt(),
-        query.value(2).toInt()
+        query.value(2).toInt(),
+        query.value(3).toInt()
     );
 }
 
