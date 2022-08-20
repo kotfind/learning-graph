@@ -8,7 +8,6 @@
 #include "sqlDefines.h"
 
 #include <QMessageBox>
-#include <QSqlQuery>
 
 ThemeContextMenu::ThemeContextMenu(
     int themeId, const QString& themeName, QWidget* parent)
@@ -33,8 +32,7 @@ void ThemeContextMenu::ui() {
                 "Question",
                 tr("Delete theme \"%1\"?").arg(themeName))
                     == QMessageBox::Yes) {
-            QSqlQuery query;
-            LOG_PREPARE(query, " \
+            PREPARE_NEW(query, " \
                 DELETE \
                 FROM themes \
                 WHERE id = ? \

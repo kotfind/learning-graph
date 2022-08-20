@@ -38,8 +38,7 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     ComboboxIdDialog d(this);
     d.setLabel(tr("Choose theme to add:"));
 
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT id, name, ( \
             SELECT name \
             FROM packages \

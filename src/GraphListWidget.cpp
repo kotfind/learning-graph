@@ -7,7 +7,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QInputDialog>
-#include <QSqlQuery>
 
 GraphListWidget::GraphListWidget(QWidget* parent)
         : QListWidget(parent) {
@@ -39,8 +38,7 @@ GraphListWidget::GraphListWidget(QWidget* parent)
 void GraphListWidget::update() {
     clear();
 
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT g.id, g.name, ( \
             SELECT COUNT(*) \
             FROM graphNodes n \
@@ -109,8 +107,7 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
             tr("Graph name:"), QLineEdit::Normal, curr->text(), &ok).trimmed();
 
         if (ok) {
-            QSqlQuery query;
-            LOG_PREPARE(query, " \
+            PREPARE_NEW(query, " \
                 UPDATE graphs \
                 SET name = ? \
                 WHERE id = ? \

@@ -1,7 +1,6 @@
 #include "sqlDefines.h"
 #include "dbLogics.h"
 
-#include <QSqlQuery>
 #include <QFileInfo>
 #include <QSqlError>
 #include <QDebug>

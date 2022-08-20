@@ -8,7 +8,6 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QGroupBox>
-#include <QSqlQuery>
 
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
@@ -150,8 +149,7 @@ void ThemeTab::update() {
         params.append(isLearned == Qt::Checked);
     }
 
-    QSqlQuery query;
-    LOG_PREPARE(query, queryString);
+    PREPARE_NEW(query, queryString);
     for (const auto& param : params) {
         query.addBindValue(param);
     }

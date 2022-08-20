@@ -116,8 +116,7 @@ void GraphEditTab::uiFooter() {
 void GraphEditTab::open(int graphId) {
     this->graphId = graphId;
 
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT name \
         FROM graphs \
         WHERE id = ? \

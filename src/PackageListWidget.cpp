@@ -7,7 +7,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QInputDialog>
-#include <QSqlQuery>
 
 PackageListWidget::PackageListWidget(QWidget* parent)
         : QListWidget(parent) {
@@ -53,8 +52,7 @@ PackageListWidget::PackageListWidget(QWidget* parent)
 void PackageListWidget::update() {
     clear();
 
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT p.id, p.name, ( \
             SELECT COUNT(*) \
             FROM themes t \
@@ -92,6 +90,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             auto packageId = curr->data(Qt::UserRole).toInt();
 
             QSqlQuery query;
+
             LOG_PREPARE(query, " \
                 DELETE \
                 FROM packages \
@@ -120,8 +119,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             tr("Package name:"), QLineEdit::Normal, curr->text(), &ok).trimmed();
 
         if (ok) {
-            QSqlQuery query;
-            LOG_PREPARE(query, " \
+            PREPARE_NEW(query, " \
                 UPDATE packages \
                 SET name = ? \
                 WHERE id = ? \

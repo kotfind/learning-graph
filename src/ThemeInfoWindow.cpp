@@ -8,7 +8,6 @@
 #include <QFrame>
 #include <QDebug>
 #include <QMessageBox>
-#include <QSqlQuery>
 #include <QSqlDatabase>
 
 ThemeInfoWindow::ThemeInfoWindow(int themeId, QWidget* parent)
@@ -56,8 +55,7 @@ void ThemeInfoWindow::keyPressEvent(QKeyEvent* e) {
 
 void ThemeInfoWindow::load() {
     if (themeId != -1) {
-        QSqlQuery query;
-        LOG_PREPARE(query, " \
+        PREPARE_NEW(query, " \
             SELECT name, packageId, isLearned, inWishlist, description \
             FROM themes \
             WHERE id = ? \

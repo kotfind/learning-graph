@@ -8,7 +8,6 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QInputDialog>
-#include <QSqlQuery>
 #include <QMessageBox>
 
 PackageTab::PackageTab(QWidget* parent)
@@ -53,8 +52,7 @@ void PackageTab::onCreateBtn() {
         tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
         // Add package
-        QSqlQuery query;
-        LOG_PREPARE(query, " \
+        PREPARE_NEW(query, " \
             INSERT \
             INTO packages(name) \
             VALUES (NULLIF(?, '')) \

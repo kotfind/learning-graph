@@ -24,8 +24,7 @@ void GraphNodeWidget::ui() {
 }
 
 void GraphNodeWidget::load() {
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT name, x, y \
         FROM graphNodes, themes \
         WHERE graphNodes.id = ? \
@@ -53,8 +52,7 @@ void GraphNodeWidget::mouseMoveEvent(QMouseEvent* e) {
 }
 
 void GraphNodeWidget::mouseReleaseEvent(QMouseEvent* e) {
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         UPDATE graphNodes \
         SET x = ?, \
             y = ? \

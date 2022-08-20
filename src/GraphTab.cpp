@@ -7,7 +7,6 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QInputDialog>
-#include <QSqlQuery>
 #include <QMessageBox>
 
 GraphTab::GraphTab(QWidget* parent)
@@ -59,8 +58,7 @@ void GraphTab::onCreateBtn() {
         tr("New graph name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
         // Add graph
-        QSqlQuery query;
-        LOG_PREPARE(query, " \
+        PREPARE_NEW(query, " \
             INSERT \
             INTO graphs(name, xoffset, yoffset) \
             VALUES (NULLIF(?, ''), 0, 0) \

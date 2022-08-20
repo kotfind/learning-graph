@@ -4,7 +4,6 @@
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>
-#include <QSqlQuery>
 
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
@@ -25,8 +24,7 @@ void PackageComboBox::update() {
         addItem(tr("<Any>"), -1);
     }
 
-    QSqlQuery query;
-    LOG_PREPARE(query, " \
+    PREPARE_NEW(query, " \
         SELECT name, id \
         FROM packages \
     ")

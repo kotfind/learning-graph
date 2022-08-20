@@ -19,6 +19,10 @@ if (!(query).prepare(str)) { \
 } \
 (query).setForwardOnly(true);
 
+#define PREPARE_NEW(query, str) \
+QSqlQuery query; \
+LOG_PREPARE(query, str)
+
 #define LOG_EXEC(query) \
 if (!(query).exec()) { \
     qDebug() << QString("EXEC FAILED at %1(%2)")\
