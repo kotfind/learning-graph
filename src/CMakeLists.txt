@@ -17,8 +17,9 @@ qt_standard_project_setup()
 add_executable(learning_graph
     main.cpp
     dbLogics.cpp
-    GlobalSignalHandler.cpp
     MainWindow.cpp
+    GlobalSignalHandler.cpp
+    ComboboxIdDialog.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoWindow.cpp

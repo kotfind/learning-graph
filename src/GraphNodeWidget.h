@@ -6,7 +6,7 @@
 
 class GraphNodeWidget : public QFrame {
     public:
-        GraphNodeWidget(QWidget* parent = nullptr);
+        GraphNodeWidget(int nodeId, QWidget* parent = nullptr);
 
     private:
         int nodeId;

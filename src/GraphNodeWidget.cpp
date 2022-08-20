@@ -1,19 +1,20 @@
 #include "GraphNodeWidget.h"
 
 #include "GraphCanvasWidget.h"
+#include "sqlDefines.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QDebug>
 
-GraphNodeWidget::GraphNodeWidget(QWidget* parent)
-        : QFrame(parent) {
+GraphNodeWidget::GraphNodeWidget(int nodeId, QWidget* parent)
+        : QFrame(parent), nodeId(nodeId) {
     setFrameShape(QFrame::Box);
 
     auto* vbox = new QVBoxLayout;
     setLayout(vbox);
 
-    auto* nameLabel = new QLabel("Node");
+    auto* nameLabel = new QLabel(QString("id: %1").arg(nodeId)); // FIXME
     vbox->addWidget(nameLabel);
 }
 
