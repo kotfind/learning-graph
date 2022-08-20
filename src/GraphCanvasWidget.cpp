@@ -23,7 +23,20 @@ void GraphCanvasWidget::setMode(GraphEditMode mode) {
 
 void GraphCanvasWidget::open(int graphId) {
     this->graphId = graphId;
-    // TODO
+
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM graphNodes \
+        WHERE graphId = ? \
+    ")
+    query.addBindValue(graphId);
+    LOG_EXEC(query)
+    while (query.next()) {
+        (new GraphNodeWidget(
+            query.value(0).toInt(),
+            this
+        ))->show();
+    }
 }
 
 void GraphCanvasWidget::mousePressEvent(QMouseEvent* e) {
