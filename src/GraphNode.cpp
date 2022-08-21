@@ -82,3 +82,8 @@ void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }
+
+void GraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
+    QGraphicsTextItem::mouseMoveEvent(e);
+    emit positionChanged();
+}

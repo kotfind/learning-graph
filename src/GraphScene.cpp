@@ -62,7 +62,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
         case ARROW_EDIT_MODE:
             auto* releasedNode = qgraphicsitem_cast<GraphNode*>(itemAt(e->scenePos(), QTransform()));
 
-            if (!releasedNode || !pressedNode) {
+            if (!releasedNode || !pressedNode || releasedNode == pressedNode) {
                 return;
             }
 

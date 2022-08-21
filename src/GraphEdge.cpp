@@ -13,25 +13,48 @@ GraphEdge::GraphEdge(
           beginNode(beginNode),
           endNode(endNode) {
 
-    qDebug() << "NEW EDGE";
-    qDebug() << beginNode;
-    qDebug() << endNode;
-    qDebug() << "";
-    // TODO
+    connect(
+        beginNode,
+        &GraphNode::positionChanged,
+        this,
+        &GraphEdge::updatePosition
+    );
+
+    connect(
+        endNode,
+        &GraphNode::positionChanged,
+        this,
+        &GraphEdge::updatePosition
+    );
+
+    updatePosition();
 }
 
 QRectF GraphEdge::boundingRect() const {
-    return QRectF(0, 0, 0, 0); // TODO
+    auto x1 = begin.x();
+    auto y1 = begin.y();
+    auto x2 = end.x();
+    auto y2 = end.y();
+
+    return QRectF(
+        std::min(x1, x2),
+        std::min(y1, y2),
+        std::abs(x1 - x2),
+        std::abs(y1 - y2)
+    );
 }
 
 void GraphEdge::updatePosition() {
-    // TODO
+    prepareGeometryChange();
+    begin = beginNode->pos();
+    end = endNode->pos();
 }
 
 void GraphEdge::paint(
-    QPainter*,
+    QPainter* qp,
     const QStyleOptionGraphicsItem*,
     QWidget*) {
 
-    // TODO
+    // FIXME: fit in boundingRect
+    qp->drawLine(beginNode->pos(), endNode->pos());
 }

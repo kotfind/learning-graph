@@ -6,6 +6,8 @@
 #include <QRectF>
 
 class GraphNode : public QGraphicsTextItem {
+    Q_OBJECT
+
     public:
         enum { Type = UserType + 0 };
 
@@ -22,9 +24,13 @@ class GraphNode : public QGraphicsTextItem {
     private:
         int nodeId;
 
-    private slots:
-        void load();
-
     protected:
         void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
+        void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
+
+    signals:
+        void positionChanged();
+
+    private slots:
+        void load();
 };
