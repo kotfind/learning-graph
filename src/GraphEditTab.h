@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphCanvasWidget.h"
+#include "GraphScene.h"
 #include "GraphEditMode.h"
 
 #include <QMainWindow>
@@ -8,6 +8,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 class GraphEditTab : public QMainWindow {
     Q_OBJECT
@@ -24,9 +26,11 @@ class GraphEditTab : public QMainWindow {
 
         int graphId;
 
+        GraphScene* graphScene;
+
         QWidget* widget;
         QVBoxLayout* bodyVBox;
-        GraphCanvasWidget* graphCanvas;
+        QGraphicsView* graphView;
         QLabel* nameLabel;
 
     signals:

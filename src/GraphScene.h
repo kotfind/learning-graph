@@ -1,17 +1,17 @@
 #pragma once
 
 #include "GraphEditMode.h"
-#include "GraphNodeWidget.h"
+#include "GraphNode.h"
 
-#include <QFrame>
-#include <QMouseEvent>
+#include <QGraphicsScene>
+// #include <QMouseEvent>
 #include <QPoint>
 
-class GraphCanvasWidget : public QFrame {
+class GraphScene : public QGraphicsScene {
     Q_OBJECT
 
     public:
-        GraphCanvasWidget(QWidget* parent = nullptr);
+        GraphScene();
 
     private:
         void newNode(QPoint pos);
@@ -20,8 +20,8 @@ class GraphCanvasWidget : public QFrame {
 
         GraphEditMode mode;
 
-    protected:
-        void mousePressEvent(QMouseEvent*) override;
+    // protected:
+    //     void mousePressEvent(QMouseEvent*) override;
 
     signals:
         void graphsUpdated();
@@ -29,9 +29,7 @@ class GraphCanvasWidget : public QFrame {
     public slots:
         void open(int graphId);
 
-        void clear();
-
         void setMode(GraphEditMode mode);
 
-    friend GraphNodeWidget;
+    friend GraphNode;
 };

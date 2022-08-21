@@ -1,6 +1,6 @@
 #include "GraphEditTab.h"
 
-#include "GraphNodeWidget.h"
+#include "GraphNode.h"
 #include "sqlDefines.h"
 
 #include <QWidget>
@@ -18,12 +18,16 @@
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
     ui();
+    graphView->setDisabled(true);
+
+    graphScene = new GraphScene;
+    graphView->setScene(graphScene);
 
     connect(
         this,
         &GraphEditTab::modeChanged,
-        graphCanvas,
-        &GraphCanvasWidget::setMode
+        graphScene,
+        &GraphScene::setMode
     );
 
     // Load from settings
@@ -97,10 +101,12 @@ void GraphEditTab::uiBody() {
     bodyVBox->setSpacing(10);
 
     // Graph Frame
-    graphCanvas = new GraphCanvasWidget;
-    graphCanvas->setFrameStyle(QFrame::StyledPanel);
-    graphCanvas->setMinimumSize({300, 200});
-    bodyVBox->addWidget(graphCanvas);
+    graphView = new QGraphicsView;
+    graphView->setFrameStyle(QFrame::StyledPanel);
+    graphView->setMinimumSize({300, 200});
+    graphView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    graphView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    bodyVBox->addWidget(graphView);
 }
 
 void GraphEditTab::uiFooter() {
@@ -132,7 +138,8 @@ void GraphEditTab::open(int graphId) {
     query.next();
 
     nameLabel->setText(query.value(0).toString());
-    graphCanvas->open(graphId);
+    graphScene->open(graphId);
+    graphView->setDisabled(false);
 
     // Write to settings
     QSettings settings;

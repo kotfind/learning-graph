@@ -1,4 +1,4 @@
-#include "GraphCanvasWidget.h"
+#include "GraphScene.h"
 
 #include "ComboboxIdDialog.h"
 #include "sqlDefines.h"
@@ -8,23 +8,21 @@
 #include <QDebug>
 #include <QMessageBox>
 
-GraphCanvasWidget::GraphCanvasWidget(QWidget* parent)
-        : QFrame(parent) {
-    setDisabled(true);
-
+GraphScene::GraphScene()
+        : QGraphicsScene() {
     connect(
         this,
-        &GraphCanvasWidget::graphsUpdated,
+        &GraphScene::graphsUpdated,
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::graphsUpdated
     );
 }
 
-void GraphCanvasWidget::setMode(GraphEditMode mode) {
+void GraphScene::setMode(GraphEditMode mode) {
     this->mode = mode;
 }
 
-void GraphCanvasWidget::open(int graphId) {
+void GraphScene::open(int graphId) {
     this->graphId = graphId;
 
     clear();
@@ -37,32 +35,21 @@ void GraphCanvasWidget::open(int graphId) {
     query.addBindValue(graphId);
     LOG_EXEC(query)
     while (query.next()) {
-        (new GraphNodeWidget(
-            query.value(0).toInt(),
-            this
-        ))->show();
-    }
-
-    setDisabled(false);
-}
-
-void GraphCanvasWidget::clear() {
-    auto nodes = findChildren<GraphNodeWidget*>();
-    for (auto* node : nodes) {
-        node->deleteLater();
+        auto* node = new GraphNode(query.value(0).toInt());
+        addItem(node);
     }
 }
 
-void GraphCanvasWidget::mousePressEvent(QMouseEvent* e) {
-    switch (mode) {
-        case NEW_NODE_EDIT_MODE:
-            newNode(e->pos());
-            break;
-    }
-}
+// void GraphScene::mousePressEvent(QMouseEvent* e) {
+//     switch (mode) {
+//         case NEW_NODE_EDIT_MODE:
+//             newNode(e->pos());
+//             break;
+//     }
+// }
 
-void GraphCanvasWidget::newNode(QPoint pos) {
-    ComboboxIdDialog d(this);
+void GraphScene::newNode(QPoint pos) {
+    ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
@@ -98,7 +85,7 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     auto themeId = d.getId();
 
     if (themeId == -1) {
-        ThemeInfoDialog d(-1, this);
+        ThemeInfoDialog d(-1, (QWidget*)views()[0]);
 
         if (d.exec() == QDialog::Rejected) {
             return;
@@ -118,10 +105,8 @@ void GraphCanvasWidget::newNode(QPoint pos) {
     query.addBindValue(pos.y());
     LOG_EXEC(query)
 
-    (new GraphNodeWidget(
-        query.lastInsertId().toInt(),
-        this
-    ))->show();
+    auto* node = new GraphNode(query.lastInsertId().toInt());
+    addItem(node);
 
     emit graphsUpdated();
 }
