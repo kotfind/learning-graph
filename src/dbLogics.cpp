@@ -38,9 +38,9 @@ void createTables() {
     LOG_PREPARE(query, " \
         CREATE TABLE themeEdges( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            fromId INT NOT NULL REFERENCES themes(id), \
-            toId INT NOT NULL REFERENCES themes(id), \
-            UNIQUE (fromId, toId) \
+            beginId INT NOT NULL REFERENCES themes(id), \
+            endId INT NOT NULL REFERENCES themes(id), \
+            UNIQUE (beginId, endId) \
         )")
     LOG_EXEC(query)
     query.finish();
