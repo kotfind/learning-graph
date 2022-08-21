@@ -20,8 +20,11 @@ class GraphScene : public QGraphicsScene {
 
         GraphEditMode mode;
 
+        GraphNode* pressedNode = nullptr;
+
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*) override;
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
 
     signals:
         void graphsUpdated();
@@ -30,6 +33,4 @@ class GraphScene : public QGraphicsScene {
         void open(int graphId);
 
         void setMode(GraphEditMode mode);
-
-    friend GraphNode;
 };

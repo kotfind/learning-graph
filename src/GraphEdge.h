@@ -1,24 +1,41 @@
 #pragma once
 
-#include <QPainter>
 #include "GraphNode.h"
 
-class GraphEdge : public QObject {
+#include <QGraphicsObject>
+#include <QRectF>
+
+class GraphEdge : public QGraphicsObject {
     Q_OBJECT
 
     public:
+        enum { Type = UserType + 1 };
+
         GraphEdge(
             int edgeId,
             GraphNode* beginNode,
             GraphNode* endNode,
-            QObject* parent = nullptr
+            QGraphicsItem* parent = nullptr
         );
+
+        int type() const override { return Type; }
+
+        QRectF boundingRect() const override;
+
+        void paint(
+            QPainter*,
+            const QStyleOptionGraphicsItem*,
+            QWidget* widget = nullptr) override;
 
     private:
         int edgeId;
+
         GraphNode* beginNode;
         GraphNode* endNode;
 
+        QPointF begin;
+        QPointF end;
+
     public slots:
-        void draw(QPainter*);
+        void updatePosition();
 };

@@ -4,6 +4,7 @@
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"
+#include "GraphEdge.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -46,9 +47,32 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             newNode(e->scenePos());
             break;
 
+        case ARROW_EDIT_MODE:
+            pressedNode = qgraphicsitem_cast<GraphNode*>(itemAt(e->scenePos(), QTransform()));
+            break;
+
         case CURSOR_EDIT_MODE:
             QGraphicsScene::mousePressEvent(e);
+            break;
     }
+}
+
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
+    switch (mode) {
+        case ARROW_EDIT_MODE:
+            auto* releasedNode = qgraphicsitem_cast<GraphNode*>(itemAt(e->scenePos(), QTransform()));
+
+            if (!releasedNode || !pressedNode) {
+                return;
+            }
+
+            auto* edge = new GraphEdge(-1, pressedNode, releasedNode); // FIXME: id
+            addItem(edge);
+
+            break;
+    }
+
+    QGraphicsScene::mouseReleaseEvent(e);
 }
 
 void GraphScene::newNode(QPointF pos) {

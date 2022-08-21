@@ -7,15 +7,31 @@ GraphEdge::GraphEdge(
     int edgeId,
     GraphNode* beginNode,
     GraphNode* endNode,
-    QObject* parent)
-        : QObject(parent),
+    QGraphicsItem* parent)
+        : QGraphicsObject(parent),
           edgeId(edgeId),
           beginNode(beginNode),
           endNode(endNode) {
 
-    qDebug() << "NEW EDGE" << beginNode << endNode;
+    qDebug() << "NEW EDGE";
+    qDebug() << beginNode;
+    qDebug() << endNode;
+    qDebug() << "";
+    // TODO
 }
 
-void GraphEdge::draw(QPainter*) {
+QRectF GraphEdge::boundingRect() const {
+    return QRectF(0, 0, 0, 0); // TODO
+}
 
+void GraphEdge::updatePosition() {
+    // TODO
+}
+
+void GraphEdge::paint(
+    QPainter*,
+    const QStyleOptionGraphicsItem*,
+    QWidget*) {
+
+    // TODO
 }

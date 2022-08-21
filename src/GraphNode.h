@@ -7,7 +7,11 @@
 
 class GraphNode : public QGraphicsTextItem {
     public:
+        enum { Type = UserType + 0 };
+
         GraphNode(int nodeId, QGraphicsItem* parent = nullptr);
+
+        int type() const override { return Type; }
 
         void paint(
             QPainter*,
