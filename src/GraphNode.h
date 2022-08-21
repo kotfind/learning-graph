@@ -5,11 +5,9 @@
 #include <QPainter>
 #include <QRectF>
 
-class GraphNode : public QGraphicsSimpleTextItem {
+class GraphNode : public QGraphicsTextItem {
     public:
         GraphNode(int nodeId, QGraphicsItem* parent = nullptr);
-
-        QRectF boundingRect() const override;
 
         void paint(
             QPainter*,
@@ -19,8 +17,6 @@ class GraphNode : public QGraphicsSimpleTextItem {
 
     private:
         int nodeId;
-
-        const double margin = 10;
 
     private slots:
         void load();

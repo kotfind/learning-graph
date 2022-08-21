@@ -8,28 +8,23 @@
 #include <QMargins>
 
 GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
-        : QGraphicsSimpleTextItem(parent), nodeId(nodeId) {
+        : QGraphicsTextItem(parent), nodeId(nodeId) {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     load();
 
-    // connect(
-    //     GlobalSignalHandler::getInstance(),
-    //     &GlobalSignalHandler::themesUpdated,
-    //     this,
-    //     &GraphNode::load
-    // );
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &GraphNode::load
+    );
 
-    // connect(
-    //     GlobalSignalHandler::getInstance(),
-    //     &GlobalSignalHandler::packagesUpdated,
-    //     this,
-    //     &GraphNode::load
-    // );
-}
-
-QRectF GraphNode::boundingRect() const {
-    return QGraphicsSimpleTextItem::boundingRect() +
-        QMargins(margin, margin, margin, margin);
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated,
+        this,
+        &GraphNode::load
+    );
 }
 
 void GraphNode::paint(
@@ -47,7 +42,7 @@ void GraphNode::paint(
     qp->drawRect(r);
 
     // Text
-    QGraphicsSimpleTextItem::paint(qp, options, widget);
+    QGraphicsTextItem::paint(qp, options, widget);
 }
 
 void GraphNode::load() {
@@ -62,7 +57,7 @@ void GraphNode::load() {
     LOG_EXEC(query)
     query.next();
 
-    setText(
+    setPlainText(
         QString("%1 (%2)")
             .arg(query.value(0).toString())
             .arg(query.value(1).toString())
@@ -85,5 +80,5 @@ void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     query.addBindValue(nodeId);
     LOG_EXEC(query)
 
-    QGraphicsSimpleTextItem::mouseReleaseEvent(e);
+    QGraphicsTextItem::mouseReleaseEvent(e);
 }
