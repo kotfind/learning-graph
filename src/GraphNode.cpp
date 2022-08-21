@@ -5,6 +5,7 @@
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>
+#include <QMargins>
 
 GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
         : QGraphicsSimpleTextItem(parent), nodeId(nodeId) {
@@ -24,6 +25,11 @@ GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
     //     this,
     //     &GraphNode::load
     // );
+}
+
+QRectF GraphNode::boundingRect() const {
+    return QGraphicsSimpleTextItem::boundingRect() +
+        QMargins(margin, margin, margin, margin);
 }
 
 void GraphNode::paint(
