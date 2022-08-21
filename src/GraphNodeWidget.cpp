@@ -2,6 +2,7 @@
 
 #include "GraphCanvasWidget.h"
 #include "sqlDefines.h"
+#include "GlobalSignalHandler.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -11,6 +12,20 @@ GraphNodeWidget::GraphNodeWidget(int nodeId, QWidget* parent)
         : QFrame(parent), nodeId(nodeId) {
     ui();
     load();
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &GraphNodeWidget::load
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::packagesUpdated,
+        this,
+        &GraphNodeWidget::load
+    );
 }
 
 void GraphNodeWidget::ui() {

@@ -11,12 +11,14 @@ class GraphNodeWidget : public QFrame {
 
     private:
         void ui();
-        void load();
 
         int nodeId;
 
         QPoint dragPoint;
         QLabel* nameLabel;
+
+    private slots:
+        void load();
 
     protected:
         void mousePressEvent(QMouseEvent*) override;
