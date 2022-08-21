@@ -106,6 +106,7 @@ void GraphEditTab::uiBody() {
     graphView->setMinimumSize({300, 200});
     graphView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     graphView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    graphView->setDragMode(QGraphicsView::ScrollHandDrag);
     bodyVBox->addWidget(graphView);
 }
 
