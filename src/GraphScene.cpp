@@ -40,15 +40,18 @@ void GraphScene::open(int graphId) {
     }
 }
 
-// void GraphScene::mousePressEvent(QMouseEvent* e) {
-//     switch (mode) {
-//         case NEW_NODE_EDIT_MODE:
-//             newNode(e->pos());
-//             break;
-//     }
-// }
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
+    switch (mode) {
+        case NEW_NODE_EDIT_MODE:
+            newNode(e->scenePos());
+            break;
 
-void GraphScene::newNode(QPoint pos) {
+        case CURSOR_EDIT_MODE:
+            QGraphicsScene::mousePressEvent(e);
+    }
+}
+
+void GraphScene::newNode(QPointF pos) {
     ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);

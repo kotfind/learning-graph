@@ -1,7 +1,7 @@
 #pragma once
 
-// #include <QMouseEvent>
 #include <QGraphicsSimpleTextItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 
 class GraphNode : public QGraphicsSimpleTextItem {
@@ -20,8 +20,6 @@ class GraphNode : public QGraphicsSimpleTextItem {
     private slots:
         void load();
 
-    // protected:
-    //     void mousePressEvent(QMouseEvent*) override;
-    //     void mouseMoveEvent(QMouseEvent*) override;
-    //     void mouseReleaseEvent(QMouseEvent*) override;
+    protected:
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
 };

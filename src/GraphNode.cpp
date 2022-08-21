@@ -4,8 +4,6 @@
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
 
-#include <QLabel>
-#include <QVBoxLayout>
 #include <QDebug>
 
 GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
@@ -69,25 +67,17 @@ void GraphNode::load() {
     );
 }
 
-// void GraphNode::mousePressEvent(QMouseEvent* e) {
-//     dragPoint = e->pos();
-// }
-// 
-// void GraphNode::mouseMoveEvent(QMouseEvent* e) {
-//     if (((GraphScene*)parent())->mode/* XXX */ == CURSOR_EDIT_MODE) {
-//         move(mapToParent(e->pos() - dragPoint));
-//     }
-// }
-// 
-// void GraphNode::mouseReleaseEvent(QMouseEvent* e) {
-//     PREPARE_NEW(query, " \
-//         UPDATE graphNodes \
-//         SET x = ?, \
-//             y = ? \
-//         WHERE id = ? \
-//     ")
-//     query.addBindValue(pos().x());
-//     query.addBindValue(pos().y());
-//     query.addBindValue(nodeId);
-//     LOG_EXEC(query)
-// }
+void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
+    PREPARE_NEW(query, " \
+        UPDATE graphNodes \
+        SET x = ?, \
+            y = ? \
+        WHERE id = ? \
+    ")
+    query.addBindValue(pos().x());
+    query.addBindValue(pos().y());
+    query.addBindValue(nodeId);
+    LOG_EXEC(query)
+
+    QGraphicsSimpleTextItem::mouseReleaseEvent(e);
+}

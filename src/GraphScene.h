@@ -4,8 +4,8 @@
 #include "GraphNode.h"
 
 #include <QGraphicsScene>
-// #include <QMouseEvent>
-#include <QPoint>
+#include <QGraphicsSceneMouseEvent>
+#include <QPointF>
 
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
@@ -14,14 +14,14 @@ class GraphScene : public QGraphicsScene {
         GraphScene();
 
     private:
-        void newNode(QPoint pos);
+        void newNode(QPointF pos);
 
         int graphId;
 
         GraphEditMode mode;
 
-    // protected:
-    //     void mousePressEvent(QMouseEvent*) override;
+    protected:
+        void mousePressEvent(QGraphicsSceneMouseEvent*) override;
 
     signals:
         void graphsUpdated();
