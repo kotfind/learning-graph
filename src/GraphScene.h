@@ -16,7 +16,7 @@ class GraphScene : public QGraphicsScene {
     private:
         template<typename T> T typedItemAt(const QPointF& pos);
 
-        void newNode(QPointF pos);
+        void newNode(const QPointF& pos);
         void newEdge(GraphNode* beginNode, GraphNode* endNode);
 
         int graphId;

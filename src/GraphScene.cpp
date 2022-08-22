@@ -116,7 +116,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseReleaseEvent(e);
 }
 
-void GraphScene::newNode(QPointF pos) {
+void GraphScene::newNode(const QPointF& pos) {
     ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
