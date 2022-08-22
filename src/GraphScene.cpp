@@ -24,6 +24,17 @@ void GraphScene::setMode(GraphEditMode mode) {
     this->mode = mode;
 }
 
+template<typename T>
+T GraphScene::typedItemAt(const QPointF& pos) {
+    for (auto* item : items(pos)) {
+        auto* newItem = qgraphicsitem_cast<T>(item);
+        if (newItem) {
+            return newItem;
+        }
+    }
+    return nullptr;
+}
+
 void GraphScene::open(int graphId) {
     this->graphId = graphId;
 
@@ -79,7 +90,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
 
         case ARROW_EDIT_MODE:
-            pressedNode = qgraphicsitem_cast<GraphNode*>(itemAt(e->scenePos(), QTransform()));
+            pressedNode = typedItemAt<GraphNode*>(e->scenePos());
             break;
 
         case CURSOR_EDIT_MODE:
@@ -91,9 +102,9 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     switch (mode) {
         case ARROW_EDIT_MODE:
-            auto* releasedNode = qgraphicsitem_cast<GraphNode*>(itemAt(e->scenePos(), QTransform()));
+            auto* releasedNode = typedItemAt<GraphNode*>(e->scenePos());
 
-            if (!releasedNode || !pressedNode || releasedNode == pressedNode) {
+            if (!releasedNode || !pressedNode) {
                 return;
             }
 
