@@ -5,6 +5,8 @@ project(learning_graph LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 
+set(CMAKE_CXX_FLAGS_DEBUG "-fsanitize=undefined,address -g3 -O0")
+
 find_package(Qt6 REQUIRED
     Core
     Widgets
