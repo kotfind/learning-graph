@@ -44,6 +44,15 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         this,
         &ThemeInfoDialog::save
     );
+
+    // Check if no packages
+    if (!packageCombo->count()) {
+        QMessageBox::warning(
+            this,
+            tr("Warning"),
+            tr("No packages were found.")
+        );
+    }
 }
 
 int ThemeInfoDialog::getId() {
@@ -151,7 +160,11 @@ void ThemeInfoDialog::ui() {
 void ThemeInfoDialog::save() {
     // Check package
     if (!packageCombo->currentData().isValid()) {
-        QMessageBox::critical(this, tr("Error"), tr("Package should be selected"));
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            tr("Package should be selected")
+        );
         return;
     }
 
