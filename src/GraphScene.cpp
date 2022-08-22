@@ -8,6 +8,7 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QHash>
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -28,6 +29,7 @@ void GraphScene::open(int graphId) {
 
     clear();
 
+    // Add Nodes
     PREPARE_NEW(query, " \
         SELECT id \
         FROM graphNodes \
@@ -35,9 +37,38 @@ void GraphScene::open(int graphId) {
     ")
     query.addBindValue(graphId);
     LOG_EXEC(query)
+
+    QHash<int, GraphNode*> nodes;
     while (query.next()) {
-        auto* node = new GraphNode(query.value(0).toInt());
+        auto nodeId = query.value(0).toInt();
+        auto* node = new GraphNode(nodeId);
+        nodes[nodeId] = node;
         addItem(node);
+    }
+    query.finish();
+
+    // Add Edges
+    LOG_PREPARE(query, " \
+        WITH nodeIds AS ( \
+            SELECT id \
+            FROM graphNodes \
+            WHERE graphId = ? \
+        ) \
+        SELECT id, beginId, endId \
+        FROM themeEdges \
+        WHERE beginId IN nodeIds \
+          AND endId IN nodeIds \
+    ")
+    query.addBindValue(graphId);
+    LOG_EXEC(query)
+
+    while (query.next()) {
+        auto* edge = new GraphEdge(
+            query.value(0).toInt(),
+            nodes[query.value(1).toInt()],
+            nodes[query.value(2).toInt()]
+        );
+        addItem(edge);
     }
 }
 
@@ -66,7 +97,23 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
                 return;
             }
 
-            auto* edge = new GraphEdge(-1, pressedNode, releasedNode); // FIXME: id
+            PREPARE_NEW(query, " \
+                INSERT \
+                INTO themeEdges(beginId, endId) \
+                VALUES (( \
+                        SELECT themeId \
+                        FROM graphNodes \
+                        WHERE id = ? \
+                    ),( \
+                        SELECT themeId \
+                        FROM graphNodes \
+                        WHERE id = ? \
+                ))")
+            query.addBindValue(pressedNode->getId());
+            query.addBindValue(releasedNode->getId());
+            LOG_EXEC(query) // TODO catch errors
+
+            auto* edge = new GraphEdge(query.lastInsertId().toInt(), pressedNode, releasedNode);
             addItem(edge);
 
             break;

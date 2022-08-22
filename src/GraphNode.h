@@ -21,6 +21,8 @@ class GraphNode : public QGraphicsTextItem {
             QWidget *widget = nullptr
         );
 
+        int getId() const { return nodeId; }
+
     private:
         int nodeId;
 
