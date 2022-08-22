@@ -21,7 +21,7 @@ class GraphScene : public QGraphicsScene {
 
         int graphId;
 
-        GraphEditMode mode;
+        GraphEditMode mode = CURSOR_EDIT_MODE;
 
         GraphNode* pressedNode = nullptr;
 
