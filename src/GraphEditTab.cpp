@@ -69,7 +69,7 @@ void GraphEditTab::uiHeader() {
     auto* arrowBtn = new QToolButton;
     arrowBtn->setIcon(QIcon(":arrow.svg"));
     arrowBtn->setCheckable(true);
-    modeBtns->addButton(arrowBtn, ARROW_EDIT_MODE);
+    modeBtns->addButton(arrowBtn, EDGE_EDIT_MODE);
     modeBar->addWidget(arrowBtn);
 
     auto* newNodeBtn = new QToolButton;

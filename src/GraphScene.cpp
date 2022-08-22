@@ -89,7 +89,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             newNode(e->scenePos());
             break;
 
-        case ARROW_EDIT_MODE:
+        case EDGE_EDIT_MODE:
             pressedNode = typedItemAt<GraphNode*>(e->scenePos());
             break;
 
@@ -101,7 +101,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     switch (mode) {
-        case ARROW_EDIT_MODE:
+        case EDGE_EDIT_MODE:
             auto* releasedNode = typedItemAt<GraphNode*>(e->scenePos());
 
             if (!releasedNode || !pressedNode) {
