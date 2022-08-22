@@ -67,7 +67,7 @@ void ThemeInfoDialog::load() {
             WHERE id = ? \
         ")
         query.addBindValue(themeId);
-        LOG_EXEC(query)
+        EXEC(query)
         query.first();
 
         themeEdit->setText(query.value(0).toString());
@@ -172,13 +172,13 @@ void ThemeInfoDialog::save() {
     QSqlQuery query;
 
     if (themeId == -1) {
-        LOG_PREPARE(query, " \
+        PREPARE(query, " \
             INSERT \
             INTO themes(name, packageId, description, inWishlist, isLearned) \
             VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
         ")
     } else {
-        LOG_PREPARE(query, " \
+        PREPARE(query, " \
             UPDATE themes \
             SET name = NULLIF(:name, ''), \
                 packageId = :packageId, \
@@ -218,7 +218,7 @@ void ThemeInfoDialog::save() {
 
             default:
                 LOG_FAILED_QUERY(query);
-                break;
+                return;
         }
     }
 

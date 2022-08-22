@@ -135,7 +135,7 @@ void GraphEditTab::open(int graphId) {
         WHERE id = ? \
     ")
     query.addBindValue(graphId);
-    LOG_EXEC(query)
+    EXEC(query)
     query.next();
 
     nameLabel->setText(query.value(0).toString());

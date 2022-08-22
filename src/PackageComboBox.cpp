@@ -29,7 +29,7 @@ void PackageComboBox::update() {
         FROM packages \
         ORDER BY name \
     ")
-    LOG_EXEC(query)
+    EXEC(query)
 
     while (query.next()) {
         addItem(

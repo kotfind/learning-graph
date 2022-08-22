@@ -38,7 +38,7 @@ void ThemeContextMenu::ui() {
                 WHERE id = ? \
             ")
             query.addBindValue(themeId);
-            LOG_EXEC(query)
+            EXEC(query)
 
             emit themesUpdated();
         }

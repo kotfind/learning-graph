@@ -61,7 +61,7 @@ void PackageListWidget::update() {
         FROM packages p \
         ORDER BY p.name \
     ")
-    LOG_EXEC(query)
+    EXEC(query)
 
     while (query.next()) {
         auto name = tr("%1 (%2 themes)")
@@ -92,22 +92,22 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
 
             QSqlQuery query;
 
-            LOG_PREPARE(query, " \
+            PREPARE(query, " \
                 DELETE \
                 FROM packages \
                 WHERE id = ? \
             ")
             query.addBindValue(packageId);
-            LOG_EXEC(query)
+            EXEC(query)
             query.finish();
 
-            LOG_PREPARE(query, " \
+            PREPARE(query, " \
                 DELETE \
                 FROM themes \
                 WHERE packageId = ? \
             ")
             query.addBindValue(packageId);
-            LOG_EXEC(query)
+            EXEC(query)
 
             emit packagesUpdated();
             emit themesUpdated();
@@ -123,7 +123,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
             WHERE id = ? \
         ");
         query.addBindValue(packageId);
-        LOG_EXEC(query)
+        EXEC(query)
         query.next();
         auto oldName = query.value(0).toString();
         query.finish();
@@ -161,7 +161,7 @@ void PackageListWidget::showContextMenu(const QPoint& pos) {
 
                     default:
                         LOG_FAILED_QUERY(query);
-                        break;
+                        return;
                 }
             }
 

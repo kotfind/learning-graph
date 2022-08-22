@@ -12,16 +12,16 @@ void createTables() {
     QSqlQuery query;
 
     // Packages
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE packages( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE \
         )")
-    LOG_EXEC(query)
+    EXEC(query)
     query.finish();
 
     // Themes
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
@@ -31,11 +31,11 @@ void createTables() {
             isLearned INT CHECK(isLearned in (0, 1)), \
             UNIQUE (packageId, name) \
         )")
-    LOG_EXEC(query)
+    EXEC(query)
     query.finish();
 
     // Theme Dependencies
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE themeEdges( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             beginId INT NOT NULL REFERENCES themes(id), \
@@ -43,22 +43,22 @@ void createTables() {
             UNIQUE (beginId, endId), \
             CHECK (beginId != endId) \
         )")
-    LOG_EXEC(query)
+    EXEC(query)
     query.finish();
 
     // Graphs
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE graphs( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE, \
             xoffset INTEGER NOT NULL, \
             yoffset INTEGER NOT NULL \
         )")
-    LOG_EXEC(query)
+    EXEC(query)
     query.finish();
 
     // graphNodes
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE graphNodes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             graphId INTEGER REFERENCES graphs(id), \
@@ -67,7 +67,7 @@ void createTables() {
             y INTEGER NOT NULL, \
             UNIQUE (graphId, themeId) \
         )")
-    LOG_EXEC(query)
+    EXEC(query)
     query.finish();
 }
 

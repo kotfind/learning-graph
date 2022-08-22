@@ -85,7 +85,7 @@ void GraphTab::onCreateBtn() {
 
                 default:
                     LOG_FAILED_QUERY(query);
-                    break;
+                    return;
             }
         }
         emit graphsUpdated();

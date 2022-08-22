@@ -47,7 +47,7 @@ void GraphListWidget::update() {
         FROM graphs g \
         ORDER BY g.name \
     ")
-    LOG_EXEC(query)
+    EXEC(query)
 
     while (query.next()) {
         auto name = tr("%1 (%2 themes)")
@@ -81,22 +81,22 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
             auto graphId = curr->data(Qt::UserRole).toInt();
 
             QSqlQuery query;
-            LOG_PREPARE(query, " \
+            PREPARE(query, " \
                 DELETE \
                 FROM graphs \
                 WHERE id = ? \
             ")
             query.addBindValue(graphId);
-            LOG_EXEC(query)
+            EXEC(query)
             query.finish();
 
-            LOG_PREPARE(query, " \
+            PREPARE(query, " \
                 DELETE \
                 FROM graphNodes \
                 WHERE graphId = ? \
             ")
             query.addBindValue(graphId);
-            LOG_EXEC(query)
+            EXEC(query)
 
             emit graphsUpdated();
         }
@@ -111,7 +111,7 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
             WHERE id = ? \
         ");
         query.addBindValue(graphId);
-        LOG_EXEC(query)
+        EXEC(query)
         query.next();
         auto oldName = query.value(0).toString();
         query.finish();
@@ -149,7 +149,7 @@ void GraphListWidget::showContextMenu(const QPoint& pos) {
 
                     default:
                         LOG_FAILED_QUERY(query);
-                        break;
+                        return;
                 }
             }
 

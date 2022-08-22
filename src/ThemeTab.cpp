@@ -161,7 +161,7 @@ void ThemeTab::update() {
     for (const auto& param : params) {
         query.addBindValue(param);
     }
-    LOG_EXEC(query)
+    EXEC(query)
 
     themesList->clear();
     while (query.next()) {

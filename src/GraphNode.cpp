@@ -54,7 +54,7 @@ void GraphNode::load() {
           AND p.id = t.packageId \
     ")
     query.addBindValue(nodeId);
-    LOG_EXEC(query)
+    EXEC(query)
     query.next();
 
     setPlainText(
@@ -78,7 +78,7 @@ void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     query.addBindValue(pos().x());
     query.addBindValue(pos().y());
     query.addBindValue(nodeId);
-    LOG_EXEC(query)
+    EXEC(query)
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }

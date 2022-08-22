@@ -47,7 +47,7 @@ void GraphScene::open(int graphId) {
         WHERE graphId = ? \
     ")
     query.addBindValue(graphId);
-    LOG_EXEC(query)
+    EXEC(query)
 
     QHash<int, GraphNode*> nodes;
     while (query.next()) {
@@ -59,7 +59,7 @@ void GraphScene::open(int graphId) {
     query.finish();
 
     // Add Edges
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         WITH nodeIds AS ( \
             SELECT id \
             FROM graphNodes \
@@ -71,7 +71,7 @@ void GraphScene::open(int graphId) {
           AND endId IN nodeIds \
     ")
     query.addBindValue(graphId);
-    LOG_EXEC(query)
+    EXEC(query)
 
     while (query.next()) {
         auto* edge = new GraphEdge(
@@ -140,7 +140,7 @@ void GraphScene::newNode(const QPointF& pos) {
         ), name \
     ")
     query.addBindValue(graphId);
-    LOG_EXEC(query)
+    EXEC(query)
 
     while (query.next()) {
         d.addItem(
@@ -167,7 +167,7 @@ void GraphScene::newNode(const QPointF& pos) {
         themeId = d.getId();
     }
 
-    LOG_PREPARE(query, " \
+    PREPARE(query, " \
         INSERT \
         INTO graphNodes(graphId, themeId, x, y) \
         VALUES (?, ?, ?, ?) \
@@ -176,7 +176,7 @@ void GraphScene::newNode(const QPointF& pos) {
     query.addBindValue(themeId);
     query.addBindValue(pos.x());
     query.addBindValue(pos.y());
-    LOG_EXEC(query)
+    EXEC(query)
 
     auto* node = new GraphNode(query.lastInsertId().toInt());
     addItem(node);
@@ -220,6 +220,7 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
 
         default:
             LOG_FAILED_QUERY(query)
+            return;
     }
 
     auto* edge = new GraphEdge(
