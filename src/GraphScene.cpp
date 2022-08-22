@@ -199,7 +199,28 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
         ))")
     query.addBindValue(beginNode->getId());
     query.addBindValue(endNode->getId());
-    LOG_EXEC(query) // TODO catch errors
+
+    query.exec();
+    switch(ERR_CODE(query)) {
+        case SQLITE_CONSTRAINT_UNIQUE:
+            QMessageBox::critical(
+                (QWidget*)views()[0],
+                tr("Error"),
+                tr("This edge already exists.")
+            );
+            return;
+
+        case SQLITE_CONSTRAINT_CHECK:
+            QMessageBox::critical(
+                (QWidget*)views()[0],
+                tr("Error"),
+                tr("The begining and ending of the edge should be different nodes.")
+            );
+            return;
+
+        default:
+            LOG_FAILED_QUERY(query)
+    }
 
     auto* edge = new GraphEdge(
         query.lastInsertId().toInt(),

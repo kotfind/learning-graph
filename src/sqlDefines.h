@@ -33,5 +33,6 @@ if (!(query).exec()) { \
 
 #define SQLITE_CONSTRAINT_UNIQUE 2067
 #define SQLITE_CONSTRAINT_NOTNULL 1299
+#define SQLITE_CONSTRAINT_CHECK 275
 
 #define ERR_CODE(query) (query).lastError().nativeErrorCode().toInt()
