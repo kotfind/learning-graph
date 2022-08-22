@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
+#include <QGraphicsLineItem>
 
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
@@ -24,9 +25,11 @@ class GraphScene : public QGraphicsScene {
         GraphEditMode mode = CURSOR_EDIT_MODE;
 
         GraphNode* pressedNode = nullptr;
+        QGraphicsLineItem* edgePreviewLine = nullptr;
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*) override;
+        void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
         void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
 
     signals:

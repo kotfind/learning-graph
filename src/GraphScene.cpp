@@ -84,13 +84,16 @@ void GraphScene::open(int graphId) {
 }
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
+    auto pos = e->scenePos();
     switch (mode) {
         case NEW_NODE_EDIT_MODE:
-            newNode(e->scenePos());
+            newNode(pos);
             break;
 
         case EDGE_EDIT_MODE:
-            pressedNode = typedItemAt<GraphNode*>(e->scenePos());
+            pressedNode = typedItemAt<GraphNode*>(pos);
+            edgePreviewLine = new QGraphicsLineItem(QLineF(pos, pos));
+            addItem(edgePreviewLine);
             break;
 
         case CURSOR_EDIT_MODE:
@@ -98,10 +101,22 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
     }
 }
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
+    if (mode == EDGE_EDIT_MODE && edgePreviewLine) {
+        QLineF l(edgePreviewLine->line().p1(), e->scenePos());
+        edgePreviewLine->setLine(l);
+    }
+
+    QGraphicsScene::mouseMoveEvent(e);
+}
 
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     switch (mode) {
         case EDGE_EDIT_MODE:
+            removeItem(edgePreviewLine);
+            delete edgePreviewLine;
+            edgePreviewLine = nullptr;
+
             auto* releasedNode = typedItemAt<GraphNode*>(e->scenePos());
 
             if (!releasedNode || !pressedNode) {
