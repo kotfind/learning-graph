@@ -40,7 +40,8 @@ void createTables() {
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             beginId INT NOT NULL REFERENCES themes(id), \
             endId INT NOT NULL REFERENCES themes(id), \
-            UNIQUE (beginId, endId) \
+            UNIQUE (beginId, endId), \
+            CHECK (beginId != endId) \
         )")
     LOG_EXEC(query)
     query.finish();
