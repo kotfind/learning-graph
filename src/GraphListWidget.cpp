@@ -45,6 +45,7 @@ void GraphListWidget::update() {
             WHERE n.graphId = g.id \
         ) \
         FROM graphs g \
+        ORDER BY g.name \
     ")
     LOG_EXEC(query)
 

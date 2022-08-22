@@ -121,33 +121,41 @@ void ThemeTab::update() {
             WHERE packageId = id \
         ) \
         FROM themes \
-        WHERE TRUE \
+        WHERE {whereSection} \
+        GROUP BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
     ";
     QVector<QVariant> params;
 
+    QString whereSection = "TRUE";
     auto themeName = nameEdit->text().trimmed();
     if (themeName.size()) {
-        queryString += " AND themes.name LIKE '%' || ? || '%'";
+        whereSection += " AND themes.name LIKE '%' || ? || '%'";
         params.append(themeName);
     }
 
     auto packageId = packageCombo->currentData().toInt();
     if (packageId != -1) {
-        queryString += " AND packageId = ?";
+        whereSection += " AND packageId = ?";
         params.append(packageId);
     }
 
     auto inWishlist = wishlistCheck->checkState();
     if (inWishlist != Qt::PartiallyChecked) {
-        queryString += QString(" AND inWishlist = ?");
+        whereSection += QString(" AND inWishlist = ?");
         params.append(inWishlist == Qt::Checked);
     }
 
     auto isLearned = learnedCheck->checkState();
     if (isLearned != Qt::PartiallyChecked) {
-        queryString += QString(" AND isLearned = ?");
+        whereSection += QString(" AND isLearned = ?");
         params.append(isLearned == Qt::Checked);
     }
+
+    queryString.replace("{whereSection}", whereSection);
 
     PREPARE_NEW(query, queryString);
     for (const auto& param : params) {

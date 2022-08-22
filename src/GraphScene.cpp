@@ -133,6 +133,11 @@ void GraphScene::newNode(const QPointF& pos) {
             FROM graphNodes \
             WHERE graphId = ? \
         ) \
+        ORDER BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
     ")
     query.addBindValue(graphId);
     LOG_EXEC(query)

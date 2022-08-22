@@ -27,6 +27,7 @@ void PackageComboBox::update() {
     PREPARE_NEW(query, " \
         SELECT name, id \
         FROM packages \
+        ORDER BY name \
     ")
     LOG_EXEC(query)
 

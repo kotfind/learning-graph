@@ -59,6 +59,7 @@ void PackageListWidget::update() {
             WHERE t.packageId = p.id \
         ) \
         FROM packages p \
+        ORDER BY p.name \
     ")
     LOG_EXEC(query)
 
