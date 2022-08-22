@@ -2,6 +2,8 @@
 
 #include "sqlDefines.h"
 #include <QDebug>
+#include <QPainterPath>
+#include <QPolygonF>
 
 GraphEdge::GraphEdge(
     int edgeId,
@@ -37,10 +39,10 @@ QRectF GraphEdge::boundingRect() const {
     auto y2 = end.y();
 
     return QRectF(
-        std::min(x1, x2),
-        std::min(y1, y2),
-        std::abs(x1 - x2),
-        std::abs(y1 - y2)
+        std::min(x1, x2)    - arrowSize,
+        std::min(y1, y2)    - arrowSize,
+        std::abs(x1 - x2)   + arrowSize * 2,
+        std::abs(y1 - y2)   + arrowSize * 2
     );
 }
 
@@ -55,6 +57,27 @@ void GraphEdge::paint(
     const QStyleOptionGraphicsItem*,
     QWidget*) {
 
-    // FIXME: fit in boundingRect
-    qp->drawLine(beginNode->pos(), endNode->pos());
+    // Set Brush
+    qp->setBrush(Qt::black);
+
+    // Draw Arrow
+    QLineF l(begin, end);
+    qp->drawLine(l);
+
+    auto unit = l.unitVector();
+    auto norm = unit.normalVector();
+
+    QPointF front(unit.dx(), unit.dy());
+    QPointF right(norm.dx(), norm.dy());
+
+    auto base = l.p1() + front * (l.length() - arrowSize);
+    auto deltha = right * arrowSize / 2;
+
+    QPolygonF arrow;
+    arrow << l.p2()
+        << base + deltha
+        << base + front * arrowSize / 3
+        << base - deltha;
+
+    qp->drawPolygon(arrow);
 }

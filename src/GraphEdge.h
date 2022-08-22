@@ -30,6 +30,8 @@ class GraphEdge : public QGraphicsObject {
     private:
         int edgeId;
 
+        const double arrowSize = 20;
+
         GraphNode* beginNode;
         GraphNode* endNode;
 
