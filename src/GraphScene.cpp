@@ -108,7 +108,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
                 return;
             }
 
-            newEdge(releasedNode, pressedNode);
+            newEdge(pressedNode, releasedNode);
 
             break;
     }
