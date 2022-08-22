@@ -97,24 +97,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
                 return;
             }
 
-            PREPARE_NEW(query, " \
-                INSERT \
-                INTO themeEdges(beginId, endId) \
-                VALUES (( \
-                        SELECT themeId \
-                        FROM graphNodes \
-                        WHERE id = ? \
-                    ),( \
-                        SELECT themeId \
-                        FROM graphNodes \
-                        WHERE id = ? \
-                ))")
-            query.addBindValue(pressedNode->getId());
-            query.addBindValue(releasedNode->getId());
-            LOG_EXEC(query) // TODO catch errors
-
-            auto* edge = new GraphEdge(query.lastInsertId().toInt(), pressedNode, releasedNode);
-            addItem(edge);
+            newEdge(releasedNode, pressedNode);
 
             break;
     }
@@ -183,4 +166,30 @@ void GraphScene::newNode(QPointF pos) {
     addItem(node);
 
     emit graphsUpdated();
+}
+
+void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
+    PREPARE_NEW(query, " \
+        INSERT \
+        INTO themeEdges(beginId, endId) \
+        VALUES (( \
+                SELECT themeId \
+                FROM graphNodes \
+                WHERE id = ? \
+            ),( \
+                SELECT themeId \
+                FROM graphNodes \
+                WHERE id = ? \
+        ))")
+    query.addBindValue(beginNode->getId());
+    query.addBindValue(endNode->getId());
+    LOG_EXEC(query) // TODO catch errors
+
+    auto* edge = new GraphEdge(
+        query.lastInsertId().toInt(),
+        beginNode,
+        endNode
+    );
+    addItem(edge);
+
 }

@@ -15,6 +15,7 @@ class GraphScene : public QGraphicsScene {
 
     private:
         void newNode(QPointF pos);
+        void newEdge(GraphNode* beginNode, GraphNode* endNode);
 
         int graphId;
 
