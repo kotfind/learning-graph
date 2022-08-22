@@ -23,6 +23,8 @@ class GraphNode : public QGraphicsTextItem {
 
         int getId() const { return nodeId; }
 
+        bool intersect(const QLineF&, QPointF*);
+
     private:
         int nodeId;
 

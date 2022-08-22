@@ -48,8 +48,14 @@ QRectF GraphEdge::boundingRect() const {
 
 void GraphEdge::updatePosition() {
     prepareGeometryChange();
-    begin = beginNode->pos();
-    end = endNode->pos();
+
+    QLineF l(
+        mapFromItem(beginNode, beginNode->boundingRect().center()),
+        mapFromItem(endNode, endNode->boundingRect().center())
+    );
+
+    beginNode->intersect(l, &begin); // XXX if returns false
+    endNode->intersect(l, &end); // XXX if returns false
 }
 
 void GraphEdge::paint(
@@ -61,6 +67,10 @@ void GraphEdge::paint(
     qp->setBrush(Qt::black);
 
     // Draw Arrow
+    if (beginNode->collidesWithItem(endNode)) {
+        return;
+    }
+
     QLineF l(begin, end);
     qp->drawLine(l);
 

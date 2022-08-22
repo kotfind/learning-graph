@@ -87,3 +87,22 @@ void GraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsTextItem::mouseMoveEvent(e);
     emit positionChanged();
 }
+
+bool GraphNode::intersect(const QLineF& l1, QPointF* ans) {
+    QList<QPointF> pts = {
+        mapToScene(boundingRect().bottomLeft()),
+        mapToScene(boundingRect().bottomRight()),
+        mapToScene(boundingRect().topRight()),
+        mapToScene(boundingRect().topLeft()),
+    };
+    pts.append(pts.front());
+
+    for (int i = 0; i < 4; ++i) {
+        QLineF l2(pts[i], pts[i + 1]);
+        if (l1.intersects(l2, ans) == QLineF::BoundedIntersection) {
+            return true;
+        }
+    }
+    ans = nullptr;
+    return false;
+}
