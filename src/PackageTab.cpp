@@ -3,6 +3,7 @@
 #include "sqlDefines.h"
 #include "PackageListWidget.h"
 #include "GlobalSignalHandler.h"
+#include "PackageInfoDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -47,41 +48,6 @@ void PackageTab::ui() {
 }
 
 void PackageTab::onCreateBtn() {
-    bool ok;
-    auto name = QInputDialog::getText(this, tr("New package"),
-        tr("New package name:"), QLineEdit::Normal, "", &ok).trimmed();
-    if (ok) {
-        // Add package
-        PREPARE_NEW(query, " \
-            INSERT \
-            INTO packages(name) \
-            VALUES (NULLIF(?, '')) \
-        ")
-        query.addBindValue(name);
-
-        if (!query.exec()) {
-            switch(ERR_CODE(query)) {
-                case SQLITE_CONSTRAINT_UNIQUE:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name is not unique.")
-                    );
-                    return;
-
-                case SQLITE_CONSTRAINT_NOTNULL:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name should not be empty.")
-                    );
-                    return;
-
-                default:
-                    LOG_FAILED_QUERY(query);
-                    return;
-            }
-        }
-        emit packagesUpdated();
-    }
+    PackageInfoDialog d(-1, this);
+    d.exec();
 }
