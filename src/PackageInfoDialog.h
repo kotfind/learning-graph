@@ -11,11 +11,11 @@ class PackageInfoDialog : public QDialog {
     public:
         PackageInfoDialog(int packageId, QWidget* parent = nullptr);
 
+        int getId() const { return packageId; }
+
     private:
         void ui();
         void load();
-
-        int getId() const { return packageId; }
 
         int packageId;
 

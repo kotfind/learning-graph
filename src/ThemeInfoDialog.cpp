@@ -2,6 +2,7 @@
 
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
+#include "PackageInfoDialog.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -25,6 +26,13 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
     );
 
     connect(
+        createPackageBtn,
+        &QPushButton::pressed,
+        this,
+        &ThemeInfoDialog::createPackage
+    );
+
+    connect(
         cancelBtn,
         &QPushButton::pressed,
         this,
@@ -44,15 +52,6 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         this,
         &ThemeInfoDialog::save
     );
-
-    // Check if no packages
-    if (!packageCombo->count()) {
-        QMessageBox::warning(
-            this,
-            tr("Warning"),
-            tr("No packages were found.")
-        );
-    }
 }
 
 int ThemeInfoDialog::getId() {
@@ -111,6 +110,9 @@ void ThemeInfoDialog::ui() {
     packageCombo = new PackageComboBox;
     packageBox->addWidget(packageCombo);
 
+    createPackageBtn = new QPushButton(tr("New package"));
+    packageBox->addWidget(createPackageBtn);
+
     // Checkboxes
     auto* checkFrame = new QFrame;
     checkFrame->setFrameShape(QFrame::StyledPanel);
@@ -155,6 +157,14 @@ void ThemeInfoDialog::ui() {
     saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
     saveBtn->setDefault(true);
     hbox->addWidget(saveBtn, 0);
+}
+
+void ThemeInfoDialog::createPackage() {
+    PackageInfoDialog d(-1, this);
+
+    if (d.exec() == QDialog::Accepted) {
+        packageCombo->setCurrent(d.getId());
+    }
 }
 
 void ThemeInfoDialog::save() {

@@ -27,6 +27,7 @@ class ThemeInfoDialog : public QDialog {
 
         QLineEdit* themeEdit;
         PackageComboBox* packageCombo;
+        QPushButton* createPackageBtn;
         QCheckBox* isLearnedCheck;
         QCheckBox* inWishlistCheck;
         QTextEdit* descEdit;
@@ -37,5 +38,6 @@ class ThemeInfoDialog : public QDialog {
         void themesUpdated();
 
     private slots:
+        void createPackage();
         void save();
 };
