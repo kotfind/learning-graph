@@ -31,6 +31,7 @@ add_executable(learning_graph
     PackageComboBox.cpp
     PackageListWidget.cpp
     PackageTab.cpp
+    PackageInfoDialog.cpp
 
     GraphEditTab.cpp
     GraphListWidget.cpp
