@@ -43,13 +43,6 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         saveBtn,
         &QPushButton::pressed,
         this,
-        &ThemeInfoDialog::accept
-    );
-
-    connect(
-        this,
-        &ThemeInfoDialog::accepted,
-        this,
         &ThemeInfoDialog::save
     );
 }
@@ -237,4 +230,5 @@ void ThemeInfoDialog::save() {
     }
 
     emit themesUpdated();
+    emit accept();
 }

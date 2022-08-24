@@ -32,13 +32,6 @@ PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
         saveBtn,
         &QPushButton::pressed,
         this,
-        &PackageInfoDialog::accept
-    );
-
-    connect(
-        this,
-        &PackageInfoDialog::accepted,
-        this,
         &PackageInfoDialog::save
     );
 }
@@ -137,4 +130,5 @@ void PackageInfoDialog::save() {
     }
 
     emit packagesUpdated();
+    emit accept();
 }
