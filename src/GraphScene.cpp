@@ -101,6 +101,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
     }
 }
+
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
     if (mode == EDGE_EDIT_MODE && edgePreviewLine) {
         QLineF l(edgePreviewLine->line().p1(), e->scenePos());
