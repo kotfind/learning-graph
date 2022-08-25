@@ -23,6 +23,7 @@ class ThemeTab : public QWidget {
         PackageComboBox* packageCombo;
         QCheckBox* wishlistCheck;
         QCheckBox* learnedCheck;
+        QCheckBox* autoUpdateCheck;
         QPushButton* createBtn;
         QPushButton* searchBtn;
 
@@ -31,4 +32,5 @@ class ThemeTab : public QWidget {
 
     public slots:
         void update();
+        void setAutoUpdate(bool state);
 };

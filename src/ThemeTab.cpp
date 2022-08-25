@@ -42,6 +42,15 @@ ThemeTab::ThemeTab(QWidget* parent)
         &ThemeTab::update
     );
 
+    connect(
+        autoUpdateCheck,
+        &QCheckBox::stateChanged,
+        [this](int state) {
+            setAutoUpdate(state == Qt::Checked);
+        }
+    );
+
+    autoUpdateCheck->setChecked(true);
     update();
 }
 
@@ -104,9 +113,12 @@ void ThemeTab::ui() {
     learnedCheck->setTristate(true);
     grid->addWidget(learnedCheck, 3, 1);
 
-    // Search Button
+    // Search
     searchBtn = new QPushButton(tr("Search"));
-    grid->addWidget(searchBtn, 5, 0, 1, 2);
+    grid->addWidget(searchBtn, 5, 1);
+
+    autoUpdateCheck = new QCheckBox(tr("Auto update"));
+    grid->addWidget(autoUpdateCheck, 5, 0);
 
     // Themes List
     themesList = new ThemeListWidget;
@@ -171,5 +183,71 @@ void ThemeTab::update() {
         auto* item = new QListWidgetItem(name);
         item->setData(Qt::UserRole, query.value(0));
         themesList->addItem(item);
+    }
+}
+
+void ThemeTab::setAutoUpdate(bool state) {
+    if (state)  {
+        searchBtn->setDisabled(true);
+
+        connect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        connect(
+            packageCombo,
+            &PackageComboBox::currentIndexChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        connect(
+            wishlistCheck,
+            &QCheckBox::stateChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        connect(
+            learnedCheck,
+            &QCheckBox::stateChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        update();
+    } else {
+        searchBtn->setDisabled(false);
+
+        disconnect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        disconnect(
+            packageCombo,
+            &PackageComboBox::currentIndexChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        disconnect(
+            wishlistCheck,
+            &QCheckBox::stateChanged,
+            this,
+            &ThemeTab::update
+        );
+
+        disconnect(
+            learnedCheck,
+            &QCheckBox::stateChanged,
+            this,
+            &ThemeTab::update
+        );
     }
 }
