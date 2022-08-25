@@ -3,6 +3,7 @@
 #include "ThemeInfoDialog.h"
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
+#include "ThemeContextMenu.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -48,6 +49,20 @@ ThemeTab::ThemeTab(QWidget* parent)
         [this](int state) {
             setAutoUpdate(state == Qt::Checked);
         }
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::doubleClicked,
+        this,
+        &ThemeTab::themeDoubleClicked
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::menuRequested,
+        this,
+        &ThemeTab::themeMenuRequested
     );
 
     autoUpdateCheck->setChecked(true);
@@ -121,7 +136,7 @@ void ThemeTab::ui() {
     grid->addWidget(autoUpdateCheck, 5, 0);
 
     // Themes List
-    themesList = new ThemeListWidget;
+    themesList = new SmartListWidget;
     vbox->addWidget(themesList);
 }
 
@@ -176,13 +191,14 @@ void ThemeTab::update() {
     EXEC(query)
 
     themesList->clear();
+
     while (query.next()) {
-        auto name = QString("%1 (%2)")
-            .arg(query.value(1).toString())
-            .arg(query.value(2).toString());
-        auto* item = new QListWidgetItem(name);
-        item->setData(Qt::UserRole, query.value(0));
-        themesList->addItem(item);
+        themesList->addItem(
+            QString("%1 (%2)")
+                .arg(query.value(1).toString())
+                .arg(query.value(2).toString()),
+            query.value(0).toInt()
+        );
     }
 }
 
@@ -250,4 +266,13 @@ void ThemeTab::setAutoUpdate(bool state) {
             &ThemeTab::update
         );
     }
+}
+
+void ThemeTab::themeDoubleClicked(int themeId) {
+    (new ThemeInfoDialog(themeId, this))->exec();
+}
+
+void ThemeTab::themeMenuRequested(int themeId, const QPoint& globalPos) {
+    ThemeContextMenu menu(themeId, this);
+    menu.exec(globalPos);
 }

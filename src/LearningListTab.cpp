@@ -1,5 +1,4 @@
 #include "LearningListTab.h"
-#include "ThemeListWidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -16,16 +15,16 @@ void LearningListTab::ui() {
     vbox->setSpacing(15);
     setLayout(vbox);
 
-    // List
-    auto* themesList = new ThemeListWidget;
-    themesList->addItems({
-        "Theme 1",
-        "Theme 2",
-        "Theme 3",
-        "Theme 4",
-        "Theme 5",
-    });
-    vbox->addWidget(themesList);
+    // // List
+    // auto* themesList = new ThemeListWidget;
+    // themesList->addItems({
+    //     "Theme 1",
+    //     "Theme 2",
+    //     "Theme 3",
+    //     "Theme 4",
+    //     "Theme 5",
+    // });
+    // vbox->addWidget(themesList);
 
     // Buttons
     auto* hbox = new QHBoxLayout;

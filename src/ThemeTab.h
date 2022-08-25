@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ThemeListWidget.h"
 #include "PackageComboBox.h"
+#include "SmartListWidget.h"
 
 #include <QWidget>
 #include <QPushButton>
@@ -18,7 +18,7 @@ class ThemeTab : public QWidget {
     private:
         void ui();
 
-        ThemeListWidget* themesList;
+        SmartListWidget* themesList;
         QLineEdit* nameEdit;
         PackageComboBox* packageCombo;
         QCheckBox* wishlistCheck;
@@ -33,4 +33,8 @@ class ThemeTab : public QWidget {
     public slots:
         void update();
         void setAutoUpdate(bool state);
+
+    private slots:
+        void themeDoubleClicked(int themeId);
+        void themeMenuRequested(int themeId, const QPoint& globalPos);
 };

@@ -1,19 +1,17 @@
 #pragma once
 
 #include <QMenu>
-#include <QString>
 
 class ThemeContextMenu : public QMenu {
     Q_OBJECT
 
     public:
-        ThemeContextMenu(int themeId, const QString& themeName, QWidget* parent = nullptr);
+        ThemeContextMenu(int themeId, QWidget* parent = nullptr);
 
     private:
         void ui();
 
-        const int themeId;
-        const QString themeName;
+        int themeId;
 
     signals:
         void themesUpdated();

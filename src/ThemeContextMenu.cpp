@@ -9,9 +9,8 @@
 
 #include <QMessageBox>
 
-ThemeContextMenu::ThemeContextMenu(
-    int themeId, const QString& themeName, QWidget* parent)
-        : QMenu(parent), themeId(themeId), themeName(themeName) {
+ThemeContextMenu::ThemeContextMenu(int themeId, QWidget* parent)
+        : QMenu(parent), themeId(themeId) {
     ui();
 
     connect(
@@ -30,7 +29,7 @@ void ThemeContextMenu::ui() {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete theme \"%1\"?").arg(themeName))
+                tr("Delete theme \"%1\"?").arg(themeId)) // TODO: themeId -> themeName
                     == QMessageBox::Yes) {
             PREPARE_NEW(query, " \
                 DELETE \

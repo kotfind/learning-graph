@@ -26,7 +26,6 @@ add_executable(learning_graph
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
-    ThemeListWidget.cpp
     ThemeTab.cpp
 
     PackageComboBox.cpp
