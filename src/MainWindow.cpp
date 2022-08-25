@@ -11,7 +11,6 @@
 #include <QMenu>
 #include <QApplication>
 #include <QFontDatabase>
-#include <QActionGroup>
 
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
@@ -38,20 +37,32 @@ void MainWindow::uiHeader() {
     // Fonts
     auto* fontSizeMenu = settingsMenu->addMenu("Font Size");
 
-    auto* fontSizeActionGroup = new QActionGroup(this);
+    fontSizeActionGroup = new QActionGroup(this);
     fontSizeActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+
+    auto font = qApp->font();
+    qApp->setFont(font);
+
+    connect(
+        fontSizeActionGroup,
+        &QActionGroup::triggered,
+        this,
+        &MainWindow::onFontSizeActionTriggered
+    );
 
     for (int size : QFontDatabase::pointSizes(qApp->font().family())) {
         auto* action = new QAction(QString::number(size), this);
 
-        auto font = qApp->font();
-        font.setPointSize(size);
-        action->setFont(font);
-
         action->setCheckable(true);
         action->setChecked(size == qApp->font().pointSize());
-        fontSizeActionGroup->addAction(action);
+        action->setData(size);
 
+        // NOTE: idk why it won't work:
+        // auto font = qApp->font();
+        // font.setPointSize(size);
+        // action->setFont(font);
+
+        fontSizeActionGroup->addAction(action);
         fontSizeMenu->addAction(action);
     }
 }
@@ -86,4 +97,10 @@ void MainWindow::uiBody() {
     // Splitter stretch
     splitter->setStretchFactor(0, 0);
     splitter->setStretchFactor(1, 1);
+}
+
+void MainWindow::onFontSizeActionTriggered(QAction* action) {
+    auto font = qApp->font();
+    font.setPointSize(action->data().toInt());
+    qApp->setFont(font);
 }

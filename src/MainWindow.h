@@ -5,6 +5,7 @@
 
 #include <QMainWindow>
 #include <QString>
+#include <QActionGroup>
 
 class MainWindow : public QMainWindow {
     public:
@@ -17,4 +18,9 @@ class MainWindow : public QMainWindow {
 
         GraphTab* graphsTab;
         GraphEditTab* graphEditTab;
+
+        QActionGroup* fontSizeActionGroup;
+
+    private slots:
+        void onFontSizeActionTriggered(QAction*);
 };
