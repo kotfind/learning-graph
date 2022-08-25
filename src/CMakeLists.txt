@@ -22,6 +22,7 @@ add_executable(learning_graph
     MainWindow.cpp
     GlobalSignalHandler.cpp
     ComboboxIdDialog.cpp
+    SmartListWidget.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
