@@ -12,6 +12,8 @@ class MainWindow : public QMainWindow {
 
     private:
         void ui();
+        void uiHeader();
+        void uiBody();
 
         GraphTab* graphsTab;
         GraphEditTab* graphEditTab;

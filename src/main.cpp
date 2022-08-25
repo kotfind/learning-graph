@@ -11,11 +11,6 @@ int main(int argc, char** argv) {
     QCoreApplication::setOrganizationName("kotfindApps");
     QCoreApplication::setApplicationName("LearningGraph");
 
-    // Font
-    auto font = app.font();
-    font.setPointSize(12);
-    app.setFont(font);
-
     // Db
     if (!initDb()) {
         return 1;

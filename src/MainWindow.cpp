@@ -7,6 +7,10 @@
 #include <QTabWidget>
 #include <QMessageBox>
 #include <QSplitter>
+#include <QMenuBar>
+#include <QMenu>
+#include <QApplication>
+#include <QFontDatabase>
 
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
@@ -23,6 +27,22 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 void MainWindow::ui() {
+    uiHeader();
+    uiBody();
+}
+
+void MainWindow::uiHeader() {
+    auto* settingsMenu = menuBar()->addMenu("Settings");
+
+    auto* fontSizeMenu = settingsMenu->addMenu("Font Size");
+
+    for (int size : QFontDatabase::pointSizes(qApp->font().family())) {
+        auto* action = new QAction(QString::number(size), this);
+        fontSizeMenu->addAction(action);
+    }
+}
+
+void MainWindow::uiBody() {
     auto* splitter = new QSplitter(Qt::Horizontal);
     setCentralWidget(splitter);
 
