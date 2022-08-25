@@ -11,6 +11,7 @@
 #include <QMenu>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QActionGroup>
 
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
@@ -34,10 +35,23 @@ void MainWindow::ui() {
 void MainWindow::uiHeader() {
     auto* settingsMenu = menuBar()->addMenu("Settings");
 
+    // Fonts
     auto* fontSizeMenu = settingsMenu->addMenu("Font Size");
+
+    auto* fontSizeActionGroup = new QActionGroup(this);
+    fontSizeActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
 
     for (int size : QFontDatabase::pointSizes(qApp->font().family())) {
         auto* action = new QAction(QString::number(size), this);
+
+        auto font = qApp->font();
+        font.setPointSize(size);
+        action->setFont(font);
+
+        action->setCheckable(true);
+        action->setChecked(size == qApp->font().pointSize());
+        fontSizeActionGroup->addAction(action);
+
         fontSizeMenu->addAction(action);
     }
 }
