@@ -11,10 +11,19 @@
 #include <QMenu>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
     setWindowTitle(tr("Learning Graph"));
+
+    // Load settings
+    QSettings settings;
+    qApp->setFont(
+        qvariant_cast<QFont>(
+            settings.value("font", qApp->font())
+        )
+    );
 
     ui();
 
@@ -103,4 +112,7 @@ void MainWindow::onFontSizeActionTriggered(QAction* action) {
     auto font = qApp->font();
     font.setPointSize(action->data().toInt());
     qApp->setFont(font);
+
+    QSettings settings;
+    settings.setValue("font", font);
 }
