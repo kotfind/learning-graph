@@ -259,6 +259,17 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
 }
 
 void GraphScene::deleteNode(GraphNode* node) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM graphNodes \
+        WHERE id = ? \
+    ");
+    query.addBindValue(node->getId());
+    EXEC(query)
+
+    removeItem(node);
+    emit node->deletedFromScene();
+    node->deleteLater();
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {

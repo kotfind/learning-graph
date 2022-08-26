@@ -34,6 +34,7 @@ class GraphNode : public QGraphicsTextItem {
 
     signals:
         void positionChanged();
+        void deletedFromScene(); // is called by scene
 
     private slots:
         void load();
