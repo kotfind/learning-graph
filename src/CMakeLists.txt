@@ -29,7 +29,6 @@ add_executable(learning_graph
     ThemeTab.cpp
 
     PackageComboBox.cpp
-    PackageListWidget.cpp
     PackageTab.cpp
     PackageInfoDialog.cpp
 
