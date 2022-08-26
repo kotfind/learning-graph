@@ -33,7 +33,6 @@ add_executable(learning_graph
     PackageInfoDialog.cpp
 
     GraphEditTab.cpp
-    GraphListWidget.cpp
     GraphTab.cpp
     GraphNode.cpp
     GraphScene.cpp

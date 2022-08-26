@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphListWidget.h"
+#include "SmartListWidget.h"
 
 #include <QWidget>
 
@@ -13,12 +13,17 @@ class GraphTab : public QWidget {
     private:
         void ui();
 
-        GraphListWidget* graphsList;
+        SmartListWidget* graphsList;
 
     signals:
         void graphsUpdated();
         void open(int graphId);
 
+    public slots:
+        void update();
+
     private slots:
         void onCreateBtn();
+        void graphDoubleClicked(int graphId);
+        void graphMenuRequested(int graphId, const QPoint& globalPos);
 };
