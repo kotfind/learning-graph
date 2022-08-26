@@ -18,6 +18,8 @@ class GraphEdge : public QGraphicsObject {
             QGraphicsItem* parent = nullptr
         );
 
+        int getId() const { return edgeId; }
+
         int type() const override { return Type; }
 
         QRectF boundingRect() const override;

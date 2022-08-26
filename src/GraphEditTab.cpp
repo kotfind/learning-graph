@@ -78,6 +78,12 @@ void GraphEditTab::uiHeader() {
     modeBtns->addButton(newNodeBtn, NEW_NODE_EDIT_MODE);
     modeBar->addWidget(newNodeBtn);
 
+    auto* deleteBtn = new QToolButton;
+    deleteBtn->setIcon(QIcon(":cross.svg"));
+    deleteBtn->setCheckable(true);
+    modeBtns->addButton(deleteBtn, DELETE_EDIT_MODE);
+    modeBar->addWidget(deleteBtn);
+
     // Settings Bar
     auto* settingsBar = addToolBar("Settings Bar");
 

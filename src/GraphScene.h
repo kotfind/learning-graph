@@ -2,6 +2,7 @@
 
 #include "GraphEditMode.h"
 #include "GraphNode.h"
+#include "GraphEdge.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -19,6 +20,9 @@ class GraphScene : public QGraphicsScene {
 
         void newNode(const QPointF& pos);
         void newEdge(GraphNode* beginNode, GraphNode* endNode);
+
+        void deleteNode(GraphNode*);
+        void deleteEdge(GraphEdge*);
 
         int graphId;
 
