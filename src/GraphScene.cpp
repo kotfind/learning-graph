@@ -42,33 +42,34 @@ void GraphScene::open(int graphId) {
 
     // Add Nodes
     PREPARE_NEW(query, " \
-        SELECT id \
+        SELECT themeId, id \
         FROM graphNodes \
         WHERE graphId = ? \
     ")
     query.addBindValue(graphId);
     EXEC(query)
 
-    QHash<int, GraphNode*> nodes;
+    QHash<int, GraphNode*> themeIdToNode;
     while (query.next()) {
-        auto nodeId = query.value(0).toInt();
+        auto themeId = query.value(0).toInt();
+        auto nodeId = query.value(1).toInt();
         auto* node = new GraphNode(nodeId);
-        nodes[nodeId] = node;
+        themeIdToNode[themeId] = node;
         addItem(node);
     }
     query.finish();
 
     // Add Edges
     PREPARE(query, " \
-        WITH nodeIds AS ( \
-            SELECT id \
+        WITH themeIds AS ( \
+            SELECT themeId \
             FROM graphNodes \
             WHERE graphId = ? \
         ) \
         SELECT id, beginId, endId \
         FROM themeEdges \
-        WHERE beginId IN nodeIds \
-          AND endId IN nodeIds \
+        WHERE beginId IN themeIds \
+          AND endId IN themeIds \
     ")
     query.addBindValue(graphId);
     EXEC(query)
@@ -76,8 +77,8 @@ void GraphScene::open(int graphId) {
     while (query.next()) {
         auto* edge = new GraphEdge(
             query.value(0).toInt(),
-            nodes[query.value(1).toInt()],
-            nodes[query.value(2).toInt()]
+            themeIdToNode[query.value(1).toInt()],
+            themeIdToNode[query.value(2).toInt()]
         );
         addItem(edge);
     }
