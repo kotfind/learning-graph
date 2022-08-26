@@ -18,9 +18,13 @@ int SmartListWidget::currentId() {
 }
 
 void SmartListWidget::mouseDoubleClickEvent(QMouseEvent* e) {
-    emit doubleClicked(currentId());
+    if (currentItem()) {
+        emit doubleClicked(currentId());
+    }
 }
 
 void SmartListWidget::contextMenuEvent(QContextMenuEvent* e) {
-    emit menuRequested(currentId(), e->globalPos());
+    if (currentItem()) {
+        emit menuRequested(currentId(), e->globalPos());
+    }
 }
