@@ -3,6 +3,9 @@
 #include "SmartListWidget.h"
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QPushButton>
 
 class GraphTab : public QWidget {
     Q_OBJECT
@@ -13,6 +16,9 @@ class GraphTab : public QWidget {
     private:
         void ui();
 
+        QLineEdit* nameEdit;
+        QCheckBox* autoUpdateCheckBox;
+        QPushButton* updateButton;
         SmartListWidget* graphsList;
 
     signals:
@@ -21,6 +27,7 @@ class GraphTab : public QWidget {
 
     public slots:
         void update();
+        void setAutoUpdate(bool state);
 
     private slots:
         void onCreateBtn();

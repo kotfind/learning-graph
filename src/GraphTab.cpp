@@ -9,6 +9,8 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QMenu>
+#include <QGridLayout>
+#include <QLabel>
 
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
@@ -42,7 +44,24 @@ GraphTab::GraphTab(QWidget* parent)
         &GraphTab::graphMenuRequested
     );
 
+    connect(
+        updateButton,
+        &QPushButton::pressed,
+        this,
+        &GraphTab::update
+    );
+
+    connect(
+        autoUpdateCheckBox,
+        &QCheckBox::stateChanged,
+        [this](int state) {
+            setAutoUpdate(state == Qt::Checked);
+        }
+    );
+
     update();
+    setAutoUpdate(true);
+    autoUpdateCheckBox->setChecked(true);
 }
 
 void GraphTab::ui() {
@@ -62,6 +81,44 @@ void GraphTab::ui() {
     // Import Button
     auto* importBtn = new QPushButton(tr("Import graph"));
     hbox->addWidget(importBtn);
+
+    // Search section
+    auto* searchFrame = new QFrame;
+    searchFrame->setFrameShape(QFrame::StyledPanel);
+    vbox->addWidget(searchFrame);
+
+    auto* grid = new QGridLayout;
+    grid->setColumnStretch(0, 0);
+    grid->setColumnStretch(1, 1);
+    searchFrame->setLayout(grid);
+
+    grid->addWidget(
+        new QLabel(tr("Search Section")),
+        0, 0,
+        1, 2,
+        Qt::AlignCenter
+    );
+
+    grid->addWidget(
+        new QLabel(tr("Name:")),
+        1, 0,
+        Qt::AlignRight
+    );
+
+    nameEdit = new QLineEdit;
+    grid->addWidget(nameEdit, 1, 1);
+
+    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    grid->addWidget(
+        autoUpdateCheckBox,
+        2, 0
+    );
+
+    updateButton = new QPushButton(tr("Search"));
+    grid->addWidget(
+        updateButton,
+        2, 1
+    );
 
     // Graphs List
     graphsList = new SmartListWidget;
@@ -116,8 +173,10 @@ void GraphTab::update() {
             WHERE n.graphId = g.id \
         ) \
         FROM graphs g \
+        WHERE g.name LIKE ('%' || ? || '%') \
         ORDER BY g.name \
     ")
+    query.addBindValue(nameEdit->text().trimmed());
     EXEC(query)
 
     graphsList->clear();
@@ -225,4 +284,26 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
     });
 
     menu.exec(globalPos);
+}
+
+void GraphTab::setAutoUpdate(bool state) {
+    if (state) {
+        updateButton->setDisabled(true);
+
+        connect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &GraphTab::update
+        );
+    } else {
+        updateButton->setDisabled(false);
+
+        disconnect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &GraphTab::update
+        );
+    }
 }
