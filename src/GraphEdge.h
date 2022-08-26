@@ -4,6 +4,7 @@
 
 #include <QGraphicsObject>
 #include <QRectF>
+#include <QGraphicsScene>
 
 class GraphEdge : public QGraphicsObject {
     Q_OBJECT
@@ -17,6 +18,8 @@ class GraphEdge : public QGraphicsObject {
             GraphNode* endNode,
             QGraphicsItem* parent = nullptr
         );
+
+        int getId() const { return edgeId; }
 
         int type() const override { return Type; }
 
@@ -40,4 +43,5 @@ class GraphEdge : public QGraphicsObject {
 
     public slots:
         void updatePosition();
+        void deleteSelf();
 };

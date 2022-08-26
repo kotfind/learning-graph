@@ -55,4 +55,5 @@ qt_add_resources(learning_graph "res"
         "img/arrow.svg"
         "img/pointer.svg"
         "img/plus.svg"
+        "img/cross.svg"
 )

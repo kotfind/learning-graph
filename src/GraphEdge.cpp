@@ -29,6 +29,20 @@ GraphEdge::GraphEdge(
         &GraphEdge::updatePosition
     );
 
+    connect(
+        beginNode,
+        &GraphNode::deletedFromScene,
+        this,
+        &GraphEdge::deleteSelf
+    );
+
+    connect(
+        endNode,
+        &GraphNode::deletedFromScene,
+        this,
+        &GraphEdge::deleteSelf
+    );
+
     updatePosition();
 }
 
@@ -90,4 +104,9 @@ void GraphEdge::paint(
         << base - deltha;
 
     qp->drawPolygon(arrow);
+}
+
+void GraphEdge::deleteSelf() {
+    scene()->removeItem(this);
+    deleteLater();
 }

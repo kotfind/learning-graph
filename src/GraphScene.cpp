@@ -4,7 +4,6 @@
 #include "sqlDefines.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"
-#include "GraphEdge.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -99,6 +98,16 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 
         case CURSOR_EDIT_MODE:
             QGraphicsScene::mousePressEvent(e);
+            break;
+
+        case DELETE_EDIT_MODE:
+            GraphNode* node;
+            GraphEdge* edge;
+            if (node = typedItemAt<GraphNode*>(pos)) {
+                deleteNode(node);
+            } else if (edge = typedItemAt<GraphEdge*>(pos)) {
+                deleteEdge(edge);
+            }
             break;
     }
 }
@@ -248,4 +257,31 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
     );
     addItem(edge);
 
+}
+
+void GraphScene::deleteNode(GraphNode* node) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM graphNodes \
+        WHERE id = ? \
+    ");
+    query.addBindValue(node->getId());
+    EXEC(query)
+
+    removeItem(node);
+    emit node->deletedFromScene();
+    node->deleteLater();
+}
+
+void GraphScene::deleteEdge(GraphEdge* edge) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM themeEdges \
+        WHERE id = ? \
+    ");
+    query.addBindValue(edge->getId());
+    EXEC(query)
+
+    removeItem(edge);
+    edge->deleteLater();
 }
