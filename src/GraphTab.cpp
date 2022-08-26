@@ -296,6 +296,8 @@ void GraphTab::setAutoUpdate(bool state) {
             this,
             &GraphTab::update
         );
+
+        update();
     } else {
         updateButton->setDisabled(false);
 

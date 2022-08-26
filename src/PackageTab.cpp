@@ -233,6 +233,8 @@ void PackageTab::setAutoUpdate(bool state) {
             this,
             &PackageTab::update
         );
+
+        update();
     } else {
         updateButton->setDisabled(false);
 
