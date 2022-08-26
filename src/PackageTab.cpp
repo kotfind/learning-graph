@@ -10,6 +10,8 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QMenu>
+#include <QLabel>
+#include <QGridLayout>
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -57,7 +59,24 @@ PackageTab::PackageTab(QWidget* parent)
         &PackageTab::packageDoubleClicked
     );
 
+    connect(
+        updateButton,
+        &QPushButton::pressed,
+        this,
+        &PackageTab::update
+    );
+
+    connect(
+        autoUpdateCheckBox,
+        &QCheckBox::stateChanged,
+        [this](int state) {
+            setAutoUpdate(state == Qt::Checked);
+        }
+    );
+
     update();
+    setAutoUpdate(true);
+    autoUpdateCheckBox->setChecked(true);
 }
 
 void PackageTab::ui() {
@@ -78,6 +97,44 @@ void PackageTab::ui() {
     auto* importBtn = new QPushButton(tr("Import package"));
     hbox->addWidget(importBtn);
 
+    // Search section
+    auto* searchFrame = new QFrame;
+    searchFrame->setFrameShape(QFrame::StyledPanel);
+    vbox->addWidget(searchFrame);
+
+    auto* grid = new QGridLayout;
+    grid->setColumnStretch(0, 0);
+    grid->setColumnStretch(1, 1);
+    searchFrame->setLayout(grid);
+
+    grid->addWidget(
+        new QLabel(tr("Search Section")),
+        0, 0,
+        1, 2,
+        Qt::AlignCenter
+    );
+
+    grid->addWidget(
+        new QLabel(tr("Name:")),
+        1, 0,
+        Qt::AlignRight
+    );
+
+    nameEdit = new QLineEdit;
+    grid->addWidget(nameEdit, 1, 1);
+
+    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    grid->addWidget(
+        autoUpdateCheckBox,
+        2, 0
+    );
+
+    updateButton = new QPushButton(tr("Search"));
+    grid->addWidget(
+        updateButton,
+        2, 1
+    );
+
     // Packages List
     packagesList = new SmartListWidget;
     vbox->addWidget(packagesList);
@@ -96,8 +153,10 @@ void PackageTab::update() {
             WHERE t.packageId = p.id \
         ) \
         FROM packages p \
+        WHERE p.name LIKE ('%' || ? || '%') \
         ORDER BY p.name \
     ")
+    query.addBindValue(nameEdit->text().trimmed());
     EXEC(query)
 
     packagesList->clear();
@@ -162,4 +221,26 @@ void PackageTab::packageMenuRequested(int packageId, const QPoint& globalPos) {
     });
 
     menu.exec(globalPos);
+}
+
+void PackageTab::setAutoUpdate(bool state) {
+    if (state) {
+        updateButton->setDisabled(true);
+
+        connect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &PackageTab::update
+        );
+    } else {
+        updateButton->setDisabled(false);
+
+        disconnect(
+            nameEdit,
+            &QLineEdit::textChanged,
+            this,
+            &PackageTab::update
+        );
+    }
 }

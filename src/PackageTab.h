@@ -3,6 +3,9 @@
 #include "SmartListWidget.h"
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QPushButton>
 
 class PackageTab : public QWidget {
     Q_OBJECT
@@ -13,6 +16,9 @@ class PackageTab : public QWidget {
     private:
         void ui();
 
+        QLineEdit* nameEdit;
+        QCheckBox* autoUpdateCheckBox;
+        QPushButton* updateButton;
         SmartListWidget* packagesList;
 
     signals:
@@ -21,6 +27,7 @@ class PackageTab : public QWidget {
 
     public slots:
         void update();
+        void setAutoUpdate(bool state);
 
     private slots:
         void onCreateBtn();
