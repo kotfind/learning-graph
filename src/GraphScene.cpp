@@ -271,5 +271,5 @@ void GraphScene::deleteEdge(GraphEdge* edge) {
     EXEC(query)
 
     removeItem(edge);
-    delete edge;
+    edge->deleteLater();
 }
