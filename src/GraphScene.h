@@ -8,6 +8,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
 #include <QGraphicsLineItem>
+#include <QHash>
 
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
@@ -30,6 +31,8 @@ class GraphScene : public QGraphicsScene {
 
         GraphNode* pressedNode = nullptr;
         QGraphicsLineItem* edgePreviewLine = nullptr;
+
+        QHash<int, GraphNode*> themeIdToNode;
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*) override;

@@ -38,6 +38,7 @@ void GraphScene::open(int graphId) {
     this->graphId = graphId;
 
     clear();
+    themeIdToNode.clear();
 
     // Add Nodes
     PREPARE_NEW(query, " \
@@ -48,7 +49,6 @@ void GraphScene::open(int graphId) {
     query.addBindValue(graphId);
     EXEC(query)
 
-    QHash<int, GraphNode*> themeIdToNode;
     while (query.next()) {
         auto themeId = query.value(0).toInt();
         auto nodeId = query.value(1).toInt();
@@ -206,6 +206,40 @@ void GraphScene::newNode(const QPointF& pos) {
 
     auto* node = new GraphNode(query.lastInsertId().toInt());
     addItem(node);
+    themeIdToNode[themeId] = node;
+
+    query.finish();
+
+    // Add edges
+    PREPARE(query, " \
+        WITH \
+        themeIds AS ( \
+            SELECT themeId \
+            FROM graphNodes \
+            WHERE graphId = :graphId \
+        ) \
+        SELECT id, beginId, endId \
+        FROM themeEdges \
+        WHERE ( \
+                beginId = :themeId \
+            AND endId in themeIds \
+        ) OR ( \
+                endId = :themeId \
+            AND beginId in themeIds \
+        ) \
+    ")
+    query.bindValue(":graphId", graphId);
+    query.bindValue(":themeId", themeId);
+    EXEC(query)
+
+    while (query.next()) {
+        auto* edge = new GraphEdge(
+            query.value(0).toInt(),
+            themeIdToNode[query.value(1).toInt()],
+            themeIdToNode[query.value(2).toInt()]
+        );
+        addItem(edge);
+    }
 
     emit graphsUpdated();
 }
@@ -256,7 +290,6 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
         endNode
     );
     addItem(edge);
-
 }
 
 void GraphScene::deleteNode(GraphNode* node) {
