@@ -5,6 +5,7 @@
 #include <QGraphicsObject>
 #include <QRectF>
 #include <QGraphicsScene>
+#include <QPainterPath>
 
 class GraphEdge : public QGraphicsObject {
     Q_OBJECT
@@ -30,10 +31,15 @@ class GraphEdge : public QGraphicsObject {
             const QStyleOptionGraphicsItem*,
             QWidget* widget = nullptr) override;
 
+        QPainterPath shape() const override;
+
     private:
+        QPainterPath getPath(bool wideLine) const;
+
         int edgeId;
 
         const double arrowSize = 20;
+        const double lineWidth = 6;
 
         GraphNode* beginNode;
         GraphNode* endNode;

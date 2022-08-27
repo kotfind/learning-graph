@@ -72,21 +72,12 @@ void GraphEdge::updatePosition() {
     endNode->intersect(l, &end); // XXX if returns false
 }
 
-void GraphEdge::paint(
-    QPainter* qp,
-    const QStyleOptionGraphicsItem*,
-    QWidget*) {
-
-    // Set Brush
-    qp->setBrush(Qt::black);
-
-    // Draw Arrow
+QPainterPath GraphEdge::getPath(bool wideLine) const {
     if (beginNode->collidesWithItem(endNode)) {
-        return;
+        return QPainterPath();
     }
 
     QLineF l(begin, end);
-    qp->drawLine(l);
 
     auto unit = l.unitVector();
     auto norm = unit.normalVector();
@@ -94,16 +85,45 @@ void GraphEdge::paint(
     QPointF front(unit.dx(), unit.dy());
     QPointF right(norm.dx(), norm.dy());
 
+    QPainterPath pp;
+
+    // Line
+    if (wideLine) {
+        auto deltha = right * lineWidth / 2;
+        pp.moveTo(begin + deltha);
+        pp.lineTo(begin - deltha);
+        pp.lineTo(end   - deltha);
+        pp.lineTo(end   + deltha);
+    } else {
+        pp.moveTo(begin);
+        pp.lineTo(end);
+    }
+    pp.closeSubpath();
+
+    // Arrow
     auto base = l.p1() + front * (l.length() - arrowSize);
     auto deltha = right * arrowSize / 2;
 
-    QPolygonF arrow;
-    arrow << l.p2()
-        << base + deltha
-        << base + front * arrowSize / 3
-        << base - deltha;
+    pp.moveTo(end);
+    pp.lineTo(base + deltha);
+    pp.lineTo(base + front * arrowSize / 3);
+    pp.lineTo(base - deltha);
+    pp.lineTo(end);
 
-    qp->drawPolygon(arrow);
+    return pp;
+}
+
+QPainterPath GraphEdge::shape() const {
+    return getPath(true);
+}
+
+void GraphEdge::paint(
+    QPainter* qp,
+    const QStyleOptionGraphicsItem*,
+    QWidget*) {
+
+    qp->setBrush(Qt::black);
+    qp->drawPath(getPath(false));
 }
 
 void GraphEdge::deleteSelf() {
