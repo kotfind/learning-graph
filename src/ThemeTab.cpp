@@ -30,20 +30,6 @@ ThemeTab::ThemeTab(QWidget* parent)
     );
 
     connect(
-        GlobalSignalHandler::getInstance(),
-        &GlobalSignalHandler::themesUpdated,
-        this,
-        &ThemeTab::update
-    );
-
-    connect(
-        GlobalSignalHandler::getInstance(),
-        &GlobalSignalHandler::packagesUpdated,
-        this,
-        &ThemeTab::update
-    );
-
-    connect(
         autoUpdateCheck,
         &QCheckBox::stateChanged,
         [this](int state) {
@@ -207,6 +193,20 @@ void ThemeTab::setAutoUpdate(bool state) {
         searchBtn->setDisabled(true);
 
         connect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::themesUpdated,
+            this,
+            &ThemeTab::update
+        );
+
+        connect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::packagesUpdated,
+            this,
+            &ThemeTab::update
+        );
+
+        connect(
             nameEdit,
             &QLineEdit::textChanged,
             this,
@@ -237,6 +237,21 @@ void ThemeTab::setAutoUpdate(bool state) {
         update();
     } else {
         searchBtn->setDisabled(false);
+
+        disconnect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::themesUpdated,
+            this,
+            &ThemeTab::update
+        );
+
+        disconnect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::packagesUpdated,
+            this,
+            &ThemeTab::update
+        );
+
 
         disconnect(
             nameEdit,

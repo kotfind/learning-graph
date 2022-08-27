@@ -32,20 +32,6 @@ PackageTab::PackageTab(QWidget* parent)
     );
 
     connect(
-        GlobalSignalHandler::getInstance(),
-        &GlobalSignalHandler::packagesUpdated,
-        this,
-        &PackageTab::update
-    );
-
-    connect(
-        GlobalSignalHandler::getInstance(),
-        &GlobalSignalHandler::themesUpdated,
-        this,
-        &PackageTab::update
-    );
-
-    connect(
         packagesList,
         &SmartListWidget::menuRequested,
         this,
@@ -234,6 +220,20 @@ void PackageTab::setAutoUpdate(bool state) {
             &PackageTab::update
         );
 
+        connect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::packagesUpdated,
+            this,
+            &PackageTab::update
+        );
+
+        connect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::themesUpdated,
+            this,
+            &PackageTab::update
+        );
+
         update();
     } else {
         updateButton->setDisabled(false);
@@ -241,6 +241,20 @@ void PackageTab::setAutoUpdate(bool state) {
         disconnect(
             nameEdit,
             &QLineEdit::textChanged,
+            this,
+            &PackageTab::update
+        );
+
+        disconnect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::packagesUpdated,
+            this,
+            &PackageTab::update
+        );
+
+        disconnect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::themesUpdated,
             this,
             &PackageTab::update
         );

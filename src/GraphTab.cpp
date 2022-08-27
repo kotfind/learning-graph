@@ -24,13 +24,6 @@ GraphTab::GraphTab(QWidget* parent)
     );
 
     connect(
-        GlobalSignalHandler::getInstance(),
-        &GlobalSignalHandler::graphsUpdated,
-        this,
-        &GraphTab::update
-    );
-
-    connect(
         graphsList,
         &SmartListWidget::doubleClicked,
         this,
@@ -297,6 +290,13 @@ void GraphTab::setAutoUpdate(bool state) {
             &GraphTab::update
         );
 
+        connect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::graphsUpdated,
+            this,
+            &GraphTab::update
+        );
+
         update();
     } else {
         updateButton->setDisabled(false);
@@ -304,6 +304,13 @@ void GraphTab::setAutoUpdate(bool state) {
         disconnect(
             nameEdit,
             &QLineEdit::textChanged,
+            this,
+            &GraphTab::update
+        );
+
+        disconnect(
+            GlobalSignalHandler::getInstance(),
+            &GlobalSignalHandler::graphsUpdated,
             this,
             &GraphTab::update
         );
