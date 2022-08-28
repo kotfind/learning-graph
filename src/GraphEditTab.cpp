@@ -18,6 +18,7 @@
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
     ui();
+
     graphView->setDisabled(true);
 
     graphScene = new GraphScene;
@@ -107,12 +108,8 @@ void GraphEditTab::uiBody() {
     bodyVBox->setSpacing(10);
 
     // Graph Frame
-    graphView = new QGraphicsView;
-    graphView->setFrameStyle(QFrame::StyledPanel);
+    graphView = new GraphView;
     graphView->setMinimumSize({300, 200});
-    graphView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    graphView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    // graphView->setDragMode(QGraphicsView::ScrollHandDrag);
     bodyVBox->addWidget(graphView);
 }
 
