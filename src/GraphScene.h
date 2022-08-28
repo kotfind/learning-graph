@@ -9,6 +9,7 @@
 #include <QPointF>
 #include <QGraphicsLineItem>
 #include <QHash>
+#include <QGraphicsSceneDragDropEvent>
 
 class GraphScene : public QGraphicsScene {
     Q_OBJECT
@@ -19,7 +20,9 @@ class GraphScene : public QGraphicsScene {
     private:
         template<typename T> T typedItemAt(const QPointF& pos);
 
-        void newNode(const QPointF& pos);
+        int getThemeIdToAdd(const QPointF& pos) const;
+
+        void newNode(int themeId, const QPointF& pos);
         void newEdge(GraphNode* beginNode, GraphNode* endNode);
 
         void deleteNode(GraphNode*);
@@ -38,6 +41,10 @@ class GraphScene : public QGraphicsScene {
         void mousePressEvent(QGraphicsSceneMouseEvent*) override;
         void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
         void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
+
+        void dragEnterEvent(QGraphicsSceneDragDropEvent*) override;
+        void dragMoveEvent(QGraphicsSceneDragDropEvent*) override;
+        void dropEvent(QGraphicsSceneDragDropEvent*) override;
 
     signals:
         void graphsUpdated();

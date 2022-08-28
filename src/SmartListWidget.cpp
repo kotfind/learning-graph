@@ -1,6 +1,7 @@
 #include "SmartListWidget.h"
 
 #include <QListWidgetItem>
+#include <QApplication>
 
 SmartListWidget::SmartListWidget(QWidget* parent) 
         : QListWidget(parent) {
@@ -27,4 +28,31 @@ void SmartListWidget::contextMenuEvent(QContextMenuEvent* e) {
     if (currentItem()) {
         emit menuRequested(currentId(), e->globalPos());
     }
+}
+
+void SmartListWidget::mousePressEvent(QMouseEvent* e) {
+    if (e->buttons() & Qt::LeftButton) {
+        dragStartPoint = e->pos();
+    }
+
+    QListWidget::mousePressEvent(e);
+}
+
+void SmartListWidget::mouseMoveEvent(QMouseEvent* e) {
+    if (!(e->buttons() & Qt::LeftButton)) {
+        return;
+    }
+
+    if ((e->pos() - dragStartPoint).manhattanLength() <
+                QApplication::startDragDistance()) {
+        return;
+    }
+
+    if (!currentItem()) {
+        return;
+    }
+
+    emit dragRequested(currentId());
+
+    QListWidget::mouseMoveEvent(e);
 }

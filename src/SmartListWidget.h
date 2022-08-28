@@ -15,11 +15,17 @@ class SmartListWidget : public QListWidget {
 
         int currentId();
 
+    private:
+        QPoint dragStartPoint;
+
     protected:
         void mouseDoubleClickEvent(QMouseEvent*) override;
         void contextMenuEvent(QContextMenuEvent*) override;
+        void mousePressEvent(QMouseEvent*) override;
+        void mouseMoveEvent(QMouseEvent*) override;
 
     signals:
         void doubleClicked(int id);
         void menuRequested(int id, const QPoint& globalPos);
+        void dragRequested(int id);
 };
