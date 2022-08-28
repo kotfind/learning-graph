@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QHash>
+#include <QMimeData>
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -85,9 +86,12 @@ void GraphScene::open(int graphId) {
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     auto pos = e->scenePos();
+    int themeId;
     switch (mode) {
         case NEW_NODE_EDIT_MODE:
-            newNode(pos);
+            if ((themeId = getThemeIdToAdd(pos)) != -1) {
+                newNode(themeId, pos);
+            }
             break;
 
         case EDGE_EDIT_MODE:
@@ -142,12 +146,12 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseReleaseEvent(e);
 }
 
-void GraphScene::newNode(const QPointF& pos) {
+int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
     ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
-    PREPARE_NEW(query, " \
+    R_PREPARE_NEW(query, " \
         SELECT id, name, ( \
             SELECT name \
             FROM packages \
@@ -164,9 +168,9 @@ void GraphScene::newNode(const QPointF& pos) {
             FROM packages \
             WHERE id = packageId \
         ), name \
-    ")
+    ", -1)
     query.addBindValue(graphId);
-    EXEC(query)
+    R_EXEC(query, -1)
 
     while (query.next()) {
         d.addItem(
@@ -178,7 +182,7 @@ void GraphScene::newNode(const QPointF& pos) {
     }
 
     if (d.exec() == QDialog::Rejected) {
-        return;
+        return -1;
     }
 
     auto themeId = d.getId();
@@ -187,13 +191,17 @@ void GraphScene::newNode(const QPointF& pos) {
         ThemeInfoDialog d(-1, (QWidget*)views()[0]);
 
         if (d.exec() == QDialog::Rejected) {
-            return;
+            return -1;
         }
 
         themeId = d.getId();
     }
 
-    PREPARE(query, " \
+    return themeId;
+}
+
+void GraphScene::newNode(int themeId, const QPointF& pos) {
+    PREPARE_NEW(query, " \
         INSERT \
         INTO graphNodes(graphId, themeId, x, y) \
         VALUES (?, ?, ?, ?) \
@@ -317,4 +325,36 @@ void GraphScene::deleteEdge(GraphEdge* edge) {
 
     removeItem(edge);
     edge->deleteLater();
+}
+
+void GraphScene::dragEnterEvent(QGraphicsSceneDragDropEvent* e) {
+    if (e->mimeData()->hasFormat("application/x-themeid")) {
+        e->acceptProposedAction();
+    }
+}
+
+void GraphScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e) {
+    if (e->mimeData()->hasFormat("application/x-themeid")) {
+        e->acceptProposedAction();
+    }
+}
+
+void GraphScene::dropEvent(QGraphicsSceneDragDropEvent* e) {
+    auto data = e->mimeData()->data("application/x-themeid");
+    QDataStream stream(&data, QIODevice::ReadOnly);
+
+    int themeId;
+    stream >> themeId;
+
+    if (themeIdToNode.contains(themeId)) {
+        QMessageBox::critical(
+            (QWidget*)views()[0],
+            tr("Error"),
+            tr("This node is already on the graph.")
+        );
+    } else {
+        newNode(themeId, e->scenePos());
+    }
+
+    e->acceptProposedAction();
 }

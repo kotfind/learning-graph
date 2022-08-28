@@ -37,4 +37,5 @@ class ThemeTab : public QWidget {
     private slots:
         void themeDoubleClicked(int themeId);
         void themeMenuRequested(int themeId, const QPoint& globalPos);
+        void themeDragRequested(int themeId);
 };

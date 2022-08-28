@@ -2,14 +2,13 @@
 
 #include "GraphScene.h"
 #include "GraphEditMode.h"
+#include "GraphView.h"
 
 #include <QMainWindow>
 #include <QString>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 
 class GraphEditTab : public QMainWindow {
     Q_OBJECT
@@ -30,7 +29,7 @@ class GraphEditTab : public QMainWindow {
 
         QWidget* widget;
         QVBoxLayout* bodyVBox;
-        QGraphicsView* graphView;
+        GraphView* graphView;
         QLabel* nameLabel;
 
     signals:

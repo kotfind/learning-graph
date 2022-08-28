@@ -9,6 +9,10 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QGroupBox>
+#include <QDrag>
+#include <QMimeData>
+#include <QByteArray>
+#include <QDataStream>
 
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
@@ -49,6 +53,13 @@ ThemeTab::ThemeTab(QWidget* parent)
         &SmartListWidget::menuRequested,
         this,
         &ThemeTab::themeMenuRequested
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::dragRequested,
+        this,
+        &ThemeTab::themeDragRequested
     );
 
     autoUpdateCheck->setChecked(true);
@@ -290,4 +301,18 @@ void ThemeTab::themeDoubleClicked(int themeId) {
 void ThemeTab::themeMenuRequested(int themeId, const QPoint& globalPos) {
     ThemeContextMenu menu(themeId, this);
     menu.exec(globalPos);
+}
+
+void ThemeTab::themeDragRequested(int themeId) {
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << themeId;
+
+    auto* mimeData = new QMimeData;
+    mimeData->setData("application/x-themeid", data);
+
+    auto* drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+
+    drag->exec(Qt::CopyAction);
 }
