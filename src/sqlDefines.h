@@ -10,27 +10,28 @@
         .arg(__LINE__) \
         << (query).lastError();
 
-#define PREPARE(query, str) \
+#define R_PREPARE(query, str, r) \
 if (!(query).prepare(str)) { \
     qDebug() << QString("PREPARE FAILED at %1(%2)")\
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError(); \
-    return; \
+    return r; \
 } \
 (query).setForwardOnly(true);
 
-#define PREPARE_NEW(query, str) \
+#define R_PREPARE_NEW(query, str, r) \
 QSqlQuery query; \
-PREPARE(query, str)
+R_PREPARE(query, str, r)
 
-#define EXEC(query) \
+
+#define R_EXEC(query, r) \
 if (!(query).exec()) { \
     qDebug() << QString("EXEC FAILED at %1(%2)")\
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError(); \
-    return; \
+    return r; \
 }
 
 #define SQLITE_CONSTRAINT_UNIQUE 2067
@@ -38,3 +39,7 @@ if (!(query).exec()) { \
 #define SQLITE_CONSTRAINT_CHECK 275
 
 #define ERR_CODE(query) (query).lastError().nativeErrorCode().toInt()
+
+#define PREPARE(query, str) R_PREPARE(query, str,)
+#define PREPARE_NEW(query, str) R_PREPARE_NEW(query, str,)
+#define EXEC(query) R_EXEC(query,)
