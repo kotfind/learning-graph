@@ -50,6 +50,8 @@ void GraphEditTab::ui() {
 void GraphEditTab::uiHeader() {
     // Mode Bar
     auto* modeBar = addToolBar("Mode Bar");
+    modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
+
 
     auto* modeBtns = new QButtonGroup(this);
     connect(
@@ -87,6 +89,7 @@ void GraphEditTab::uiHeader() {
 
     // Settings Bar
     auto* settingsBar = addToolBar("Settings Bar");
+    settingsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     auto* depthLabel = new QLabel("Depth:");
     settingsBar->addWidget(depthLabel);
