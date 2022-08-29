@@ -3,6 +3,8 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDebug>
+#include <QSettings>
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
@@ -10,6 +12,9 @@ int main(int argc, char** argv) {
     // For QSettings
     QCoreApplication::setOrganizationName("kotfindApps");
     QCoreApplication::setApplicationName("LearningGraph");
+
+    QSettings settings;
+    qDebug() << settings.fileName();
 
     // Db
     if (!initDb()) {

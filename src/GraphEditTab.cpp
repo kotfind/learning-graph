@@ -14,6 +14,7 @@
 #include <QIcon>
 #include <QSpinBox>
 #include <QSettings>
+#include <QStatusBar>
 
 GraphEditTab::GraphEditTab(QWidget* parent)
         : QMainWindow(parent) {
@@ -48,9 +49,6 @@ GraphEditTab::GraphEditTab(QWidget* parent)
 }
 
 void GraphEditTab::ui() {
-    widget = new QWidget;
-    setCentralWidget(widget);
-
     uiHeader();
     uiBody();
     uiFooter();
@@ -114,31 +112,16 @@ void GraphEditTab::uiHeader() {
 }
 
 void GraphEditTab::uiBody() {
-    // Main Layout
-    bodyVBox = new QVBoxLayout;
-    widget->setLayout(bodyVBox);
-    bodyVBox->setSpacing(10);
-
     // Graph Frame
     graphView = new GraphView;
     graphView->setMinimumSize({300, 200});
-    bodyVBox->addWidget(graphView);
+    setCentralWidget(graphView);
 }
 
 void GraphEditTab::uiFooter() {
-    // Buttons
-    auto* hbox = new QHBoxLayout;
-    bodyVBox->addLayout(hbox);
-
-    // Graph name
     nameLabel = new QLabel(tr("No Graph Loaded"));
-    hbox->addWidget(nameLabel);
 
-    hbox->addStretch(1);
-
-    // Export Button
-    auto* exportBtn = new QPushButton("Export");
-    hbox->addWidget(exportBtn);
+    statusBar()->addWidget(nameLabel);
 }
 
 void GraphEditTab::open(int graphId) {
