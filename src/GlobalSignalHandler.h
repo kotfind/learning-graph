@@ -17,4 +17,5 @@ class GlobalSignalHandler : public QObject {
         void themesUpdated();
         void packagesUpdated();
         void graphsUpdated();
+        void fontSet(const QFont& font); // GraphNodes won't change font otherwise
 };

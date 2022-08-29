@@ -3,6 +3,7 @@
 #include "ThemeTab.h"
 #include "PackageTab.h"
 #include "LearningListTab.h"
+#include "GlobalSignalHandler.h"
 
 #include <QTabWidget>
 #include <QMessageBox>
@@ -19,11 +20,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     // Load settings
     QSettings settings;
-    qApp->setFont(
-        qvariant_cast<QFont>(
-            settings.value("font", qApp->font())
-        )
-    );
+    auto font = qvariant_cast<QFont>(settings.value("font", qApp->font()));
+    qApp->setFont(font);
+    emit GlobalSignalHandler::getInstance()->fontSet(font);
 
     ui();
 
@@ -51,6 +50,7 @@ void MainWindow::uiHeader() {
 
     auto font = qApp->font();
     qApp->setFont(font);
+    emit GlobalSignalHandler::getInstance()->fontSet(font);
 
     connect(
         fontSizeActionGroup,
@@ -112,6 +112,7 @@ void MainWindow::onFontSizeActionTriggered(QAction* action) {
     auto font = qApp->font();
     font.setPointSize(action->data().toInt());
     qApp->setFont(font);
+    emit GlobalSignalHandler::getInstance()->fontSet(font);
 
     QSettings settings;
     settings.setValue("font", font);
