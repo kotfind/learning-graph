@@ -253,6 +253,15 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
 }
 
 void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
+    if (beginNode->isDeleted() || endNode->isDeleted()) {
+        QMessageBox::critical(
+            (QWidget*)views()[0],
+            tr("Error"),
+            tr("Cannot add edge to deleted node")
+        );
+        return;
+    }
+
     PREPARE_NEW(query, " \
         INSERT \
         INTO themeEdges(beginId, endId) \

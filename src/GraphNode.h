@@ -25,8 +25,11 @@ class GraphNode : public QGraphicsTextItem {
 
         bool intersect(const QLineF&, QPointF*);
 
+        bool isDeleted() { return deleted; }
+
     private:
         int nodeId;
+        bool deleted; // if node's theme was deleted
 
     protected:
         void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;

@@ -83,8 +83,12 @@ void GraphNode::load() {
                 .arg(query.value(0).toString())
                 .arg(query.value(1).toString())
         );
+
+        deleted = false;
     } else {
         setHtml(tr("<i>Deleted</i>"));
+
+        deleted = true;
 
         emit deleteEdges();
     }
