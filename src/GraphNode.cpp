@@ -49,26 +49,43 @@ void GraphNode::paint(
 }
 
 void GraphNode::load() {
+    // Get node
     PREPARE_NEW(query, " \
-        SELECT t.name, p.name, n.x, n.y \
-        FROM graphNodes n, themes t, packages p \
-        WHERE n.id = ? \
-          AND n.themeId = t.id \
-          AND p.id = t.packageId \
+        SELECT themeId, x, y \
+        FROM graphNodes \
+        WHERE id = ? \
     ")
     query.addBindValue(nodeId);
     EXEC(query)
     query.next();
 
-    setPlainText(
-        QString("%1 (%2)")
-            .arg(query.value(0).toString())
-            .arg(query.value(1).toString())
-    );
+    int themeId = query.value(0).toInt();
     setPos(
-        query.value(2).toInt(),
-        query.value(3).toInt()
+        query.value(1).toInt(),
+        query.value(2).toInt()
     );
+
+    query.finish();
+
+    // Get theme
+    PREPARE(query, " \
+        SELECT t.name, p.name \
+        FROM themes t, packages p \
+        WHERE t.id = ? \
+          AND t.packageId = p.id \
+    ")
+    query.addBindValue(themeId);
+    EXEC(query)
+
+    if (query.next()) {
+        setPlainText(
+            QString("%1 (%2)")
+                .arg(query.value(0).toString())
+                .arg(query.value(1).toString())
+        );
+    } else {
+        setHtml(tr("<i>Deleted</i>"));
+    }
 }
 
 void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
