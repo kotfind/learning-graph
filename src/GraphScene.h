@@ -48,6 +48,8 @@ class GraphScene : public QGraphicsScene {
 
     signals:
         void graphsUpdated();
+        void showMessage(const QString&);
+        void clearMessage();
 
     public slots:
         void open(int graphId);

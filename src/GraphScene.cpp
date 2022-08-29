@@ -117,9 +117,23 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 }
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
-    if (mode == EDGE_EDIT_MODE && edgePreviewLine) {
-        QLineF l(edgePreviewLine->line().p1(), e->scenePos());
-        edgePreviewLine->setLine(l);
+    if (e->buttons() & Qt::LeftButton) {
+        if (mode == EDGE_EDIT_MODE && edgePreviewLine) {
+            QLineF l(edgePreviewLine->line().p1(), e->scenePos());
+            edgePreviewLine->setLine(l);
+        }
+    }
+
+    // Set Status
+    auto* item = itemAt(e->scenePos(), QTransform());
+    GraphNode* node;
+    GraphEdge* edge;
+    if (node = qgraphicsitem_cast<GraphNode*>(item)) {
+        emit showMessage(tr("[Node] %1").arg(node->toPlainText()));
+    } else if (edge = qgraphicsitem_cast<GraphEdge*>(item)) {
+        emit showMessage(tr("[Edge]"));
+    } else {
+        emit clearMessage();
     }
 
     QGraphicsScene::mouseMoveEvent(e);

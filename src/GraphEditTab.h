@@ -7,7 +7,6 @@
 #include <QMainWindow>
 #include <QString>
 #include <QWidget>
-#include <QVBoxLayout>
 #include <QLabel>
 
 class GraphEditTab : public QMainWindow {
@@ -28,7 +27,6 @@ class GraphEditTab : public QMainWindow {
         GraphScene* graphScene;
 
         QWidget* widget;
-        QVBoxLayout* bodyVBox;
         GraphView* graphView;
         QLabel* nameLabel;
 
@@ -37,4 +35,6 @@ class GraphEditTab : public QMainWindow {
 
     public slots:
         void open(int graphId);
+        void showMessage(const QString&);
+        void clearMessage();
 };
