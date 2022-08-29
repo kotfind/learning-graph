@@ -31,6 +31,15 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         &GraphScene::setMode
     );
 
+    connect(
+        this,
+        &GraphEditTab::modeChanged,
+        graphView,
+        &GraphView::setMode
+    );
+
+    emit modeChanged(CURSOR_EDIT_MODE);
+
     // Load from settings
     QSettings settings;
     if (settings.contains("graph/id")) {
