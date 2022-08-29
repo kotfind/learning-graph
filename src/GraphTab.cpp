@@ -242,7 +242,7 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
         if (ok) {
             PREPARE_NEW(query, " \
                 UPDATE graphs \
-                SET name = ? \
+                SET name = NULLIF(?, '') \
                 WHERE id = ? \
             ")
             query.addBindValue(name);
