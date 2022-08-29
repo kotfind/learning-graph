@@ -38,6 +38,17 @@ void ThemeContextMenu::ui() {
             ")
             query.addBindValue(themeId);
             EXEC(query)
+            query.finish();
+
+            PREPARE(query, " \
+                DELETE \
+                FROM themeEdges \
+                WHERE beginId = :themeId \
+                   OR endId = :themeId \
+            ")
+            query.bindValue(":themeId", themeId);
+            EXEC(query)
+            query.finish();
 
             emit themesUpdated();
         }
