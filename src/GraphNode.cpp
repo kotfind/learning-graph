@@ -32,7 +32,14 @@ void GraphNode::paint(
     const QStyleOptionGraphicsItem* options,
     QWidget* widget) {
 
-    // Backgroup
+    // Pen
+    auto pen = qp->pen();
+    if (deleted) {
+        pen.setStyle(Qt::DashLine);
+    }
+    qp->setPen(pen);
+
+    // Background
     qp->setBrush(Qt::white);
 
     // Border
