@@ -39,6 +39,20 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         &GraphView::setMode
     );
 
+    connect(
+        graphScene,
+        &GraphScene::showMessage,
+        this,
+        &GraphEditTab::showMessage
+    );
+
+    connect(
+        graphScene,
+        &GraphScene::clearMessage,
+        this,
+        &GraphEditTab::clearMessage
+    );
+
     emit modeChanged(CURSOR_EDIT_MODE);
 
     // Load from settings
@@ -136,11 +150,19 @@ void GraphEditTab::open(int graphId) {
     EXEC(query)
     query.next();
 
-    nameLabel->setText(query.value(0).toString());
+    nameLabel->setText(tr("[Graph] %1").arg(query.value(0).toString()));
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
     // Write to settings
     QSettings settings;
     settings.setValue("graph/id", graphId);
+}
+
+void GraphEditTab::showMessage(const QString& msg) {
+    statusBar()->showMessage(msg);
+}
+
+void GraphEditTab::clearMessage() {
+    statusBar()->clearMessage();
 }

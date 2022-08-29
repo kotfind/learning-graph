@@ -35,4 +35,6 @@ class GraphEditTab : public QMainWindow {
 
     public slots:
         void open(int graphId);
+        void showMessage(const QString&);
+        void clearMessage();
 };

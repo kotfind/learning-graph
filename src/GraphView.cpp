@@ -8,6 +8,7 @@ GraphView::GraphView(QWidget* parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     // setDragMode(QGraphicsView::ScrollHandDrag);
+    setMouseTracking(true);
 }
 
 void GraphView::setMode(GraphEditMode mode) {
