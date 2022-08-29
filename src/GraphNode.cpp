@@ -85,6 +85,8 @@ void GraphNode::load() {
         );
     } else {
         setHtml(tr("<i>Deleted</i>"));
+
+        emit deleteEdges();
     }
 }
 

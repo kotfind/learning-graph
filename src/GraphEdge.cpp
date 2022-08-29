@@ -31,14 +31,14 @@ GraphEdge::GraphEdge(
 
     connect(
         beginNode,
-        &GraphNode::deletedFromScene,
+        &GraphNode::deleteEdges,
         this,
         &GraphEdge::deleteSelf
     );
 
     connect(
         endNode,
-        &GraphNode::deletedFromScene,
+        &GraphNode::deleteEdges,
         this,
         &GraphEdge::deleteSelf
     );

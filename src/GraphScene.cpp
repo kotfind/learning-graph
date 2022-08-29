@@ -310,7 +310,7 @@ void GraphScene::deleteNode(GraphNode* node) {
     EXEC(query)
 
     removeItem(node);
-    emit node->deletedFromScene();
+    emit node->deleteEdges();
     node->deleteLater();
 }
 
