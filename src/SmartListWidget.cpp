@@ -19,7 +19,7 @@ int SmartListWidget::currentId() {
 }
 
 void SmartListWidget::mouseDoubleClickEvent(QMouseEvent* e) {
-    if (currentItem()) {
+    if ((e->buttons() & Qt::LeftButton) && currentItem()) {
         emit doubleClicked(currentId());
     }
 }

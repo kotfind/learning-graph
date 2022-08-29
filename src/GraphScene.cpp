@@ -85,6 +85,10 @@ void GraphScene::open(int graphId) {
 }
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
+    if (!(e->buttons() & Qt::LeftButton)) {
+        return;
+    }
+
     auto pos = e->scenePos();
     int themeId;
     switch (mode) {
