@@ -32,6 +32,9 @@ void GraphNode::paint(
     const QStyleOptionGraphicsItem* options,
     QWidget* widget) {
 
+    // Backgroup
+    qp->setBrush(Qt::white);
+
     // Border
     auto w = qp->pen().width();
     auto r = boundingRect();
