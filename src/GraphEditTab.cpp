@@ -112,15 +112,6 @@ void GraphEditTab::uiHeader() {
     auto* settingsBar = addToolBar("Settings Bar");
     settingsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    auto* depthLabel = new QLabel("Depth:");
-    settingsBar->addWidget(depthLabel);
-
-    auto* depthSpin = new QSpinBox;
-    depthSpin->setRange(5, 500);
-    settingsBar->addWidget(depthSpin);
-
-    settingsBar->addSeparator();
-
     auto* learnedCheckbox = new QCheckBox(tr("Show Learned"));
     settingsBar->addWidget(learnedCheckbox);
 }
