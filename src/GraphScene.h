@@ -47,7 +47,7 @@ class GraphScene : public QGraphicsScene {
 
     signals:
         void graphsUpdated();
-        void cursorItemChanged(QGraphicsItem*);
+        void underCursorItemChanged(QGraphicsItem*);
 
     public slots:
         void open(int graphId);

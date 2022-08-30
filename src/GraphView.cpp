@@ -21,8 +21,8 @@ void GraphView::setMode(GraphEditMode m) {
     updateCursor();
 }
 
-void GraphView::setCursorItem(QGraphicsItem* item) {
-    cursorItem = item;
+void GraphView::setunderCursorItem(QGraphicsItem* item) {
+    underCursorItem = item;
     updateCursor();
 }
 
@@ -55,19 +55,19 @@ void GraphView::updateCursor() {
             break;
 
         case EDGE_EDIT_MODE:
-            if (qgraphicsitem_cast<GraphNode*>(cursorItem)) {
+            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
                 cursor = QCursor(QPixmap(":arrow.svg"), 0, -1);
             }
             break;
 
         case CURSOR_EDIT_MODE:
-            if (qgraphicsitem_cast<GraphNode*>(cursorItem)) {
+            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
                 cursor = QCursor(Qt::ArrowCursor);
             }
             break;
 
         case DELETE_EDIT_MODE:
-            if (cursorItem) {
+            if (underCursorItem) {
                 cursor = QCursor(QPixmap(":cross.svg"));
             }
             break;

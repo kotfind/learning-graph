@@ -128,7 +128,7 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         }
     }
 
-    emit cursorItemChanged(itemAt(e->scenePos(), QTransform()));
+    emit underCursorItemChanged(itemAt(e->scenePos(), QTransform()));
 
     QGraphicsScene::mouseMoveEvent(e);
 }

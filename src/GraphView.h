@@ -23,13 +23,13 @@ class GraphView : public QGraphicsView {
 
         QCursor cursor = QCursor();
         GraphEditMode mode = CURSOR_EDIT_MODE;
-        QGraphicsItem* cursorItem = nullptr;
+        QGraphicsItem* underCursorItem = nullptr;
 
     signals:
         void scaleChanged(double);
 
     public slots:
         void setScale(double);
-        void setCursorItem(QGraphicsItem*);
+        void setunderCursorItem(QGraphicsItem*);
         void setMode(GraphEditMode);
 };

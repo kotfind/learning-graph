@@ -54,16 +54,16 @@ GraphEditTab::GraphEditTab(QWidget* parent)
 
     connect(
         graphScene,
-        &GraphScene::cursorItemChanged,
+        &GraphScene::underCursorItemChanged,
         this,
-        &GraphEditTab::setCursorItem
+        &GraphEditTab::setunderCursorItem
     );
 
     connect(
         graphScene,
-        &GraphScene::cursorItemChanged,
+        &GraphScene::underCursorItemChanged,
         graphView,
-        &GraphView::setCursorItem
+        &GraphView::setunderCursorItem
     );
 
     emit modeChanged(CURSOR_EDIT_MODE);
@@ -170,7 +170,7 @@ void GraphEditTab::open(int graphId) {
     settings.setValue("graph/id", graphId);
 }
 
-void GraphEditTab::setCursorItem(QGraphicsItem* item) {
+void GraphEditTab::setunderCursorItem(QGraphicsItem* item) {
     GraphNode* node;
     GraphEdge* edge;
     if (node = qgraphicsitem_cast<GraphNode*>(item)) {

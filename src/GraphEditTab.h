@@ -37,5 +37,5 @@ class GraphEditTab : public QMainWindow {
 
     public slots:
         void open(int graphId);
-        void setCursorItem(QGraphicsItem*);
+        void setunderCursorItem(QGraphicsItem*);
 };
