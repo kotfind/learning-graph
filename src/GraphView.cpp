@@ -83,6 +83,7 @@ void GraphView::mouseMoveEvent(QMouseEvent* e) {
     QGraphicsView::mouseMoveEvent(e);
     updateCursor();
 }
+
 void GraphView::mouseReleaseEvent(QMouseEvent* e) {
     QGraphicsView::mouseReleaseEvent(e);
     updateCursor();
