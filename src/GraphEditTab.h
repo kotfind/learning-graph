@@ -3,6 +3,7 @@
 #include "GraphScene.h"
 #include "GraphEditMode.h"
 #include "GraphView.h"
+#include "ScaleSpinBox.h"
 
 #include <QMainWindow>
 #include <QString>
@@ -29,6 +30,7 @@ class GraphEditTab : public QMainWindow {
         QWidget* widget;
         GraphView* graphView;
         QLabel* nameLabel;
+        ScaleSpinBox* scaleSpinBox;
 
     signals:
         void modeChanged(GraphEditMode mode);

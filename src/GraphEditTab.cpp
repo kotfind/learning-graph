@@ -12,7 +12,6 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QIcon>
-#include <QSpinBox>
 #include <QSettings>
 #include <QStatusBar>
 
@@ -51,6 +50,20 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         &GraphScene::clearMessage,
         this,
         &GraphEditTab::clearMessage
+    );
+
+    connect(
+        scaleSpinBox,
+        &QDoubleSpinBox::valueChanged,
+        graphView,
+        &GraphView::setScale
+    );
+
+    connect(
+        graphView,
+        &GraphView::scaleChanged,
+        scaleSpinBox,
+        &QDoubleSpinBox::setValue
     );
 
     emit modeChanged(CURSOR_EDIT_MODE);
@@ -114,6 +127,13 @@ void GraphEditTab::uiHeader() {
 
     auto* learnedCheckbox = new QCheckBox(tr("Show Learned"));
     settingsBar->addWidget(learnedCheckbox);
+
+    settingsBar->addSeparator();
+
+    settingsBar->addWidget(new QLabel(tr("Scale: ")));
+
+    scaleSpinBox = new ScaleSpinBox;
+    settingsBar->addWidget(scaleSpinBox);
 }
 
 void GraphEditTab::uiBody() {
