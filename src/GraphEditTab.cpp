@@ -39,22 +39,8 @@ GraphEditTab::GraphEditTab(QWidget* parent)
     );
 
     connect(
-        graphScene,
-        &GraphScene::showMessage,
-        this,
-        &GraphEditTab::showMessage
-    );
-
-    connect(
-        graphScene,
-        &GraphScene::clearMessage,
-        this,
-        &GraphEditTab::clearMessage
-    );
-
-    connect(
         scaleSpinBox,
-        &QDoubleSpinBox::valueChanged,
+        &ScaleSpinBox::valueChanged,
         graphView,
         &GraphView::setScale
     );
@@ -64,6 +50,20 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         &GraphView::scaleChanged,
         scaleSpinBox,
         &QDoubleSpinBox::setValue
+    );
+
+    connect(
+        graphScene,
+        &GraphScene::cursorItemChanged,
+        this,
+        &GraphEditTab::setCursorItem
+    );
+
+    connect(
+        graphScene,
+        &GraphScene::cursorItemChanged,
+        graphView,
+        &GraphView::setCursorItem
     );
 
     emit modeChanged(CURSOR_EDIT_MODE);
@@ -170,10 +170,14 @@ void GraphEditTab::open(int graphId) {
     settings.setValue("graph/id", graphId);
 }
 
-void GraphEditTab::showMessage(const QString& msg) {
-    statusBar()->showMessage(msg);
-}
-
-void GraphEditTab::clearMessage() {
-    statusBar()->clearMessage();
+void GraphEditTab::setCursorItem(QGraphicsItem* item) {
+    GraphNode* node;
+    GraphEdge* edge;
+    if (node = qgraphicsitem_cast<GraphNode*>(item)) {
+        statusBar()->showMessage(tr("[Node] %1").arg(node->toPlainText()));
+    } else if (edge = qgraphicsitem_cast<GraphEdge*>(item)) {
+        statusBar()->showMessage(tr("[Edge]"));
+    } else {
+        statusBar()->clearMessage();
+    }
 }

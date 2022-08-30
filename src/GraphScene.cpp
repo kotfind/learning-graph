@@ -128,17 +128,7 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         }
     }
 
-    // Set Status
-    auto* item = itemAt(e->scenePos(), QTransform());
-    GraphNode* node;
-    GraphEdge* edge;
-    if (node = qgraphicsitem_cast<GraphNode*>(item)) {
-        emit showMessage(tr("[Node] %1").arg(node->toPlainText()));
-    } else if (edge = qgraphicsitem_cast<GraphEdge*>(item)) {
-        emit showMessage(tr("[Edge]"));
-    } else {
-        emit clearMessage();
-    }
+    emit cursorItemChanged(itemAt(e->scenePos(), QTransform()));
 
     QGraphicsScene::mouseMoveEvent(e);
 }
