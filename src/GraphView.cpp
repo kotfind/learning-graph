@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QPixmap>
+#include <math.h>
 
 GraphView::GraphView(QWidget* parent)
         : QGraphicsView(parent) {
@@ -29,4 +30,14 @@ void GraphView::setMode(GraphEditMode mode) {
             setCursor(QCursor(QPixmap(":cross.svg")));
             break;
     }
+}
+
+void GraphView::wheelEvent(QWheelEvent* e) {
+    if (e->modifiers() & Qt::ControlModifier) {
+        auto s = pow(2, e->angleDelta().y() * scaleDelthaFactor);
+        scale(s, s);
+    } else {
+        e->ignore();
+    }
+    QGraphicsView::wheelEvent(e);
 }
