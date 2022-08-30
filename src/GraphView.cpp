@@ -18,12 +18,10 @@ GraphView::GraphView(QWidget* parent)
 
 void GraphView::setMode(GraphEditMode m) {
     mode = m;
-    updateCursor();
 }
 
 void GraphView::setunderCursorItem(QGraphicsItem* item) {
     underCursorItem = item;
-    updateCursor();
 }
 
 void GraphView::wheelEvent(QWheelEvent* e) {
@@ -74,4 +72,18 @@ void GraphView::updateCursor() {
     }
 
     viewport()->setCursor(cursor);
+}
+
+void GraphView::mousePressEvent(QMouseEvent* e) {
+    QGraphicsView::mousePressEvent(e);
+    updateCursor();
+}
+
+void GraphView::mouseMoveEvent(QMouseEvent* e) {
+    QGraphicsView::mouseMoveEvent(e);
+    updateCursor();
+}
+void GraphView::mouseReleaseEvent(QMouseEvent* e) {
+    QGraphicsView::mouseReleaseEvent(e);
+    updateCursor();
 }

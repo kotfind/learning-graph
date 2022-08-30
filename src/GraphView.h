@@ -15,6 +15,9 @@ class GraphView : public QGraphicsView {
 
     protected:
         void wheelEvent(QWheelEvent*) override;
+        void mousePressEvent(QMouseEvent*) override;
+        void mouseMoveEvent(QMouseEvent*) override;
+        void mouseReleaseEvent(QMouseEvent*) override;
 
     private:
         void updateCursor();
