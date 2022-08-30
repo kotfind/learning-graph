@@ -33,6 +33,6 @@ class GraphView : public QGraphicsView {
 
     public slots:
         void setScale(double);
-        void setunderCursorItem(QGraphicsItem*);
+        void setUnderCursorItem(QGraphicsItem*);
         void setMode(GraphEditMode);
 };

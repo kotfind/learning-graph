@@ -20,7 +20,7 @@ void GraphView::setMode(GraphEditMode m) {
     mode = m;
 }
 
-void GraphView::setunderCursorItem(QGraphicsItem* item) {
+void GraphView::setUnderCursorItem(QGraphicsItem* item) {
     underCursorItem = item;
 }
 
