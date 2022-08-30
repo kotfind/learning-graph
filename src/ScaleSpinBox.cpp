@@ -5,14 +5,21 @@
 ScaleSpinBox::ScaleSpinBox(QWidget* parent) 
         : QDoubleSpinBox(parent) {
     setValue(1);
-    setMaximum(1000);
-    setMinimum(0.0001);
+    setMaximum(10000);
+    setMinimum(0.01);
     setDecimals(4);
     setSuffix(" %");
 }
 
 void ScaleSpinBox::stepBy(int v) {
-    setValue(value() * pow(2, v * stepFactor));
+    auto val = value() * pow(2, v * stepFactor);
+    val = std::min(maximum(),
+        std::max(
+            minimum(),
+            val
+        )
+    );
+    setValue(val);
 }
 
 QString ScaleSpinBox::textFromValue(double v) const {
