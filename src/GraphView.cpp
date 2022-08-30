@@ -36,8 +36,14 @@ void GraphView::wheelEvent(QWheelEvent* e) {
     if (e->modifiers() & Qt::ControlModifier) {
         auto s = pow(2, e->angleDelta().y() * scaleDelthaFactor);
         scale(s, s);
+        emit scaleChanged(transform().m11());
     } else {
         e->ignore();
+        QGraphicsView::wheelEvent(e);
     }
-    QGraphicsView::wheelEvent(e);
+}
+
+void GraphView::setScale(double s) {
+    s /= transform().m11();
+    scale(s, s);
 }

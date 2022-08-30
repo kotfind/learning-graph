@@ -6,6 +6,8 @@
 #include <QWheelEvent>
 
 class GraphView : public QGraphicsView {
+    Q_OBJECT
+
     public:
         GraphView(QWidget* parent = nullptr);
 
@@ -15,6 +17,10 @@ class GraphView : public QGraphicsView {
     private:
         const double scaleDelthaFactor = 5e-4;
 
+    signals:
+        void scaleChanged(double);
+
     public slots:
         void setMode(GraphEditMode);
+        void setScale(double);
 };
