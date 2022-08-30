@@ -32,6 +32,13 @@ GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
         this,
         &GraphNode::setFont
     );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::fontSet,
+        this,
+        &GraphNode::positionChanged
+    );
 }
 
 void GraphNode::paint(
