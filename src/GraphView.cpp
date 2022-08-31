@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <math.h>
 #include <QApplication>
+#include <QScrollBar>
 
 GraphView::GraphView(QWidget* parent)
         : QGraphicsView(parent) {
@@ -84,11 +85,23 @@ void GraphView::updateCursor() {
 void GraphView::mousePressEvent(QMouseEvent* e) {
     QGraphicsView::mousePressEvent(e);
     updateCursor();
+
+    lastMovePoint = e->pos();
 }
 
 void GraphView::mouseMoveEvent(QMouseEvent* e) {
     QGraphicsView::mouseMoveEvent(e);
     updateCursor();
+
+    if (e->buttons() & Qt::MiddleButton) {
+        auto delta = e->pos() - lastMovePoint;
+        lastMovePoint = e->pos();
+
+        auto* vbar = verticalScrollBar();
+        auto* hbar = horizontalScrollBar();
+        hbar->setValue(hbar->value() - delta.x());
+        vbar->setValue(vbar->value() - delta.y());
+    }
 }
 
 void GraphView::mouseReleaseEvent(QMouseEvent* e) {

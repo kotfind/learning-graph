@@ -24,9 +24,11 @@ class GraphView : public QGraphicsView {
 
         const double scaleDelthaFactor = 5e-4;
 
-        QCursor cursor = QCursor();
+        QCursor cursor;
         GraphEditMode mode = CURSOR_EDIT_MODE;
         QGraphicsItem* underCursorItem = nullptr;
+
+        QPoint lastMovePoint;
 
     signals:
         void scaleChanged(double);
