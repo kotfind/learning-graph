@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GraphTab.h"
-#include "GraphEditTab.h"
+#include "GraphEditWidget.h"
 
 #include <QMainWindow>
 #include <QString>
@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow {
         void uiBody();
 
         GraphTab* graphsTab;
-        GraphEditTab* graphEditTab;
+        GraphEditWidget* graphEditTab;
 
         QActionGroup* fontSizeActionGroup;
 

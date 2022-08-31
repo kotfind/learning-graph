@@ -1,7 +1,7 @@
 #include "ThemeContextMenu.h"
 
 #include "ThemeInfoDialog.h"
-#include "GraphEditTab.h"
+#include "GraphEditWidget.h"
 #include "LearningListTab.h"
 #include "GlobalSignalHandler.h"
 

@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget* parent)
         graphsTab,
         &GraphTab::open,
         graphEditTab,
-        &GraphEditTab::open
+        &GraphEditWidget::open
     );
 }
 
@@ -97,7 +97,7 @@ void MainWindow::uiBody() {
     auto* rightTabs = new QTabWidget;
     splitter->addWidget(rightTabs);
 
-    graphEditTab = new GraphEditTab;
+    graphEditTab = new GraphEditWidget;
     rightTabs->addTab(graphEditTab, tr("Edit Graph"));
 
     auto* listTab = new LearningListTab;
