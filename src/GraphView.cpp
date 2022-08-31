@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <math.h>
 #include <QApplication>
+#include <QScrollBar>
 
 GraphView::GraphView(QWidget* parent)
         : QGraphicsView(parent) {
@@ -42,11 +43,13 @@ void GraphView::setScale(double s) {
 
 void GraphView::updateCursor() {
     bool left = QApplication::mouseButtons() & Qt::LeftButton;
+    bool middle = QApplication::mouseButtons() & Qt::MiddleButton;
+
     bool item = underCursorItem;
     bool node = qgraphicsitem_cast<GraphNode*>(underCursorItem);
     bool edge = qgraphicsitem_cast<GraphEdge*>(underCursorItem);
 
-    if (left) {
+    if (middle) {
         cursor = QCursor(Qt::ClosedHandCursor);
     } else {
         cursor = QCursor(Qt::OpenHandCursor);
@@ -84,11 +87,23 @@ void GraphView::updateCursor() {
 void GraphView::mousePressEvent(QMouseEvent* e) {
     QGraphicsView::mousePressEvent(e);
     updateCursor();
+
+    lastMovePoint = e->pos();
 }
 
 void GraphView::mouseMoveEvent(QMouseEvent* e) {
     QGraphicsView::mouseMoveEvent(e);
     updateCursor();
+
+    if (e->buttons() & Qt::MiddleButton) {
+        auto delta = e->pos() - lastMovePoint;
+        lastMovePoint = e->pos();
+
+        auto* vbar = verticalScrollBar();
+        auto* hbar = horizontalScrollBar();
+        hbar->setValue(hbar->value() - delta.x());
+        vbar->setValue(vbar->value() - delta.y());
+    }
 }
 
 void GraphView::mouseReleaseEvent(QMouseEvent* e) {
