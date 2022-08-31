@@ -10,11 +10,11 @@
 #include <QWidget>
 #include <QLabel>
 
-class GraphEditTab : public QMainWindow {
+class GraphEditWidget : public QMainWindow {
     Q_OBJECT
 
     public:
-        GraphEditTab(QWidget* parent = nullptr);
+        GraphEditWidget(QWidget* parent = nullptr);
 
     private:
         void ui();

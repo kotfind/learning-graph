@@ -1,4 +1,4 @@
-#include "GraphEditTab.h"
+#include "GraphEditWidget.h"
 
 #include "GraphNode.h"
 #include "sqlDefines.h"
@@ -15,7 +15,7 @@
 #include <QSettings>
 #include <QStatusBar>
 
-GraphEditTab::GraphEditTab(QWidget* parent)
+GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
     ui();
 
@@ -26,14 +26,14 @@ GraphEditTab::GraphEditTab(QWidget* parent)
 
     connect(
         this,
-        &GraphEditTab::modeChanged,
+        &GraphEditWidget::modeChanged,
         graphScene,
         &GraphScene::setMode
     );
 
     connect(
         this,
-        &GraphEditTab::modeChanged,
+        &GraphEditWidget::modeChanged,
         graphView,
         &GraphView::setMode
     );
@@ -42,14 +42,14 @@ GraphEditTab::GraphEditTab(QWidget* parent)
         graphScene,
         &GraphScene::showMessage,
         this,
-        &GraphEditTab::showMessage
+        &GraphEditWidget::showMessage
     );
 
     connect(
         graphScene,
         &GraphScene::clearMessage,
         this,
-        &GraphEditTab::clearMessage
+        &GraphEditWidget::clearMessage
     );
 
     connect(
@@ -75,13 +75,13 @@ GraphEditTab::GraphEditTab(QWidget* parent)
     }
 }
 
-void GraphEditTab::ui() {
+void GraphEditWidget::ui() {
     uiHeader();
     uiBody();
     uiFooter();
 }
 
-void GraphEditTab::uiHeader() {
+void GraphEditWidget::uiHeader() {
     // Mode Bar
     auto* modeBar = addToolBar("Mode Bar");
     modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -136,20 +136,20 @@ void GraphEditTab::uiHeader() {
     settingsBar->addWidget(scaleSpinBox);
 }
 
-void GraphEditTab::uiBody() {
+void GraphEditWidget::uiBody() {
     // Graph Frame
     graphView = new GraphView;
     graphView->setMinimumSize({300, 200});
     setCentralWidget(graphView);
 }
 
-void GraphEditTab::uiFooter() {
+void GraphEditWidget::uiFooter() {
     nameLabel = new QLabel(tr("No Graph Loaded"));
 
     statusBar()->addWidget(nameLabel);
 }
 
-void GraphEditTab::open(int graphId) {
+void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
     PREPARE_NEW(query, " \
@@ -170,10 +170,10 @@ void GraphEditTab::open(int graphId) {
     settings.setValue("graph/id", graphId);
 }
 
-void GraphEditTab::showMessage(const QString& msg) {
+void GraphEditWidget::showMessage(const QString& msg) {
     statusBar()->showMessage(msg);
 }
 
-void GraphEditTab::clearMessage() {
+void GraphEditWidget::clearMessage() {
     statusBar()->clearMessage();
 }
