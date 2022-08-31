@@ -43,11 +43,13 @@ void GraphView::setScale(double s) {
 
 void GraphView::updateCursor() {
     bool left = QApplication::mouseButtons() & Qt::LeftButton;
+    bool middle = QApplication::mouseButtons() & Qt::MiddleButton;
+
     bool item = underCursorItem;
     bool node = qgraphicsitem_cast<GraphNode*>(underCursorItem);
     bool edge = qgraphicsitem_cast<GraphEdge*>(underCursorItem);
 
-    if (left) {
+    if (middle) {
         cursor = QCursor(Qt::ClosedHandCursor);
     } else {
         cursor = QCursor(Qt::OpenHandCursor);
