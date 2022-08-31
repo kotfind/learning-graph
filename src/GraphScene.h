@@ -3,7 +3,6 @@
 #include "GraphEditMode.h"
 #include "GraphNode.h"
 #include "GraphEdge.h"
-
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
@@ -48,8 +47,7 @@ class GraphScene : public QGraphicsScene {
 
     signals:
         void graphsUpdated();
-        void showMessage(const QString&);
-        void clearMessage();
+        void underCursorItemChanged(QGraphicsItem*);
 
     public slots:
         void open(int graphId);

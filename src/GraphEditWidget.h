@@ -37,6 +37,5 @@ class GraphEditWidget : public QMainWindow {
 
     public slots:
         void open(int graphId);
-        void showMessage(const QString&);
-        void clearMessage();
+        void setUnderCursorItem(QGraphicsItem*);
 };

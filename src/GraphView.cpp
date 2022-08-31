@@ -1,8 +1,12 @@
 #include "GraphView.h"
 
+#include "GraphNode.h"
+#include "GraphEdge.h"
+
 #include <QDebug>
 #include <QPixmap>
 #include <math.h>
+#include <QApplication>
 
 GraphView::GraphView(QWidget* parent)
         : QGraphicsView(parent) {
@@ -12,24 +16,12 @@ GraphView::GraphView(QWidget* parent)
     setMouseTracking(true);
 }
 
-void GraphView::setMode(GraphEditMode mode) {
-    switch (mode) {
-        case NEW_NODE_EDIT_MODE:
-            setCursor(QCursor(QPixmap(":plus.svg")));
-            break;
+void GraphView::setMode(GraphEditMode m) {
+    mode = m;
+}
 
-        case EDGE_EDIT_MODE:
-            setCursor(QCursor(QPixmap(":arrow.svg"), 0, -1));
-            break;
-
-        case CURSOR_EDIT_MODE:
-            setCursor(QCursor(QPixmap(":pointer.svg"), 0, 0));
-            break;
-
-        case DELETE_EDIT_MODE:
-            setCursor(QCursor(QPixmap(":cross.svg")));
-            break;
-    }
+void GraphView::setUnderCursorItem(QGraphicsItem* item) {
+    underCursorItem = item;
 }
 
 void GraphView::wheelEvent(QWheelEvent* e) {
@@ -46,4 +38,53 @@ void GraphView::wheelEvent(QWheelEvent* e) {
 void GraphView::setScale(double s) {
     s /= transform().m11();
     scale(s, s);
+}
+
+void GraphView::updateCursor() {
+    if (QApplication::mouseButtons() & Qt::LeftButton) {
+        cursor = QCursor(Qt::ClosedHandCursor);
+    } else {
+        cursor = QCursor(Qt::OpenHandCursor);
+    }
+
+    switch (mode) {
+        case NEW_NODE_EDIT_MODE:
+            cursor = QCursor(QPixmap(":plus.svg"));
+            break;
+
+        case EDGE_EDIT_MODE:
+            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
+                cursor = QCursor(QPixmap(":arrow.svg"), 0, -1);
+            }
+            break;
+
+        case CURSOR_EDIT_MODE:
+            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
+                cursor = QCursor(Qt::ArrowCursor);
+            }
+            break;
+
+        case DELETE_EDIT_MODE:
+            if (underCursorItem) {
+                cursor = QCursor(QPixmap(":cross.svg"));
+            }
+            break;
+    }
+
+    viewport()->setCursor(cursor);
+}
+
+void GraphView::mousePressEvent(QMouseEvent* e) {
+    QGraphicsView::mousePressEvent(e);
+    updateCursor();
+}
+
+void GraphView::mouseMoveEvent(QMouseEvent* e) {
+    QGraphicsView::mouseMoveEvent(e);
+    updateCursor();
+}
+
+void GraphView::mouseReleaseEvent(QMouseEvent* e) {
+    QGraphicsView::mouseReleaseEvent(e);
+    updateCursor();
 }
