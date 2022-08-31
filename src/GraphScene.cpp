@@ -11,6 +11,7 @@
 #include <QMimeData>
 #include <QRectF>
 #include <QMarginsF>
+#include <QGraphicsView>
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -397,5 +398,5 @@ void GraphScene::recalcSceneRect() {
     const auto& w = r.width();
     const auto& h = r.height();
     r += QMargins(w, h, w, h);
-    setSceneRect(r);
+    setSceneRect(r.united(views()[0]->sceneRect()));
 }
