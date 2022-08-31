@@ -93,15 +93,9 @@ void MainWindow::uiBody() {
     graphsTab = new GraphTab;
     leftTabs->addTab(graphsTab, tr("Graphs"));
 
-    // Right tabs
-    auto* rightTabs = new QTabWidget;
-    splitter->addWidget(rightTabs);
-
+    // Graph tabs
     graphEditTab = new GraphEditWidget;
-    rightTabs->addTab(graphEditTab, tr("Edit Graph"));
-
-    auto* listTab = new LearningListTab;
-    rightTabs->addTab(listTab, tr("Learning List"));
+    splitter->addWidget(graphEditTab);
 
     // Splitter stretch
     splitter->setStretchFactor(0, 0);
