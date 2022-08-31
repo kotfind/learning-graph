@@ -41,7 +41,12 @@ void GraphView::setScale(double s) {
 }
 
 void GraphView::updateCursor() {
-    if (QApplication::mouseButtons() & Qt::LeftButton) {
+    bool left = QApplication::mouseButtons() & Qt::LeftButton;
+    bool item = underCursorItem;
+    bool node = qgraphicsitem_cast<GraphNode*>(underCursorItem);
+    bool edge = qgraphicsitem_cast<GraphEdge*>(underCursorItem);
+
+    if (left) {
         cursor = QCursor(Qt::ClosedHandCursor);
     } else {
         cursor = QCursor(Qt::OpenHandCursor);
@@ -53,19 +58,21 @@ void GraphView::updateCursor() {
             break;
 
         case EDGE_EDIT_MODE:
-            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
-                cursor = QCursor(QPixmap(":arrow.svg"), 0, -1);
-            }
+                if (node) {
+                    cursor = QCursor(QPixmap(":arrow.svg"), 0, -1);
+                } else if (left) {
+                    cursor = QCursor(Qt::ForbiddenCursor);
+                }
             break;
 
         case CURSOR_EDIT_MODE:
-            if (qgraphicsitem_cast<GraphNode*>(underCursorItem)) {
+            if (node) {
                 cursor = QCursor(Qt::ArrowCursor);
             }
             break;
 
         case DELETE_EDIT_MODE:
-            if (underCursorItem) {
+            if (item) {
                 cursor = QCursor(QPixmap(":cross.svg"));
             }
             break;
