@@ -3,6 +3,7 @@
 #include "GraphEditMode.h"
 #include "GraphNode.h"
 #include "GraphEdge.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
@@ -51,6 +52,6 @@ class GraphScene : public QGraphicsScene {
 
     public slots:
         void open(int graphId);
-
         void setMode(GraphEditMode mode);
+        void recalcSceneRect();
 };

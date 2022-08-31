@@ -9,6 +9,8 @@
 #include <QMessageBox>
 #include <QHash>
 #include <QMimeData>
+#include <QRectF>
+#include <QMarginsF>
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -17,6 +19,13 @@ GraphScene::GraphScene()
         &GraphScene::graphsUpdated,
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::graphsUpdated
+    );
+
+    connect(
+        this,
+        &GraphScene::changed,
+        this,
+        &GraphScene::recalcSceneRect
     );
 }
 
@@ -381,4 +390,12 @@ void GraphScene::dropEvent(QGraphicsSceneDragDropEvent* e) {
     }
 
     e->acceptProposedAction();
+}
+
+void GraphScene::recalcSceneRect() {
+    auto r = itemsBoundingRect();
+    const auto& w = r.width();
+    const auto& h = r.height();
+    r += QMargins(w, h, w, h);
+    setSceneRect(r);
 }
