@@ -8,20 +8,20 @@
 #include <QStandardPaths>
 #include <QDir>
 
-void createTables() {
+bool createTables() {
     QSqlQuery query;
 
     // Packages
-    PREPARE(query, " \
+    R_PREPARE(query, " \
         CREATE TABLE packages( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE \
-        )")
-    EXEC(query)
+        )", false)
+    R_EXEC(query, false)
     query.finish();
 
     // Themes
-    PREPARE(query, " \
+    R_PREPARE(query, " \
         CREATE TABLE themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
@@ -30,35 +30,35 @@ void createTables() {
             inWishlist INT CHECK(inWishlist in (0, 1)), \
             isLearned INT CHECK(isLearned in (0, 1)), \
             UNIQUE (packageId, name) \
-        )")
-    EXEC(query)
+        )", false)
+    R_EXEC(query, false)
     query.finish();
 
     // Theme Dependencies
-    PREPARE(query, " \
+    R_PREPARE(query, " \
         CREATE TABLE themeEdges( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             beginId INT NOT NULL REFERENCES themes(id), \
             endId INT NOT NULL REFERENCES themes(id), \
             UNIQUE (beginId, endId), \
             CHECK (beginId != endId) \
-        )")
-    EXEC(query)
+        )", false)
+    R_EXEC(query, false)
     query.finish();
 
     // Graphs
-    PREPARE(query, " \
+    R_PREPARE(query, " \
         CREATE TABLE graphs( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE, \
             xoffset INTEGER NOT NULL, \
             yoffset INTEGER NOT NULL \
-        )")
-    EXEC(query)
+        )", false)
+    R_EXEC(query, false)
     query.finish();
 
     // graphNodes
-    PREPARE(query, " \
+    R_PREPARE(query, " \
         CREATE TABLE graphNodes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             graphId INTEGER REFERENCES graphs(id), \
@@ -66,9 +66,11 @@ void createTables() {
             x INTEGER NOT NULL, \
             y INTEGER NOT NULL, \
             UNIQUE (graphId, themeId) \
-        )")
-    EXEC(query)
+        )", false)
+    R_EXEC(query, false)
     query.finish();
+
+    return true;
 }
 
 QString getDbFilename() {
@@ -99,7 +101,7 @@ bool db::init() {
     }
 
     if (firstRun) {
-        createTables();
+        return createTables();
     }
 
     return true;
