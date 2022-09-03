@@ -18,7 +18,7 @@ qt_standard_project_setup()
 
 add_executable(learning_graph
     main.cpp
-    dbLogics.cpp
+    db/init.cpp
     MainWindow.cpp
     GlobalSignalHandler.cpp
     ComboboxIdDialog.cpp

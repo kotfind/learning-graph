@@ -5,7 +5,7 @@
 #include "LearningListTab.h"
 #include "GlobalSignalHandler.h"
 
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 
 #include <QMessageBox>
 

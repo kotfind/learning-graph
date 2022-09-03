@@ -1,7 +1,7 @@
 #include "GraphEditWidget.h"
 
 #include "GraphNode.h"
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 
 #include <QWidget>
 #include <QFrame>

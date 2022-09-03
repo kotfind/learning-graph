@@ -1,6 +1,6 @@
 #include "GraphTab.h"
 
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 #include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>

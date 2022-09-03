@@ -1,7 +1,7 @@
 #include "PackageInfoDialog.h"
 
 #include "GlobalSignalHandler.h"
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 
 #include <QVBoxLayout>
 #include <QMessageBox>

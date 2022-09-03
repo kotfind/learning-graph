@@ -1,6 +1,6 @@
 #include "GraphEdge.h"
 
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 #include <QDebug>
 #include <QPainterPath>
 #include <QPolygonF>

@@ -1,6 +1,6 @@
 #include "PackageTab.h"
 
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 

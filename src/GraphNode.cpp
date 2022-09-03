@@ -1,7 +1,7 @@
 #include "GraphNode.h"
 
 #include "GraphScene.h"
-#include "sqlDefines.h"
+#include "db/sqlDefines.h"
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>

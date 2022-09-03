@@ -1,5 +1,5 @@
 #include "sqlDefines.h"
-#include "dbLogics.h"
+#include "db.h"
 
 #include <QFileInfo>
 #include <QSqlError>
@@ -81,7 +81,7 @@ QString getDbFilename() {
     }
 }
 
-bool initDb() {
+bool db::init() {
     auto dbFilename = getDbFilename();
     if (dbFilename.isEmpty()) {
         qDebug() << "Couldn't get database file path";

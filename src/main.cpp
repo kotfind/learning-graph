@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "dbLogics.h"
+#include "db/db.h"
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     qDebug() << settings.fileName();
 
     // Db
-    if (!initDb()) {
+    if (!db::init()) {
         return 1;
     }
 
