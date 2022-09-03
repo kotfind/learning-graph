@@ -2,6 +2,7 @@
 
 #include "GraphNode.h"
 #include "GraphEdge.h"
+#include "GraphScene.h"
 
 #include <QDebug>
 #include <QPixmap>
@@ -9,20 +10,14 @@
 #include <QApplication>
 #include <QScrollBar>
 
+#define SCENE ((GraphScene*)scene())
+
 GraphView::GraphView(QWidget* parent)
         : QGraphicsView(parent) {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     // setDragMode(QGraphicsView::ScrollHandDrag);
     setMouseTracking(true);
-}
-
-void GraphView::setMode(GraphEditMode m) {
-    mode = m;
-}
-
-void GraphView::setUnderCursorItem(QGraphicsItem* item) {
-    underCursorItem = item;
 }
 
 void GraphView::wheelEvent(QWheelEvent* e) {
@@ -41,13 +36,14 @@ void GraphView::setScale(double s) {
     scale(s, s);
 }
 
-void GraphView::updateCursor() {
-    bool left = QApplication::mouseButtons() & Qt::LeftButton;
-    bool middle = QApplication::mouseButtons() & Qt::MiddleButton;
+void GraphView::updateCursor(QMouseEvent* e) {
+    bool left = e->buttons() & Qt::LeftButton;
+    bool middle = e->buttons() & Qt::MiddleButton;
 
-    bool item = underCursorItem;
-    bool node = qgraphicsitem_cast<GraphNode*>(underCursorItem);
-    bool edge = qgraphicsitem_cast<GraphEdge*>(underCursorItem);
+    auto* itemObject = SCENE->itemAt(mapToScene(e->pos()), QTransform());
+    bool item = itemObject;
+    bool node = qgraphicsitem_cast<GraphNode*>(itemObject);
+    bool edge = qgraphicsitem_cast<GraphEdge*>(itemObject);
 
     if (middle) {
         cursor = QCursor(Qt::ClosedHandCursor);
@@ -55,7 +51,7 @@ void GraphView::updateCursor() {
         cursor = QCursor(Qt::OpenHandCursor);
     }
 
-    switch (mode) {
+    switch (SCENE->getMode()) {
         case NEW_NODE_EDIT_MODE:
             cursor = QCursor(QPixmap(":plus.svg"));
             break;
@@ -86,14 +82,16 @@ void GraphView::updateCursor() {
 
 void GraphView::mousePressEvent(QMouseEvent* e) {
     QGraphicsView::mousePressEvent(e);
-    updateCursor();
+    updateCursor(e);
 
     lastMovePoint = e->pos();
+
+    e->ignore(); // pass to parent
 }
 
 void GraphView::mouseMoveEvent(QMouseEvent* e) {
     QGraphicsView::mouseMoveEvent(e);
-    updateCursor();
+    updateCursor(e);
 
     if (e->buttons() & Qt::MiddleButton) {
         auto delta = e->pos() - lastMovePoint;
@@ -104,9 +102,13 @@ void GraphView::mouseMoveEvent(QMouseEvent* e) {
         hbar->setValue(hbar->value() - delta.x());
         vbar->setValue(vbar->value() - delta.y());
     }
+
+    e->ignore(); // pass to parent
 }
 
 void GraphView::mouseReleaseEvent(QMouseEvent* e) {
     QGraphicsView::mouseReleaseEvent(e);
-    updateCursor();
+    updateCursor(e);
+
+    e->ignore(); // pass to parent
 }

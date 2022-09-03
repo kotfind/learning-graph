@@ -16,12 +16,19 @@ class GraphEditWidget : public QMainWindow {
     public:
         GraphEditWidget(QWidget* parent = nullptr);
 
+    protected:
+        void mouseMoveEvent(QMouseEvent*) override;
+        void mousePressEvent(QMouseEvent*) override;
+        void mouseReleaseEvent(QMouseEvent*) override;
+
     private:
         void ui();
 
         void uiHeader();
         void uiBody();
         void uiFooter();
+
+        void updateStatus(QMouseEvent*);
 
         int graphId;
 
@@ -32,10 +39,6 @@ class GraphEditWidget : public QMainWindow {
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
 
-    signals:
-        void modeChanged(GraphEditMode mode);
-
     public slots:
         void open(int graphId);
-        void setUnderCursorItem(QGraphicsItem*);
 };

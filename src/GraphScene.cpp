@@ -138,15 +138,6 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         }
     }
 
-    QGraphicsItem* underCursorItem = nullptr;
-    for (auto* item : items(e->scenePos())) {
-        if (item->type() >= QGraphicsItem::UserType) {
-            underCursorItem = item;
-            break;
-        }
-    }
-    emit underCursorItemChanged(underCursorItem);
-
     QGraphicsScene::mouseMoveEvent(e);
 }
 

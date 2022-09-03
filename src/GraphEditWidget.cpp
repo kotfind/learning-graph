@@ -25,20 +25,6 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
     graphView->setScene(graphScene);
 
     connect(
-        this,
-        &GraphEditWidget::modeChanged,
-        graphScene,
-        &GraphScene::setMode
-    );
-
-    connect(
-        this,
-        &GraphEditWidget::modeChanged,
-        graphView,
-        &GraphView::setMode
-    );
-
-    connect(
         scaleSpinBox,
         &ScaleSpinBox::valueChanged,
         graphView,
@@ -52,27 +38,15 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &QDoubleSpinBox::setValue
     );
 
-    connect(
-        graphScene,
-        &GraphScene::underCursorItemChanged,
-        this,
-        &GraphEditWidget::setUnderCursorItem
-    );
-
-    connect(
-        graphScene,
-        &GraphScene::underCursorItemChanged,
-        graphView,
-        &GraphView::setUnderCursorItem
-    );
-
-    emit modeChanged(CURSOR_EDIT_MODE);
+    graphScene->setMode(CURSOR_EDIT_MODE);
 
     // Load from settings
     QSettings settings;
     if (settings.contains("graph/id")) {
         open(settings.value("graph/id").toInt());
     }
+
+    setMouseTracking(true);
 }
 
 void GraphEditWidget::ui() {
@@ -92,7 +66,7 @@ void GraphEditWidget::uiHeader() {
         modeBtns,
         &QButtonGroup::idPressed,
         [this] (int id) {
-            emit modeChanged((GraphEditMode)id);
+            graphScene->setMode((GraphEditMode)id);
         }
     );
 
@@ -170,8 +144,14 @@ void GraphEditWidget::open(int graphId) {
     settings.setValue("graph/id", graphId);
 }
 
+void GraphEditWidget::updateStatus(QMouseEvent* e) {
+    auto* item = graphScene->itemAt(
+        graphView->mapToScene(
+            graphView->mapFromParent(e->pos())
+        ),
+        QTransform()
+    );
 
-void GraphEditWidget::setUnderCursorItem(QGraphicsItem* item) {
     GraphNode* node;
     GraphEdge* edge;
     if (node = qgraphicsitem_cast<GraphNode*>(item)) {
@@ -181,4 +161,19 @@ void GraphEditWidget::setUnderCursorItem(QGraphicsItem* item) {
     } else {
         statusBar()->clearMessage();
     }
+}
+
+void GraphEditWidget::mouseMoveEvent(QMouseEvent* e) {
+    updateStatus(e);
+    QMainWindow::mouseMoveEvent(e);
+}
+
+void GraphEditWidget::mousePressEvent(QMouseEvent* e) {
+    updateStatus(e);
+    QMainWindow::mousePressEvent(e);
+}
+
+void GraphEditWidget::mouseReleaseEvent(QMouseEvent* e) {
+    updateStatus(e);
+    QMainWindow::mouseReleaseEvent(e);
 }

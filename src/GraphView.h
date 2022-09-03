@@ -20,13 +20,11 @@ class GraphView : public QGraphicsView {
         void mouseReleaseEvent(QMouseEvent*) override;
 
     private:
-        void updateCursor();
+        void updateCursor(QMouseEvent*);
 
         const double scaleDelthaFactor = 5e-4;
 
         QCursor cursor;
-        GraphEditMode mode = CURSOR_EDIT_MODE;
-        QGraphicsItem* underCursorItem = nullptr;
 
         QPoint lastMovePoint;
 
@@ -35,6 +33,4 @@ class GraphView : public QGraphicsView {
 
     public slots:
         void setScale(double);
-        void setUnderCursorItem(QGraphicsItem*);
-        void setMode(GraphEditMode);
 };

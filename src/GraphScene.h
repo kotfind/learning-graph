@@ -17,6 +17,8 @@ class GraphScene : public QGraphicsScene {
     public:
         GraphScene();
 
+        GraphEditMode getMode() { return mode; }
+
     private:
         template<typename T> T typedItemAt(const QPointF& pos);
 
@@ -48,7 +50,6 @@ class GraphScene : public QGraphicsScene {
 
     signals:
         void graphsUpdated();
-        void underCursorItemChanged(QGraphicsItem*);
 
     public slots:
         void open(int graphId);
