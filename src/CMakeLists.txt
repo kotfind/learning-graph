@@ -18,12 +18,16 @@ qt_standard_project_setup()
 
 add_executable(learning_graph
     main.cpp
-    db/init.cpp
     MainWindow.cpp
     GlobalSignalHandler.cpp
     ComboboxIdDialog.cpp
     SmartListWidget.cpp
     ScaleSpinBox.cpp
+
+    db/init.cpp
+    db/theme.cpp
+    db/package.cpp
+    db/graph.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
