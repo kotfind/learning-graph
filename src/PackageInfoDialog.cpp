@@ -2,14 +2,17 @@
 
 #include "GlobalSignalHandler.h"
 #include "db/sqlDefines.h"
+#include "db/db.h"
 
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QLabel>
 
+using namespace db;
+
 PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
         : QDialog(parent), packageId(packageId) {
-    setWindowTitle(tr("Package \"%1\" Info").arg(packageId)); // TODO: packageId -> packageName
+    setWindowTitle(tr("Package \"%1\" Info").arg(package::name(packageId)));
 
     ui();
     load();

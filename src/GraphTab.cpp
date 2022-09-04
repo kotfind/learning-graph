@@ -1,6 +1,7 @@
 #include "GraphTab.h"
 
 #include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>
@@ -11,6 +12,8 @@
 #include <QMenu>
 #include <QGridLayout>
 #include <QLabel>
+
+using namespace db;
 
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
@@ -198,7 +201,7 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete graph \"%1\"?").arg(graphId)) // TODO: graphId -> graphName
+                tr("Delete graph \"%1\"?").arg(graph::name(graphId)))
                     == QMessageBox::Yes) {
 
             QSqlQuery query;

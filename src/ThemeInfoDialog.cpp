@@ -1,6 +1,7 @@
 #include "ThemeInfoDialog.h"
 
 #include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 
@@ -11,9 +12,11 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 
+using namespace db;
+
 ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         : QDialog(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(themeId)); // TODO: themeId -> themeName
+    setWindowTitle(tr("Theme \"%1\" Info").arg(theme::name(themeId)));
 
     ui();
     load();

@@ -1,6 +1,7 @@
 #include "PackageTab.h"
 
 #include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 
@@ -12,6 +13,8 @@
 #include <QMenu>
 #include <QLabel>
 #include <QGridLayout>
+
+using namespace db;
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -179,7 +182,7 @@ void PackageTab::packageMenuRequested(int packageId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete package \"%1\"?").arg(packageId)) // TODO packageId -> packageName
+                tr("Delete package \"%1\"?").arg(package::name(packageId)))
                     == QMessageBox::Yes) {
 
             QSqlQuery query;
