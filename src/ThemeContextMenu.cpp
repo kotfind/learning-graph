@@ -34,24 +34,8 @@ void ThemeContextMenu::ui() {
                 "Question",
                 tr("Delete theme \"%1\"?").arg(theme::name(themeId)))
                     == QMessageBox::Yes) {
-            PREPARE_NEW(query, " \
-                DELETE \
-                FROM themes \
-                WHERE id = ? \
-            ")
-            query.addBindValue(themeId);
-            EXEC(query)
-            query.finish();
 
-            PREPARE(query, " \
-                DELETE \
-                FROM themeEdges \
-                WHERE beginId = :themeId \
-                   OR endId = :themeId \
-            ")
-            query.bindValue(":themeId", themeId);
-            EXEC(query)
-            query.finish();
+            theme::del(themeId);
 
             emit themesUpdated();
         }

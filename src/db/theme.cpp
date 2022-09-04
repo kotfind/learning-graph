@@ -120,3 +120,24 @@ int theme::write(
 
     return id;
 }
+
+void theme::del(int id) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM themes \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    query.finish();
+
+    PREPARE(query, " \
+        DELETE \
+        FROM themeEdges \
+        WHERE beginId = :themeId \
+           OR endId = :themeId \
+    ")
+    query.bindValue(":themeId", id);
+    EXEC(query)
+    query.finish();
+}

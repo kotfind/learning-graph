@@ -27,15 +27,21 @@ namespace db {
             bool inWishlist,
             bool isLearned
         );
+
+        void del(int id);
     };
 
     namespace package {
         QString name(int id);
         int count(int id);
+
+        void del(int id);
     };
 
     namespace graph {
         QString name(int id);
         int count(int id);
+
+        void del(int id);
     };
 };

@@ -35,3 +35,24 @@ int graph::count(int id) {
     }
     return query.value(0).toInt();
 }
+
+void graph::del(int id) {
+    QSqlQuery query;
+
+    PREPARE(query, " \
+        DELETE \
+        FROM graphs \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    query.finish();
+
+    PREPARE(query, " \
+        DELETE \
+        FROM graphNodes \
+        WHERE graphId = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+}

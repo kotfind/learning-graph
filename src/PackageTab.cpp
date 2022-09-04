@@ -185,24 +185,7 @@ void PackageTab::packageMenuRequested(int packageId, const QPoint& globalPos) {
                 tr("Delete package \"%1\"?").arg(package::name(packageId)))
                     == QMessageBox::Yes) {
 
-            QSqlQuery query;
-
-            PREPARE(query, " \
-                DELETE \
-                FROM packages \
-                WHERE id = ? \
-            ")
-            query.addBindValue(packageId);
-            EXEC(query)
-            query.finish();
-
-            PREPARE(query, " \
-                DELETE \
-                FROM themes \
-                WHERE packageId = ? \
-            ")
-            query.addBindValue(packageId);
-            EXEC(query)
+            package::del(packageId);
 
             emit packagesUpdated();
             emit themesUpdated();

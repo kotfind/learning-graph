@@ -204,23 +204,7 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
                 tr("Delete graph \"%1\"?").arg(graph::name(graphId)))
                     == QMessageBox::Yes) {
 
-            QSqlQuery query;
-            PREPARE(query, " \
-                DELETE \
-                FROM graphs \
-                WHERE id = ? \
-            ")
-            query.addBindValue(graphId);
-            EXEC(query)
-            query.finish();
-
-            PREPARE(query, " \
-                DELETE \
-                FROM graphNodes \
-                WHERE graphId = ? \
-            ")
-            query.addBindValue(graphId);
-            EXEC(query)
+            graph::del(graphId);
 
             emit graphsUpdated();
         }
