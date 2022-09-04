@@ -3,6 +3,7 @@
 #include "sqlDefines.h"
 
 #include <QString>
+#include <QObject>
 
 using namespace db;
 
@@ -33,4 +34,64 @@ QString theme::packageName(int id) {
         return "";
     }
     return query.value(0).toString();
+}
+
+int theme::write(
+    int id,
+    const QString& name,
+    int packageId,
+    const QString& description,
+    bool inWishlist,
+    bool isLearned
+    ) {
+
+    // Create / update theme
+    QSqlQuery query;
+
+    if (id == -1) {
+        R_PREPARE(query, " \
+            INSERT \
+            INTO themes(name, packageId, description, inWishlist, isLearned) \
+            VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
+        ", -1)
+    } else {
+        R_PREPARE(query, " \
+            UPDATE themes \
+            SET name = NULLIF(:name, ''), \
+                packageId = :packageId, \
+                description = :description, \
+                inWishlist = :inWishlist, \
+                isLearned = :isLearned \
+            WHERE id = :id \
+        ", -1)
+    }
+
+    query.bindValue(":name", name);
+    query.bindValue(":packageId", packageId);
+    query.bindValue(":description", description);
+    query.bindValue(":inWishlist", inWishlist);
+    query.bindValue(":isLearned", isLearned);
+    if (id != -1) {
+        query.bindValue(":id", id);
+    }
+
+    if (!query.exec()) {
+        switch(ERR_CODE(query)) {
+            case SQLITE_CONSTRAINT_UNIQUE:
+                throw QObject::tr("Name is not unique.");
+
+            case SQLITE_CONSTRAINT_NOTNULL:
+                throw QObject::tr("Name should not be empty.");
+
+            default:
+                LOG_FAILED_QUERY(query);
+                throw 0;
+        }
+    }
+
+    if (id == -1) {
+        id = query.lastInsertId().toInt();
+    }
+
+    return id;
 }

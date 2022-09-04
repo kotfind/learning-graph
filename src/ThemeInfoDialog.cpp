@@ -174,62 +174,24 @@ void ThemeInfoDialog::save() {
         return;
     }
 
-    // Create / update theme
-    QSqlQuery query;
-
-    if (themeId == -1) {
-        PREPARE(query, " \
-            INSERT \
-            INTO themes(name, packageId, description, inWishlist, isLearned) \
-            VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
-        ")
-    } else {
-        PREPARE(query, " \
-            UPDATE themes \
-            SET name = NULLIF(:name, ''), \
-                packageId = :packageId, \
-                description = :description, \
-                inWishlist = :inWishlist, \
-                isLearned = :isLearned \
-            WHERE id = :id \
-        ")
-    }
-
-    query.bindValue(":name", themeEdit->text().trimmed());
-    query.bindValue(":packageId", packageCombo->currentData().toInt());
-    query.bindValue(":description", descEdit->toPlainText());
-    query.bindValue(":inWishlist", inWishlistCheck->isChecked());
-    query.bindValue(":isLearned", isLearnedCheck->isChecked());
-    if (themeId != -1) {
-        query.bindValue(":id", themeId);
-    }
-
-    if (!query.exec()) {
-        switch(ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name is not unique.")
-                );
-                return;
-
-            case SQLITE_CONSTRAINT_NOTNULL:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name should not be empty.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query);
-                return;
-        }
-    }
-
-    if (themeId == -1) {
-        themeId = query.lastInsertId().toInt();
+    try {
+        theme::write(
+            themeId,
+            themeEdit->text().trimmed(),
+            packageCombo->currentData().toInt(),
+            descEdit->toPlainText(),
+            inWishlistCheck->isChecked(),
+            isLearnedCheck->isChecked()
+        );
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    } catch (...) {
+        return;
     }
 
     emit themesUpdated();
