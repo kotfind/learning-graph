@@ -36,6 +36,31 @@ QString theme::packageName(int id) {
     return query.value(0).toString();
 }
 
+void theme::read(
+    int id,
+    QString* name,
+    int* packageId,
+    QString* description,
+    bool* inWishlist,
+    bool* isLearned
+    ) {
+
+    PREPARE_NEW(query, " \
+        SELECT name, packageId, isLearned, inWishlist, description \
+        FROM themes \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    query.first();
+
+     *name = query.value(0).toString();
+     *packageId = query.value(1).toInt();
+     *isLearned = query.value(2).toBool();
+     *inWishlist = query.value(3).toBool();
+     *description = query.value(4).toString();
+}
+
 int theme::write(
     int id,
     const QString& name,

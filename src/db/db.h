@@ -8,6 +8,14 @@ namespace db {
     namespace theme {
         QString name(int id);
         QString packageName(int id);
+        void read(
+            int id,
+            QString* name,
+            int* packageId,
+            QString* description,
+            bool* inWishlist,
+            bool* isLearned
+        );
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id

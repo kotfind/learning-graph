@@ -56,20 +56,25 @@ int ThemeInfoDialog::getId() {
 
 void ThemeInfoDialog::load() {
     if (themeId != -1) {
-        PREPARE_NEW(query, " \
-            SELECT name, packageId, isLearned, inWishlist, description \
-            FROM themes \
-            WHERE id = ? \
-        ")
-        query.addBindValue(themeId);
-        EXEC(query)
-        query.first();
+        QString name;
+        int packageId;
+        QString description;
+        bool inWishlist;
+        bool isLearned;
 
-        themeEdit->setText(query.value(0).toString());
-        packageCombo->setCurrent(query.value(1).toInt());
-        isLearnedCheck->setChecked(query.value(2).toBool());
-        inWishlistCheck->setChecked(query.value(3).toBool());
-        descEdit->setText(query.value(4).toString());
+        theme::read(themeId,
+            &name,
+            &packageId,
+            &description,
+            &inWishlist,
+            &isLearned
+        );
+
+        themeEdit->setText(name);
+        packageCombo->setCurrent(packageId);
+        isLearnedCheck->setChecked(isLearned);
+        inWishlistCheck->setChecked(inWishlist);
+        descEdit->setText(description);
     }
 }
 
