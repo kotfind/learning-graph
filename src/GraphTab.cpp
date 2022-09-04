@@ -127,36 +127,19 @@ void GraphTab::onCreateBtn() {
         tr("New graph name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
         // Add graph
-        PREPARE_NEW(query, " \
-            INSERT \
-            INTO graphs(name, xoffset, yoffset) \
-            VALUES (NULLIF(?, ''), 0, 0) \
-        ")
-        query.addBindValue(name);
-
-        if (!query.exec()) {
-            switch(ERR_CODE(query)) {
-                case SQLITE_CONSTRAINT_UNIQUE:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name is not unique.")
-                    );
-                    return;
-
-                case SQLITE_CONSTRAINT_NOTNULL:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name should not be empty.")
-                    );
-                    return;
-
-                default:
-                    LOG_FAILED_QUERY(query);
-                    return;
-            }
+        try {
+            graph::write(-1, name);
+        } catch (const QString& msg) {
+            QMessageBox::critical(
+                this,
+                tr("Error"),
+                msg
+            );
+            return;
+        } catch (...) {
+            return;
         }
+
         emit graphsUpdated();
     }
 }
@@ -218,36 +201,17 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
             tr("Graph name:"), QLineEdit::Normal, oldName, &ok).trimmed();
 
         if (ok) {
-            PREPARE_NEW(query, " \
-                UPDATE graphs \
-                SET name = NULLIF(?, '') \
-                WHERE id = ? \
-            ")
-            query.addBindValue(name);
-            query.addBindValue(graphId);
-
-            if (!query.exec()) {
-                switch(ERR_CODE(query)) {
-                    case SQLITE_CONSTRAINT_UNIQUE:
-                        QMessageBox::critical(
-                            this,
-                            tr("Error"),
-                            tr("Name is not unique.")
-                        );
-                        return;
-
-                    case SQLITE_CONSTRAINT_NOTNULL:
-                        QMessageBox::critical(
-                            this,
-                            tr("Error"),
-                            tr("Name should not be empty.")
-                        );
-                        return;
-
-                    default:
-                        LOG_FAILED_QUERY(query);
-                        return;
-                }
+            try {
+                graph::write(graphId, name);
+            } catch (const QString& msg) {
+                QMessageBox::critical(
+                    this,
+                    tr("Error"),
+                    msg
+                );
+                return;
+            } catch (...) {
+                return;
             }
 
             emit graphsUpdated();

@@ -72,54 +72,20 @@ void PackageInfoDialog::load() {
 }
 
 void PackageInfoDialog::save() {
-    // Create / update package
-    QSqlQuery query;
-
-    if (packageId == -1) {
-        PREPARE(query, " \
-            INSERT \
-            INTO packages(name) \
-            VALUES (NULLIF(?, '')) \
-        ")
-    } else {
-        PREPARE(query, " \
-            UPDATE packages \
-            SET name = NULLIF(?, '') \
-            WHERE id = ? \
-        ")
-    }
-
-    query.addBindValue(nameEdit->text().trimmed());
-    if (packageId != -1) {
-        query.addBindValue(packageId);
-    }
-
-    if (!query.exec()) {
-        switch(ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name is not unique.")
-                );
-                return;
-
-            case SQLITE_CONSTRAINT_NOTNULL:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name should not be empty.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query);
-                return;
-        }
-    }
-
-    if (packageId == -1) {
-        packageId = query.lastInsertId().toInt();
+    try {
+        packageId = package::write(
+            packageId,
+            nameEdit->text().trimmed()
+        );
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    } catch (...) {
+        return;
     }
 
     emit packagesUpdated();

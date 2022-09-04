@@ -50,9 +50,7 @@ bool createTables() {
     R_PREPARE(query, " \
         CREATE TABLE graphs( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            name VARCHAR(255) NOT NULL UNIQUE, \
-            xoffset INTEGER NOT NULL, \
-            yoffset INTEGER NOT NULL \
+            name VARCHAR(255) NOT NULL UNIQUE \
         )", false)
     R_EXEC(query, false)
     query.finish();

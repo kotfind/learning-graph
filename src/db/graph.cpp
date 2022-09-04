@@ -3,6 +3,8 @@
 #include "sqlDefines.h"
 
 #include <QString>
+#include <QObject>
+#include <QDebug>
 
 using namespace db;
 
@@ -55,4 +57,48 @@ void graph::del(int id) {
     ")
     query.addBindValue(id);
     EXEC(query)
+}
+
+int graph::write(int id, const QString& name) {
+    QSqlQuery query;
+
+    if (id == -1) {
+        R_PREPARE(query, " \
+            INSERT \
+            INTO graphs(name) \
+            VALUES (NULLIF(:name, '')) \
+        ", -1)
+    } else {
+        R_PREPARE(query, " \
+            UPDATE graphs \
+            SET name = NULLIF(:name, '') \
+            WHERE id = :id \
+        ", -1)
+    }
+
+    query.bindValue(":name", name);
+    if (id != -1) {
+        query.bindValue(":id", id);
+    }
+
+    if (!query.exec()) {
+        switch(ERR_CODE(query)) {
+            case SQLITE_CONSTRAINT_UNIQUE:
+                throw QObject::tr("Name is not unique.");
+
+            case SQLITE_CONSTRAINT_NOTNULL:
+                throw QObject::tr("Name should not be empty.");
+
+            default:
+                LOG_FAILED_QUERY(query);
+                throw 0;
+        }
+    }
+
+    if (id == -1) {
+        id = query.lastInsertId().toInt();
+    }
+
+    return id;
+
 }

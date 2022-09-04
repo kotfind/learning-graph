@@ -180,7 +180,7 @@ void ThemeInfoDialog::save() {
     }
 
     try {
-        theme::write(
+        themeId = theme::write(
             themeId,
             themeEdit->text().trimmed(),
             packageCombo->currentData().toInt(),

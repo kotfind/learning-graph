@@ -36,6 +36,13 @@ namespace db {
         int count(int id);
 
         void del(int id);
+
+        // Inserts theme if id == -1; updates otherwise
+        // Return value is id
+        int write(
+            int id,
+            const QString& name
+        );
     };
 
     namespace graph {
@@ -43,5 +50,12 @@ namespace db {
         int count(int id);
 
         void del(int id);
+
+        // Inserts theme if id == -1; updates otherwise
+        // Return value is id
+        int write(
+            int id,
+            const QString& name
+        );
     };
 };
