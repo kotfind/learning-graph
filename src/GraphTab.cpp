@@ -227,16 +227,7 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
     });
 
     menu.addAction(tr("Rename"), [=]() {
-        PREPARE_NEW(query, " \
-            SELECT name \
-            FROM graphs \
-            WHERE id = ? \
-        ");
-        query.addBindValue(graphId);
-        EXEC(query)
-        query.next();
-        auto oldName = query.value(0).toString();
-        query.finish();
+        auto oldName = graph::name(graphId);
 
         bool ok;
         auto name = QInputDialog::getText(this, tr("Rename graph"),

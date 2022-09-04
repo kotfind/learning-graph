@@ -67,17 +67,7 @@ void PackageInfoDialog::ui() {
 
 void PackageInfoDialog::load() {
     if (packageId != -1) {
-        PREPARE_NEW(query, " \
-            SELECT name \
-            FROM packages \
-            WHERE id = ? \
-        ")
-        query.addBindValue(packageId);
-
-        EXEC(query)
-        query.first();
-
-        nameEdit->setText(query.value(0).toString());
+        nameEdit->setText(package::name(packageId));
     }
 }
 

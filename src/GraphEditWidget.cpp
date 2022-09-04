@@ -1,7 +1,7 @@
 #include "GraphEditWidget.h"
 
 #include "GraphNode.h"
-#include "db/sqlDefines.h"
+#include "db/db.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -14,6 +14,8 @@
 #include <QIcon>
 #include <QSettings>
 #include <QStatusBar>
+
+using namespace db;
 
 GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
@@ -126,16 +128,7 @@ void GraphEditWidget::uiFooter() {
 void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
-    PREPARE_NEW(query, " \
-        SELECT name \
-        FROM graphs \
-        WHERE id = ? \
-    ")
-    query.addBindValue(graphId);
-    EXEC(query)
-    query.next();
-
-    nameLabel->setText(tr("[Graph] %1").arg(query.value(0).toString()));
+    nameLabel->setText(tr("[Graph] %1").arg(graph::name(graphId)));
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
