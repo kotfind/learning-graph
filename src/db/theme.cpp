@@ -36,44 +36,31 @@ QString theme::packageName(int id) {
     return query.value(0).toString();
 }
 
-void theme::read(
-    int id,
-    QString* name,
-    int* packageId,
-    QString* description,
-    bool* inWishlist,
-    bool* isLearned
-    ) {
-
-    PREPARE_NEW(query, " \
+Theme theme::read(int id) {
+    const Theme FICTIVE = Theme{-1, "", -1, false, false, ""};
+    R_PREPARE_NEW(query, " \
         SELECT name, packageId, isLearned, inWishlist, description \
         FROM themes \
         WHERE id = ? \
-    ")
+    ", FICTIVE)
     query.addBindValue(id);
-    EXEC(query)
+    R_EXEC(query, FICTIVE)
     query.first();
 
-     *name = query.value(0).toString();
-     *packageId = query.value(1).toInt();
-     *isLearned = query.value(2).toBool();
-     *inWishlist = query.value(3).toBool();
-     *description = query.value(4).toString();
+    return Theme {
+        .id = id,
+        .name = query.value(0).toString(),
+        .packageId = query.value(1).toInt(),
+        .inWishlist = query.value(3).toBool(),
+        .isLearned = query.value(2).toBool(),
+        .description = query.value(4).toString()
+    };
 }
 
-int theme::write(
-    int id,
-    const QString& name,
-    int packageId,
-    const QString& description,
-    bool inWishlist,
-    bool isLearned
-    ) {
-
-    // Create / update theme
+int theme::write(const Theme& t) {
     QSqlQuery query;
 
-    if (id == -1) {
+    if (t.id == -1) {
         R_PREPARE(query, " \
             INSERT \
             INTO themes(name, packageId, description, inWishlist, isLearned) \
@@ -91,13 +78,13 @@ int theme::write(
         ", -1)
     }
 
-    query.bindValue(":name", name);
-    query.bindValue(":packageId", packageId);
-    query.bindValue(":description", description);
-    query.bindValue(":inWishlist", inWishlist);
-    query.bindValue(":isLearned", isLearned);
-    if (id != -1) {
-        query.bindValue(":id", id);
+    query.bindValue(":name", t.name);
+    query.bindValue(":packageId", t.packageId);
+    query.bindValue(":description", t.description);
+    query.bindValue(":inWishlist", t.inWishlist);
+    query.bindValue(":isLearned", t.isLearned);
+    if (t.id != -1) {
+        query.bindValue(":id", t.id);
     }
 
     if (!query.exec()) {
@@ -114,11 +101,9 @@ int theme::write(
         }
     }
 
-    if (id == -1) {
-        id = query.lastInsertId().toInt();
-    }
-
-    return id;
+    return t.id == -1
+        ? query.lastInsertId().toInt()
+        : t.id;
 }
 
 void theme::del(int id) {

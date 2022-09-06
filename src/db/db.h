@@ -1,32 +1,27 @@
 #pragma once
 
-class QString;
+#include <QString>
 
 namespace db {
     bool init();
 
+    struct Theme {
+        int id;
+        QString name;
+        int packageId;
+        bool inWishlist;
+        bool isLearned;
+        QString description;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
-        void read(
-            int id,
-            QString* name,
-            int* packageId,
-            QString* description,
-            bool* inWishlist,
-            bool* isLearned
-        );
+        Theme read(int id);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
-        int write(
-            int id,
-            const QString& name,
-            int packageId,
-            const QString& description,
-            bool inWishlist,
-            bool isLearned
-        );
+        int write(const Theme&);
 
         void del(int id);
     };
