@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QString>
+#include <tuple>
+#include <QList>
 
 namespace db {
     bool init();
@@ -14,10 +16,22 @@ namespace db {
         QString description;
     };
 
+    struct ThemeForList {
+        int id;
+        QString name;
+        QString packageName;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
         Theme read(int id);
+            QList<ThemeForList> readForList(
+                const QString& name,
+                int packageId,
+                Qt::CheckState inWishlist,
+                Qt::CheckState isLearned
+            );
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id

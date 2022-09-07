@@ -126,3 +126,66 @@ void theme::del(int id) {
     EXEC(query)
     query.finish();
 }
+
+QList<ThemeForList> theme::readForList(
+    const QString& name,
+    int packageId,
+    Qt::CheckState inWishlist,
+    Qt::CheckState isLearned
+    ) {
+
+    QString queryString = " \
+        SELECT id, name, (\
+            SELECT name \
+            FROM packages \
+            WHERE packageId = id \
+        ) \
+        FROM themes \
+        WHERE {whereSection} \
+        GROUP BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
+    ";
+    QVector<QVariant> params;
+
+    QString whereSection = "TRUE";
+    if (name.size()) {
+        whereSection += " AND themes.name LIKE '%' || ? || '%'";
+        params.append(name);
+    }
+
+    if (packageId != -1) {
+        whereSection += " AND packageId = ?";
+        params.append(packageId);
+    }
+
+    if (inWishlist != Qt::PartiallyChecked) {
+        whereSection += QString(" AND inWishlist = ?");
+        params.append(inWishlist == Qt::Checked);
+    }
+
+    if (isLearned != Qt::PartiallyChecked) {
+        whereSection += QString(" AND isLearned = ?");
+        params.append(isLearned == Qt::Checked);
+    }
+
+    queryString.replace("{whereSection}", whereSection);
+
+    R_PREPARE_NEW(query, queryString, {});
+    for (const auto& param : params) {
+        query.addBindValue(param);
+    }
+    R_EXEC(query, {})
+
+    QList<ThemeForList> themes;
+    while (query.next()) {
+        themes.append(ThemeForList{
+            .id = query.value(0).toInt(),
+            .name = query.value(1).toString(),
+            .packageName = query.value(2).toString()
+        });
+    }
+    return themes;
+}
