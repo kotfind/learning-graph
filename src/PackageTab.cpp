@@ -135,26 +135,15 @@ void PackageTab::onCreateBtn() {
 }
 
 void PackageTab::update() {
-    PREPARE_NEW(query, " \
-        SELECT p.id, p.name, ( \
-            SELECT COUNT(*) \
-            FROM themes t \
-            WHERE t.packageId = p.id \
-        ) \
-        FROM packages p \
-        WHERE p.name LIKE ('%' || ? || '%') \
-        ORDER BY p.name \
-    ")
-    query.addBindValue(nameEdit->text().trimmed());
-    EXEC(query)
+    auto packages = package::readForList(nameEdit->text().trimmed());
 
     packagesList->clear();
-    while (query.next()) {
+    for (const auto& p : packages) {
         packagesList->addItem(
             tr("%1 (%2 themes)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toInt()),
-            query.value(0).toInt()
+                .arg(p.name)
+                .arg(p.count),
+            p.id
         );
     }
 }

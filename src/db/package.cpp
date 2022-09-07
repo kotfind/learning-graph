@@ -4,6 +4,7 @@
 
 #include <QString>
 #include <QObject>
+#include <QList>
 
 using namespace db;
 
@@ -99,4 +100,29 @@ int package::write(int id, const QString& name) {
     }
 
     return id;
+}
+
+QList<PackageForList> package::readForList(const QString& name) {
+    R_PREPARE_NEW(query, " \
+        SELECT p.id, p.name, ( \
+            SELECT COUNT(*) \
+            FROM themes t \
+            WHERE t.packageId = p.id \
+        ) \
+        FROM packages p \
+        WHERE p.name LIKE ('%' || ? || '%') \
+        ORDER BY p.name \
+    ", {})
+    query.addBindValue(name);
+    R_EXEC(query, {})
+
+    QList<PackageForList> packages;
+    while (query.next()) {
+        packages.append(PackageForList{
+            .id = query.value(0).toInt(),
+            .name = query.value(1).toString(),
+            .count = query.value(2).toInt()
+        });
+    }
+    return packages;
 }

@@ -22,16 +22,22 @@ namespace db {
         QString packageName;
     };
 
+    struct PackageForList {
+        int id;
+        QString name;
+        int count;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
         Theme read(int id);
-            QList<ThemeForList> readForList(
-                const QString& name,
-                int packageId,
-                Qt::CheckState inWishlist,
-                Qt::CheckState isLearned
-            );
+        QList<ThemeForList> readForList(
+            const QString& name,
+            int packageId,
+            Qt::CheckState inWishlist,
+            Qt::CheckState isLearned
+        );
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
@@ -43,8 +49,7 @@ namespace db {
     namespace package {
         QString name(int id);
         int count(int id);
-
-        void del(int id);
+        QList<PackageForList> readForList(const QString& name);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
@@ -52,6 +57,8 @@ namespace db {
             int id,
             const QString& name
         );
+
+        void del(int id);
     };
 
     namespace graph {
