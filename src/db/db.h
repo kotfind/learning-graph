@@ -28,6 +28,12 @@ namespace db {
         int count;
     };
 
+    struct GraphForList {
+        int id;
+        QString name;
+        int count;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
@@ -64,8 +70,7 @@ namespace db {
     namespace graph {
         QString name(int id);
         int count(int id);
-
-        void del(int id);
+        QList<GraphForList> readForList(const QString& name);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
@@ -73,5 +78,8 @@ namespace db {
             int id,
             const QString& name
         );
+
+        void del(int id);
     };
+
 };

@@ -145,26 +145,15 @@ void GraphTab::onCreateBtn() {
 }
 
 void GraphTab::update() {
-    PREPARE_NEW(query, " \
-        SELECT g.id, g.name, ( \
-            SELECT COUNT(*) \
-            FROM graphNodes n \
-            WHERE n.graphId = g.id \
-        ) \
-        FROM graphs g \
-        WHERE g.name LIKE ('%' || ? || '%') \
-        ORDER BY g.name \
-    ")
-    query.addBindValue(nameEdit->text().trimmed());
-    EXEC(query)
+    auto graphs = graph::readForList(nameEdit->text().trimmed());
 
     graphsList->clear();
-    while (query.next()) {
+    for (const auto& g : graphs) {
         graphsList->addItem(
             tr("%1 (%2 themes)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toInt()),
-            query.value(0).toInt()
+                .arg(g.name)
+                .arg(g.count),
+            g.id
         );
     }
 }

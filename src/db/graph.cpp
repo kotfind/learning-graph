@@ -102,3 +102,28 @@ int graph::write(int id, const QString& name) {
     return id;
 
 }
+
+QList<GraphForList> graph::readForList(const QString& name) {
+    R_PREPARE_NEW(query, " \
+        SELECT g.id, g.name, ( \
+            SELECT COUNT(*) \
+            FROM graphNodes n \
+            WHERE n.graphId = g.id \
+        ) \
+        FROM graphs g \
+        WHERE g.name LIKE ('%' || ? || '%') \
+        ORDER BY g.name \
+    ", {})
+    query.addBindValue(name);
+    R_EXEC(query, {})
+
+    QList<GraphForList> graphs;
+    while (query.next()) {
+        graphs.append(GraphForList{
+            .id = query.value(0).toInt(),
+            .name = query.value(1).toString(),
+            .count = query.value(2).toInt()
+        });
+    }
+    return graphs;
+}
