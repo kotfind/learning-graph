@@ -1,9 +1,11 @@
 #include "PackageComboBox.h"
 
-#include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>
+
+using namespace db;
 
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
@@ -24,17 +26,11 @@ void PackageComboBox::update() {
         addItem(tr("<Any>"), -1);
     }
 
-    PREPARE_NEW(query, " \
-        SELECT name, id \
-        FROM packages \
-        ORDER BY name \
-    ")
-    EXEC(query)
-
-    while (query.next()) {
+    auto packages = package::reads("");
+    for (const auto& p : packages) {
         addItem(
-            query.value(0).toString(),
-            query.value(1).toInt()
+            p.name,
+            p.id
         );
     }
 
