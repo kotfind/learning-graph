@@ -41,7 +41,8 @@ namespace db {
             const QString& name,
             int packageId,
             Qt::CheckState inWishlist,
-            Qt::CheckState isLearned
+            Qt::CheckState isLearned,
+            bool includeDescription = false
         );
 
         // Inserts theme if id == -1; updates otherwise

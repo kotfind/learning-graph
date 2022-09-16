@@ -5,6 +5,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
+#include <algorithm>
 
 using namespace db;
 
@@ -135,11 +136,12 @@ QList<Theme> theme::reads(
     const QString& name,
     int packageId,
     Qt::CheckState inWishlist,
-    Qt::CheckState isLearned
+    Qt::CheckState isLearned,
+    bool includeDescription
     ) {
 
     QString queryString = " \
-        SELECT id, name, packageId, isLearned, inWishlist, description \
+        SELECT id, name, packageId, isLearned, inWishlist {description} \
         FROM themes \
         WHERE {whereSection} \
         GROUP BY ( \
@@ -148,6 +150,15 @@ QList<Theme> theme::reads(
             WHERE id = packageId \
         ), name \
     ";
+
+    // includeDescription flag
+    queryString.replace("{description}",
+        includeDescription
+        ? ", description"
+        : ""
+    );
+
+    // Where secion
     QVector<QVariant> params;
 
     QString whereSection = "TRUE";
@@ -187,7 +198,9 @@ QList<Theme> theme::reads(
         t.package = package::read(query.value(2).toInt());
         t.inWishlist = query.value(4).toBool();
         t.isLearned = query.value(3).toBool();
-        t.description = query.value(5).toString();
+        t.description = includeDescription
+            ? query.value(5).toString()
+            : "";
         themes.append(t);
     }
     return themes;
