@@ -39,7 +39,7 @@ add_executable(learning_graph
 
     GraphEditWidget.cpp
     GraphTab.cpp
-    GraphNode.cpp
+    GraphNodeItem.cpp
     GraphScene.cpp
     GraphEdge.cpp
     GraphView.cpp

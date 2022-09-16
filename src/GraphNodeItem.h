@@ -5,13 +5,13 @@
 #include <QPainter>
 #include <QRectF>
 
-class GraphNode : public QGraphicsTextItem {
+class GraphNodeItem : public QGraphicsTextItem {
     Q_OBJECT
 
     public:
         enum { Type = UserType + 0 };
 
-        GraphNode(int nodeId, QGraphicsItem* parent = nullptr);
+        GraphNodeItem(int nodeId, QGraphicsItem* parent = nullptr);
 
         int type() const override { return Type; }
 

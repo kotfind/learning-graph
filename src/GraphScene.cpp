@@ -63,7 +63,7 @@ void GraphScene::open(int graphId) {
     while (query.next()) {
         auto themeId = query.value(0).toInt();
         auto nodeId = query.value(1).toInt();
-        auto* node = new GraphNode(nodeId);
+        auto* node = new GraphNodeItem(nodeId);
         themeIdToNode[themeId] = node;
         addItem(node);
     }
@@ -109,7 +109,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
 
         case EDGE_EDIT_MODE:
-            pressedNode = typedItemAt<GraphNode*>(pos);
+            pressedNode = typedItemAt<GraphNodeItem*>(pos);
             edgePreviewLine = new QGraphicsLineItem(QLineF(pos, pos));
             addItem(edgePreviewLine);
             break;
@@ -119,9 +119,9 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
 
         case DELETE_EDIT_MODE:
-            GraphNode* node;
+            GraphNodeItem* node;
             GraphEdge* edge;
-            if (node = typedItemAt<GraphNode*>(pos)) {
+            if (node = typedItemAt<GraphNodeItem*>(pos)) {
                 deleteNode(node);
             } else if (edge = typedItemAt<GraphEdge*>(pos)) {
                 deleteEdge(edge);
@@ -148,7 +148,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
             delete edgePreviewLine;
             edgePreviewLine = nullptr;
 
-            auto* releasedNode = typedItemAt<GraphNode*>(e->scenePos());
+            auto* releasedNode = typedItemAt<GraphNodeItem*>(e->scenePos());
 
             if (!releasedNode || !pressedNode) {
                 return;
@@ -228,7 +228,7 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     query.addBindValue(pos.y());
     EXEC(query)
 
-    auto* node = new GraphNode(query.lastInsertId().toInt());
+    auto* node = new GraphNodeItem(query.lastInsertId().toInt());
     addItem(node);
     themeIdToNode[themeId] = node;
 
@@ -268,7 +268,7 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     emit graphsUpdated();
 }
 
-void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
+void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     if (beginNode->isDeleted() || endNode->isDeleted()) {
         QMessageBox::critical(
             (QWidget*)views()[0],
@@ -325,7 +325,7 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
     addItem(edge);
 }
 
-void GraphScene::deleteNode(GraphNode* node) {
+void GraphScene::deleteNode(GraphNodeItem* node) {
     PREPARE_NEW(query, " \
         DELETE \
         FROM graphNodes \

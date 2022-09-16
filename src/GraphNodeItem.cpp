@@ -1,4 +1,4 @@
-#include "GraphNode.h"
+#include "GraphNodeItem.h"
 
 #include "GraphScene.h"
 #include "db/sqlDefines.h"
@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QMargins>
 
-GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
+GraphNodeItem::GraphNodeItem(int nodeId, QGraphicsItem* parent)
         : QGraphicsTextItem(parent), nodeId(nodeId) {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     load();
@@ -16,32 +16,32 @@ GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated,
         this,
-        &GraphNode::load
+        &GraphNodeItem::load
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::packagesUpdated,
         this,
-        &GraphNode::load
+        &GraphNodeItem::load
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::fontSet,
         this,
-        &GraphNode::setFont
+        &GraphNodeItem::setFont
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::fontSet,
         this,
-        &GraphNode::positionChanged
+        &GraphNodeItem::positionChanged
     );
 }
 
-void GraphNode::paint(
+void GraphNodeItem::paint(
     QPainter* qp,
     const QStyleOptionGraphicsItem* options,
     QWidget* widget) {
@@ -69,7 +69,7 @@ void GraphNode::paint(
     QGraphicsTextItem::paint(qp, options, widget);
 }
 
-void GraphNode::load() {
+void GraphNodeItem::load() {
     // Get node
     PREPARE_NEW(query, " \
         SELECT themeId, x, y \
@@ -115,7 +115,7 @@ void GraphNode::load() {
     }
 }
 
-void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
+void GraphNodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     PREPARE_NEW(query, " \
         UPDATE graphNodes \
         SET x = ?, \
@@ -130,12 +130,12 @@ void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsTextItem::mouseReleaseEvent(e);
 }
 
-void GraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
+void GraphNodeItem::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsTextItem::mouseMoveEvent(e);
     emit positionChanged();
 }
 
-bool GraphNode::intersect(const QLineF& l1, QPointF* ans) {
+bool GraphNodeItem::intersect(const QLineF& l1, QPointF* ans) {
     QList<QPointF> pts = {
         mapToScene(boundingRect().bottomLeft()),
         mapToScene(boundingRect().bottomRight()),
