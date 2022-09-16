@@ -141,7 +141,7 @@ void ThemeTab::ui() {
 }
 
 void ThemeTab::update() {
-    auto themes = theme::readForList(
+    auto themes = theme::reads(
         nameEdit->text().trimmed(),
         packageCombo->currentData().toInt(),
         wishlistCheck->checkState(),
@@ -154,7 +154,7 @@ void ThemeTab::update() {
         themesList->addItem(
             tr("%1 @ %2")
                 .arg(t.name)
-                .arg(t.packageName),
+                .arg(t.package.name),
             t.id
         );
     }

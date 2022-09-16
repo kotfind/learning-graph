@@ -8,6 +8,8 @@
 
 using namespace db;
 
+Package::Package() : id(-1) {}
+
 QString package::name(int id) {
     R_PREPARE_NEW(query, " \
         SELECT name \
@@ -59,8 +61,10 @@ void package::del(int id) {
     EXEC(query)
 }
 
-int package::write(int id, const QString& name) {
+int package::write(const Package& p) {
     QSqlQuery query;
+
+    int id = p.id;
 
     if (id == -1) {
         R_PREPARE(query, " \
@@ -76,7 +80,7 @@ int package::write(int id, const QString& name) {
         ", -1)
     }
 
-    query.bindValue(":name", name);
+    query.bindValue(":name", p.name);
     if (id != -1) {
         query.bindValue(":id", id);
     }
@@ -102,7 +106,7 @@ int package::write(int id, const QString& name) {
     return id;
 }
 
-QList<PackageForList> package::readForList(const QString& name) {
+QList<Package> package::reads(const QString& name) {
     R_PREPARE_NEW(query, " \
         SELECT p.id, p.name, ( \
             SELECT COUNT(*) \
@@ -116,13 +120,33 @@ QList<PackageForList> package::readForList(const QString& name) {
     query.addBindValue(name);
     R_EXEC(query, {})
 
-    QList<PackageForList> packages;
+    QList<Package> packages;
     while (query.next()) {
-        packages.append(PackageForList{
-            .id = query.value(0).toInt(),
-            .name = query.value(1).toString(),
-            .count = query.value(2).toInt()
-        });
+        Package p;
+        p.id = query.value(0).toInt();
+        p.name = query.value(1).toString();
+        p.count = query.value(2).toInt();
+        packages.append(p);
     }
     return packages;
+}
+
+Package package::read(int id) {
+    R_PREPARE_NEW(query, " \
+        SELECT p.name, COUNT(*) \
+        FROM themes t, packages p \
+        WHERE p.id = ? \
+          AND t.packageId = p.id \
+        GROUP BY p.id \
+    ", Package())
+    query.addBindValue(id);
+    R_EXEC(query, Package())
+    if (!query.next()) {
+        return Package();
+    }
+    Package p;
+    p.id = id;
+    p.name = query.value(0).toString();
+    p.count = query.value(1).toInt();
+    return p;
 }

@@ -4,8 +4,11 @@
 
 #include <QString>
 #include <QObject>
+#include <QList>
 
 using namespace db;
+
+Theme::Theme() : id(-1) {}
 
 QString theme::name(int id) {
     R_PREPARE_NEW(query, " \
@@ -37,28 +40,29 @@ QString theme::packageName(int id) {
 }
 
 Theme theme::read(int id) {
-    const Theme FICTIVE = Theme{-1, "", -1, false, false, ""};
     R_PREPARE_NEW(query, " \
         SELECT name, packageId, isLearned, inWishlist, description \
         FROM themes \
         WHERE id = ? \
-    ", FICTIVE)
+    ", Theme())
     query.addBindValue(id);
-    R_EXEC(query, FICTIVE)
+    R_EXEC(query, Theme())
     query.first();
 
-    return Theme {
-        .id = id,
-        .name = query.value(0).toString(),
-        .packageId = query.value(1).toInt(),
-        .inWishlist = query.value(3).toBool(),
-        .isLearned = query.value(2).toBool(),
-        .description = query.value(4).toString()
-    };
+    Theme t;
+    t.id = id;
+    t.name = query.value(0).toString();
+    t.package = package::read(query.value(1).toInt());
+    t.inWishlist = query.value(3).toBool();
+    t.isLearned = query.value(2).toBool();
+    t.description = query.value(4).toString();
+    return t;
 }
 
 int theme::write(const Theme& t) {
     QSqlQuery query;
+
+    int id = t.id;
 
     if (t.id == -1) {
         R_PREPARE(query, " \
@@ -79,7 +83,7 @@ int theme::write(const Theme& t) {
     }
 
     query.bindValue(":name", t.name);
-    query.bindValue(":packageId", t.packageId);
+    query.bindValue(":packageId", t.package.id);
     query.bindValue(":description", t.description);
     query.bindValue(":inWishlist", t.inWishlist);
     query.bindValue(":isLearned", t.isLearned);
@@ -127,7 +131,7 @@ void theme::del(int id) {
     query.finish();
 }
 
-QList<ThemeForList> theme::readForList(
+QList<Theme> theme::reads(
     const QString& name,
     int packageId,
     Qt::CheckState inWishlist,
@@ -135,11 +139,7 @@ QList<ThemeForList> theme::readForList(
     ) {
 
     QString queryString = " \
-        SELECT id, name, (\
-            SELECT name \
-            FROM packages \
-            WHERE packageId = id \
-        ) \
+        SELECT id, name, packageId, isLearned, inWishlist, description \
         FROM themes \
         WHERE {whereSection} \
         GROUP BY ( \
@@ -179,13 +179,16 @@ QList<ThemeForList> theme::readForList(
     }
     R_EXEC(query, {})
 
-    QList<ThemeForList> themes;
+    QList<Theme> themes;
     while (query.next()) {
-        themes.append(ThemeForList{
-            .id = query.value(0).toInt(),
-            .name = query.value(1).toString(),
-            .packageName = query.value(2).toString()
-        });
+        Theme t;
+        t.id = query.value(0).toInt();
+        t.name = query.value(1).toString();
+        t.package = package::read(query.value(2).toInt());
+        t.inWishlist = query.value(4).toBool();
+        t.isLearned = query.value(3).toBool();
+        t.description = query.value(5).toString();
+        themes.append(t);
     }
     return themes;
 }

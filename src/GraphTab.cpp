@@ -128,7 +128,10 @@ void GraphTab::onCreateBtn() {
     if (ok) {
         // Add graph
         try {
-            graph::write(-1, name);
+            Graph g;
+            g.id = -1;
+            g.name = name;
+            graph::write(g);
         } catch (const QString& msg) {
             QMessageBox::critical(
                 this,
@@ -145,7 +148,7 @@ void GraphTab::onCreateBtn() {
 }
 
 void GraphTab::update() {
-    auto graphs = graph::readForList(nameEdit->text().trimmed());
+    auto graphs = graph::reads(nameEdit->text().trimmed());
 
     graphsList->clear();
     for (const auto& g : graphs) {
@@ -191,7 +194,10 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
 
         if (ok) {
             try {
-                graph::write(graphId, name);
+                Graph g;
+                g.id = graphId;
+                g.name = name;
+                graph::write(g);
             } catch (const QString& msg) {
                 QMessageBox::critical(
                     this,

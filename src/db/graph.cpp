@@ -8,6 +8,8 @@
 
 using namespace db;
 
+Graph::Graph() : id(-1) {}
+
 QString graph::name(int id) {
     R_PREPARE_NEW(query, " \
         SELECT name \
@@ -59,8 +61,10 @@ void graph::del(int id) {
     EXEC(query)
 }
 
-int graph::write(int id, const QString& name) {
+int graph::write(const Graph& g) {
     QSqlQuery query;
+
+    int id = g.id;
 
     if (id == -1) {
         R_PREPARE(query, " \
@@ -76,7 +80,7 @@ int graph::write(int id, const QString& name) {
         ", -1)
     }
 
-    query.bindValue(":name", name);
+    query.bindValue(":name", g.name);
     if (id != -1) {
         query.bindValue(":id", id);
     }
@@ -103,7 +107,7 @@ int graph::write(int id, const QString& name) {
 
 }
 
-QList<GraphForList> graph::readForList(const QString& name) {
+QList<Graph> graph::reads(const QString& name) {
     R_PREPARE_NEW(query, " \
         SELECT g.id, g.name, ( \
             SELECT COUNT(*) \
@@ -117,13 +121,39 @@ QList<GraphForList> graph::readForList(const QString& name) {
     query.addBindValue(name);
     R_EXEC(query, {})
 
-    QList<GraphForList> graphs;
+    QList<Graph> graphs;
     while (query.next()) {
-        graphs.append(GraphForList{
-            .id = query.value(0).toInt(),
-            .name = query.value(1).toString(),
-            .count = query.value(2).toInt()
-        });
+        Graph g;
+
+        g.id = query.value(0).toInt();
+        g.name = query.value(1).toString();
+        g.count = query.value(2).toInt();
+
+        graphs.append(g);
     }
     return graphs;
+}
+
+Graph graph::read(int id) {
+    R_PREPARE_NEW(query, " \
+        SELECT g.id, g.name, ( \
+            SELECT COUNT(*) \
+            FROM graphNodes n \
+            WHERE n.graphId = g.id \
+        ) \
+        FROM graphs g \
+        WHERE id = ? \
+    ", Graph())
+    query.addBindValue(id);
+    R_EXEC(query, Graph());
+
+    if (!query.next()) {
+        return Graph();
+    }
+
+    Graph g;
+    g.id = query.value(0).toInt();
+    g.name = query.value(1).toString();
+    g.count = query.value(2).toInt();
+    return g;
 }

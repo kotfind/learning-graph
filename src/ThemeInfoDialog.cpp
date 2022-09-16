@@ -58,7 +58,7 @@ void ThemeInfoDialog::load() {
     if (themeId != -1) {
         const Theme t = theme::read(themeId);
         themeEdit->setText(t.name);
-        packageCombo->setCurrent(t.packageId);
+        packageCombo->setCurrent(t.package.id);
         isLearnedCheck->setChecked(t.isLearned);
         inWishlistCheck->setChecked(t.inWishlist);
         descEdit->setText(t.description);
@@ -167,14 +167,18 @@ void ThemeInfoDialog::save() {
     }
 
     try {
-        themeId = theme::write(Theme{
-            .id = themeId,
-            .name = themeEdit->text().trimmed(),
-            .packageId = packageCombo->currentData().toInt(),
-            .inWishlist = inWishlistCheck->isChecked(),
-            .isLearned = isLearnedCheck->isChecked(),
-            .description = descEdit->toPlainText()
-        });
+        Package p;
+        p.id = packageCombo->currentData().toInt();
+
+        Theme t;
+        t.id = themeId;
+        t.name = themeEdit->text().trimmed();
+        t.package = p;
+        t.inWishlist = inWishlistCheck->isChecked();
+        t.isLearned = isLearnedCheck->isChecked();
+        t.description = descEdit->toPlainText();
+
+        themeId = theme::write(t);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

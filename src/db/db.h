@@ -1,34 +1,33 @@
 #pragma once
 
 #include <QString>
-#include <tuple>
 #include <QList>
 
 namespace db {
     bool init();
 
-    struct Theme {
-        int id;
-        QString name;
-        int packageId;
-        bool inWishlist;
-        bool isLearned;
-        QString description;
-    };
+    struct Package {
+        Package();
 
-    struct ThemeForList {
-        int id;
-        QString name;
-        QString packageName;
-    };
-
-    struct PackageForList {
         int id;
         QString name;
         int count;
     };
 
-    struct GraphForList {
+    struct Theme {
+        Theme();
+
+        int id;
+        QString name;
+        Package package;
+        bool inWishlist;
+        bool isLearned;
+        QString description;
+    };
+
+    struct Graph {
+        Graph();
+
         int id;
         QString name;
         int count;
@@ -38,7 +37,7 @@ namespace db {
         QString name(int id);
         QString packageName(int id);
         Theme read(int id);
-        QList<ThemeForList> readForList(
+        QList<Theme> reads(
             const QString& name,
             int packageId,
             Qt::CheckState inWishlist,
@@ -55,14 +54,12 @@ namespace db {
     namespace package {
         QString name(int id);
         int count(int id);
-        QList<PackageForList> readForList(const QString& name);
+        Package read(int);
+        QList<Package> reads(const QString& name);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
-        int write(
-            int id,
-            const QString& name
-        );
+        int write(const Package&);
 
         void del(int id);
     };
@@ -70,14 +67,12 @@ namespace db {
     namespace graph {
         QString name(int id);
         int count(int id);
-        QList<GraphForList> readForList(const QString& name);
+        Graph read(int);
+        QList<Graph> reads(const QString& name);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
-        int write(
-            int id,
-            const QString& name
-        );
+        int write(const Graph&);
 
         void del(int id);
     };

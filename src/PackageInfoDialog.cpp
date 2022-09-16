@@ -73,10 +73,10 @@ void PackageInfoDialog::load() {
 
 void PackageInfoDialog::save() {
     try {
-        packageId = package::write(
-            packageId,
-            nameEdit->text().trimmed()
-        );
+        Package p;
+        p.id = packageId;
+        p.name = nameEdit->text().trimmed();
+        packageId = package::write(p);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

@@ -135,7 +135,7 @@ void PackageTab::onCreateBtn() {
 }
 
 void PackageTab::update() {
-    auto packages = package::readForList(nameEdit->text().trimmed());
+    auto packages = package::reads(nameEdit->text().trimmed());
 
     packagesList->clear();
     for (const auto& p : packages) {
