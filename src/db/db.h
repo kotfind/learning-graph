@@ -33,6 +33,16 @@ namespace db {
         int count;
     };
 
+    struct GraphNode {
+        GraphNode();
+
+        int id;
+        int graphId;
+        int themeId;
+        double x;
+        double y;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
@@ -78,4 +88,14 @@ namespace db {
         void del(int id);
     };
 
+    namespace graphNode {
+        GraphNode read(int id);
+        QList<GraphNode> reads(int graphId);
+
+        int create(const GraphNode&);
+
+        void move(int id, double x, double y);
+
+        void del(int id);
+    };
 };

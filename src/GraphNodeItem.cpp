@@ -2,10 +2,13 @@
 
 #include "GraphScene.h"
 #include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>
 #include <QMargins>
+
+using namespace db;
 
 GraphNodeItem::GraphNodeItem(int nodeId, QGraphicsItem* parent)
         : QGraphicsTextItem(parent), nodeId(nodeId) {
@@ -71,38 +74,16 @@ void GraphNodeItem::paint(
 
 void GraphNodeItem::load() {
     // Get node
-    PREPARE_NEW(query, " \
-        SELECT themeId, x, y \
-        FROM graphNodes \
-        WHERE id = ? \
-    ")
-    query.addBindValue(nodeId);
-    EXEC(query)
-    query.next();
+    auto node = graphNode::read(nodeId);
+    auto theme = theme::read(node.themeId);
 
-    int themeId = query.value(0).toInt();
-    setPos(
-        query.value(1).toInt(),
-        query.value(2).toInt()
-    );
+    setPos(node.x, node.y);
 
-    query.finish();
-
-    // Get theme
-    PREPARE(query, " \
-        SELECT t.name, p.name \
-        FROM themes t, packages p \
-        WHERE t.id = ? \
-          AND t.packageId = p.id \
-    ")
-    query.addBindValue(themeId);
-    EXEC(query)
-
-    if (query.next()) {
+    if (theme.id != 0) {
         setPlainText(
-            QString("%1 (%2)")
-                .arg(query.value(0).toString())
-                .arg(query.value(1).toString())
+            QString("%1 @ %2")
+                .arg(theme.name)
+                .arg(theme.package.name)
         );
 
         deleted = false;
@@ -116,16 +97,7 @@ void GraphNodeItem::load() {
 }
 
 void GraphNodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
-    PREPARE_NEW(query, " \
-        UPDATE graphNodes \
-        SET x = ?, \
-            y = ? \
-        WHERE id = ? \
-    ")
-    query.addBindValue(pos().x());
-    query.addBindValue(pos().y());
-    query.addBindValue(nodeId);
-    EXEC(query)
+    graphNode::move(nodeId, pos().x(), pos().y());
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }

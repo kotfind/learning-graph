@@ -2,6 +2,7 @@
 
 #include "ComboboxIdDialog.h"
 #include "db/sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"
 
@@ -12,6 +13,8 @@
 #include <QRectF>
 #include <QMarginsF>
 #include <QGraphicsView>
+
+using namespace db;
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -51,26 +54,17 @@ void GraphScene::open(int graphId) {
     clear();
     themeIdToNode.clear();
 
-    // Add Nodes
-    PREPARE_NEW(query, " \
-        SELECT themeId, id \
-        FROM graphNodes \
-        WHERE graphId = ? \
-    ")
-    query.addBindValue(graphId);
-    EXEC(query)
+    // Load Nodes
 
-    while (query.next()) {
-        auto themeId = query.value(0).toInt();
-        auto nodeId = query.value(1).toInt();
-        auto* node = new GraphNodeItem(nodeId);
-        themeIdToNode[themeId] = node;
+    auto nodes = graphNode::reads(graphId);
+    for (const auto& n : nodes) {
+        auto* node = new GraphNodeItem(n.id);
+        themeIdToNode[n.themeId] = node;
         addItem(node);
     }
-    query.finish();
 
     // Add Edges
-    PREPARE(query, " \
+    PREPARE_NEW(query, " \
         WITH themeIds AS ( \
             SELECT themeId \
             FROM graphNodes \
@@ -217,25 +211,19 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
 }
 
 void GraphScene::newNode(int themeId, const QPointF& pos) {
-    PREPARE_NEW(query, " \
-        INSERT \
-        INTO graphNodes(graphId, themeId, x, y) \
-        VALUES (?, ?, ?, ?) \
-    ")
-    query.addBindValue(graphId);
-    query.addBindValue(themeId);
-    query.addBindValue(pos.x());
-    query.addBindValue(pos.y());
-    EXEC(query)
+    GraphNode n;
+    n.graphId = graphId;
+    n.themeId = themeId;
+    n.x = pos.x();
+    n.y = pos.y();
+    auto nodeId = graphNode::create(n);
 
-    auto* node = new GraphNodeItem(query.lastInsertId().toInt());
+    auto* node = new GraphNodeItem(nodeId);
     addItem(node);
     themeIdToNode[themeId] = node;
 
-    query.finish();
-
     // Add edges
-    PREPARE(query, " \
+    PREPARE_NEW(query, " \
         WITH \
         themeIds AS ( \
             SELECT themeId \
@@ -326,14 +314,7 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
 }
 
 void GraphScene::deleteNode(GraphNodeItem* node) {
-    PREPARE_NEW(query, " \
-        DELETE \
-        FROM graphNodes \
-        WHERE id = ? \
-    ");
-    query.addBindValue(node->getId());
-    EXEC(query)
-
+    graphNode::del(node->getId());
     removeItem(node);
     emit node->deleteEdges();
     node->deleteLater();

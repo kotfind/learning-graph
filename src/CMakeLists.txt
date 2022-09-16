@@ -28,6 +28,7 @@ add_executable(learning_graph
     db/theme.cpp
     db/package.cpp
     db/graph.cpp
+    db/graphNode.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
