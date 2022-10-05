@@ -63,26 +63,12 @@ void GraphScene::open(int graphId) {
         addItem(node);
     }
 
-    // Add Edges
-    PREPARE_NEW(query, " \
-        WITH themeIds AS ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = ? \
-        ) \
-        SELECT id, beginId, endId \
-        FROM themeEdges \
-        WHERE beginId IN themeIds \
-          AND endId IN themeIds \
-    ")
-    query.addBindValue(graphId);
-    EXEC(query)
-
-    while (query.next()) {
+    auto edges = themeEdge::reads(graphId, -1);
+    for (const auto& e : edges) {
         auto* edge = new GraphEdge(
-            query.value(0).toInt(),
-            themeIdToNode[query.value(1).toInt()],
-            themeIdToNode[query.value(2).toInt()]
+            e.id,
+            themeIdToNode[e.beginId],
+            themeIdToNode[e.endId]
         );
         addItem(edge);
     }
@@ -223,32 +209,12 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     themeIdToNode[themeId] = node;
 
     // Add edges
-    PREPARE_NEW(query, " \
-        WITH \
-        themeIds AS ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = :graphId \
-        ) \
-        SELECT id, beginId, endId \
-        FROM themeEdges \
-        WHERE ( \
-                beginId = :themeId \
-            AND endId in themeIds \
-        ) OR ( \
-                endId = :themeId \
-            AND beginId in themeIds \
-        ) \
-    ")
-    query.bindValue(":graphId", graphId);
-    query.bindValue(":themeId", themeId);
-    EXEC(query)
-
-    while (query.next()) {
+    auto edges = themeEdge::reads(graphId, themeId);
+    for (const auto& e : edges) {
         auto* edge = new GraphEdge(
-            query.value(0).toInt(),
-            themeIdToNode[query.value(1).toInt()],
-            themeIdToNode[query.value(2).toInt()]
+            e.id,
+            themeIdToNode[e.beginId],
+            themeIdToNode[e.endId]
         );
         addItem(edge);
     }

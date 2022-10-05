@@ -43,6 +43,14 @@ namespace db {
         double y;
     };
 
+    struct ThemeEdge {
+        ThemeEdge();
+
+        int id;
+        int beginId;
+        int endId;
+    };
+
     namespace theme {
         QString name(int id);
         QString packageName(int id);
@@ -97,5 +105,10 @@ namespace db {
         void move(int id, double x, double y);
 
         void del(int id);
+    };
+
+    namespace themeEdge {
+        // Set themeId = -1 for any themeId
+        QList<ThemeEdge> reads(int graphId, int themeId);
     };
 };
