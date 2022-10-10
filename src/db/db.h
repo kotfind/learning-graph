@@ -60,7 +60,8 @@ namespace db {
             int packageId,
             Qt::CheckState inWishlist,
             Qt::CheckState isLearned,
-            bool includeDescription = false
+            bool includeDescription = false,
+            int excludeGraphId = -1
         );
 
         // Inserts theme if id == -1; updates otherwise

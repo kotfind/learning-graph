@@ -13,6 +13,7 @@
 #include <QRectF>
 #include <QMarginsF>
 #include <QGraphicsView>
+#include <qnamespace.h>
 
 using namespace db;
 
@@ -147,33 +148,21 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
-    R_PREPARE_NEW(query, " \
-        SELECT id, name, ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ) \
-        FROM themes \
-        WHERE id NOT IN ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = ? \
-        ) \
-        ORDER BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
-    ", -1)
-    query.addBindValue(graphId);
-    R_EXEC(query, -1)
+    auto themes = theme::reads(
+        "",
+        -1,
+        Qt::PartiallyChecked,
+        Qt::PartiallyChecked,
+        false,
+        graphId
+    ); // Select all themes except ones on graph
 
-    while (query.next()) {
+    for (const auto t : themes) {
         d.addItem(
             QString("%1 (%2)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toString()),
-            query.value(0).toInt()
+                .arg(t.name)
+                .arg(t.package.name),
+            t.id
         );
     }
 

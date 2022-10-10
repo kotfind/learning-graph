@@ -137,7 +137,8 @@ QList<Theme> theme::reads(
     int packageId,
     Qt::CheckState inWishlist,
     Qt::CheckState isLearned,
-    bool includeDescription
+    bool includeDescription,
+    int excludeGraphId
     ) {
 
     QString queryString = " \
@@ -180,6 +181,16 @@ QList<Theme> theme::reads(
     if (isLearned != Qt::PartiallyChecked) {
         whereSection += QString(" AND isLearned = ?");
         params.append(isLearned == Qt::Checked);
+    }
+
+    if (excludeGraphId != -1) {
+        whereSection += QString(" AND id NOT IN ( \
+            SELECT themeId \
+            FROM graphNodes \
+            WHERE graphId = ? \
+        ) \
+        ");
+        params.append(excludeGraphId);
     }
 
     queryString.replace("{whereSection}", whereSection);
