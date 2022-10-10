@@ -1,7 +1,6 @@
 #include "GraphScene.h"
 
 #include "ComboboxIdDialog.h"
-#include "db/sqlDefines.h"
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"

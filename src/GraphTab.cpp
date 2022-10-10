@@ -1,6 +1,5 @@
 #include "GraphTab.h"
 
-#include "db/sqlDefines.h"
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 

@@ -1,7 +1,6 @@
 #include "ThemeTab.h"
 
 #include "ThemeInfoDialog.h"
-#include "db/sqlDefines.h"
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
