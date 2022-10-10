@@ -89,3 +89,13 @@ int themeEdge::create(int beginNodeId, int endNodeId) {
 
     return query.lastInsertId().toInt();
 }
+
+void themeEdge::del(int edgeId) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM themeEdges \
+        WHERE id = ? \
+    ");
+    query.addBindValue(edgeId);
+    EXEC(query)
+}

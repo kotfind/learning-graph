@@ -260,14 +260,7 @@ void GraphScene::deleteNode(GraphNodeItem* node) {
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {
-    PREPARE_NEW(query, " \
-        DELETE \
-        FROM themeEdges \
-        WHERE id = ? \
-    ");
-    query.addBindValue(edge->getId());
-    EXEC(query)
-
+    themeEdge::del(edge->getId());
     removeItem(edge);
     edge->deleteLater();
 }

@@ -112,5 +112,7 @@ namespace db {
         QList<ThemeEdge> reads(int graphId, int themeId);
 
         int create(int beginNodeId, int endNodeId);
+
+        void del(int edgeId);
     };
 };
