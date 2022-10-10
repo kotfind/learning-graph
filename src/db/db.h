@@ -110,5 +110,7 @@ namespace db {
     namespace themeEdge {
         // Set themeId = -1 for any themeId
         QList<ThemeEdge> reads(int graphId, int themeId);
+
+        int create(int beginNodeId, int endNodeId);
     };
 };

@@ -232,51 +232,24 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
         return;
     }
 
-    PREPARE_NEW(query, " \
-        INSERT \
-        INTO themeEdges(beginId, endId) \
-        VALUES (( \
-                SELECT themeId \
-                FROM graphNodes \
-                WHERE id = ? \
-            ),( \
-                SELECT themeId \
-                FROM graphNodes \
-                WHERE id = ? \
-        ))")
-    query.addBindValue(beginNode->getId());
-    query.addBindValue(endNode->getId());
+    try {
+        int edgeId = themeEdge::create(beginNode->getId(), endNode->getId());
 
-    if (!query.exec()) {
-        switch(ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    (QWidget*)views()[0],
-                    tr("Error"),
-                    tr("This edge already exists.")
-                );
-                return;
-
-            case SQLITE_CONSTRAINT_CHECK:
-                QMessageBox::critical(
-                    (QWidget*)views()[0],
-                    tr("Error"),
-                    tr("The begining and ending of the edge should be different nodes.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query)
-                return;
-        }
+        auto* edge = new GraphEdge(
+            edgeId,
+            beginNode,
+            endNode
+        );
+        addItem(edge);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            (QWidget*)views()[0],
+            tr("Error"),
+            msg
+        );
+    } catch (...) {
+        return;
     }
-
-    auto* edge = new GraphEdge(
-        query.lastInsertId().toInt(),
-        beginNode,
-        endNode
-    );
-    addItem(edge);
 }
 
 void GraphScene::deleteNode(GraphNodeItem* node) {

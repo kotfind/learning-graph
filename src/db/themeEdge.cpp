@@ -56,3 +56,36 @@ QList<ThemeEdge> themeEdge::reads(int graphId, int themeId) {
     }
     return edges;
 }
+
+int themeEdge::create(int beginNodeId, int endNodeId) {
+    R_PREPARE_NEW(query, " \
+        INSERT \
+        INTO themeEdges(beginId, endId) \
+        VALUES (( \
+                SELECT themeId \
+                FROM graphNodes \
+                WHERE id = ? \
+            ),( \
+                SELECT themeId \
+                FROM graphNodes \
+                WHERE id = ? \
+        ))", -1)
+    query.addBindValue(beginNodeId);
+    query.addBindValue(endNodeId);
+
+    if (!query.exec()) {
+        switch(ERR_CODE(query)) {
+            case SQLITE_CONSTRAINT_UNIQUE:
+                throw QObject::tr("This edge already exists.");
+
+            case SQLITE_CONSTRAINT_CHECK:
+                throw QObject::tr("The begining and ending of the edge should be different nodes.");
+
+            default:
+                LOG_FAILED_QUERY(query)
+                throw 0;
+        }
+    }
+
+    return query.lastInsertId().toInt();
+}
