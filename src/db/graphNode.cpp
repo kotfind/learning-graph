@@ -6,13 +6,13 @@ using namespace db;
 GraphNode::GraphNode() : id(-1) {}
 
 GraphNode graphNode::read(int id) {
-    R_PREPARE_NEW(query, "\
+    PREPARE_NEW(query, "\
         SELECT graphId, themeId, x, y \
         FROM graphNodes \
         WHERE id = ? \
-    ", GraphNode())
+    ")
     query.addBindValue(id);
-    R_EXEC(query, GraphNode());
+    EXEC(query);
     if (!query.next()) {
         return GraphNode();
     }
@@ -27,13 +27,13 @@ GraphNode graphNode::read(int id) {
 }
 
 QList<GraphNode> graphNode::reads(int graphId) {
-    R_PREPARE_NEW(query, "\
+    PREPARE_NEW(query, "\
         SELECT id, graphId, themeId, x, y \
         FROM graphNodes \
         WHERE graphId = ? \
-    ", {})
+    ")
     query.addBindValue(graphId);
-    R_EXEC(query, {});
+    EXEC(query);
 
     QList<GraphNode> nodes;
     while (query.next()) {
@@ -62,16 +62,16 @@ void graphNode::move(int id, double x, double y) {
 }
 
 int graphNode::create(const GraphNode& n) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         INSERT \
         INTO graphNodes(graphId, themeId, x, y) \
         VALUES (?, ?, ?, ?) \
-    ", -1)
+    ")
     query.addBindValue(n.graphId);
     query.addBindValue(n.themeId);
     query.addBindValue(n.x);
     query.addBindValue(n.y);
-    R_EXEC(query, -1)
+    EXEC(query)
 
     return query.lastInsertId().toInt();
 }

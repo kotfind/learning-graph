@@ -37,14 +37,14 @@ QList<ThemeEdge> themeEdge::reads(int graphId, int themeId) {
         ");
     }
 
-    R_PREPARE_NEW(query, queryString, {})
+    PREPARE_NEW(query, queryString)
 
     query.bindValue(":graphId", graphId);
     if (themeId != -1) {
         query.bindValue(":themeId", themeId);
     }
 
-    R_EXEC(query, {})
+    EXEC(query)
 
     QList<ThemeEdge> edges;
     while (query.next()) {
@@ -58,7 +58,7 @@ QList<ThemeEdge> themeEdge::reads(int graphId, int themeId) {
 }
 
 int themeEdge::create(int beginNodeId, int endNodeId) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         INSERT \
         INTO themeEdges(beginId, endId) \
         VALUES (( \
@@ -69,7 +69,7 @@ int themeEdge::create(int beginNodeId, int endNodeId) {
                 SELECT themeId \
                 FROM graphNodes \
                 WHERE id = ? \
-        ))", -1)
+        ))")
     query.addBindValue(beginNodeId);
     query.addBindValue(endNodeId);
 

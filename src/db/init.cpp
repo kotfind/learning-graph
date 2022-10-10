@@ -12,16 +12,17 @@ bool createTables() {
     QSqlQuery query;
 
     // Packages
-    R_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE packages( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE \
-        )", false)
-    R_EXEC(query, false)
+        ) \
+    ")
+    EXEC(query)
     query.finish();
 
     // Themes
-    R_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE themes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL, \
@@ -30,33 +31,36 @@ bool createTables() {
             inWishlist INT CHECK(inWishlist in (0, 1)), \
             isLearned INT CHECK(isLearned in (0, 1)), \
             UNIQUE (packageId, name) \
-        )", false)
-    R_EXEC(query, false)
+        ) \
+    ")
+    EXEC(query)
     query.finish();
 
     // Theme Dependencies
-    R_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE themeEdges( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             beginId INT NOT NULL REFERENCES themes(id), \
             endId INT NOT NULL REFERENCES themes(id), \
             UNIQUE (beginId, endId), \
             CHECK (beginId != endId) \
-        )", false)
-    R_EXEC(query, false)
+        ) \
+    ")
+    EXEC(query)
     query.finish();
 
     // Graphs
-    R_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE graphs( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE \
-        )", false)
-    R_EXEC(query, false)
+        ) \
+    ")
+    EXEC(query)
     query.finish();
 
     // graphNodes
-    R_PREPARE(query, " \
+    PREPARE(query, " \
         CREATE TABLE graphNodes( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             graphId INTEGER REFERENCES graphs(id), \
@@ -64,8 +68,9 @@ bool createTables() {
             x INTEGER NOT NULL, \
             y INTEGER NOT NULL, \
             UNIQUE (graphId, themeId) \
-        )", false)
-    R_EXEC(query, false)
+        ) \
+    ")
+    EXEC(query)
     query.finish();
 
     return true;

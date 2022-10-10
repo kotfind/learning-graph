@@ -12,13 +12,13 @@ using namespace db;
 Theme::Theme() : id(-1) {}
 
 QString theme::name(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT name \
         FROM themes \
         WHERE id = ? \
-    ", "")
+    ")
     query.addBindValue(id);
-    R_EXEC(query, "")
+    EXEC(query)
     if (!query.next()) {
         return "";
     }
@@ -26,14 +26,14 @@ QString theme::name(int id) {
 }
 
 QString theme::packageName(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT p.name \
         FROM themes t, packages p \
         WHERE t.id = ? \
           AND t.packageId = p.id \
-    ", "")
+    ")
     query.addBindValue(id);
-    R_EXEC(query, "")
+    EXEC(query)
     if (!query.next()) {
         return "";
     }
@@ -41,13 +41,13 @@ QString theme::packageName(int id) {
 }
 
 Theme theme::read(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT name, packageId, isLearned, inWishlist, description \
         FROM themes \
         WHERE id = ? \
-    ", Theme())
+    ")
     query.addBindValue(id);
-    R_EXEC(query, Theme())
+    EXEC(query)
     query.first();
 
     Theme t;
@@ -66,13 +66,13 @@ int theme::write(const Theme& t) {
     int id = t.id;
 
     if (t.id == -1) {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             INSERT \
             INTO themes(name, packageId, description, inWishlist, isLearned) \
             VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
-        ", -1)
+        ")
     } else {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             UPDATE themes \
             SET name = NULLIF(:name, ''), \
                 packageId = :packageId, \
@@ -80,7 +80,7 @@ int theme::write(const Theme& t) {
                 inWishlist = :inWishlist, \
                 isLearned = :isLearned \
             WHERE id = :id \
-        ", -1)
+        ")
     }
 
     query.bindValue(":name", t.name);
@@ -195,11 +195,11 @@ QList<Theme> theme::reads(
 
     queryString.replace("{whereSection}", whereSection);
 
-    R_PREPARE_NEW(query, queryString, {});
+    PREPARE_NEW(query, queryString);
     for (const auto& param : params) {
         query.addBindValue(param);
     }
-    R_EXEC(query, {})
+    EXEC(query)
 
     QList<Theme> themes;
     while (query.next()) {

@@ -11,13 +11,13 @@ using namespace db;
 Package::Package() : id(-1) {}
 
 QString package::name(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT name \
         FROM packages \
         WHERE id = ? \
-    ", "")
+    ")
     query.addBindValue(id);
-    R_EXEC(query, "")
+    EXEC(query)
     if (!query.next()) {
         return "";
     }
@@ -25,15 +25,15 @@ QString package::name(int id) {
 }
 
 int package::count(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT COUNT(*) \
         FROM themes t, packages p \
         WHERE p.id = ? \
           AND t.packageId = p.id \
         GROUP BY p.id \
-    ", -1)
+    ")
     query.addBindValue(id);
-    R_EXEC(query, -1)
+    EXEC(query)
     if (!query.next()) {
         return -1;
     }
@@ -67,17 +67,17 @@ int package::write(const Package& p) {
     int id = p.id;
 
     if (id == -1) {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             INSERT \
             INTO packages(name) \
             VALUES (NULLIF(:name, '')) \
-        ", -1)
+        ")
     } else {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             UPDATE packages \
             SET name = NULLIF(:name, '') \
             WHERE id = :id \
-        ", -1)
+        ")
     }
 
     query.bindValue(":name", p.name);
@@ -107,7 +107,7 @@ int package::write(const Package& p) {
 }
 
 QList<Package> package::reads(const QString& name) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT p.id, p.name, ( \
             SELECT COUNT(*) \
             FROM themes t \
@@ -116,9 +116,9 @@ QList<Package> package::reads(const QString& name) {
         FROM packages p \
         WHERE p.name LIKE ('%' || ? || '%') \
         ORDER BY p.name \
-    ", {})
+    ")
     query.addBindValue(name);
-    R_EXEC(query, {})
+    EXEC(query)
 
     QList<Package> packages;
     while (query.next()) {
@@ -132,15 +132,15 @@ QList<Package> package::reads(const QString& name) {
 }
 
 Package package::read(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT p.name, COUNT(*) \
         FROM themes t, packages p \
         WHERE p.id = ? \
           AND t.packageId = p.id \
         GROUP BY p.id \
-    ", Package())
+    ")
     query.addBindValue(id);
-    R_EXEC(query, Package())
+    EXEC(query)
     if (!query.next()) {
         return Package();
     }

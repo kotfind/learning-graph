@@ -11,31 +11,31 @@ using namespace db;
 Graph::Graph() : id(-1) {}
 
 QString graph::name(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT name \
         FROM graphs \
         WHERE id = ? \
-    ", "")
+    ")
     query.addBindValue(id);
-    R_EXEC(query, "")
+    EXEC(query)
     if (!query.next()) {
-        return "";
+        throw 0;
     }
     return query.value(0).toString();
 }
 
 int graph::count(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT COUNT(*) \
         FROM graphNodes n, graphs g \
         WHERE g.id = ? \
           AND n.graphId = g.id \
         GROUP BY g.id \
-    ", -1)
+    ")
     query.addBindValue(id);
-    R_EXEC(query, -1)
+    EXEC(query)
     if (!query.next()) {
-        return -1;
+        throw 0;
     }
     return query.value(0).toInt();
 }
@@ -67,17 +67,17 @@ int graph::write(const Graph& g) {
     int id = g.id;
 
     if (id == -1) {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             INSERT \
             INTO graphs(name) \
             VALUES (NULLIF(:name, '')) \
-        ", -1)
+        ")
     } else {
-        R_PREPARE(query, " \
+        PREPARE(query, " \
             UPDATE graphs \
             SET name = NULLIF(:name, '') \
             WHERE id = :id \
-        ", -1)
+        ")
     }
 
     query.bindValue(":name", g.name);
@@ -108,7 +108,7 @@ int graph::write(const Graph& g) {
 }
 
 QList<Graph> graph::reads(const QString& name) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT g.id, g.name, ( \
             SELECT COUNT(*) \
             FROM graphNodes n \
@@ -117,9 +117,9 @@ QList<Graph> graph::reads(const QString& name) {
         FROM graphs g \
         WHERE g.name LIKE ('%' || ? || '%') \
         ORDER BY g.name \
-    ", {})
+    ")
     query.addBindValue(name);
-    R_EXEC(query, {})
+    EXEC(query)
 
     QList<Graph> graphs;
     while (query.next()) {
@@ -135,7 +135,7 @@ QList<Graph> graph::reads(const QString& name) {
 }
 
 Graph graph::read(int id) {
-    R_PREPARE_NEW(query, " \
+    PREPARE_NEW(query, " \
         SELECT g.id, g.name, ( \
             SELECT COUNT(*) \
             FROM graphNodes n \
@@ -143,9 +143,9 @@ Graph graph::read(int id) {
         ) \
         FROM graphs g \
         WHERE id = ? \
-    ", Graph())
+    ")
     query.addBindValue(id);
-    R_EXEC(query, Graph());
+    EXEC(query);
 
     if (!query.next()) {
         return Graph();
