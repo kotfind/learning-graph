@@ -1,14 +1,13 @@
 #include "GraphEdge.h"
 
-#include "sqlDefines.h"
 #include <QDebug>
 #include <QPainterPath>
 #include <QPolygonF>
 
 GraphEdge::GraphEdge(
     int edgeId,
-    GraphNode* beginNode,
-    GraphNode* endNode,
+    GraphNodeItem* beginNode,
+    GraphNodeItem* endNode,
     QGraphicsItem* parent)
         : QGraphicsObject(parent),
           edgeId(edgeId),
@@ -17,28 +16,28 @@ GraphEdge::GraphEdge(
 
     connect(
         beginNode,
-        &GraphNode::positionChanged,
+        &GraphNodeItem::positionChanged,
         this,
         &GraphEdge::updatePosition
     );
 
     connect(
         endNode,
-        &GraphNode::positionChanged,
+        &GraphNodeItem::positionChanged,
         this,
         &GraphEdge::updatePosition
     );
 
     connect(
         beginNode,
-        &GraphNode::deleteEdges,
+        &GraphNodeItem::deleteEdges,
         this,
         &GraphEdge::deleteSelf
     );
 
     connect(
         endNode,
-        &GraphNode::deleteEdges,
+        &GraphNodeItem::deleteEdges,
         this,
         &GraphEdge::deleteSelf
     );

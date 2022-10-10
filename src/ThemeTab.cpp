@@ -1,7 +1,7 @@
 #include "ThemeTab.h"
 
 #include "ThemeInfoDialog.h"
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
 
@@ -13,6 +13,8 @@
 #include <QMimeData>
 #include <QByteArray>
 #include <QDataStream>
+
+using namespace db;
 
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
@@ -138,63 +140,21 @@ void ThemeTab::ui() {
 }
 
 void ThemeTab::update() {
-    QString queryString = " \
-        SELECT id, name, (\
-            SELECT name \
-            FROM packages \
-            WHERE packageId = id \
-        ) \
-        FROM themes \
-        WHERE {whereSection} \
-        GROUP BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
-    ";
-    QVector<QVariant> params;
-
-    QString whereSection = "TRUE";
-    auto themeName = nameEdit->text().trimmed();
-    if (themeName.size()) {
-        whereSection += " AND themes.name LIKE '%' || ? || '%'";
-        params.append(themeName);
-    }
-
-    auto packageId = packageCombo->currentData().toInt();
-    if (packageId != -1) {
-        whereSection += " AND packageId = ?";
-        params.append(packageId);
-    }
-
-    auto inWishlist = wishlistCheck->checkState();
-    if (inWishlist != Qt::PartiallyChecked) {
-        whereSection += QString(" AND inWishlist = ?");
-        params.append(inWishlist == Qt::Checked);
-    }
-
-    auto isLearned = learnedCheck->checkState();
-    if (isLearned != Qt::PartiallyChecked) {
-        whereSection += QString(" AND isLearned = ?");
-        params.append(isLearned == Qt::Checked);
-    }
-
-    queryString.replace("{whereSection}", whereSection);
-
-    PREPARE_NEW(query, queryString);
-    for (const auto& param : params) {
-        query.addBindValue(param);
-    }
-    EXEC(query)
+    auto themes = theme::reads(
+        nameEdit->text().trimmed(),
+        packageCombo->currentData().toInt(),
+        wishlistCheck->checkState(),
+        learnedCheck->checkState()
+    );
 
     themesList->clear();
 
-    while (query.next()) {
+    for (const auto& t : themes) {
         themesList->addItem(
-            QString("%1 (%2)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toString()),
-            query.value(0).toInt()
+            tr("%1 @ %2")
+                .arg(t.name)
+                .arg(t.package.name),
+            t.id
         );
     }
 }

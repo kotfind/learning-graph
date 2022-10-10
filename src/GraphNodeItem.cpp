@@ -1,13 +1,15 @@
-#include "GraphNode.h"
+#include "GraphNodeItem.h"
 
 #include "GraphScene.h"
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 
 #include <QDebug>
 #include <QMargins>
 
-GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
+using namespace db;
+
+GraphNodeItem::GraphNodeItem(int nodeId, QGraphicsItem* parent)
         : QGraphicsTextItem(parent), nodeId(nodeId) {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     load();
@@ -16,32 +18,32 @@ GraphNode::GraphNode(int nodeId, QGraphicsItem* parent)
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated,
         this,
-        &GraphNode::load
+        &GraphNodeItem::load
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::packagesUpdated,
         this,
-        &GraphNode::load
+        &GraphNodeItem::load
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::fontSet,
         this,
-        &GraphNode::setFont
+        &GraphNodeItem::setFont
     );
 
     connect(
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::fontSet,
         this,
-        &GraphNode::positionChanged
+        &GraphNodeItem::positionChanged
     );
 }
 
-void GraphNode::paint(
+void GraphNodeItem::paint(
     QPainter* qp,
     const QStyleOptionGraphicsItem* options,
     QWidget* widget) {
@@ -69,40 +71,18 @@ void GraphNode::paint(
     QGraphicsTextItem::paint(qp, options, widget);
 }
 
-void GraphNode::load() {
+void GraphNodeItem::load() {
     // Get node
-    PREPARE_NEW(query, " \
-        SELECT themeId, x, y \
-        FROM graphNodes \
-        WHERE id = ? \
-    ")
-    query.addBindValue(nodeId);
-    EXEC(query)
-    query.next();
+    auto node = graphNode::read(nodeId);
+    auto theme = theme::read(node.themeId);
 
-    int themeId = query.value(0).toInt();
-    setPos(
-        query.value(1).toInt(),
-        query.value(2).toInt()
-    );
+    setPos(node.x, node.y);
 
-    query.finish();
-
-    // Get theme
-    PREPARE(query, " \
-        SELECT t.name, p.name \
-        FROM themes t, packages p \
-        WHERE t.id = ? \
-          AND t.packageId = p.id \
-    ")
-    query.addBindValue(themeId);
-    EXEC(query)
-
-    if (query.next()) {
+    if (theme.id != 0) {
         setPlainText(
-            QString("%1 (%2)")
-                .arg(query.value(0).toString())
-                .arg(query.value(1).toString())
+            QString("%1 @ %2")
+                .arg(theme.name)
+                .arg(theme.package.name)
         );
 
         deleted = false;
@@ -115,27 +95,18 @@ void GraphNode::load() {
     }
 }
 
-void GraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
-    PREPARE_NEW(query, " \
-        UPDATE graphNodes \
-        SET x = ?, \
-            y = ? \
-        WHERE id = ? \
-    ")
-    query.addBindValue(pos().x());
-    query.addBindValue(pos().y());
-    query.addBindValue(nodeId);
-    EXEC(query)
+void GraphNodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
+    graphNode::move(nodeId, pos().x(), pos().y());
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }
 
-void GraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
+void GraphNodeItem::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsTextItem::mouseMoveEvent(e);
     emit positionChanged();
 }
 
-bool GraphNode::intersect(const QLineF& l1, QPointF* ans) {
+bool GraphNodeItem::intersect(const QLineF& l1, QPointF* ans) {
     QList<QPointF> pts = {
         mapToScene(boundingRect().bottomLeft()),
         mapToScene(boundingRect().bottomRight()),

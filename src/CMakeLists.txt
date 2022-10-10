@@ -18,12 +18,18 @@ qt_standard_project_setup()
 
 add_executable(learning_graph
     main.cpp
-    dbLogics.cpp
     MainWindow.cpp
     GlobalSignalHandler.cpp
     ComboboxIdDialog.cpp
     SmartListWidget.cpp
     ScaleSpinBox.cpp
+
+    db/init.cpp
+    db/theme.cpp
+    db/package.cpp
+    db/graph.cpp
+    db/graphNode.cpp
+    db/themeEdge.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
@@ -35,7 +41,7 @@ add_executable(learning_graph
 
     GraphEditWidget.cpp
     GraphTab.cpp
-    GraphNode.cpp
+    GraphNodeItem.cpp
     GraphScene.cpp
     GraphEdge.cpp
     GraphView.cpp

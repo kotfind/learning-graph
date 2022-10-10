@@ -1,6 +1,6 @@
 #include "PackageTab.h"
 
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 
@@ -12,6 +12,8 @@
 #include <QMenu>
 #include <QLabel>
 #include <QGridLayout>
+
+using namespace db;
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -132,26 +134,15 @@ void PackageTab::onCreateBtn() {
 }
 
 void PackageTab::update() {
-    PREPARE_NEW(query, " \
-        SELECT p.id, p.name, ( \
-            SELECT COUNT(*) \
-            FROM themes t \
-            WHERE t.packageId = p.id \
-        ) \
-        FROM packages p \
-        WHERE p.name LIKE ('%' || ? || '%') \
-        ORDER BY p.name \
-    ")
-    query.addBindValue(nameEdit->text().trimmed());
-    EXEC(query)
+    auto packages = package::reads(nameEdit->text().trimmed());
 
     packagesList->clear();
-    while (query.next()) {
+    for (const auto& p : packages) {
         packagesList->addItem(
             tr("%1 (%2 themes)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toInt()),
-            query.value(0).toInt()
+                .arg(p.name)
+                .arg(p.count),
+            p.id
         );
     }
 }
@@ -179,27 +170,10 @@ void PackageTab::packageMenuRequested(int packageId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete package \"%1\"?").arg(packageId)) // TODO packageId -> packageName
+                tr("Delete package \"%1\"?").arg(package::name(packageId)))
                     == QMessageBox::Yes) {
 
-            QSqlQuery query;
-
-            PREPARE(query, " \
-                DELETE \
-                FROM packages \
-                WHERE id = ? \
-            ")
-            query.addBindValue(packageId);
-            EXEC(query)
-            query.finish();
-
-            PREPARE(query, " \
-                DELETE \
-                FROM themes \
-                WHERE packageId = ? \
-            ")
-            query.addBindValue(packageId);
-            EXEC(query)
+            package::del(packageId);
 
             emit packagesUpdated();
             emit themesUpdated();

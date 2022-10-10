@@ -1,6 +1,6 @@
 #include "ThemeInfoDialog.h"
 
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 
@@ -11,9 +11,11 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 
+using namespace db;
+
 ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         : QDialog(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(themeId)); // TODO: themeId -> themeName
+    setWindowTitle(tr("Theme \"%1\" Info").arg(theme::name(themeId)));
 
     ui();
     load();
@@ -53,20 +55,12 @@ int ThemeInfoDialog::getId() {
 
 void ThemeInfoDialog::load() {
     if (themeId != -1) {
-        PREPARE_NEW(query, " \
-            SELECT name, packageId, isLearned, inWishlist, description \
-            FROM themes \
-            WHERE id = ? \
-        ")
-        query.addBindValue(themeId);
-        EXEC(query)
-        query.first();
-
-        themeEdit->setText(query.value(0).toString());
-        packageCombo->setCurrent(query.value(1).toInt());
-        isLearnedCheck->setChecked(query.value(2).toBool());
-        inWishlistCheck->setChecked(query.value(3).toBool());
-        descEdit->setText(query.value(4).toString());
+        const Theme t = theme::read(themeId);
+        themeEdit->setText(t.name);
+        packageCombo->setCurrent(t.package.id);
+        isLearnedCheck->setChecked(t.isLearned);
+        inWishlistCheck->setChecked(t.inWishlist);
+        descEdit->setText(t.description);
     }
 }
 
@@ -171,62 +165,28 @@ void ThemeInfoDialog::save() {
         return;
     }
 
-    // Create / update theme
-    QSqlQuery query;
+    try {
+        Package p;
+        p.id = packageCombo->currentData().toInt();
 
-    if (themeId == -1) {
-        PREPARE(query, " \
-            INSERT \
-            INTO themes(name, packageId, description, inWishlist, isLearned) \
-            VALUES (NULLIF(:name, ''), :packageId, :description, :inWishlist, :isLearned) \
-        ")
-    } else {
-        PREPARE(query, " \
-            UPDATE themes \
-            SET name = NULLIF(:name, ''), \
-                packageId = :packageId, \
-                description = :description, \
-                inWishlist = :inWishlist, \
-                isLearned = :isLearned \
-            WHERE id = :id \
-        ")
-    }
+        Theme t;
+        t.id = themeId;
+        t.name = themeEdit->text().trimmed();
+        t.package = p;
+        t.inWishlist = inWishlistCheck->isChecked();
+        t.isLearned = isLearnedCheck->isChecked();
+        t.description = descEdit->toPlainText();
 
-    query.bindValue(":name", themeEdit->text().trimmed());
-    query.bindValue(":packageId", packageCombo->currentData().toInt());
-    query.bindValue(":description", descEdit->toPlainText());
-    query.bindValue(":inWishlist", inWishlistCheck->isChecked());
-    query.bindValue(":isLearned", isLearnedCheck->isChecked());
-    if (themeId != -1) {
-        query.bindValue(":id", themeId);
-    }
-
-    if (!query.exec()) {
-        switch(ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name is not unique.")
-                );
-                return;
-
-            case SQLITE_CONSTRAINT_NOTNULL:
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    tr("Name should not be empty.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query);
-                return;
-        }
-    }
-
-    if (themeId == -1) {
-        themeId = query.lastInsertId().toInt();
+        themeId = theme::write(t);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    } catch (...) {
+        return;
     }
 
     emit themesUpdated();

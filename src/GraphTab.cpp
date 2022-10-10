@@ -1,6 +1,6 @@
 #include "GraphTab.h"
 
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 
 #include <QVBoxLayout>
@@ -11,6 +11,8 @@
 #include <QMenu>
 #include <QGridLayout>
 #include <QLabel>
+
+using namespace db;
 
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
@@ -124,61 +126,36 @@ void GraphTab::onCreateBtn() {
         tr("New graph name:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok) {
         // Add graph
-        PREPARE_NEW(query, " \
-            INSERT \
-            INTO graphs(name, xoffset, yoffset) \
-            VALUES (NULLIF(?, ''), 0, 0) \
-        ")
-        query.addBindValue(name);
-
-        if (!query.exec()) {
-            switch(ERR_CODE(query)) {
-                case SQLITE_CONSTRAINT_UNIQUE:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name is not unique.")
-                    );
-                    return;
-
-                case SQLITE_CONSTRAINT_NOTNULL:
-                    QMessageBox::critical(
-                        this,
-                        tr("Error"),
-                        tr("Name should not be empty.")
-                    );
-                    return;
-
-                default:
-                    LOG_FAILED_QUERY(query);
-                    return;
-            }
+        try {
+            Graph g;
+            g.id = -1;
+            g.name = name;
+            graph::write(g);
+        } catch (const QString& msg) {
+            QMessageBox::critical(
+                this,
+                tr("Error"),
+                msg
+            );
+            return;
+        } catch (...) {
+            return;
         }
+
         emit graphsUpdated();
     }
 }
 
 void GraphTab::update() {
-    PREPARE_NEW(query, " \
-        SELECT g.id, g.name, ( \
-            SELECT COUNT(*) \
-            FROM graphNodes n \
-            WHERE n.graphId = g.id \
-        ) \
-        FROM graphs g \
-        WHERE g.name LIKE ('%' || ? || '%') \
-        ORDER BY g.name \
-    ")
-    query.addBindValue(nameEdit->text().trimmed());
-    EXEC(query)
+    auto graphs = graph::reads(nameEdit->text().trimmed());
 
     graphsList->clear();
-    while (query.next()) {
+    for (const auto& g : graphs) {
         graphsList->addItem(
             tr("%1 (%2 themes)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toInt()),
-            query.value(0).toInt()
+                .arg(g.name)
+                .arg(g.count),
+            g.id
         );
     }
 }
@@ -198,78 +175,37 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete graph \"%1\"?").arg(graphId)) // TODO: graphId -> graphName
+                tr("Delete graph \"%1\"?").arg(graph::name(graphId)))
                     == QMessageBox::Yes) {
 
-            QSqlQuery query;
-            PREPARE(query, " \
-                DELETE \
-                FROM graphs \
-                WHERE id = ? \
-            ")
-            query.addBindValue(graphId);
-            EXEC(query)
-            query.finish();
-
-            PREPARE(query, " \
-                DELETE \
-                FROM graphNodes \
-                WHERE graphId = ? \
-            ")
-            query.addBindValue(graphId);
-            EXEC(query)
+            graph::del(graphId);
 
             emit graphsUpdated();
         }
     });
 
     menu.addAction(tr("Rename"), [=]() {
-        PREPARE_NEW(query, " \
-            SELECT name \
-            FROM graphs \
-            WHERE id = ? \
-        ");
-        query.addBindValue(graphId);
-        EXEC(query)
-        query.next();
-        auto oldName = query.value(0).toString();
-        query.finish();
+        auto oldName = graph::name(graphId);
 
         bool ok;
         auto name = QInputDialog::getText(this, tr("Rename graph"),
             tr("Graph name:"), QLineEdit::Normal, oldName, &ok).trimmed();
 
         if (ok) {
-            PREPARE_NEW(query, " \
-                UPDATE graphs \
-                SET name = NULLIF(?, '') \
-                WHERE id = ? \
-            ")
-            query.addBindValue(name);
-            query.addBindValue(graphId);
-
-            if (!query.exec()) {
-                switch(ERR_CODE(query)) {
-                    case SQLITE_CONSTRAINT_UNIQUE:
-                        QMessageBox::critical(
-                            this,
-                            tr("Error"),
-                            tr("Name is not unique.")
-                        );
-                        return;
-
-                    case SQLITE_CONSTRAINT_NOTNULL:
-                        QMessageBox::critical(
-                            this,
-                            tr("Error"),
-                            tr("Name should not be empty.")
-                        );
-                        return;
-
-                    default:
-                        LOG_FAILED_QUERY(query);
-                        return;
-                }
+            try {
+                Graph g;
+                g.id = graphId;
+                g.name = name;
+                graph::write(g);
+            } catch (const QString& msg) {
+                QMessageBox::critical(
+                    this,
+                    tr("Error"),
+                    msg
+                );
+                return;
+            } catch (...) {
+                return;
             }
 
             emit graphsUpdated();

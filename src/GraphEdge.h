@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphNode.h"
+#include "GraphNodeItem.h"
 
 #include <QGraphicsObject>
 #include <QRectF>
@@ -15,8 +15,8 @@ class GraphEdge : public QGraphicsObject {
 
         GraphEdge(
             int edgeId,
-            GraphNode* beginNode,
-            GraphNode* endNode,
+            GraphNodeItem* beginNode,
+            GraphNodeItem* endNode,
             QGraphicsItem* parent = nullptr
         );
 
@@ -41,8 +41,8 @@ class GraphEdge : public QGraphicsObject {
         const double arrowSize = 20;
         const double lineWidth = 6;
 
-        GraphNode* beginNode;
-        GraphNode* endNode;
+        GraphNodeItem* beginNode;
+        GraphNodeItem* endNode;
 
         QPointF begin;
         QPointF end;

@@ -1,7 +1,7 @@
 #include "GraphScene.h"
 
 #include "ComboboxIdDialog.h"
-#include "sqlDefines.h"
+#include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"
 
@@ -12,6 +12,9 @@
 #include <QRectF>
 #include <QMarginsF>
 #include <QGraphicsView>
+#include <qnamespace.h>
+
+using namespace db;
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -51,44 +54,21 @@ void GraphScene::open(int graphId) {
     clear();
     themeIdToNode.clear();
 
-    // Add Nodes
-    PREPARE_NEW(query, " \
-        SELECT themeId, id \
-        FROM graphNodes \
-        WHERE graphId = ? \
-    ")
-    query.addBindValue(graphId);
-    EXEC(query)
+    // Load Nodes
 
-    while (query.next()) {
-        auto themeId = query.value(0).toInt();
-        auto nodeId = query.value(1).toInt();
-        auto* node = new GraphNode(nodeId);
-        themeIdToNode[themeId] = node;
+    auto nodes = graphNode::reads(graphId);
+    for (const auto& n : nodes) {
+        auto* node = new GraphNodeItem(n.id);
+        themeIdToNode[n.themeId] = node;
         addItem(node);
     }
-    query.finish();
 
-    // Add Edges
-    PREPARE(query, " \
-        WITH themeIds AS ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = ? \
-        ) \
-        SELECT id, beginId, endId \
-        FROM themeEdges \
-        WHERE beginId IN themeIds \
-          AND endId IN themeIds \
-    ")
-    query.addBindValue(graphId);
-    EXEC(query)
-
-    while (query.next()) {
+    auto edges = themeEdge::reads(graphId, -1);
+    for (const auto& e : edges) {
         auto* edge = new GraphEdge(
-            query.value(0).toInt(),
-            themeIdToNode[query.value(1).toInt()],
-            themeIdToNode[query.value(2).toInt()]
+            e.id,
+            themeIdToNode[e.beginId],
+            themeIdToNode[e.endId]
         );
         addItem(edge);
     }
@@ -109,7 +89,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
 
         case EDGE_EDIT_MODE:
-            pressedNode = typedItemAt<GraphNode*>(pos);
+            pressedNode = typedItemAt<GraphNodeItem*>(pos);
             edgePreviewLine = new QGraphicsLineItem(QLineF(pos, pos));
             addItem(edgePreviewLine);
             break;
@@ -119,9 +99,9 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             break;
 
         case DELETE_EDIT_MODE:
-            GraphNode* node;
+            GraphNodeItem* node;
             GraphEdge* edge;
-            if (node = typedItemAt<GraphNode*>(pos)) {
+            if (node = typedItemAt<GraphNodeItem*>(pos)) {
                 deleteNode(node);
             } else if (edge = typedItemAt<GraphEdge*>(pos)) {
                 deleteEdge(edge);
@@ -148,7 +128,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
             delete edgePreviewLine;
             edgePreviewLine = nullptr;
 
-            auto* releasedNode = typedItemAt<GraphNode*>(e->scenePos());
+            auto* releasedNode = typedItemAt<GraphNodeItem*>(e->scenePos());
 
             if (!releasedNode || !pressedNode) {
                 return;
@@ -167,33 +147,21 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
-    R_PREPARE_NEW(query, " \
-        SELECT id, name, ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ) \
-        FROM themes \
-        WHERE id NOT IN ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = ? \
-        ) \
-        ORDER BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
-    ", -1)
-    query.addBindValue(graphId);
-    R_EXEC(query, -1)
+    auto themes = theme::reads(
+        "",
+        -1,
+        Qt::PartiallyChecked,
+        Qt::PartiallyChecked,
+        false,
+        graphId
+    ); // Select all themes except ones on graph
 
-    while (query.next()) {
+    for (const auto t : themes) {
         d.addItem(
             QString("%1 (%2)")
-                .arg(query.value(1).toString())
-                .arg(query.value(2).toString()),
-            query.value(0).toInt()
+                .arg(t.name)
+                .arg(t.package.name),
+            t.id
         );
     }
 
@@ -217,50 +185,24 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
 }
 
 void GraphScene::newNode(int themeId, const QPointF& pos) {
-    PREPARE_NEW(query, " \
-        INSERT \
-        INTO graphNodes(graphId, themeId, x, y) \
-        VALUES (?, ?, ?, ?) \
-    ")
-    query.addBindValue(graphId);
-    query.addBindValue(themeId);
-    query.addBindValue(pos.x());
-    query.addBindValue(pos.y());
-    EXEC(query)
+    GraphNode n;
+    n.graphId = graphId;
+    n.themeId = themeId;
+    n.x = pos.x();
+    n.y = pos.y();
+    auto nodeId = graphNode::create(n);
 
-    auto* node = new GraphNode(query.lastInsertId().toInt());
+    auto* node = new GraphNodeItem(nodeId);
     addItem(node);
     themeIdToNode[themeId] = node;
 
-    query.finish();
-
     // Add edges
-    PREPARE(query, " \
-        WITH \
-        themeIds AS ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = :graphId \
-        ) \
-        SELECT id, beginId, endId \
-        FROM themeEdges \
-        WHERE ( \
-                beginId = :themeId \
-            AND endId in themeIds \
-        ) OR ( \
-                endId = :themeId \
-            AND beginId in themeIds \
-        ) \
-    ")
-    query.bindValue(":graphId", graphId);
-    query.bindValue(":themeId", themeId);
-    EXEC(query)
-
-    while (query.next()) {
+    auto edges = themeEdge::reads(graphId, themeId);
+    for (const auto& e : edges) {
         auto* edge = new GraphEdge(
-            query.value(0).toInt(),
-            themeIdToNode[query.value(1).toInt()],
-            themeIdToNode[query.value(2).toInt()]
+            e.id,
+            themeIdToNode[e.beginId],
+            themeIdToNode[e.endId]
         );
         addItem(edge);
     }
@@ -268,7 +210,7 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     emit graphsUpdated();
 }
 
-void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
+void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     if (beginNode->isDeleted() || endNode->isDeleted()) {
         QMessageBox::critical(
             (QWidget*)views()[0],
@@ -278,76 +220,35 @@ void GraphScene::newEdge(GraphNode* beginNode, GraphNode* endNode) {
         return;
     }
 
-    PREPARE_NEW(query, " \
-        INSERT \
-        INTO themeEdges(beginId, endId) \
-        VALUES (( \
-                SELECT themeId \
-                FROM graphNodes \
-                WHERE id = ? \
-            ),( \
-                SELECT themeId \
-                FROM graphNodes \
-                WHERE id = ? \
-        ))")
-    query.addBindValue(beginNode->getId());
-    query.addBindValue(endNode->getId());
+    try {
+        int edgeId = themeEdge::create(beginNode->getId(), endNode->getId());
 
-    if (!query.exec()) {
-        switch(ERR_CODE(query)) {
-            case SQLITE_CONSTRAINT_UNIQUE:
-                QMessageBox::critical(
-                    (QWidget*)views()[0],
-                    tr("Error"),
-                    tr("This edge already exists.")
-                );
-                return;
-
-            case SQLITE_CONSTRAINT_CHECK:
-                QMessageBox::critical(
-                    (QWidget*)views()[0],
-                    tr("Error"),
-                    tr("The begining and ending of the edge should be different nodes.")
-                );
-                return;
-
-            default:
-                LOG_FAILED_QUERY(query)
-                return;
-        }
+        auto* edge = new GraphEdge(
+            edgeId,
+            beginNode,
+            endNode
+        );
+        addItem(edge);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            (QWidget*)views()[0],
+            tr("Error"),
+            msg
+        );
+    } catch (...) {
+        return;
     }
-
-    auto* edge = new GraphEdge(
-        query.lastInsertId().toInt(),
-        beginNode,
-        endNode
-    );
-    addItem(edge);
 }
 
-void GraphScene::deleteNode(GraphNode* node) {
-    PREPARE_NEW(query, " \
-        DELETE \
-        FROM graphNodes \
-        WHERE id = ? \
-    ");
-    query.addBindValue(node->getId());
-    EXEC(query)
-
+void GraphScene::deleteNode(GraphNodeItem* node) {
+    graphNode::del(node->getId());
     removeItem(node);
     emit node->deleteEdges();
     node->deleteLater();
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {
-    PREPARE_NEW(query, " \
-        DELETE \
-        FROM themeEdges \
-        WHERE id = ? \
-    ");
-    query.addBindValue(edge->getId());
-    EXEC(query)
-
+    themeEdge::del(edge->getId());
     removeItem(edge);
     edge->deleteLater();
 }

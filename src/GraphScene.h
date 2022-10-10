@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GraphEditMode.h"
-#include "GraphNode.h"
+#include "GraphNodeItem.h"
 #include "GraphEdge.h"
 
 #include <QGraphicsScene>
@@ -25,19 +25,19 @@ class GraphScene : public QGraphicsScene {
         int getThemeIdToAdd(const QPointF& pos) const;
 
         void newNode(int themeId, const QPointF& pos);
-        void newEdge(GraphNode* beginNode, GraphNode* endNode);
+        void newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode);
 
-        void deleteNode(GraphNode*);
+        void deleteNode(GraphNodeItem*);
         void deleteEdge(GraphEdge*);
 
         int graphId;
 
         GraphEditMode mode = CURSOR_EDIT_MODE;
 
-        GraphNode* pressedNode = nullptr;
+        GraphNodeItem* pressedNode = nullptr;
         QGraphicsLineItem* edgePreviewLine = nullptr;
 
-        QHash<int, GraphNode*> themeIdToNode;
+        QHash<int, GraphNodeItem*> themeIdToNode;
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*) override;

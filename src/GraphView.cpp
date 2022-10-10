@@ -1,6 +1,6 @@
 #include "GraphView.h"
 
-#include "GraphNode.h"
+#include "GraphNodeItem.h"
 #include "GraphEdge.h"
 #include "GraphScene.h"
 
@@ -42,7 +42,7 @@ void GraphView::updateCursor(QMouseEvent* e) {
 
     auto* itemObject = SCENE->itemAt(mapToScene(e->pos()), QTransform());
     bool item = itemObject;
-    bool node = qgraphicsitem_cast<GraphNode*>(itemObject);
+    bool node = qgraphicsitem_cast<GraphNodeItem*>(itemObject);
     bool edge = qgraphicsitem_cast<GraphEdge*>(itemObject);
 
     if (middle) {

@@ -1,5 +1,5 @@
 #include "sqlDefines.h"
-#include "dbLogics.h"
+#include "db.h"
 
 #include <QFileInfo>
 #include <QSqlError>
@@ -8,7 +8,7 @@
 #include <QStandardPaths>
 #include <QDir>
 
-void createTables() {
+bool createTables() {
     QSqlQuery query;
 
     // Packages
@@ -16,7 +16,8 @@ void createTables() {
         CREATE TABLE packages( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name VARCHAR(255) NOT NULL UNIQUE \
-        )")
+        ) \
+    ")
     EXEC(query)
     query.finish();
 
@@ -30,7 +31,8 @@ void createTables() {
             inWishlist INT CHECK(inWishlist in (0, 1)), \
             isLearned INT CHECK(isLearned in (0, 1)), \
             UNIQUE (packageId, name) \
-        )")
+        ) \
+    ")
     EXEC(query)
     query.finish();
 
@@ -42,7 +44,8 @@ void createTables() {
             endId INT NOT NULL REFERENCES themes(id), \
             UNIQUE (beginId, endId), \
             CHECK (beginId != endId) \
-        )")
+        ) \
+    ")
     EXEC(query)
     query.finish();
 
@@ -50,10 +53,9 @@ void createTables() {
     PREPARE(query, " \
         CREATE TABLE graphs( \
             id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            name VARCHAR(255) NOT NULL UNIQUE, \
-            xoffset INTEGER NOT NULL, \
-            yoffset INTEGER NOT NULL \
-        )")
+            name VARCHAR(255) NOT NULL UNIQUE \
+        ) \
+    ")
     EXEC(query)
     query.finish();
 
@@ -66,9 +68,12 @@ void createTables() {
             x INTEGER NOT NULL, \
             y INTEGER NOT NULL, \
             UNIQUE (graphId, themeId) \
-        )")
+        ) \
+    ")
     EXEC(query)
     query.finish();
+
+    return true;
 }
 
 QString getDbFilename() {
@@ -81,7 +86,7 @@ QString getDbFilename() {
     }
 }
 
-bool initDb() {
+bool db::init() {
     auto dbFilename = getDbFilename();
     if (dbFilename.isEmpty()) {
         qDebug() << "Couldn't get database file path";
@@ -99,7 +104,7 @@ bool initDb() {
     }
 
     if (firstRun) {
-        createTables();
+        return createTables();
     }
 
     return true;
