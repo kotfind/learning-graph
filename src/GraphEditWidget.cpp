@@ -101,11 +101,6 @@ void GraphEditWidget::uiHeader() {
     auto* settingsBar = addToolBar("Settings Bar");
     settingsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    auto* learnedCheckbox = new QCheckBox(tr("Show Learned"));
-    settingsBar->addWidget(learnedCheckbox);
-
-    settingsBar->addSeparator();
-
     settingsBar->addWidget(new QLabel(tr("Scale: ")));
 
     scaleSpinBox = new ScaleSpinBox;
