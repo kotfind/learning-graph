@@ -40,6 +40,13 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &QDoubleSpinBox::setValue
     );
 
+    connect(
+        exportButton,
+        &QPushButton::pressed,
+        this,
+        &GraphEditWidget::exportGraph
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
 
     // Load from settings
@@ -105,6 +112,13 @@ void GraphEditWidget::uiHeader() {
 
     scaleSpinBox = new ScaleSpinBox;
     settingsBar->addWidget(scaleSpinBox);
+
+    // Export Bar
+    auto* exportBar = addToolBar("Export Bar");
+    exportBar->setContextMenuPolicy(Qt::PreventContextMenu);
+
+    exportButton = new QPushButton("Export");
+    exportBar->addWidget(exportButton);
 }
 
 void GraphEditWidget::uiBody() {
@@ -164,4 +178,8 @@ void GraphEditWidget::mousePressEvent(QMouseEvent* e) {
 void GraphEditWidget::mouseReleaseEvent(QMouseEvent* e) {
     updateStatus(e);
     QMainWindow::mouseReleaseEvent(e);
+}
+
+void GraphEditWidget::exportGraph() {
+    qDebug() << "Export Requested";
 }

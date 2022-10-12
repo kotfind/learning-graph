@@ -9,6 +9,7 @@
 #include <QString>
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
 
 class GraphEditWidget : public QMainWindow {
     Q_OBJECT
@@ -38,7 +39,11 @@ class GraphEditWidget : public QMainWindow {
         GraphView* graphView;
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
+        QPushButton* exportButton;
 
     public slots:
         void open(int graphId);
+
+    private slots:
+        void exportGraph();
 };
