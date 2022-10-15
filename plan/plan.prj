@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 77
+  revision 78
   modified_by 2 "kotfind"
 
 
@@ -97,24 +97,6 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
-    end
-
-    class 174722 "QListWidget"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      classrelation 155906 // <generalisation>
-	relation 155906 ---|>
-	  a public
-	    classrelation_ref 155906 // <generalisation>
-	  b parent class_ref 167938 // QWiget
-      end
     end
 
     class 187906 "QMenu"
@@ -252,7 +234,7 @@ ${items}};
       end
     end
 
-    class 181250 "GraphEditTab"
+    class 181250 "GraphEditWidget"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -315,6 +297,15 @@ ${items}};
 	
 	
       end
+
+      classrelation 244354 // <composition>
+	relation 241026 *---
+	  a role_name "" public
+	    classrelation_ref 244354 // <composition>
+	  b role_name "" public
+	    classrelation_ref 244482 // <composition>
+      end
+
     end
 
     class 181378 "LearningListTab"
@@ -343,14 +334,6 @@ ${items}};
 	  a public
 	    classrelation_ref 169730 // <generalisation>
 	  b parent class_ref 167938 // QWiget
-      end
-
-      classrelation 199682 // <composition>
-	relation 198658 *---
-	  a role_name "" public
-	    classrelation_ref 199682 // <composition>
-	  b role_name "" public
-	    classrelation_ref 199810 // <composition>
       end
 
       classrelation 227330 // <composition>
@@ -387,14 +370,6 @@ ${items}};
 	    classrelation_ref 213762 // <composition>
       end
 
-      classrelation 220546 // <composition>
-	relation 219010 *---
-	  a role_name "" public
-	    classrelation_ref 220546 // <composition>
-	  b role_name "" public
-	    classrelation_ref 220674 // <composition>
-      end
-
       operation 304514 "packagesUpdated"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -405,73 +380,15 @@ ${items}};
 	
 	
       end
-    end
 
-    class 227586 "PackageListWidget"
-      visibility protected 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      operation 284034 "showContextMenu"
-	stereotype "slot"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "pos" type class_ref 194562 // QPoint
-	
-	
-	
-	
-	
+      classrelation 243586 // <composition>
+	relation 240642 *---
+	  a role_name "" public
+	    classrelation_ref 243586 // <composition>
+	  b role_name "" public
+	    classrelation_ref 243714 // <composition>
       end
 
-      classrelation 220418 // <generalisation>
-	relation 218882 ---|>
-	  a public
-	    classrelation_ref 220418 // <generalisation>
-	  b parent class_ref 174722 // QListWidget
-      end
-
-      classrelation 220674 // <composition>
-	relation_ref 219010 // <composition>
-      end
-
-      operation 290562 "update"
-	stereotype "slot"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
-      operation 304642 "packagesUpdated"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
-      operation 317954 "themesUpdated"
-	stereotype "signal"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
     end
 
     class 161154 "ThemeTab"
@@ -495,14 +412,6 @@ ${items}};
 	relation_ref 198146 // <composition>
       end
 
-      classrelation 199426 // <composition>
-	relation 198530 *---
-	  a role_name "" public
-	    classrelation_ref 199426 // <composition>
-	  b role_name "" public
-	    classrelation_ref 199554 // <composition>
-      end
-
       classrelation 227714 // <composition>
 	relation 225794 *---
 	  a role_name "" public
@@ -521,9 +430,16 @@ ${items}};
 	
 	
       end
+
+      classrelation 246786 // (opens)
+	relation 242434 ---> name "opens"
+	  a role_name "" public
+	    classrelation_ref 246786 // (opens)
+	  b parent class_ref 188034 // ThemeContextMenu
+      end
     end
 
-    class 161282 "ThemeInfoWindow"
+    class 161282 "ThemeInfoDialog"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -569,51 +485,17 @@ ${items}};
 	
 	
       end
-    end
 
-    class 174594 "ThemeListWidget"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      operation 184066 "showContextMenu"
-	stereotype "slot"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "pos" type class_ref 194562 // QPoint
-	
-	
-	
-	
-	
+      classrelation 243202 // <composition>
+	relation_ref 240386 // <composition>
       end
 
-      classrelation 156034 // <generalisation>
-	relation 156034 ---|>
-	  a public
-	    classrelation_ref 156034 // <generalisation>
-	  b parent class_ref 174722 // QListWidget
-      end
-
-      classrelation 199170 // <composition>
-	relation 198402 *---
+      classrelation 243330 // <composition>
+	relation 240514 *---
 	  a role_name "" public
-	    classrelation_ref 199170 // <composition>
+	    classrelation_ref 243330 // <composition>
 	  b role_name "" public
-	    classrelation_ref 199298 // <composition>
-      end
-
-      classrelation 199554 // <composition>
-	relation_ref 198530 // <composition>
-      end
-
-      classrelation 199810 // <composition>
-	relation_ref 198658 // <composition>
+	    classrelation_ref 243458 // <composition>
       end
     end
 
@@ -645,11 +527,7 @@ ${items}};
 	relation 197890 ---> name "opens"
 	  a role_name "" public
 	    classrelation_ref 198274 // (opens)
-	  b parent class_ref 161282 // ThemeInfoWindow
-      end
-
-      classrelation 199298 // <composition>
-	relation_ref 198402 // <composition>
+	  b parent class_ref 161282 // ThemeInfoDialog
       end
 
       operation 304770 "themesUpdated"
@@ -816,7 +694,7 @@ ${items}};
       end
     end
 
-    class 240642 "GraphNodeWidget"
+    class 240642 "GraphNodeItem"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -856,12 +734,53 @@ ${items}};
 	    classrelation_ref 234498 // <composition>
       end
 
-      classrelation 235010 // <composition>
-	relation_ref 232578 // <composition>
+      classrelation 244994 // <composition>
+	relation_ref 241282 // <composition>
       end
+
+      classrelation 246274 // <generalisation>
+	relation 242050 ---|>
+	  a public
+	    classrelation_ref 246274 // <generalisation>
+	  b parent class_ref 248962 // QGraphicsItem
+      end
+
+      attribute 210818 "deleted"
+	private explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 332418 "positionChanged"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 332546 "deleteEdges"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
     end
 
-    class 240770 "GraphCanvasWidget"
+    class 240770 "GraphView"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -902,25 +821,6 @@ ${items}};
 	
       end
 
-      classrelation 234882 // <composition>
-	relation 232578 *---
-	  a role_name "" multiplicity "*" public
-	    classrelation_ref 234882 // <composition>
-	  b role_name "" multiplicity "1" public
-	    classrelation_ref 235010 // <composition>
-      end
-
-      attribute 204034 "graphId"
-	private explicit_type "int"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
       operation 325378 "open"
 	stereotype "slot"
 	public explicit_return_type ""
@@ -931,6 +831,13 @@ ${items}};
 	
 	
 	
+      end
+
+      classrelation 242818 // <generalisation>
+	relation 240130 ---|>
+	  a public
+	    classrelation_ref 242818 // <generalisation>
+	  b parent class_ref 248706 // QGraphicsView
       end
     end
 
@@ -1015,14 +922,6 @@ ${items}};
 	
       end
 
-      classrelation 235522 // <composition>
-	relation 232962 *---
-	  a role_name "" public
-	    classrelation_ref 235522 // <composition>
-	  b role_name "" public
-	    classrelation_ref 235650 // <composition>
-      end
-
       operation 325634 "open"
 	stereotype "signal"
 	public explicit_return_type ""
@@ -1034,9 +933,18 @@ ${items}};
 	
 	
       end
+
+      classrelation 243842 // <composition>
+	relation 240770 *---
+	  a role_name "" public
+	    classrelation_ref 243842 // <composition>
+	  b role_name "" public
+	    classrelation_ref 243970 // <composition>
+      end
+
     end
 
-    class 241154 "GraphListWidget"
+    class 247682 "ComboboxIdDialog"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -1046,18 +954,73 @@ ${items}};
       explicit_switch_type ""
       mysql_decl ""
       
-      classrelation 235394 // <generalisation>
-	relation 232834 ---|>
+      classrelation 242178 // <generalisation>
+	relation 239490 ---|>
 	  a public
-	    classrelation_ref 235394 // <generalisation>
-	  b parent class_ref 174722 // QListWidget
+	    classrelation_ref 242178 // <generalisation>
+	  b parent class_ref 248578 // QDialog
       end
 
-      classrelation 235650 // <composition>
-	relation_ref 232962 // <composition>
+      classrelation 244226 // <composition>
+	relation_ref 240898 // <composition>
+      end
+    end
+
+    class 247938 "GraphEdge"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 245250 // <composition>
+	relation_ref 241410 // <composition>
       end
 
-      operation 325122 "update"
+      classrelation 246658 // <generalisation>
+	relation 242306 ---|>
+	  a public
+	    classrelation_ref 246658 // <generalisation>
+	  b parent class_ref 248962 // QGraphicsItem
+      end
+
+      attribute 210946 "beginNode"
+	private type class_ref 240642 // GraphNodeItem
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 211074 "endNode"
+	private type class_ref 240642 // GraphNodeItem
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 211202 "edgeId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 332802 "deleteSelf"
 	stereotype "slot"
 	public explicit_return_type ""
 	nparams 0
@@ -1068,17 +1031,221 @@ ${items}};
 	
       end
 
-      operation 325506 "open"
-	stereotype "signal"
+      operation 332930 "updatePosition"
+	stereotype "slot"
 	public explicit_return_type ""
-	nparams 1
-	  param in name "graphId" explicit_type "int"
+	nparams 0
 	
 	
 	
 	
 	
       end
+    end
+
+    class 248066 "GraphScene"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 244098 // <composition>
+	relation 240898 *---
+	  a role_name "" public
+	    classrelation_ref 244098 // <composition>
+	  b role_name "" public
+	    classrelation_ref 244226 // <composition>
+      end
+
+      classrelation 244482 // <composition>
+	relation_ref 241026 // <composition>
+      end
+
+      classrelation 244866 // <composition>
+	relation 241282 *---
+	  a role_name "" multiplicity "*" public
+	    classrelation_ref 244866 // <composition>
+	  b role_name "" multiplicity "1" public
+	    classrelation_ref 244994 // <composition>
+      end
+
+      classrelation 245122 // <composition>
+	relation 241410 *---
+	  a role_name "" multiplicity "*" public
+	    classrelation_ref 245122 // <composition>
+	  b role_name "" multiplicity "1" public
+	    classrelation_ref 245250 // <composition>
+      end
+
+      classrelation 246146 // <generalisation>
+	relation 241922 ---|>
+	  a public
+	    classrelation_ref 246146 // <generalisation>
+	  b parent class_ref 249090 // QGraphicsScene
+      end
+
+      attribute 211458 "graphId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 248194 "PackageInfoDialog"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 242306 // <generalisation>
+	relation 239618 ---|>
+	  a public
+	    classrelation_ref 242306 // <generalisation>
+	  b parent class_ref 248578 // QDialog
+      end
+
+      classrelation 243074 // <composition>
+	relation 240386 *---
+	  a role_name "" public
+	    classrelation_ref 243074 // <composition>
+	  b role_name "" public
+	    classrelation_ref 243202 // <composition>
+      end
+
+      classrelation 243458 // <composition>
+	relation_ref 240514 // <composition>
+      end
+
+      classrelation 243714 // <composition>
+	relation_ref 240642 // <composition>
+      end
+
+      operation 332290 "packagesUpdated"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      attribute 210690 "packageId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 248322 "GraphInfoDialog"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 242434 // <generalisation>
+	relation 239746 ---|>
+	  a public
+	    classrelation_ref 242434 // <generalisation>
+	  b parent class_ref 248578 // QDialog
+      end
+
+      classrelation 243970 // <composition>
+	relation_ref 240770 // <composition>
+      end
+
+      operation 332162 "graphUpdated"
+	stereotype "signal"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      attribute 210562 "graphId"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 248578 "QDialog"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 248706 "QGraphicsView"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 248962 "QGraphicsItem"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 249090 "QGraphicsScene"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
     end
   end
 end
