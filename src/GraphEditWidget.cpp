@@ -14,6 +14,8 @@
 #include <QIcon>
 #include <QSettings>
 #include <QStatusBar>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 using namespace db;
 
@@ -180,6 +182,40 @@ void GraphEditWidget::mouseReleaseEvent(QMouseEvent* e) {
     QMainWindow::mouseReleaseEvent(e);
 }
 
+void appendExtentionIfNot(QString& filename, const QString& extention) {
+    if (!filename.endsWith(extention)) {
+        filename += extention;
+    }
+}
+
 void GraphEditWidget::exportGraph() {
-    qDebug() << "Export Requested";
+    const QString jpgFilter = tr("JPG image (*.jpg)");
+    const QString pngFilter = tr("PNG image (*.png)");
+    const QString svgFilter = tr("SVG image (*.svg)");
+    const QString graphFilter = tr("Learning Graph graph (*.graph)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        jpgFilter + ";;" + pngFilter + ";;" + svgFilter + ";;" + graphFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    if (selectedFilter == jpgFilter) {
+        appendExtentionIfNot(filename, ".jpg");
+    } else if (selectedFilter == pngFilter) {
+        appendExtentionIfNot(filename, ".png");
+    } else if (selectedFilter == svgFilter) {
+        appendExtentionIfNot(filename, ".svg");
+    } else {
+        appendExtentionIfNot(filename, ".graph");
+    }
+
+    qDebug() << filename;
 }
