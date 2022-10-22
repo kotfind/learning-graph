@@ -211,6 +211,7 @@ void GraphEditWidget::exportGraph() {
 
     if (selectedFilter == jpgFilter) {
         appendExtentionIfNot(filename, ".jpg");
+        exportAsJpg(filename);
     } else if (selectedFilter == pngFilter) {
         appendExtentionIfNot(filename, ".png");
         exportAsPng(filename);
@@ -244,6 +245,20 @@ void GraphEditWidget::exportAsPng(const QString& filename) {
 
     QImage img(rect.size().toSize(), QImage::Format_ARGB32);
     img.fill(Qt::transparent);
+
+    QPainter painter(&img);
+    graphScene->render(&painter, QRectF(), rect);
+
+    img.save(filename);
+}
+
+void GraphEditWidget::exportAsJpg(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+
+    QImage img(rect.size().toSize(), QImage::Format_RGB32);
+    img.fill(Qt::white);
 
     QPainter painter(&img);
     graphScene->render(&painter, QRectF(), rect);
