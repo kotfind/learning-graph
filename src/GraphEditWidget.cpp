@@ -16,6 +16,8 @@
 #include <QStatusBar>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QSvgGenerator>
+#include <QPainter>
 
 using namespace db;
 
@@ -213,9 +215,23 @@ void GraphEditWidget::exportGraph() {
         appendExtentionIfNot(filename, ".png");
     } else if (selectedFilter == svgFilter) {
         appendExtentionIfNot(filename, ".svg");
+        exportAsSvg(filename);
     } else {
         appendExtentionIfNot(filename, ".graph");
     }
+}
 
-    qDebug() << filename;
+void GraphEditWidget::exportAsSvg(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+
+    QSvgGenerator svgGen;
+    svgGen.setFileName(filename);
+    svgGen.setSize(rect.size().toSize());
+    svgGen.setViewBox(rect);
+    svgGen.setTitle(graph::name(graphId));
+
+    QPainter painter(&svgGen);
+    graphScene->render(&painter, rect, rect);
 }

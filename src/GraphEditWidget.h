@@ -31,6 +31,11 @@ class GraphEditWidget : public QMainWindow {
 
         void updateStatus(QMouseEvent*);
 
+        void exportAsJpg(const QString& filename);
+        void exportAsPng(const QString& filename);
+        void exportAsSvg(const QString& filename);
+        void exportAsGraph(const QString& filename);
+
         int graphId;
 
         GraphScene* graphScene;
