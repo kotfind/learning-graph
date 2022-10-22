@@ -14,6 +14,10 @@
 #include <QIcon>
 #include <QSettings>
 #include <QStatusBar>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QSvgGenerator>
+#include <QPainter>
 
 using namespace db;
 
@@ -38,6 +42,13 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphView::scaleChanged,
         scaleSpinBox,
         &QDoubleSpinBox::setValue
+    );
+
+    connect(
+        exportButton,
+        &QPushButton::pressed,
+        this,
+        &GraphEditWidget::exportGraph
     );
 
     graphScene->setMode(CURSOR_EDIT_MODE);
@@ -105,6 +116,13 @@ void GraphEditWidget::uiHeader() {
 
     scaleSpinBox = new ScaleSpinBox;
     settingsBar->addWidget(scaleSpinBox);
+
+    // Export Bar
+    auto* exportBar = addToolBar("Export Bar");
+    exportBar->setContextMenuPolicy(Qt::PreventContextMenu);
+
+    exportButton = new QPushButton("Export");
+    exportBar->addWidget(exportButton);
 }
 
 void GraphEditWidget::uiBody() {
@@ -164,4 +182,86 @@ void GraphEditWidget::mousePressEvent(QMouseEvent* e) {
 void GraphEditWidget::mouseReleaseEvent(QMouseEvent* e) {
     updateStatus(e);
     QMainWindow::mouseReleaseEvent(e);
+}
+
+void appendExtentionIfNot(QString& filename, const QString& extention) {
+    if (!filename.endsWith(extention)) {
+        filename += extention;
+    }
+}
+
+void GraphEditWidget::exportGraph() {
+    const QString jpgFilter = tr("JPG image (*.jpg)");
+    const QString pngFilter = tr("PNG image (*.png)");
+    const QString svgFilter = tr("SVG image (*.svg)");
+    const QString graphFilter = tr("Learning Graph graph (*.graph)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        jpgFilter + ";;" + pngFilter + ";;" + svgFilter + ";;" + graphFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    if (selectedFilter == jpgFilter) {
+        appendExtentionIfNot(filename, ".jpg");
+        exportAsJpg(filename);
+    } else if (selectedFilter == pngFilter) {
+        appendExtentionIfNot(filename, ".png");
+        exportAsPng(filename);
+    } else if (selectedFilter == svgFilter) {
+        appendExtentionIfNot(filename, ".svg");
+        exportAsSvg(filename);
+    } else {
+        appendExtentionIfNot(filename, ".graph");
+    }
+}
+
+void GraphEditWidget::exportAsSvg(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
+
+    QSvgGenerator svgGen;
+    svgGen.setFileName(filename);
+    svgGen.setSize(rect.size().toSize());
+    svgGen.setViewBox(rect);
+    svgGen.setTitle(graph::name(graphId));
+
+    QPainter painter(&svgGen);
+    graphScene->render(&painter, rect, rect);
+}
+
+void GraphEditWidget::exportAsPng(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
+
+    QImage img(rect.size().toSize(), QImage::Format_ARGB32);
+    img.fill(Qt::transparent);
+
+    QPainter painter(&img);
+    graphScene->render(&painter, QRectF(), rect);
+
+    img.save(filename);
+}
+
+void GraphEditWidget::exportAsJpg(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
+
+    QImage img(rect.size().toSize(), QImage::Format_RGB32);
+    img.fill(Qt::white);
+
+    QPainter painter(&img);
+    graphScene->render(&painter, QRectF(), rect);
+
+    img.save(filename);
 }

@@ -9,6 +9,8 @@
 #include <QString>
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
+#include <QMargins>
 
 class GraphEditWidget : public QMainWindow {
     Q_OBJECT
@@ -30,6 +32,11 @@ class GraphEditWidget : public QMainWindow {
 
         void updateStatus(QMouseEvent*);
 
+        void exportAsJpg(const QString& filename);
+        void exportAsPng(const QString& filename);
+        void exportAsSvg(const QString& filename);
+        void exportAsGraph(const QString& filename);
+
         int graphId;
 
         GraphScene* graphScene;
@@ -38,7 +45,13 @@ class GraphEditWidget : public QMainWindow {
         GraphView* graphView;
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
+        QPushButton* exportButton;
+
+        const QMargins exportMargins = {10, 10, 10, 10};
 
     public slots:
         void open(int graphId);
+
+    private slots:
+        void exportGraph();
 };
