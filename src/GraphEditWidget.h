@@ -10,6 +10,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
+#include <QMargins>
 
 class GraphEditWidget : public QMainWindow {
     Q_OBJECT
@@ -45,6 +46,8 @@ class GraphEditWidget : public QMainWindow {
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
         QPushButton* exportButton;
+
+        const QMargins exportMargins = {10, 10, 10, 10};
 
     public slots:
         void open(int graphId);

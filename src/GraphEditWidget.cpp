@@ -226,7 +226,7 @@ void GraphEditWidget::exportGraph() {
 void GraphEditWidget::exportAsSvg(const QString& filename) {
     graphScene->clearSelection();
 
-    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
 
     QSvgGenerator svgGen;
     svgGen.setFileName(filename);
@@ -241,7 +241,7 @@ void GraphEditWidget::exportAsSvg(const QString& filename) {
 void GraphEditWidget::exportAsPng(const QString& filename) {
     graphScene->clearSelection();
 
-    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
 
     QImage img(rect.size().toSize(), QImage::Format_ARGB32);
     img.fill(Qt::transparent);
@@ -255,7 +255,7 @@ void GraphEditWidget::exportAsPng(const QString& filename) {
 void GraphEditWidget::exportAsJpg(const QString& filename) {
     graphScene->clearSelection();
 
-    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
 
     QImage img(rect.size().toSize(), QImage::Format_RGB32);
     img.fill(Qt::white);
