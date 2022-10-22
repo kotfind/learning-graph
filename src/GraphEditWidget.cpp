@@ -213,6 +213,7 @@ void GraphEditWidget::exportGraph() {
         appendExtentionIfNot(filename, ".jpg");
     } else if (selectedFilter == pngFilter) {
         appendExtentionIfNot(filename, ".png");
+        exportAsPng(filename);
     } else if (selectedFilter == svgFilter) {
         appendExtentionIfNot(filename, ".svg");
         exportAsSvg(filename);
@@ -234,4 +235,18 @@ void GraphEditWidget::exportAsSvg(const QString& filename) {
 
     QPainter painter(&svgGen);
     graphScene->render(&painter, rect, rect);
+}
+
+void GraphEditWidget::exportAsPng(const QString& filename) {
+    graphScene->clearSelection();
+
+    const auto rect = graphScene->itemsBoundingRect() + QMargins(10, 10, 10, 10);
+
+    QImage img(rect.size().toSize(), QImage::Format_ARGB32);
+    img.fill(Qt::transparent);
+
+    QPainter painter(&img);
+    graphScene->render(&painter, QRectF(), rect);
+
+    img.save(filename);
 }
