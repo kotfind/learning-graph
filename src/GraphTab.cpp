@@ -2,6 +2,7 @@
 
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
+#include "GraphInfoDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -121,29 +122,8 @@ void GraphTab::ui() {
 }
 
 void GraphTab::onCreateBtn() {
-    bool ok;
-    auto name = QInputDialog::getText(this, tr("New graph"),
-        tr("New graph name:"), QLineEdit::Normal, "", &ok).trimmed();
-    if (ok) {
-        // Add graph
-        try {
-            Graph g;
-            g.id = -1;
-            g.name = name;
-            graph::write(g);
-        } catch (const QString& msg) {
-            QMessageBox::critical(
-                this,
-                tr("Error"),
-                msg
-            );
-            return;
-        } catch (...) {
-            return;
-        }
-
-        emit graphsUpdated();
-    }
+    GraphInfoDialog d(-1, this);
+    d.exec();
 }
 
 void GraphTab::update() {
@@ -171,6 +151,14 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
         emit open(graphId);
     });
 
+    menu.addAction(tr("Rename"), [=]() {
+        GraphInfoDialog d(
+            graphId,
+            this
+        );
+        d.exec();
+    });
+
     menu.addAction(tr("Delete"), [=]() {
         if (QMessageBox::question(
                 this,
@@ -179,34 +167,6 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
                     == QMessageBox::Yes) {
 
             graph::del(graphId);
-
-            emit graphsUpdated();
-        }
-    });
-
-    menu.addAction(tr("Rename"), [=]() {
-        auto oldName = graph::name(graphId);
-
-        bool ok;
-        auto name = QInputDialog::getText(this, tr("Rename graph"),
-            tr("Graph name:"), QLineEdit::Normal, oldName, &ok).trimmed();
-
-        if (ok) {
-            try {
-                Graph g;
-                g.id = graphId;
-                g.name = name;
-                graph::write(g);
-            } catch (const QString& msg) {
-                QMessageBox::critical(
-                    this,
-                    tr("Error"),
-                    msg
-                );
-                return;
-            } catch (...) {
-                return;
-            }
 
             emit graphsUpdated();
         }

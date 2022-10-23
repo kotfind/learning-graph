@@ -45,6 +45,7 @@ add_executable(learning_graph
     GraphScene.cpp
     GraphEdge.cpp
     GraphView.cpp
+    GraphInfoDialog.cpp
 
     LearningListTab.cpp
 )
