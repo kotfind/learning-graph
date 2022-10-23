@@ -19,7 +19,7 @@ QString package::name(int id) {
     query.addBindValue(id);
     EXEC(query)
     if (!query.next()) {
-        return "";
+        throw 0;
     }
     return query.value(0).toString();
 }
@@ -35,7 +35,7 @@ int package::count(int id) {
     query.addBindValue(id);
     EXEC(query)
     if (!query.next()) {
-        return -1;
+        throw 0;
     }
     return query.value(0).toInt();
 }
@@ -142,7 +142,7 @@ Package package::read(int id) {
     query.addBindValue(id);
     EXEC(query)
     if (!query.next()) {
-        return Package();
+        throw 0;
     }
     Package p;
     p.id = id;

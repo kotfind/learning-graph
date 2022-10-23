@@ -11,7 +11,10 @@ using namespace db;
 
 PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
         : QDialog(parent), packageId(packageId) {
-    setWindowTitle(tr("Package \"%1\" Info").arg(package::name(packageId)));
+    setWindowTitle(packageId != -1
+        ? tr("Package \"%1\" Info").arg(package::name(packageId))
+        : tr("New Package")
+    );
 
     ui();
     load();
