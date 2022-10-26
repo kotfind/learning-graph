@@ -256,12 +256,16 @@ void GraphScene::deleteEdge(GraphEdge* edge) {
 void GraphScene::dragEnterEvent(QGraphicsSceneDragDropEvent* e) {
     if (e->mimeData()->hasFormat("application/x-themeid")) {
         e->acceptProposedAction();
+    } else {
+        e->ignore();
     }
 }
 
 void GraphScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e) {
     if (e->mimeData()->hasFormat("application/x-themeid")) {
         e->acceptProposedAction();
+    } else {
+        e->ignore();
     }
 }
 
