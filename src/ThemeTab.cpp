@@ -14,6 +14,7 @@
 #include <QMimeData>
 #include <QByteArray>
 #include <QDataStream>
+#include <qpushbutton.h>
 
 using namespace db;
 
@@ -70,6 +71,20 @@ ThemeTab::ThemeTab(QWidget* parent)
         &QCheckBox::stateChanged,
         this,
         &ThemeTab::selectionModeCheckChanged
+    );
+
+    connect(
+        selectAllButton,
+        &QPushButton::pressed,
+        this,
+        &ThemeTab::selectAllButtonPressed
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::itemSelectionChanged,
+        this,
+        &ThemeTab::selectionChanged
     );
 
     autoUpdateCheck->setChecked(true);
@@ -303,5 +318,21 @@ void ThemeTab::selectionModeCheckChanged(int state) {
     } else {
         themesList->setSelectionMode(false);
         selectAllButton->setDisabled(true);
+    }
+}
+
+void ThemeTab::selectAllButtonPressed() {
+    if (themesList->selectedItems().empty()) {
+        themesList->selectAll();
+    } else {
+        themesList->clearSelection();
+    }
+}
+
+void ThemeTab::selectionChanged() {
+    if (themesList->selectedItems().empty()) {
+        selectAllButton->setText(tr("Select All"));
+    } else {
+        selectAllButton->setText(tr("Clear"));
     }
 }

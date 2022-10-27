@@ -42,4 +42,6 @@ class ThemeTab : public QWidget {
         void themeMenuRequested(int themeId, const QPoint& globalPos);
         void themeDragRequested(int themeId);
         void selectionModeCheckChanged(int state);
+        void selectAllButtonPressed();
+        void selectionChanged();
 };
