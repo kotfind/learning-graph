@@ -2,10 +2,12 @@
 
 #include <QListWidgetItem>
 #include <QApplication>
+#include <QDebug>
 
 SmartListWidget::SmartListWidget(QWidget* parent) 
         : QListWidget(parent) {
     setContextMenuPolicy(Qt::DefaultContextMenu);
+    setSelectionMode(false);
 }
 
 void SmartListWidget::addItem(const QString& name, int id) {
@@ -14,7 +16,7 @@ void SmartListWidget::addItem(const QString& name, int id) {
     QListWidget::addItem(item);
 }
 
-int SmartListWidget::currentId() {
+int SmartListWidget::currentId() const {
     return currentItem()->data(Qt::UserRole).toInt();
 }
 
@@ -31,28 +33,42 @@ void SmartListWidget::contextMenuEvent(QContextMenuEvent* e) {
 }
 
 void SmartListWidget::mousePressEvent(QMouseEvent* e) {
-    if (e->buttons() & Qt::LeftButton) {
-        dragStartPoint = e->pos();
+    if (!selectionMode) {
+        if (e->buttons() & Qt::LeftButton) {
+            dragStartPoint = e->pos();
+        }
     }
 
     QListWidget::mousePressEvent(e);
 }
 
 void SmartListWidget::mouseMoveEvent(QMouseEvent* e) {
-    if (!(e->buttons() & Qt::LeftButton)) {
-        return;
+    if (!selectionMode) {
+        if ((e->buttons() & Qt::LeftButton) &&
+                (e->pos() - dragStartPoint).manhattanLength() >=
+                    QApplication::startDragDistance() &&
+                currentItem()
+                ) {
+            emit dragRequested(currentId());
+        }
     }
-
-    if ((e->pos() - dragStartPoint).manhattanLength() <
-                QApplication::startDragDistance()) {
-        return;
-    }
-
-    if (!currentItem()) {
-        return;
-    }
-
-    emit dragRequested(currentId());
 
     QListWidget::mouseMoveEvent(e);
+}
+
+void SmartListWidget::setSelectionMode(bool v) {
+    selectionMode = v;
+    QListWidget::setSelectionMode(selectionMode
+        ? QAbstractItemView::MultiSelection
+        : QAbstractItemView::NoSelection
+    );
+}
+
+QList<int> SmartListWidget::getSelectedIds() const {
+    QList<int> ans;
+    ans.reserve(selectedItems().size());
+    for (auto* item : selectedItems()) {
+        ans << item->data(Qt::UserRole).toInt();
+    }
+    return ans;
 }

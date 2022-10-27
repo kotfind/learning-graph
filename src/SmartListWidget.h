@@ -4,6 +4,7 @@
 #include <QAction>
 #include <QContextMenuEvent>
 #include <QMouseEvent>
+#include <QList>
 
 class SmartListWidget : public QListWidget {
     Q_OBJECT
@@ -13,10 +14,15 @@ class SmartListWidget : public QListWidget {
 
         void addItem(const QString& name, int id);
 
-        int currentId();
+        int currentId() const;
+
+        void setSelectionMode(bool v);
+        QList<int> getSelectedIds() const;
 
     private:
         QPoint dragStartPoint;
+
+        bool selectionMode;
 
     protected:
         void mouseDoubleClickEvent(QMouseEvent*) override;

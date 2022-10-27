@@ -136,6 +136,7 @@ void ThemeTab::ui() {
 
     // Themes List
     themesList = new SmartListWidget;
+    themesList->setSelectionMode(true);
     vbox->addWidget(themesList);
 }
 
