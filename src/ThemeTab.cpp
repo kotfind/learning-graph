@@ -89,6 +89,7 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     autoUpdateCheck->setChecked(true);
     selectionModeCheck->setChecked(false);
+    selectAllButton->setDisabled(true);
     update();
 }
 
