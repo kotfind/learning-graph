@@ -6,6 +6,7 @@
 #include "ThemeContextMenu.h"
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QGroupBox>
@@ -64,7 +65,15 @@ ThemeTab::ThemeTab(QWidget* parent)
         &ThemeTab::themeDragRequested
     );
 
+    connect(
+        selectionModeCheck,
+        &QCheckBox::stateChanged,
+        this,
+        &ThemeTab::selectionModeCheckChanged
+    );
+
     autoUpdateCheck->setChecked(true);
+    selectionModeCheck->setChecked(true);
     update();
 }
 
@@ -79,7 +88,7 @@ void ThemeTab::keyPressEvent(QKeyEvent* e) {
 
 void ThemeTab::ui() {
     // Layout
-    auto* vbox = new QVBoxLayout(this);
+    auto* vbox = new QVBoxLayout;
     setLayout(vbox);
 
     // Create Button
@@ -136,8 +145,17 @@ void ThemeTab::ui() {
 
     // Themes List
     themesList = new SmartListWidget;
-    themesList->setSelectionMode(true);
     vbox->addWidget(themesList);
+
+    // Selection
+    auto* hbox = new QHBoxLayout;
+    vbox->addLayout(hbox);
+
+    selectionModeCheck = new QCheckBox(tr("Selection Mode"));
+    hbox->addWidget(selectionModeCheck);
+
+    selectAllButton = new QPushButton(tr("Select All"));
+    hbox->addWidget(selectAllButton);
 }
 
 void ThemeTab::update() {
@@ -276,4 +294,14 @@ void ThemeTab::themeDragRequested(int themeId) {
     drag->setMimeData(mimeData);
 
     drag->exec(Qt::CopyAction);
+}
+
+void ThemeTab::selectionModeCheckChanged(int state) {
+    if (state == Qt::Checked) {
+        themesList->setSelectionMode(true);
+        selectAllButton->setDisabled(false);
+    } else {
+        themesList->setSelectionMode(false);
+        selectAllButton->setDisabled(true);
+    }
 }

@@ -8,6 +8,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QKeyEvent>
+#include <qcheckbox.h>
 
 class ThemeTab : public QWidget {
     Q_OBJECT
@@ -26,6 +27,8 @@ class ThemeTab : public QWidget {
         QCheckBox* autoUpdateCheck;
         QPushButton* createBtn;
         QPushButton* searchBtn;
+        QCheckBox* selectionModeCheck;
+        QPushButton* selectAllButton;
 
     protected:
         void keyPressEvent(QKeyEvent*) override;
@@ -38,4 +41,5 @@ class ThemeTab : public QWidget {
         void themeDoubleClicked(int themeId);
         void themeMenuRequested(int themeId, const QPoint& globalPos);
         void themeDragRequested(int themeId);
+        void selectionModeCheckChanged(int state);
 };

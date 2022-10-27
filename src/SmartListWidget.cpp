@@ -62,6 +62,10 @@ void SmartListWidget::setSelectionMode(bool v) {
         ? QAbstractItemView::MultiSelection
         : QAbstractItemView::NoSelection
     );
+
+    if (!selectionMode) {
+        clearSelection();
+    }
 }
 
 QList<int> SmartListWidget::getSelectedIds() const {
