@@ -304,5 +304,5 @@ void PackageTab::onExportButtonPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    // package::exportAsTxt(filename, packagesList->getSelectedIds());
+    package::exportAsTxt(filename, packagesList->getSelectedIds());
 }

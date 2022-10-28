@@ -94,6 +94,11 @@ namespace db {
         int write(const Package&);
 
         void del(int id);
+
+        // returns ids of themes from multiple packages
+        QList<int> getThemeIds(const QList<int>& packageIds);
+
+        void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace graph {
