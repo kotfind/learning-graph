@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
+#include "appendExtention.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -14,7 +15,8 @@
 #include <QMimeData>
 #include <QByteArray>
 #include <QDataStream>
-#include <qpushbutton.h>
+#include <QStandardPaths>
+#include <QFileDialog>
 
 using namespace db;
 
@@ -353,5 +355,21 @@ void ThemeTab::selectionChanged() {
 }
 
 void ThemeTab::exportPressed() {
-    qDebug() << "Export" << themesList->getSelectedIds();
+    const QString txtFilter = tr("Text (*.txt)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        txtFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    appendExtentionIfNot(filename, ".txt");
+    qDebug() << filename << themesList->getSelectedIds();
 }

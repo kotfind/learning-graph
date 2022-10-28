@@ -23,6 +23,7 @@ add_executable(learning_graph
     ComboboxIdDialog.cpp
     SmartListWidget.cpp
     ScaleSpinBox.cpp
+    appendExtention.cpp
 
     db/init.cpp
     db/theme.cpp
