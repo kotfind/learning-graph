@@ -169,10 +169,6 @@ void ThemeTab::ui() {
     autoUpdateCheck = new QCheckBox(tr("Auto update"));
     grid->addWidget(autoUpdateCheck, 5, 0);
 
-    // Themes List
-    themesList = new SmartListWidget;
-    vbox->addWidget(themesList);
-
     // Selection
     auto* hbox = new QHBoxLayout;
     vbox->addLayout(hbox);
@@ -182,6 +178,10 @@ void ThemeTab::ui() {
 
     selectAllButton = new QPushButton(tr("Select All"));
     hbox->addWidget(selectAllButton);
+
+    // Themes List
+    themesList = new SmartListWidget;
+    vbox->addWidget(themesList);
 
     // Export
     exportButton = new QPushButton(tr("Export"));
