@@ -6,6 +6,8 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 using namespace db;
 
@@ -228,7 +230,7 @@ QList<Theme> theme::reads(int excludeGraphId) {
 
 QList<Theme> theme::reads(const QList<int>& ids) {
     PREPARE_NEW(query, QString(" \
-        SELECT id, name, packageId, isLearned, inWishlist \
+        SELECT id, name, packageId, isLearned, inWishlist, description \
         FROM themes \
         WHERE id IN ({ids}) \
         GROUP BY ( \
@@ -248,9 +250,33 @@ QList<Theme> theme::reads(const QList<int>& ids) {
         t.id = query.value(0).toInt();
         t.name = query.value(1).toString();
         t.package = package::read(query.value(2).toInt());
-        t.inWishlist = query.value(4).toBool();
         t.isLearned = query.value(3).toBool();
+        t.inWishlist = query.value(4).toBool();
+        t.description = query.value(5).toString();
         themes.append(t);
     }
     return themes;
+}
+
+void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
+    QFile file(filename);
+    if (!file.open(QFile::WriteOnly)) {
+        throw 0;
+    }
+    QTextStream out(&file);
+
+    bool first = true;
+    auto themes = theme::reads(ids);
+    for (const auto& theme : themes) {
+        if (!first) {
+            out << "\n";
+        }
+        first = false;
+
+        out << QObject::tr("NAME:        ") << theme.name << '\n';
+        out << QObject::tr("PACKAGE:     ") << theme.package.name << '\n';
+        out << QObject::tr("LEARNED:     ") << (theme.isLearned ? "Yes" : "No") << '\n';
+        out << QObject::tr("IN WISHLIST: ") << (theme.inWishlist ? "Yes" : "No") << '\n';
+        out << QObject::tr("DESCRIPTION:\n") << theme.description << '\n';
+    }
 }

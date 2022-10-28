@@ -71,7 +71,7 @@ namespace db {
         QList<Theme> reads(int excludeGraph);
 
         // Selects themes with current ids
-        // XXX: No description selected
+        // XXX: description is selected
         QList<Theme> reads(const QList<int>& ids);
 
         // Inserts theme if id == -1; updates otherwise
@@ -79,6 +79,8 @@ namespace db {
         int write(const Theme&);
 
         void del(int id);
+
+        void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace package {

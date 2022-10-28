@@ -371,5 +371,5 @@ void ThemeTab::exportPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    qDebug() << filename << themesList->getSelectedIds();
+    theme::exportAsTxt(filename, themesList->getSelectedIds());
 }
