@@ -87,9 +87,17 @@ ThemeTab::ThemeTab(QWidget* parent)
         &ThemeTab::selectionChanged
     );
 
+    connect(
+        exportButton,
+        &QPushButton::pressed,
+        this,
+        &ThemeTab::exportPressed
+   );
+
     autoUpdateCheck->setChecked(true);
     selectionModeCheck->setChecked(false);
     selectAllButton->setDisabled(true);
+    exportButton->setDisabled(true);
     update();
 }
 
@@ -172,6 +180,10 @@ void ThemeTab::ui() {
 
     selectAllButton = new QPushButton(tr("Select All"));
     hbox->addWidget(selectAllButton);
+
+    // Export
+    exportButton = new QPushButton(tr("Export"));
+    vbox->addWidget(exportButton);
 }
 
 void ThemeTab::update() {
@@ -333,7 +345,13 @@ void ThemeTab::selectAllButtonPressed() {
 void ThemeTab::selectionChanged() {
     if (themesList->selectedItems().empty()) {
         selectAllButton->setText(tr("Select All"));
+        exportButton->setDisabled(true);
     } else {
         selectAllButton->setText(tr("Clear"));
+        exportButton->setDisabled(false);
     }
+}
+
+void ThemeTab::exportPressed() {
+    qDebug() << "Export" << themesList->getSelectedIds();
 }

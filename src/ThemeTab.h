@@ -29,6 +29,7 @@ class ThemeTab : public QWidget {
         QPushButton* searchBtn;
         QCheckBox* selectionModeCheck;
         QPushButton* selectAllButton;
+        QPushButton* exportButton;
 
     protected:
         void keyPressEvent(QKeyEvent*) override;
@@ -44,4 +45,5 @@ class ThemeTab : public QWidget {
         void selectionModeCheckChanged(int state);
         void selectAllButtonPressed();
         void selectionChanged();
+        void exportPressed();
 };
