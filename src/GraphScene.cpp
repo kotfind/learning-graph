@@ -147,14 +147,7 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
-    auto themes = theme::reads(
-        "",
-        -1,
-        Qt::PartiallyChecked,
-        Qt::PartiallyChecked,
-        false,
-        graphId
-    ); // Select all themes except ones on graph
+    auto themes = theme::reads(graphId);
 
     for (const auto t : themes) {
         d.addItem(
