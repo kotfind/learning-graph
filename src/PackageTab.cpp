@@ -37,14 +37,14 @@ PackageTab::PackageTab(QWidget* parent)
         packagesList,
         &SmartListWidget::menuRequested,
         this,
-        &PackageTab::packageMenuRequested
+        &PackageTab::onPackageMenuRequested
     );
 
     connect(
         packagesList,
         &SmartListWidget::doubleClicked,
         this,
-        &PackageTab::packageDoubleClicked
+        &PackageTab::onPackageDoubleClicked
     );
 
     connect(
@@ -147,7 +147,7 @@ void PackageTab::update() {
     }
 }
 
-void PackageTab::packageDoubleClicked(int packageId) {
+void PackageTab::onPackageDoubleClicked(int packageId) {
     PackageInfoDialog d(
         packageId,
         this
@@ -155,7 +155,7 @@ void PackageTab::packageDoubleClicked(int packageId) {
     d.exec();
 }
 
-void PackageTab::packageMenuRequested(int packageId, const QPoint& globalPos) {
+void PackageTab::onPackageMenuRequested(int packageId, const QPoint& globalPos) {
     QMenu menu;
 
     menu.addAction(tr("Rename"), [=]() {

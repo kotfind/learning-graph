@@ -51,49 +51,49 @@ ThemeTab::ThemeTab(QWidget* parent)
         themesList,
         &SmartListWidget::doubleClicked,
         this,
-        &ThemeTab::themeDoubleClicked
+        &ThemeTab::onThemeDoubleClicked
     );
 
     connect(
         themesList,
         &SmartListWidget::menuRequested,
         this,
-        &ThemeTab::themeMenuRequested
+        &ThemeTab::onThemeMenuRequested
     );
 
     connect(
         themesList,
         &SmartListWidget::dragRequested,
         this,
-        &ThemeTab::themeDragRequested
+        &ThemeTab::onThemeDragRequested
     );
 
     connect(
         selectionModeCheck,
         &QCheckBox::stateChanged,
         this,
-        &ThemeTab::selectionModeCheckChanged
+        &ThemeTab::onSelectionModeCheckChanged
     );
 
     connect(
         selectAllButton,
         &QPushButton::pressed,
         this,
-        &ThemeTab::selectAllButtonPressed
+        &ThemeTab::onSelectAllButtonPressed
     );
 
     connect(
         themesList,
         &SmartListWidget::itemSelectionChanged,
         this,
-        &ThemeTab::selectionChanged
+        &ThemeTab::onSelectionChanged
     );
 
     connect(
         exportButton,
         &QPushButton::pressed,
         this,
-        &ThemeTab::exportPressed
+        &ThemeTab::onExportButtonPressed
    );
 
     autoUpdateCheck->setChecked(true);
@@ -303,16 +303,16 @@ void ThemeTab::setAutoUpdate(bool state) {
     }
 }
 
-void ThemeTab::themeDoubleClicked(int themeId) {
+void ThemeTab::onThemeDoubleClicked(int themeId) {
     (new ThemeInfoDialog(themeId, this))->exec();
 }
 
-void ThemeTab::themeMenuRequested(int themeId, const QPoint& globalPos) {
+void ThemeTab::onThemeMenuRequested(int themeId, const QPoint& globalPos) {
     ThemeContextMenu menu(themeId, this);
     menu.exec(globalPos);
 }
 
-void ThemeTab::themeDragRequested(int themeId) {
+void ThemeTab::onThemeDragRequested(int themeId) {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     stream << themeId;
@@ -326,7 +326,7 @@ void ThemeTab::themeDragRequested(int themeId) {
     drag->exec(Qt::CopyAction);
 }
 
-void ThemeTab::selectionModeCheckChanged(int state) {
+void ThemeTab::onSelectionModeCheckChanged(int state) {
     if (state == Qt::Checked) {
         themesList->setSelectionMode(true);
         selectAllButton->setDisabled(false);
@@ -336,7 +336,7 @@ void ThemeTab::selectionModeCheckChanged(int state) {
     }
 }
 
-void ThemeTab::selectAllButtonPressed() {
+void ThemeTab::onSelectAllButtonPressed() {
     if (themesList->selectedItems().empty()) {
         themesList->selectAll();
     } else {
@@ -344,7 +344,7 @@ void ThemeTab::selectAllButtonPressed() {
     }
 }
 
-void ThemeTab::selectionChanged() {
+void ThemeTab::onSelectionChanged() {
     if (themesList->selectedItems().empty()) {
         selectAllButton->setText(tr("Select All"));
         exportButton->setDisabled(true);
@@ -354,7 +354,7 @@ void ThemeTab::selectionChanged() {
     }
 }
 
-void ThemeTab::exportPressed() {
+void ThemeTab::onExportButtonPressed() {
     const QString txtFilter = tr("Text (*.txt)");
 
     QString selectedFilter;

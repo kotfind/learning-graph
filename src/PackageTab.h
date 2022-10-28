@@ -31,6 +31,6 @@ class PackageTab : public QWidget {
 
     private slots:
         void onCreateBtn();
-        void packageDoubleClicked(int packageId);
-        void packageMenuRequested(int packageId, const QPoint& globalPos);
+        void onPackageDoubleClicked(int packageId);
+        void onPackageMenuRequested(int packageId, const QPoint& globalPos);
 };

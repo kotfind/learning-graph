@@ -8,7 +8,6 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QKeyEvent>
-#include <qcheckbox.h>
 
 class ThemeTab : public QWidget {
     Q_OBJECT
@@ -39,11 +38,11 @@ class ThemeTab : public QWidget {
         void setAutoUpdate(bool state);
 
     private slots:
-        void themeDoubleClicked(int themeId);
-        void themeMenuRequested(int themeId, const QPoint& globalPos);
-        void themeDragRequested(int themeId);
-        void selectionModeCheckChanged(int state);
-        void selectAllButtonPressed();
-        void selectionChanged();
-        void exportPressed();
+        void onThemeDoubleClicked(int themeId);
+        void onThemeMenuRequested(int themeId, const QPoint& globalPos);
+        void onThemeDragRequested(int themeId);
+        void onSelectionModeCheckChanged(int state);
+        void onSelectAllButtonPressed();
+        void onSelectionChanged();
+        void onExportButtonPressed();
 };
