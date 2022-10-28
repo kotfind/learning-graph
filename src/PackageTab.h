@@ -20,6 +20,8 @@ class PackageTab : public QWidget {
         QCheckBox* autoUpdateCheckBox;
         QPushButton* updateButton;
         SmartListWidget* packagesList;
+        QPushButton* selectAllButton;
+        QPushButton* exportButton;
 
     signals:
         void packagesUpdated();
@@ -33,4 +35,7 @@ class PackageTab : public QWidget {
         void onCreateBtn();
         void onPackageDoubleClicked(int packageId);
         void onPackageMenuRequested(int packageId, const QPoint& globalPos);
+        void onSelectAllButtonPressed();
+        void onSelectionChanged();
+        void onExportButtonPressed();
 };

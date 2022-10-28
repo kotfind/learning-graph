@@ -3,6 +3,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
+#include "appendExtention.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -12,6 +13,8 @@
 #include <QMenu>
 #include <QLabel>
 #include <QGridLayout>
+#include <QStandardPaths>
+#include <QFileDialog>
 
 using namespace db;
 
@@ -62,9 +65,32 @@ PackageTab::PackageTab(QWidget* parent)
         }
     );
 
+    connect(
+        selectAllButton,
+        &QPushButton::pressed,
+        this,
+        &PackageTab::onSelectAllButtonPressed
+    );
+
+    connect(
+        packagesList,
+        &SmartListWidget::itemSelectionChanged,
+        this,
+        &PackageTab::onSelectionChanged
+    );
+
+    connect(
+        exportButton,
+        &QPushButton::pressed,
+        this,
+        &PackageTab::onExportButtonPressed
+   );
+
     update();
     setAutoUpdate(true);
     autoUpdateCheckBox->setChecked(true);
+    packagesList->setSelectionMode(true);
+    exportButton->setDisabled(true);
 }
 
 void PackageTab::ui() {
@@ -123,9 +149,17 @@ void PackageTab::ui() {
         2, 1
     );
 
+    // Selection
+    selectAllButton = new QPushButton(tr("Select All"));
+    vbox->addWidget(selectAllButton);
+
     // Packages List
     packagesList = new SmartListWidget;
     vbox->addWidget(packagesList);
+
+    // Export
+    exportButton = new QPushButton(tr("Export"));
+    vbox->addWidget(exportButton);
 }
 
 void PackageTab::onCreateBtn() {
@@ -233,4 +267,42 @@ void PackageTab::setAutoUpdate(bool state) {
             &PackageTab::update
         );
     }
+}
+
+void PackageTab::onSelectAllButtonPressed() {
+    if (packagesList->selectedItems().empty()) {
+        packagesList->selectAll();
+    } else {
+        packagesList->clearSelection();
+    }
+}
+
+void PackageTab::onSelectionChanged() {
+    if (packagesList->selectedItems().empty()) {
+        selectAllButton->setText(tr("Select All"));
+        exportButton->setDisabled(true);
+    } else {
+        selectAllButton->setText(tr("Clear"));
+        exportButton->setDisabled(false);
+    }
+}
+
+void PackageTab::onExportButtonPressed() {
+    const QString txtFilter = tr("Text (*.txt)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        txtFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    appendExtentionIfNot(filename, ".txt");
+    // package::exportAsTxt(filename, packagesList->getSelectedIds());
 }
