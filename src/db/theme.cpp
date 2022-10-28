@@ -5,7 +5,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
-#include <algorithm>
+#include <QStringList>
 
 using namespace db;
 
@@ -211,6 +211,35 @@ QList<Theme> theme::reads(int excludeGraphId) {
         ), name \
     ")
     query.addBindValue(excludeGraphId);
+    EXEC(query)
+
+    QList<Theme> themes;
+    while (query.next()) {
+        Theme t;
+        t.id = query.value(0).toInt();
+        t.name = query.value(1).toString();
+        t.package = package::read(query.value(2).toInt());
+        t.inWishlist = query.value(4).toBool();
+        t.isLearned = query.value(3).toBool();
+        themes.append(t);
+    }
+    return themes;
+}
+
+QList<Theme> theme::reads(const QList<int>& ids) {
+    PREPARE_NEW(query, QString(" \
+        SELECT id, name, packageId, isLearned, inWishlist \
+        FROM themes \
+        WHERE id IN ({ids}) \
+        GROUP BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
+    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "?")).join(",")))
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
     EXEC(query)
 
     QList<Theme> themes;
