@@ -40,9 +40,6 @@ void ThemeContextMenu::ui() {
         }
     });
     addSeparator();
-    addAction(tr("Build Learning Graph"), [](){
-        // TODO
-    });
     addAction(tr("Build Learning List"), [](){
         // TODO
     });
