@@ -62,4 +62,5 @@ class GraphEditWidget : public QMainWindow {
 
     private slots:
         void exportGraph();
+        void onGraphsUpdated();
 };

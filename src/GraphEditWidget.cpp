@@ -3,6 +3,7 @@
 #include "GraphNodeItem.h"
 #include "db/db.h"
 #include "appendExtention.h"
+#include "GlobalSignalHandler.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -58,6 +59,13 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphEditWidget::close
     );
 
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::graphsUpdated,
+        this,
+        &GraphEditWidget::onGraphsUpdated
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
 
     modeBar->setDisabled(true);
@@ -67,7 +75,7 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
     // Load from settings
     QSettings settings;
     if (settings.contains("graph/id")) {
-        open(settings.value("graph/id").toInt());
+        open(settings.value("graph/id").toInt()); // XXX Add existance check ?
     }
 
     setMouseTracking(true);
@@ -293,4 +301,10 @@ void GraphEditWidget::exportAsJpg(const QString& filename) {
     graphScene->render(&painter, QRectF(), rect);
 
     img.save(filename);
+}
+
+void GraphEditWidget::onGraphsUpdated() {
+    if (graphId != -1 && !graph::exists(graphId)) {
+        close();
+    }
 }

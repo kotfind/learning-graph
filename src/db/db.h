@@ -112,6 +112,8 @@ namespace db {
         int write(const Graph&);
 
         void del(int id);
+
+        bool exists(int id);
     };
 
     namespace graphNode {
