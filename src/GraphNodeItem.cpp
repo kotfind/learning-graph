@@ -79,7 +79,7 @@ void GraphNodeItem::load() {
         auto theme = theme::read(node.themeId);
 
         setPlainText(
-            QString("%1 @ %2")
+            QString("%1 from %2")
                 .arg(theme.name)
                 .arg(theme.package.name)
         );
