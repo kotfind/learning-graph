@@ -5,7 +5,9 @@
 #include <QString>
 #include <QObject>
 #include <QList>
-#include <algorithm>
+#include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 using namespace db;
 
@@ -136,13 +138,11 @@ QList<Theme> theme::reads(
     const QString& name,
     int packageId,
     Qt::CheckState inWishlist,
-    Qt::CheckState isLearned,
-    bool includeDescription,
-    int excludeGraphId
+    Qt::CheckState isLearned
     ) {
 
     QString queryString = " \
-        SELECT id, name, packageId, isLearned, inWishlist {description} \
+        SELECT id, name, packageId, isLearned, inWishlist \
         FROM themes \
         WHERE {whereSection} \
         GROUP BY ( \
@@ -151,13 +151,6 @@ QList<Theme> theme::reads(
             WHERE id = packageId \
         ), name \
     ";
-
-    // includeDescription flag
-    queryString.replace("{description}",
-        includeDescription
-        ? ", description"
-        : ""
-    );
 
     // Where secion
     QVector<QVariant> params;
@@ -183,16 +176,6 @@ QList<Theme> theme::reads(
         params.append(isLearned == Qt::Checked);
     }
 
-    if (excludeGraphId != -1) {
-        whereSection += QString(" AND id NOT IN ( \
-            SELECT themeId \
-            FROM graphNodes \
-            WHERE graphId = ? \
-        ) \
-        ");
-        params.append(excludeGraphId);
-    }
-
     queryString.replace("{whereSection}", whereSection);
 
     PREPARE_NEW(query, queryString);
@@ -209,10 +192,91 @@ QList<Theme> theme::reads(
         t.package = package::read(query.value(2).toInt());
         t.inWishlist = query.value(4).toBool();
         t.isLearned = query.value(3).toBool();
-        t.description = includeDescription
-            ? query.value(5).toString()
-            : "";
         themes.append(t);
     }
     return themes;
+}
+
+QList<Theme> theme::reads(int excludeGraphId) {
+    PREPARE_NEW(query, " \
+        SELECT id, name, packageId, isLearned, inWishlist \
+        FROM themes \
+        WHERE id NOT IN ( \
+            SELECT themeId \
+            FROM graphNodes \
+            WHERE graphId = ? \
+        ) \
+        GROUP BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
+    ")
+    query.addBindValue(excludeGraphId);
+    EXEC(query)
+
+    QList<Theme> themes;
+    while (query.next()) {
+        Theme t;
+        t.id = query.value(0).toInt();
+        t.name = query.value(1).toString();
+        t.package = package::read(query.value(2).toInt());
+        t.inWishlist = query.value(4).toBool();
+        t.isLearned = query.value(3).toBool();
+        themes.append(t);
+    }
+    return themes;
+}
+
+QList<Theme> theme::reads(const QList<int>& ids) {
+    PREPARE_NEW(query, QString(" \
+        SELECT id, name, packageId, isLearned, inWishlist, description \
+        FROM themes \
+        WHERE id IN ({ids}) \
+        GROUP BY ( \
+            SELECT name \
+            FROM packages \
+            WHERE id = packageId \
+        ), name \
+    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "?")).join(",")))
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
+    EXEC(query)
+
+    QList<Theme> themes;
+    while (query.next()) {
+        Theme t;
+        t.id = query.value(0).toInt();
+        t.name = query.value(1).toString();
+        t.package = package::read(query.value(2).toInt());
+        t.isLearned = query.value(3).toBool();
+        t.inWishlist = query.value(4).toBool();
+        t.description = query.value(5).toString();
+        themes.append(t);
+    }
+    return themes;
+}
+
+void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
+    QFile file(filename);
+    if (!file.open(QFile::WriteOnly)) {
+        throw 0;
+    }
+    QTextStream out(&file);
+
+    bool first = true;
+    auto themes = theme::reads(ids);
+    for (const auto& theme : themes) {
+        if (!first) {
+            out << "\n";
+        }
+        first = false;
+
+        out << QObject::tr("NAME:        ") << theme.name << '\n';
+        out << QObject::tr("PACKAGE:     ") << theme.package.name << '\n';
+        out << QObject::tr("LEARNED:     ") << (theme.isLearned ? "Yes" : "No") << '\n';
+        out << QObject::tr("IN WISHLIST: ") << (theme.inWishlist ? "Yes" : "No") << '\n';
+        out << QObject::tr("DESCRIPTION:\n") << theme.description << '\n';
+    }
 }

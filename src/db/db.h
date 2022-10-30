@@ -55,20 +55,32 @@ namespace db {
         QString name(int id);
         QString packageName(int id);
         Theme read(int id);
+
+        // Selects themes with current options
+        // XXX: No description selected
         QList<Theme> reads(
             const QString& name,
             int packageId,
             Qt::CheckState inWishlist,
-            Qt::CheckState isLearned,
-            bool includeDescription = false,
-            int excludeGraphId = -1
+            Qt::CheckState isLearned
         );
+
+        // Selects themes that are not
+        // presenred on current graph
+        // XXX: No description selected
+        QList<Theme> reads(int excludeGraph);
+
+        // Selects themes with current ids
+        // XXX: description is selected
+        QList<Theme> reads(const QList<int>& ids);
 
         // Inserts theme if id == -1; updates otherwise
         // Return value is id
         int write(const Theme&);
 
         void del(int id);
+
+        void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace package {
@@ -82,6 +94,11 @@ namespace db {
         int write(const Package&);
 
         void del(int id);
+
+        // returns ids of themes from multiple packages
+        QList<int> getThemeIds(const QList<int>& packageIds);
+
+        void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace graph {

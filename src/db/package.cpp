@@ -150,3 +150,25 @@ Package package::read(int id) {
     p.count = query.value(1).toInt();
     return p;
 }
+
+QList<int> package::getThemeIds(const QList<int>& packageIds) {
+    PREPARE_NEW(query, QString(" \
+        SELECT id \
+        FROM themes \
+        WHERE packageId IN ({ids}) \
+    ").replace("{ids}", QStringList(QList<QString>(packageIds.size(), "?")).join(",")))
+    for (int id : packageIds) {
+        query.addBindValue(id);
+    }
+    EXEC(query)
+
+    QList<int> ans;
+    while (query.next()) {
+        ans.append(query.value(0).toInt());
+    }
+    return ans;
+}
+
+void package::exportAsTxt(const QString& filename, const QList<int>& ids) {
+    theme::exportAsTxt(filename, getThemeIds(ids));
+}

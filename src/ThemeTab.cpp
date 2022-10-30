@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
+#include "appendExtention.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -14,7 +15,8 @@
 #include <QMimeData>
 #include <QByteArray>
 #include <QDataStream>
-#include <qpushbutton.h>
+#include <QStandardPaths>
+#include <QFileDialog>
 
 using namespace db;
 
@@ -49,47 +51,55 @@ ThemeTab::ThemeTab(QWidget* parent)
         themesList,
         &SmartListWidget::doubleClicked,
         this,
-        &ThemeTab::themeDoubleClicked
+        &ThemeTab::onThemeDoubleClicked
     );
 
     connect(
         themesList,
         &SmartListWidget::menuRequested,
         this,
-        &ThemeTab::themeMenuRequested
+        &ThemeTab::onThemeMenuRequested
     );
 
     connect(
         themesList,
         &SmartListWidget::dragRequested,
         this,
-        &ThemeTab::themeDragRequested
+        &ThemeTab::onThemeDragRequested
     );
 
     connect(
         selectionModeCheck,
         &QCheckBox::stateChanged,
         this,
-        &ThemeTab::selectionModeCheckChanged
+        &ThemeTab::onSelectionModeCheckChanged
     );
 
     connect(
         selectAllButton,
         &QPushButton::pressed,
         this,
-        &ThemeTab::selectAllButtonPressed
+        &ThemeTab::onSelectAllButtonPressed
     );
 
     connect(
         themesList,
         &SmartListWidget::itemSelectionChanged,
         this,
-        &ThemeTab::selectionChanged
+        &ThemeTab::onSelectionChanged
     );
+
+    connect(
+        exportButton,
+        &QPushButton::pressed,
+        this,
+        &ThemeTab::onExportButtonPressed
+   );
 
     autoUpdateCheck->setChecked(true);
     selectionModeCheck->setChecked(false);
     selectAllButton->setDisabled(true);
+    exportButton->setDisabled(true);
     update();
 }
 
@@ -159,10 +169,6 @@ void ThemeTab::ui() {
     autoUpdateCheck = new QCheckBox(tr("Auto update"));
     grid->addWidget(autoUpdateCheck, 5, 0);
 
-    // Themes List
-    themesList = new SmartListWidget;
-    vbox->addWidget(themesList);
-
     // Selection
     auto* hbox = new QHBoxLayout;
     vbox->addLayout(hbox);
@@ -172,6 +178,14 @@ void ThemeTab::ui() {
 
     selectAllButton = new QPushButton(tr("Select All"));
     hbox->addWidget(selectAllButton);
+
+    // Themes List
+    themesList = new SmartListWidget;
+    vbox->addWidget(themesList);
+
+    // Export
+    exportButton = new QPushButton(tr("Export"));
+    vbox->addWidget(exportButton);
 }
 
 void ThemeTab::update() {
@@ -289,16 +303,16 @@ void ThemeTab::setAutoUpdate(bool state) {
     }
 }
 
-void ThemeTab::themeDoubleClicked(int themeId) {
+void ThemeTab::onThemeDoubleClicked(int themeId) {
     (new ThemeInfoDialog(themeId, this))->exec();
 }
 
-void ThemeTab::themeMenuRequested(int themeId, const QPoint& globalPos) {
+void ThemeTab::onThemeMenuRequested(int themeId, const QPoint& globalPos) {
     ThemeContextMenu menu(themeId, this);
     menu.exec(globalPos);
 }
 
-void ThemeTab::themeDragRequested(int themeId) {
+void ThemeTab::onThemeDragRequested(int themeId) {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     stream << themeId;
@@ -312,7 +326,7 @@ void ThemeTab::themeDragRequested(int themeId) {
     drag->exec(Qt::CopyAction);
 }
 
-void ThemeTab::selectionModeCheckChanged(int state) {
+void ThemeTab::onSelectionModeCheckChanged(int state) {
     if (state == Qt::Checked) {
         themesList->setSelectionMode(true);
         selectAllButton->setDisabled(false);
@@ -322,7 +336,7 @@ void ThemeTab::selectionModeCheckChanged(int state) {
     }
 }
 
-void ThemeTab::selectAllButtonPressed() {
+void ThemeTab::onSelectAllButtonPressed() {
     if (themesList->selectedItems().empty()) {
         themesList->selectAll();
     } else {
@@ -330,10 +344,32 @@ void ThemeTab::selectAllButtonPressed() {
     }
 }
 
-void ThemeTab::selectionChanged() {
+void ThemeTab::onSelectionChanged() {
     if (themesList->selectedItems().empty()) {
         selectAllButton->setText(tr("Select All"));
+        exportButton->setDisabled(true);
     } else {
         selectAllButton->setText(tr("Clear"));
+        exportButton->setDisabled(false);
     }
+}
+
+void ThemeTab::onExportButtonPressed() {
+    const QString txtFilter = tr("Text (*.txt)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        txtFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    appendExtentionIfNot(filename, ".txt");
+    theme::exportAsTxt(filename, themesList->getSelectedIds());
 }

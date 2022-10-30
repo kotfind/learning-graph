@@ -2,6 +2,7 @@
 
 #include "GraphNodeItem.h"
 #include "db/db.h"
+#include "appendExtention.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -182,12 +183,6 @@ void GraphEditWidget::mousePressEvent(QMouseEvent* e) {
 void GraphEditWidget::mouseReleaseEvent(QMouseEvent* e) {
     updateStatus(e);
     QMainWindow::mouseReleaseEvent(e);
-}
-
-void appendExtentionIfNot(QString& filename, const QString& extention) {
-    if (!filename.endsWith(extention)) {
-        filename += extention;
-    }
 }
 
 void GraphEditWidget::exportGraph() {
