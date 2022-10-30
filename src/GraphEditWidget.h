@@ -11,6 +11,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QMargins>
+#include <QToolBar>
+#include <qtoolbar.h>
 
 class GraphEditWidget : public QMainWindow {
     Q_OBJECT
@@ -47,6 +49,10 @@ class GraphEditWidget : public QMainWindow {
         ScaleSpinBox* scaleSpinBox;
         QPushButton* exportButton;
         QPushButton* closeButton;
+
+        QToolBar* modeBar;
+        QToolBar* scaleBar;
+        QToolBar* otherButtonsBar;
 
         const QMargins exportMargins = {10, 10, 10, 10};
 

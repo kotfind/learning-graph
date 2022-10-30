@@ -8,7 +8,6 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QToolBar>
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -61,6 +60,10 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
 
     graphScene->setMode(CURSOR_EDIT_MODE);
 
+    modeBar->setDisabled(true);
+    scaleBar->setDisabled(true);
+    otherButtonsBar->setDisabled(true);
+
     // Load from settings
     QSettings settings;
     if (settings.contains("graph/id")) {
@@ -78,9 +81,8 @@ void GraphEditWidget::ui() {
 
 void GraphEditWidget::uiHeader() {
     // Mode Bar
-    auto* modeBar = addToolBar(tr("Mode Bar"));
+    modeBar = addToolBar(tr("Mode Bar"));
     modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
-
 
     auto* modeBtns = new QButtonGroup(this);
     connect(
@@ -117,7 +119,7 @@ void GraphEditWidget::uiHeader() {
     modeBar->addWidget(deleteBtn);
 
     // Scale Bar
-    auto* scaleBar = addToolBar(tr("Scale Bar"));
+    scaleBar = addToolBar(tr("Scale Bar"));
     scaleBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     scaleBar->addWidget(new QLabel(tr("Scale: ")));
@@ -126,7 +128,7 @@ void GraphEditWidget::uiHeader() {
     scaleBar->addWidget(scaleSpinBox);
 
     // Other Buttons Bar
-    auto* otherButtonsBar = addToolBar(tr("Export Bar"));
+    otherButtonsBar = addToolBar(tr("Export Bar"));
     otherButtonsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     exportButton = new QPushButton(tr("Export"));
@@ -158,6 +160,10 @@ void GraphEditWidget::open(int graphId) {
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
+    modeBar->setDisabled(false);
+    scaleBar->setDisabled(false);
+    otherButtonsBar->setDisabled(false);
+
     // Write to settings
     QSettings settings;
     settings.setValue("graph/id", graphId);
@@ -169,6 +175,10 @@ void GraphEditWidget::close() {
     nameLabel->setText(tr("No Graph Loaded"));
     graphScene->close();
     graphView->setDisabled(true);
+
+    modeBar->setDisabled(true);
+    scaleBar->setDisabled(true);
+    otherButtonsBar->setDisabled(true);
 
     // Write to settings
     QSettings settings;
