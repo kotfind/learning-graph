@@ -71,7 +71,7 @@ void GraphEditWidget::ui() {
 
 void GraphEditWidget::uiHeader() {
     // Mode Bar
-    auto* modeBar = addToolBar("Mode Bar");
+    auto* modeBar = addToolBar(tr("Mode Bar"));
     modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
 
@@ -110,7 +110,7 @@ void GraphEditWidget::uiHeader() {
     modeBar->addWidget(deleteBtn);
 
     // Scale Bar
-    auto* scaleBar = addToolBar("Scale Bar");
+    auto* scaleBar = addToolBar(tr("Scale Bar"));
     scaleBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     scaleBar->addWidget(new QLabel(tr("Scale: ")));
@@ -119,10 +119,10 @@ void GraphEditWidget::uiHeader() {
     scaleBar->addWidget(scaleSpinBox);
 
     // Other Buttons Bar
-    auto* otherButtonsBar = addToolBar("Export Bar");
+    auto* otherButtonsBar = addToolBar(tr("Export Bar"));
     otherButtonsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    exportButton = new QPushButton("Export");
+    exportButton = new QPushButton(tr("Export"));
     otherButtonsBar->addWidget(exportButton);
 }
 
