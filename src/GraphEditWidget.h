@@ -46,6 +46,7 @@ class GraphEditWidget : public QMainWindow {
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
         QPushButton* exportButton;
+        QPushButton* closeButton;
 
         const QMargins exportMargins = {10, 10, 10, 10};
 

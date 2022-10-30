@@ -52,6 +52,13 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphEditWidget::exportGraph
     );
 
+    connect(
+        closeButton,
+        &QPushButton::pressed,
+        this,
+        &GraphEditWidget::close
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
 
     // Load from settings
@@ -124,6 +131,11 @@ void GraphEditWidget::uiHeader() {
 
     exportButton = new QPushButton(tr("Export"));
     otherButtonsBar->addWidget(exportButton);
+
+    otherButtonsBar->addSeparator();
+
+    closeButton = new QPushButton(tr("Close"));
+    otherButtonsBar->addWidget(closeButton);
 }
 
 void GraphEditWidget::uiBody() {
