@@ -109,21 +109,21 @@ void GraphEditWidget::uiHeader() {
     modeBtns->addButton(deleteBtn, DELETE_EDIT_MODE);
     modeBar->addWidget(deleteBtn);
 
-    // Settings Bar
-    auto* settingsBar = addToolBar("Settings Bar");
-    settingsBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    // Scale Bar
+    auto* scaleBar = addToolBar("Scale Bar");
+    scaleBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    settingsBar->addWidget(new QLabel(tr("Scale: ")));
+    scaleBar->addWidget(new QLabel(tr("Scale: ")));
 
     scaleSpinBox = new ScaleSpinBox;
-    settingsBar->addWidget(scaleSpinBox);
+    scaleBar->addWidget(scaleSpinBox);
 
-    // Export Bar
-    auto* exportBar = addToolBar("Export Bar");
-    exportBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    // Other Buttons Bar
+    auto* otherButtonsBar = addToolBar("Export Bar");
+    otherButtonsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     exportButton = new QPushButton("Export");
-    exportBar->addWidget(exportButton);
+    otherButtonsBar->addWidget(exportButton);
 }
 
 void GraphEditWidget::uiBody() {
