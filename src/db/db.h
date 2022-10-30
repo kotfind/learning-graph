@@ -81,6 +81,8 @@ namespace db {
         void del(int id);
 
         void exportAsTxt(const QString& filename, const QList<int>& ids);
+
+        bool exists(int id);
     };
 
     namespace package {

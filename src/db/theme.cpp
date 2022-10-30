@@ -280,3 +280,14 @@ void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
         out << QObject::tr("DESCRIPTION:\n") << theme.description << '\n';
     }
 }
+
+bool theme::exists(int id) {
+    PREPARE_NEW(query, " \
+        SELECT 1 \
+        FROM themes \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    return query.next();
+}

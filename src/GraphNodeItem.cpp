@@ -72,13 +72,12 @@ void GraphNodeItem::paint(
 }
 
 void GraphNodeItem::load() {
-    // Get node
     auto node = graphNode::read(nodeId);
-    auto theme = theme::read(node.themeId);
-
     setPos(node.x, node.y);
 
-    if (theme.id != 0) {
+    if (theme::exists(node.themeId)) {
+        auto theme = theme::read(node.themeId);
+
         setPlainText(
             QString("%1 @ %2")
                 .arg(theme.name)
