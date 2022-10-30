@@ -1,6 +1,6 @@
 format 224
 "plan"
-  revision 78
+  revision 79
   modified_by 2 "kotfind"
 
 
@@ -306,6 +306,16 @@ ${items}};
 	    classrelation_ref 244482 // <composition>
       end
 
+      operation 339458 "close"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
     end
 
     class 181378 "LearningListTab"
@@ -388,7 +398,6 @@ ${items}};
 	  b role_name "" public
 	    classrelation_ref 243714 // <composition>
       end
-
     end
 
     class 161154 "ThemeTab"
@@ -777,7 +786,6 @@ ${items}};
 	
 	
       end
-
     end
 
     class 240770 "GraphView"
@@ -838,6 +846,17 @@ ${items}};
 	  a public
 	    classrelation_ref 242818 // <generalisation>
 	  b parent class_ref 248706 // QGraphicsView
+      end
+
+      operation 339586 "close"
+	stereotype "slot"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
       end
     end
 
@@ -941,7 +960,6 @@ ${items}};
 	  b role_name "" public
 	    classrelation_ref 243970 // <composition>
       end
-
     end
 
     class 247682 "ComboboxIdDialog"
