@@ -54,8 +54,6 @@ void GraphScene::open(int graphId) {
     clear();
     themeIdToNode.clear();
 
-    // Load Nodes
-
     auto nodes = graphNode::reads(graphId);
     for (const auto& n : nodes) {
         auto* node = new GraphNodeItem(n.id);
@@ -72,6 +70,13 @@ void GraphScene::open(int graphId) {
         );
         addItem(edge);
     }
+}
+
+void GraphScene::close() {
+    this->graphId = -1;
+
+    clear();
+    themeIdToNode.clear();
 }
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {

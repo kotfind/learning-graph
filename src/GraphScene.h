@@ -30,7 +30,7 @@ class GraphScene : public QGraphicsScene {
         void deleteNode(GraphNodeItem*);
         void deleteEdge(GraphEdge*);
 
-        int graphId;
+        int graphId = -1;
 
         GraphEditMode mode = CURSOR_EDIT_MODE;
 
@@ -53,6 +53,7 @@ class GraphScene : public QGraphicsScene {
 
     public slots:
         void open(int graphId);
+        void close();
         void setMode(GraphEditMode mode);
         void recalcSceneRect();
 };

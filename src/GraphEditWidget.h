@@ -37,7 +37,7 @@ class GraphEditWidget : public QMainWindow {
         void exportAsSvg(const QString& filename);
         void exportAsGraph(const QString& filename);
 
-        int graphId;
+        int graphId = -1;
 
         GraphScene* graphScene;
 
@@ -51,6 +51,7 @@ class GraphEditWidget : public QMainWindow {
 
     public slots:
         void open(int graphId);
+        void close();
 
     private slots:
         void exportGraph();

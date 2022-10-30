@@ -151,6 +151,18 @@ void GraphEditWidget::open(int graphId) {
     settings.setValue("graph/id", graphId);
 }
 
+void GraphEditWidget::close() {
+    this->graphId = -1;
+
+    nameLabel->setText(tr("No Graph Loaded"));
+    graphScene->close();
+    graphView->setDisabled(true);
+
+    // Write to settings
+    QSettings settings;
+    settings.remove("graph/id");
+}
+
 void GraphEditWidget::updateStatus(QMouseEvent* e) {
     auto* item = graphScene->itemAt(
         graphView->mapToScene(
