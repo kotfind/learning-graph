@@ -11,6 +11,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QMargins>
+#include <QToolBar>
+#include <qtoolbar.h>
 
 class GraphEditWidget : public QMainWindow {
     Q_OBJECT
@@ -37,7 +39,7 @@ class GraphEditWidget : public QMainWindow {
         void exportAsSvg(const QString& filename);
         void exportAsGraph(const QString& filename);
 
-        int graphId;
+        int graphId = -1;
 
         GraphScene* graphScene;
 
@@ -46,12 +48,19 @@ class GraphEditWidget : public QMainWindow {
         QLabel* nameLabel;
         ScaleSpinBox* scaleSpinBox;
         QPushButton* exportButton;
+        QPushButton* closeButton;
+
+        QToolBar* modeBar;
+        QToolBar* scaleBar;
+        QToolBar* otherButtonsBar;
 
         const QMargins exportMargins = {10, 10, 10, 10};
 
     public slots:
         void open(int graphId);
+        void close();
 
     private slots:
         void exportGraph();
+        void onGraphsUpdated();
 };

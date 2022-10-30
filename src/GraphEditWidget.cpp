@@ -3,12 +3,12 @@
 #include "GraphNodeItem.h"
 #include "db/db.h"
 #include "appendExtention.h"
+#include "GlobalSignalHandler.h"
 
 #include <QWidget>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QToolBar>
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -52,12 +52,30 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphEditWidget::exportGraph
     );
 
+    connect(
+        closeButton,
+        &QPushButton::pressed,
+        this,
+        &GraphEditWidget::close
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::graphsUpdated,
+        this,
+        &GraphEditWidget::onGraphsUpdated
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
+
+    modeBar->setDisabled(true);
+    scaleBar->setDisabled(true);
+    otherButtonsBar->setDisabled(true);
 
     // Load from settings
     QSettings settings;
     if (settings.contains("graph/id")) {
-        open(settings.value("graph/id").toInt());
+        open(settings.value("graph/id").toInt()); // XXX Add existance check ?
     }
 
     setMouseTracking(true);
@@ -71,9 +89,8 @@ void GraphEditWidget::ui() {
 
 void GraphEditWidget::uiHeader() {
     // Mode Bar
-    auto* modeBar = addToolBar("Mode Bar");
+    modeBar = addToolBar(tr("Mode Bar"));
     modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
-
 
     auto* modeBtns = new QButtonGroup(this);
     connect(
@@ -109,21 +126,26 @@ void GraphEditWidget::uiHeader() {
     modeBtns->addButton(deleteBtn, DELETE_EDIT_MODE);
     modeBar->addWidget(deleteBtn);
 
-    // Settings Bar
-    auto* settingsBar = addToolBar("Settings Bar");
-    settingsBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    // Scale Bar
+    scaleBar = addToolBar(tr("Scale Bar"));
+    scaleBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    settingsBar->addWidget(new QLabel(tr("Scale: ")));
+    scaleBar->addWidget(new QLabel(tr("Scale: ")));
 
     scaleSpinBox = new ScaleSpinBox;
-    settingsBar->addWidget(scaleSpinBox);
+    scaleBar->addWidget(scaleSpinBox);
 
-    // Export Bar
-    auto* exportBar = addToolBar("Export Bar");
-    exportBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    // Other Buttons Bar
+    otherButtonsBar = addToolBar(tr("Export Bar"));
+    otherButtonsBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    exportButton = new QPushButton("Export");
-    exportBar->addWidget(exportButton);
+    exportButton = new QPushButton(tr("Export"));
+    otherButtonsBar->addWidget(exportButton);
+
+    otherButtonsBar->addSeparator();
+
+    closeButton = new QPushButton(tr("Close"));
+    otherButtonsBar->addWidget(closeButton);
 }
 
 void GraphEditWidget::uiBody() {
@@ -146,9 +168,29 @@ void GraphEditWidget::open(int graphId) {
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
+    modeBar->setDisabled(false);
+    scaleBar->setDisabled(false);
+    otherButtonsBar->setDisabled(false);
+
     // Write to settings
     QSettings settings;
     settings.setValue("graph/id", graphId);
+}
+
+void GraphEditWidget::close() {
+    this->graphId = -1;
+
+    nameLabel->setText(tr("No Graph Loaded"));
+    graphScene->close();
+    graphView->setDisabled(true);
+
+    modeBar->setDisabled(true);
+    scaleBar->setDisabled(true);
+    otherButtonsBar->setDisabled(true);
+
+    // Write to settings
+    QSettings settings;
+    settings.remove("graph/id");
 }
 
 void GraphEditWidget::updateStatus(QMouseEvent* e) {
@@ -259,4 +301,10 @@ void GraphEditWidget::exportAsJpg(const QString& filename) {
     graphScene->render(&painter, QRectF(), rect);
 
     img.save(filename);
+}
+
+void GraphEditWidget::onGraphsUpdated() {
+    if (graphId != -1 && !graph::exists(graphId)) {
+        close();
+    }
 }

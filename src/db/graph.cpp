@@ -157,3 +157,14 @@ Graph graph::read(int id) {
     g.count = query.value(2).toInt();
     return g;
 }
+
+bool graph::exists(int id) {
+    PREPARE_NEW(query, " \
+        SELECT 1 \
+        FROM graphs \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    return query.next();
+}
