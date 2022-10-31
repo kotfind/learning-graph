@@ -2,6 +2,7 @@
 
 #include "GraphTab.h"
 #include "GraphEditWidget.h"
+#include "LearningListWidget.h"
 
 #include <QMainWindow>
 #include <QString>
@@ -17,7 +18,8 @@ class MainWindow : public QMainWindow {
         void uiBody();
 
         GraphTab* graphsTab;
-        GraphEditWidget* graphEditTab;
+        GraphEditWidget* graphEditWidget;
+        LearningListWidget* learningListWidget;
 
         QActionGroup* fontSizeActionGroup;
 

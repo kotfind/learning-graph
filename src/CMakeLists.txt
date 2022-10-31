@@ -48,7 +48,7 @@ add_executable(learning_graph
     GraphView.cpp
     GraphInfoDialog.cpp
 
-    LearningListTab.cpp
+    LearningListWidget.cpp
 )
 
 target_link_libraries(learning_graph

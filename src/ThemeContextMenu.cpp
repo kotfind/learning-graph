@@ -2,7 +2,7 @@
 
 #include "ThemeInfoDialog.h"
 #include "GraphEditWidget.h"
-#include "LearningListTab.h"
+#include "LearningListWidget.h"
 #include "GlobalSignalHandler.h"
 
 #include "db/db.h"
@@ -27,6 +27,7 @@ void ThemeContextMenu::ui() {
     addAction(tr("Watch/ Edit"), [this](){
         (new ThemeInfoDialog(themeId, this))->exec();
     });
+
     addAction(tr("Delete"), [this](){
         if (QMessageBox::question(
                 this,
@@ -39,8 +40,10 @@ void ThemeContextMenu::ui() {
             emit themesUpdated();
         }
     });
+
     addSeparator();
-    addAction(tr("Build Learning List"), [](){
+
+    addAction(tr("Build Learning List"), [this]() {
         // TODO
     });
 }
