@@ -73,6 +73,16 @@ bool createTables() {
     EXEC(query)
     query.finish();
 
+    // Learning List
+    PREPARE(query, " \
+        CREATE TABLE listThemes( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            themeId INTEGER UNIQUE REFERENCES themes(id) \
+        ) \
+    ")
+    EXEC(query)
+    query.finish();
+
     return true;
 }
 

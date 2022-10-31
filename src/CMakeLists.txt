@@ -31,6 +31,7 @@ add_executable(learning_graph
     db/graph.cpp
     db/graphNode.cpp
     db/themeEdge.cpp
+    db/list.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp

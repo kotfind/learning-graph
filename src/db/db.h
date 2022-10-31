@@ -137,4 +137,9 @@ namespace db {
 
         void del(int edgeId);
     };
+
+    // Learning List
+    namespace list {
+        void build(int themeId);
+    };
 };
