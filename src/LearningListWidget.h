@@ -19,5 +19,6 @@ class LearningListWidget : public QWidget {
         QPushButton* closeButton;
 
     private slots:
-        void openList(int themeId);
+        void open(int themeId);
+        void close();
 };

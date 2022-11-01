@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <qpushbutton.h>
 
 LearningListWidget::LearningListWidget(QWidget* parent)
         : QWidget(parent) {
@@ -14,7 +15,14 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::openList,
         this,
-        &LearningListWidget::openList
+        &LearningListWidget::open
+    );
+
+    connect(
+        closeButton,
+        &QPushButton::pressed,
+        this,
+        &LearningListWidget::close
     );
 
     themesList->setDisabled(true);
@@ -48,6 +56,14 @@ void LearningListWidget::ui() {
     hbox->addWidget(closeButton);
 }
 
-void LearningListWidget::openList(int themeId) {
-    qDebug() << "Open in Learning List";
+void LearningListWidget::open(int themeId) {
+    themesList->setDisabled(false);
+    exportButton->setDisabled(false);
+    closeButton->setDisabled(false);
+}
+
+void LearningListWidget::close() {
+    themesList->setDisabled(true);
+    exportButton->setDisabled(true);
+    closeButton->setDisabled(true);
 }
