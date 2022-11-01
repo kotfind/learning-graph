@@ -88,6 +88,11 @@ namespace db {
         // XXX: description is selected
         QList<Theme> reads(const QList<int>& ids);
 
+        // Returns list of themes so that
+        //     theme with id themeId depends on themes from list
+        // XXX: No description selected
+        QList<Theme> readsDependencies(int themeId);
+
         // Inserts theme into db if id == -1,
         //    updates existant theme otherwise
         // Returns theme's id

@@ -61,6 +61,16 @@ void ThemeInfoDialog::load() {
         isLearnedCheckBox->setChecked(t.isLearned);
         inWishlistCheckBox->setChecked(t.inWishlist);
         descriptionEdit->setText(t.description);
+
+        dependsOnList->clear();
+        const auto deps = theme::readsDependencies(themeId);
+        for (const auto& t : deps) {
+            dependsOnList->addItem(
+                tr("%1 from %2")
+                    .arg(t.name)
+                    .arg(t.package.name)
+            );
+        }
     }
 }
 
@@ -142,6 +152,7 @@ void ThemeInfoDialog::ui() {
     dependsOnBox->addWidget(dependsOnLabel);
 
     dependsOnList = new QListWidget;
+    dependsOnList->setSelectionMode(QAbstractItemView::NoSelection);
     dependsOnBox->addWidget(dependsOnList);
 
     // Buttons Layout
