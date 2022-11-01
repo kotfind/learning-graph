@@ -197,7 +197,7 @@ QList<Theme> theme::reads(
     return themes;
 }
 
-QList<Theme> theme::reads(int excludeGraphId) {
+QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
     PREPARE_NEW(query, " \
         SELECT id, name, packageId, isLearned, inWishlist \
         FROM themes \
@@ -228,7 +228,7 @@ QList<Theme> theme::reads(int excludeGraphId) {
     return themes;
 }
 
-QList<Theme> theme::reads(const QList<int>& ids) {
+QList<Theme> theme::readsByIds(const QList<int>& ids) {
     PREPARE_NEW(query, QString(" \
         SELECT id, name, packageId, isLearned, inWishlist, description \
         FROM themes \
@@ -266,7 +266,7 @@ void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
     QTextStream out(&file);
 
     bool first = true;
-    auto themes = theme::reads(ids);
+    auto themes = theme::readsByIds(ids);
     for (const auto& theme : themes) {
         if (!first) {
             out << "\n";
@@ -306,5 +306,5 @@ QList<Theme> theme::readsDependencies(int themeId) {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::reads(ids);
+    return theme::readsByIds(ids);
 }

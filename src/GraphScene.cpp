@@ -152,7 +152,7 @@ int GraphScene::getThemeIdToAdd() const {
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);
 
-    auto themes = theme::reads(graphId);
+    auto themes = theme::readsExceptGraph(graphId);
 
     for (const auto t : themes) {
         d.addItem(

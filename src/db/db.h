@@ -82,11 +82,11 @@ namespace db {
         // Returns list of themes which are not
         // presenred on graph with id excludeGraphId
         // XXX: No description selected
-        QList<Theme> reads(int excludeGraphId);
+        QList<Theme> readsExceptGraph(int excludeGraphId);
 
         // Selects themes with ids ids
         // XXX: description is selected
-        QList<Theme> reads(const QList<int>& ids);
+        QList<Theme> readsByIds(const QList<int>& ids);
 
         // Returns list of themes so that
         //     theme with id themeId depends on themes from list
