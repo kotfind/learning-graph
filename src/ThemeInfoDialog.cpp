@@ -66,7 +66,7 @@ void ThemeInfoDialog::load() {
         const auto deps = theme::readsDependencies(themeId);
         for (const auto& t : deps) {
             dependsOnList->addItem(
-                tr("%1 from %2")
+                tr("%1 (%2)")
                     .arg(t.name)
                     .arg(t.package.name)
             );
