@@ -20,11 +20,11 @@ class GraphScene : public QGraphicsScene {
         // Returns graph's edit mode
         GraphEditMode getMode() { return mode; }
 
-    private:
         // Returns item with current type in position pos
         //     or nullptr otherwise
         template<typename T> T typedItemAt(const QPointF& pos);
 
+    private:
         // Asks user to select a theme to add
         // Returns id if user selected theme
         // Returns -1 otherwise
