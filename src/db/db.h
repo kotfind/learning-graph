@@ -141,5 +141,9 @@ namespace db {
     // Learning List
     namespace list {
         void build(int themeId);
+
+        // Selects themes that
+        // presented in list
+        QList<Theme> reads();
     };
 };

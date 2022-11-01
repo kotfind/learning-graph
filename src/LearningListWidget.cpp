@@ -1,11 +1,13 @@
 #include "LearningListWidget.h"
 
 #include "GlobalSignalHandler.h"
+#include "db/db.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDebug>
-#include <qpushbutton.h>
+
+using namespace db;
 
 LearningListWidget::LearningListWidget(QWidget* parent)
         : QWidget(parent) {
@@ -34,11 +36,12 @@ void LearningListWidget::ui() {
     setLayout(vbox);
 
     // Title
-    mainLabel = new QLabel(tr("No List loaded"));
+    mainLabel = new QLabel(tr("No list loaded"));
     vbox->addWidget(mainLabel);
 
     // List
     themesList = new SmartListWidget;
+    themesList->setSelectionMode(false);
     vbox->addWidget(themesList);
 
     // Buttons
@@ -55,9 +58,28 @@ void LearningListWidget::ui() {
 }
 
 void LearningListWidget::open(int themeId) {
+    mainLabel->setText(tr("List for theme %1").arg(theme::name(themeId)));
+
+    list::build(themeId);
+    auto themes = list::reads();
+
+    themesList->clear();
+    for (const auto& t : themes) {
+        themesList->addItem(
+            tr("%1 from %2")
+                .arg(t.name)
+                .arg(t.package.name),
+            t.id
+        );
+    }
+
     setDisabled(false);
 }
 
 void LearningListWidget::close() {
+    mainLabel->setText(tr("No list loaded"));
+
+    themesList->clear();
+
     setDisabled(true);
 }

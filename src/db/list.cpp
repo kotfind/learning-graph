@@ -24,3 +24,18 @@ void list::build(int themeId) {
     EXEC(query)
     query.finish();
 }
+
+QList<Theme> list::reads() {
+    PREPARE_NEW(query, " \
+        SELECT themeId \
+        FROM listThemes \
+    ")
+    EXEC(query)
+
+    QList<int> ids;
+    while (query.next()) {
+        ids.append(query.value(0).toInt());
+    }
+
+    return theme::reads(ids);
+}
