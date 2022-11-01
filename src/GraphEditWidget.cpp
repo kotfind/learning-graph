@@ -92,39 +92,39 @@ void GraphEditWidget::uiHeader() {
     modeBar = addToolBar(tr("Mode Bar"));
     modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    auto* modeBtns = new QButtonGroup(this);
+    auto* modeButtons = new QButtonGroup(this);
     connect(
-        modeBtns,
+        modeButtons,
         &QButtonGroup::idPressed,
         [this] (int id) {
             graphScene->setMode((GraphEditMode)id);
         }
     );
 
-    auto* pointerBtn = new QToolButton;
-    pointerBtn->setIcon(QIcon(":pointer.svg"));
-    pointerBtn->setCheckable(true);
-    pointerBtn->setChecked(true);
-    modeBtns->addButton(pointerBtn, CURSOR_EDIT_MODE);
-    modeBar->addWidget(pointerBtn);
+    auto* pointerButton = new QToolButton;
+    pointerButton->setIcon(QIcon(":pointer.svg"));
+    pointerButton->setCheckable(true);
+    pointerButton->setChecked(true);
+    modeButtons->addButton(pointerButton, CURSOR_EDIT_MODE);
+    modeBar->addWidget(pointerButton);
 
-    auto* arrowBtn = new QToolButton;
-    arrowBtn->setIcon(QIcon(":arrow.svg"));
-    arrowBtn->setCheckable(true);
-    modeBtns->addButton(arrowBtn, EDGE_EDIT_MODE);
-    modeBar->addWidget(arrowBtn);
+    auto* arrowButton = new QToolButton;
+    arrowButton->setIcon(QIcon(":arrow.svg"));
+    arrowButton->setCheckable(true);
+    modeButtons->addButton(arrowButton, EDGE_EDIT_MODE);
+    modeBar->addWidget(arrowButton);
 
-    auto* newNodeBtn = new QToolButton;
-    newNodeBtn->setIcon(QIcon(":plus.svg"));
-    newNodeBtn->setCheckable(true);
-    modeBtns->addButton(newNodeBtn, NEW_NODE_EDIT_MODE);
-    modeBar->addWidget(newNodeBtn);
+    auto* newNodeButton = new QToolButton;
+    newNodeButton->setIcon(QIcon(":plus.svg"));
+    newNodeButton->setCheckable(true);
+    modeButtons->addButton(newNodeButton, NEW_NODE_EDIT_MODE);
+    modeBar->addWidget(newNodeButton);
 
-    auto* deleteBtn = new QToolButton;
-    deleteBtn->setIcon(QIcon(":cross.svg"));
-    deleteBtn->setCheckable(true);
-    modeBtns->addButton(deleteBtn, DELETE_EDIT_MODE);
-    modeBar->addWidget(deleteBtn);
+    auto* deleteButton = new QToolButton;
+    deleteButton->setIcon(QIcon(":cross.svg"));
+    deleteButton->setCheckable(true);
+    modeButtons->addButton(deleteButton, DELETE_EDIT_MODE);
+    modeBar->addWidget(deleteButton);
 
     // Scale Bar
     scaleBar = addToolBar(tr("Scale Bar"));

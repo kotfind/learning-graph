@@ -27,14 +27,14 @@ PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
     );
 
     connect(
-        cancelBtn,
+        cancelButton,
         &QPushButton::pressed,
         this,
         &PackageInfoDialog::reject
     );
 
     connect(
-        saveBtn,
+        saveButton,
         &QPushButton::pressed,
         this,
         &PackageInfoDialog::save
@@ -59,12 +59,12 @@ void PackageInfoDialog::ui() {
 
     hbox->addStretch(1);
 
-    cancelBtn = new QPushButton("Cancel");
-    hbox->addWidget(cancelBtn);
+    cancelButton = new QPushButton("Cancel");
+    hbox->addWidget(cancelButton);
 
-    saveBtn = new QPushButton(packageId == -1 ? tr("Create") : tr("Update"));
-    saveBtn->setDefault(true);
-    hbox->addWidget(saveBtn);
+    saveButton = new QPushButton(packageId == -1 ? tr("Create") : tr("Update"));
+    saveButton->setDefault(true);
+    hbox->addWidget(saveButton);
 }
 
 void PackageInfoDialog::load() {

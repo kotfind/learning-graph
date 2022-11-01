@@ -2,6 +2,8 @@
 
 #include <QObject>
 
+// Class works as tunnel for sending signals
+// when it's hard to send them directly
 class GlobalSignalHandler : public QObject {
     Q_OBJECT
 

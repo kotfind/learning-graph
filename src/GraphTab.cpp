@@ -28,16 +28,16 @@ GraphTab::GraphTab(QWidget* parent)
 
     connect(
         graphsList,
-        &SmartListWidget::doubleClicked,
+        &SmartListWidget::itemDoubleClicked,
         this,
-        &GraphTab::graphDoubleClicked
+        &GraphTab::onGraphDoubleClicked
     );
 
     connect(
         graphsList,
-        &SmartListWidget::menuRequested,
+        &SmartListWidget::itemMenuRequested,
         this,
-        &GraphTab::graphMenuRequested
+        &GraphTab::onGraphMenuRequested
     );
 
     connect(
@@ -55,6 +55,13 @@ GraphTab::GraphTab(QWidget* parent)
         }
     );
 
+    connect(
+        createButton,
+        &QPushButton::clicked,
+        this,
+        &GraphTab::onCreateButton
+    );
+
     update();
     setAutoUpdate(true);
     autoUpdateCheckBox->setChecked(true);
@@ -69,14 +76,12 @@ void GraphTab::ui() {
     vbox->addLayout(hbox);
 
     // Create Button
-    auto* createBtn = new QPushButton(tr("New graph"));
-    connect(createBtn, &QPushButton::clicked,
-            this, &GraphTab::onCreateBtn);
-    hbox->addWidget(createBtn);
+    createButton = new QPushButton(tr("New graph"));
+    hbox->addWidget(createButton);
 
     // Import Button
-    auto* importBtn = new QPushButton(tr("Import graph"));
-    hbox->addWidget(importBtn);
+    auto* importButton = new QPushButton(tr("Import graph"));
+    hbox->addWidget(importButton);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -121,7 +126,7 @@ void GraphTab::ui() {
     vbox->addWidget(graphsList);
 }
 
-void GraphTab::onCreateBtn() {
+void GraphTab::onCreateButton() {
     GraphInfoDialog d(-1, this);
     d.exec();
 }
@@ -140,11 +145,11 @@ void GraphTab::update() {
     }
 }
 
-void GraphTab::graphDoubleClicked(int graphId) {
+void GraphTab::onGraphDoubleClicked(int graphId) {
     emit open(graphId);
 }
 
-void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
+void GraphTab::onGraphMenuRequested(int graphId, const QPoint& globalPos) {
     QMenu menu;
 
     menu.addAction(tr("Open"), [=]() {
