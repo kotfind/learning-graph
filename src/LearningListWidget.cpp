@@ -1,5 +1,7 @@
 #include "LearningListWidget.h"
 
+#include "GlobalSignalHandler.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDebug>
@@ -7,6 +9,13 @@
 LearningListWidget::LearningListWidget(QWidget* parent)
         : QWidget(parent) {
     ui();
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::openList,
+        this,
+        &LearningListWidget::openList
+    );
 
     themesList->setDisabled(true);
     exportButton->setDisabled(true);
@@ -37,4 +46,8 @@ void LearningListWidget::ui() {
 
     closeButton = new QPushButton(tr("Close"));
     hbox->addWidget(closeButton);
+}
+
+void LearningListWidget::openList(int themeId) {
+    qDebug() << "Open in Learning List";
 }

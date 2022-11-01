@@ -21,6 +21,13 @@ ThemeContextMenu::ThemeContextMenu(int themeId, QWidget* parent)
         GlobalSignalHandler::getInstance(),
         &GlobalSignalHandler::themesUpdated
     );
+
+    connect(
+        this,
+        &ThemeContextMenu::openList,
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::openList
+    );
 }
 
 void ThemeContextMenu::ui() {
@@ -44,6 +51,6 @@ void ThemeContextMenu::ui() {
     addSeparator();
 
     addAction(tr("Build Learning List"), [this]() {
-        // TODO
+        emit openList(themeId);
     });
 }

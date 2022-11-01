@@ -15,4 +15,5 @@ class ThemeContextMenu : public QMenu {
 
     signals:
         void themesUpdated();
+        void openList(int themeId);
 };

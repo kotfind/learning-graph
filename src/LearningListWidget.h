@@ -17,4 +17,7 @@ class LearningListWidget : public QWidget {
         SmartListWidget* themesList;
         QPushButton* exportButton;
         QPushButton* closeButton;
+
+    private slots:
+        void openList(int themeId);
 };
