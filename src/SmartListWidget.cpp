@@ -16,19 +16,19 @@ void SmartListWidget::addItem(const QString& name, int id) {
     QListWidget::addItem(item);
 }
 
-int SmartListWidget::currentId() const {
+int SmartListWidget::getCurrentId() const {
     return currentItem()->data(Qt::UserRole).toInt();
 }
 
 void SmartListWidget::mouseDoubleClickEvent(QMouseEvent* e) {
     if ((e->buttons() & Qt::LeftButton) && currentItem()) {
-        emit itemDoubleClicked(currentId());
+        emit itemDoubleClicked(getCurrentId());
     }
 }
 
 void SmartListWidget::contextMenuEvent(QContextMenuEvent* e) {
     if (currentItem()) {
-        emit itemMenuRequested(currentId(), e->globalPos());
+        emit itemMenuRequested(getCurrentId(), e->globalPos());
     }
 }
 
@@ -49,7 +49,7 @@ void SmartListWidget::mouseMoveEvent(QMouseEvent* e) {
                     QApplication::startDragDistance() &&
                 currentItem()
                 ) {
-            emit itemDragRequested(currentId());
+            emit itemDragRequested(getCurrentId());
         }
     }
 

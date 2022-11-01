@@ -16,7 +16,7 @@ class SmartListWidget : public QListWidget {
         void addItem(const QString& name, int id);
 
         // Returns current id
-        int currentId() const;
+        int getCurrentId() const;
 
         // Turns selection mode on if v == true
         // turns it off otherwise

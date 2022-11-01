@@ -31,8 +31,8 @@ void ThemeContextMenu::ui() {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete theme \"%1\"?").arg(theme::name(themeId)))
-                    == QMessageBox::Yes) {
+                tr("Delete theme \"%1\"?").arg(theme::name(themeId))
+            ) == QMessageBox::Yes) {
 
             theme::del(themeId);
 
