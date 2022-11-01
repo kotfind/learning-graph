@@ -60,12 +60,7 @@ void GraphNodeItem::paint(
 
     // Border
     auto w = qp->pen().width();
-    auto r = boundingRect();
-
-    r.size().rwidth() -= w;
-    r.size().rheight() -= w;
-
-    qp->drawRect(r);
+    qp->drawRect(boundingRect() - QMargins(w, w, w, w));
 
     // Text
     QGraphicsTextItem::paint(qp, options, widget);
