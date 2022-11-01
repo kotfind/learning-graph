@@ -47,14 +47,14 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphEditWidget::exportGraph
     );
 
     connect(
         closeButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphEditWidget::close
     );

@@ -42,7 +42,7 @@ GraphTab::GraphTab(QWidget* parent)
 
     connect(
         updateButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphTab::update
     );

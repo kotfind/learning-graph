@@ -29,21 +29,21 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
 
     connect(
         createPackageButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::createPackage
     );
 
     connect(
         cancelButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::reject
     );
 
     connect(
         saveButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::save
     );

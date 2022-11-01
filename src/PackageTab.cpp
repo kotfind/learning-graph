@@ -52,7 +52,7 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         updateButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageTab::update
     );
@@ -67,7 +67,7 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         selectAllButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageTab::onSelectAllButtonPressed
     );
@@ -81,7 +81,7 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageTab::onExportButtonPressed
     );

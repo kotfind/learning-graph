@@ -28,14 +28,14 @@ PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
 
     connect(
         cancelButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageInfoDialog::reject
     );
 
     connect(
         saveButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageInfoDialog::save
     );

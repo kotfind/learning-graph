@@ -9,7 +9,7 @@ ComboboxIdDialog::ComboboxIdDialog(QWidget* parent)
 
     connect(
         okButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &QDialog::accept
     );
@@ -17,7 +17,7 @@ ComboboxIdDialog::ComboboxIdDialog(QWidget* parent)
 
     connect(
         cancelButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &QDialog::reject
     );

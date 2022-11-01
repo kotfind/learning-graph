@@ -28,14 +28,14 @@ GraphInfoDialog::GraphInfoDialog(int graphId, QWidget* parent)
 
     connect(
         cancelButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphInfoDialog::reject
     );
 
     connect(
         saveButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphInfoDialog::save
     );

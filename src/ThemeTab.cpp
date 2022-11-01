@@ -77,7 +77,7 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     connect(
         selectAllButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &ThemeTab::onSelectAllButtonPressed
     );
@@ -91,7 +91,7 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &ThemeTab::onExportButtonPressed
    );
