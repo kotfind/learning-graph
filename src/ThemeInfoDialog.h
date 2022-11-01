@@ -10,6 +10,7 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QListWidget>
 
 class ThemeInfoDialog : public QDialog {
     Q_OBJECT
@@ -36,6 +37,7 @@ class ThemeInfoDialog : public QDialog {
         QTextEdit* descriptionEdit;
         QPushButton* cancelButton;
         QPushButton* saveButton;
+        QListWidget* dependsOnList;
 
     signals:
         void themesUpdated();

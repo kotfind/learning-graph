@@ -130,6 +130,20 @@ void ThemeInfoDialog::ui() {
     descriptionEdit = new QTextEdit;
     descBox->addWidget(descriptionEdit);
 
+    // Depends on list
+    auto* dependsOnFrame = new QFrame;
+    dependsOnFrame->setFrameShape(QFrame::StyledPanel);
+    vbox->addWidget(dependsOnFrame);
+
+    auto* dependsOnBox = new QVBoxLayout;
+    dependsOnFrame->setLayout(dependsOnBox);
+
+    auto* dependsOnLabel = new QLabel(tr("Depends on:"));
+    dependsOnBox->addWidget(dependsOnLabel);
+
+    dependsOnList = new QListWidget;
+    dependsOnBox->addWidget(dependsOnList);
+
     // Buttons Layout
     auto* hbox = new QHBoxLayout;
     vbox->addLayout(hbox);
