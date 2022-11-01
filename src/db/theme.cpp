@@ -291,3 +291,20 @@ bool theme::exists(int id) {
     EXEC(query)
     return query.next();
 }
+
+QList<Theme> theme::readsDependencies(int themeId) {
+    PREPARE_NEW(query, " \
+        SELECT endId \
+        FROM themeEdges \
+        WHERE beginId = ? \
+    ")
+    query.addBindValue(themeId);
+    EXEC(query)
+
+    QList<int> ids;
+    while (query.next()) {
+        ids.append(query.value(0).toInt());
+    }
+
+    return theme::reads(ids);
+}
