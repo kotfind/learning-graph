@@ -12,8 +12,13 @@ class MainWindow : public QMainWindow {
         MainWindow(QWidget* parent = nullptr);
 
     private:
+        // Draws user interface
         void ui();
+
+        // Draws user interface (header)
         void uiHeader();
+
+        // Draws user interface (body)
         void uiBody();
 
         GraphTab* graphsTab;
@@ -22,5 +27,6 @@ class MainWindow : public QMainWindow {
         QActionGroup* fontSizeActionGroup;
 
     private slots:
+        // Sets font
         void onFontSizeActionTriggered(QAction*);
 };

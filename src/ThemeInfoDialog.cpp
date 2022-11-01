@@ -28,21 +28,21 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
     );
 
     connect(
-        createPackageBtn,
+        createPackageButton,
         &QPushButton::pressed,
         this,
         &ThemeInfoDialog::createPackage
     );
 
     connect(
-        cancelBtn,
+        cancelButton,
         &QPushButton::pressed,
         this,
         &ThemeInfoDialog::reject
     );
 
     connect(
-        saveBtn,
+        saveButton,
         &QPushButton::pressed,
         this,
         &ThemeInfoDialog::save
@@ -57,10 +57,10 @@ void ThemeInfoDialog::load() {
     if (themeId != -1) {
         const Theme t = theme::read(themeId);
         themeEdit->setText(t.name);
-        packageCombo->setCurrent(t.package.id);
-        isLearnedCheck->setChecked(t.isLearned);
-        inWishlistCheck->setChecked(t.inWishlist);
-        descEdit->setText(t.description);
+        packageComboBox->setCurrent(t.package.id);
+        isLearnedCheckBox->setChecked(t.isLearned);
+        inWishlistCheckBox->setChecked(t.inWishlist);
+        descriptionEdit->setText(t.description);
     }
 }
 
@@ -94,11 +94,11 @@ void ThemeInfoDialog::ui() {
     auto* packageLbl = new QLabel(tr("Package:"));
     packageBox->addWidget(packageLbl);
 
-    packageCombo = new PackageComboBox;
-    packageBox->addWidget(packageCombo);
+    packageComboBox = new PackageComboBox;
+    packageBox->addWidget(packageComboBox);
 
-    createPackageBtn = new QPushButton(tr("New package"));
-    packageBox->addWidget(createPackageBtn);
+    createPackageButton = new QPushButton(tr("New package"));
+    packageBox->addWidget(createPackageButton);
 
     // Checkboxes
     auto* checkFrame = new QFrame;
@@ -108,11 +108,11 @@ void ThemeInfoDialog::ui() {
     auto* checkBox = new QHBoxLayout;
     checkFrame->setLayout(checkBox);
 
-    isLearnedCheck = new QCheckBox(tr("Learned"));
-    checkBox->addWidget(isLearnedCheck);
+    isLearnedCheckBox = new QCheckBox(tr("Learned"));
+    checkBox->addWidget(isLearnedCheckBox);
 
-    inWishlistCheck = new QCheckBox(tr("In Wishlist"));
-    checkBox->addWidget(inWishlistCheck);
+    inWishlistCheckBox = new QCheckBox(tr("In Wishlist"));
+    checkBox->addWidget(inWishlistCheckBox);
 
     checkBox->addStretch(1);
 
@@ -127,8 +127,8 @@ void ThemeInfoDialog::ui() {
     auto* descLbl = new QLabel(tr("Description:"));
     descBox->addWidget(descLbl);
 
-    descEdit = new QTextEdit;
-    descBox->addWidget(descEdit);
+    descriptionEdit = new QTextEdit;
+    descBox->addWidget(descriptionEdit);
 
     // Buttons Layout
     auto* hbox = new QHBoxLayout;
@@ -137,26 +137,26 @@ void ThemeInfoDialog::ui() {
     hbox->addStretch(1);
 
     // Cancel Button
-    cancelBtn = new QPushButton(tr("Cancel"));
-    hbox->addWidget(cancelBtn, 0);
+    cancelButton = new QPushButton(tr("Cancel"));
+    hbox->addWidget(cancelButton, 0);
 
     // Save Button
-    saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
-    saveBtn->setDefault(true);
-    hbox->addWidget(saveBtn, 0);
+    saveButton = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
+    saveButton->setDefault(true);
+    hbox->addWidget(saveButton, 0);
 }
 
 void ThemeInfoDialog::createPackage() {
     PackageInfoDialog d(-1, this);
 
     if (d.exec() == QDialog::Accepted) {
-        packageCombo->setCurrent(d.getId());
+        packageComboBox->setCurrent(d.getId());
     }
 }
 
 void ThemeInfoDialog::save() {
     // Check package
-    if (!packageCombo->currentData().isValid()) {
+    if (!packageComboBox->currentData().isValid()) {
         QMessageBox::critical(
             this,
             tr("Error"),
@@ -167,15 +167,15 @@ void ThemeInfoDialog::save() {
 
     try {
         Package p;
-        p.id = packageCombo->currentData().toInt();
+        p.id = packageComboBox->currentData().toInt();
 
         Theme t;
         t.id = themeId;
         t.name = themeEdit->text().trimmed();
         t.package = p;
-        t.inWishlist = inWishlistCheck->isChecked();
-        t.isLearned = isLearnedCheck->isChecked();
-        t.description = descEdit->toPlainText();
+        t.inWishlist = inWishlistCheckBox->isChecked();
+        t.isLearned = isLearnedCheckBox->isChecked();
+        t.description = descriptionEdit->toPlainText();
 
         themeId = theme::write(t);
     } catch (const QString& msg) {

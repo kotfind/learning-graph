@@ -14,23 +14,35 @@ class GraphView : public QGraphicsView {
         GraphView(QWidget* parent = nullptr);
 
     protected:
+        // Scales graph
         void wheelEvent(QWheelEvent*) override;
+
+        // Inits updateCursor
+        // Sets moveStartPoint
         void mousePressEvent(QMouseEvent*) override;
+
+        // Inits updateCursor
+        // Moves graph
         void mouseMoveEvent(QMouseEvent*) override;
+
+        // Inits updateCursor
         void mouseReleaseEvent(QMouseEvent*) override;
 
     private:
+        // Updates cursor
+        // Is called by mouse event handlers
         void updateCursor(QMouseEvent*);
 
         const double scaleDelthaFactor = 5e-4;
 
         QCursor cursor;
 
-        QPoint lastMovePoint;
+        QPoint moveStartPoint;
 
     signals:
         void scaleChanged(double);
 
     public slots:
-        void setScale(double);
+        // Sets scale to s
+        void setScale(double s);
 };

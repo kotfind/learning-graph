@@ -10,16 +10,21 @@ class ComboboxIdDialog : public QDialog {
     public:
         ComboboxIdDialog(QWidget* parent = nullptr);
 
+        // Sets label text to param
         void setLabel(const QString&);
+
+        // Adds item with current name and id to combobox
         void addItem(const QString& name, int id);
 
+        // Returns id of current item
         int getId();
 
     private:
+        // Draws user interface
         void ui();
 
-        QLabel* lbl;
-        QComboBox* combo;
-        QPushButton* cancelBtn;
-        QPushButton* okBtn;
+        QLabel* label;
+        QComboBox* combobox;
+        QPushButton* cancelButton;
+        QPushButton* okButton;
 };

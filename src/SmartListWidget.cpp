@@ -22,13 +22,13 @@ int SmartListWidget::currentId() const {
 
 void SmartListWidget::mouseDoubleClickEvent(QMouseEvent* e) {
     if ((e->buttons() & Qt::LeftButton) && currentItem()) {
-        emit doubleClicked(currentId());
+        emit itemDoubleClicked(currentId());
     }
 }
 
 void SmartListWidget::contextMenuEvent(QContextMenuEvent* e) {
     if (currentItem()) {
-        emit menuRequested(currentId(), e->globalPos());
+        emit itemMenuRequested(currentId(), e->globalPos());
     }
 }
 
@@ -49,7 +49,7 @@ void SmartListWidget::mouseMoveEvent(QMouseEvent* e) {
                     QApplication::startDragDistance() &&
                 currentItem()
                 ) {
-            emit dragRequested(currentId());
+            emit itemDragRequested(currentId());
         }
     }
 

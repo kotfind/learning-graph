@@ -84,7 +84,7 @@ void GraphView::mousePressEvent(QMouseEvent* e) {
     QGraphicsView::mousePressEvent(e);
     updateCursor(e);
 
-    lastMovePoint = e->pos();
+    moveStartPoint = e->pos();
 
     e->ignore(); // pass to parent
 }
@@ -94,8 +94,8 @@ void GraphView::mouseMoveEvent(QMouseEvent* e) {
     updateCursor(e);
 
     if (e->buttons() & Qt::MiddleButton) {
-        auto delta = e->pos() - lastMovePoint;
-        lastMovePoint = e->pos();
+        auto delta = e->pos() - moveStartPoint;
+        moveStartPoint = e->pos();
 
         auto* vbar = verticalScrollBar();
         auto* hbar = horizontalScrollBar();

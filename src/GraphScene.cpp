@@ -88,7 +88,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     int themeId;
     switch (mode) {
         case NEW_NODE_EDIT_MODE:
-            if ((themeId = getThemeIdToAdd(pos)) != -1) {
+            if ((themeId = getThemeIdToAdd()) != -1) {
                 newNode(themeId, pos);
             }
             break;
@@ -147,7 +147,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseReleaseEvent(e);
 }
 
-int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
+int GraphScene::getThemeIdToAdd() const {
     ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Node>"), -1);

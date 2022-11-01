@@ -14,6 +14,7 @@ class PackageTab : public QWidget {
         PackageTab(QWidget* parent = nullptr);
 
     private:
+        // Draws user interface
         void ui();
 
         QLineEdit* nameEdit;
@@ -28,14 +29,29 @@ class PackageTab : public QWidget {
         void themesUpdated();
 
     public slots:
+        // (Re)loads data from db
         void update();
+
+        // Sets autoupdate mode to state
         void setAutoUpdate(bool state);
 
     private slots:
+        // Opens creation dialog
         void onCreateBtn();
+
+        // Opens PackageInfoDialog for package with id packageId
         void onPackageDoubleClicked(int packageId);
+
+        // Opens context menu for package with id packageId
         void onPackageMenuRequested(int packageId, const QPoint& globalPos);
+
+        // Selects all if something was selected
+        // Clears selection otherwise
         void onSelectAllButtonPressed();
+
+        // Updates selectAll button text
         void onSelectionChanged();
+
+        // Exports package
         void onExportButtonPressed();
 };

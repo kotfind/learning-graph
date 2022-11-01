@@ -38,14 +38,14 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         packagesList,
-        &SmartListWidget::menuRequested,
+        &SmartListWidget::itemMenuRequested,
         this,
         &PackageTab::onPackageMenuRequested
     );
 
     connect(
         packagesList,
-        &SmartListWidget::doubleClicked,
+        &SmartListWidget::itemDoubleClicked,
         this,
         &PackageTab::onPackageDoubleClicked
     );

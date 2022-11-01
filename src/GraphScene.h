@@ -17,18 +17,31 @@ class GraphScene : public QGraphicsScene {
     public:
         GraphScene();
 
+        // Returns graph's edit mode
         GraphEditMode getMode() { return mode; }
 
     private:
+        // Returns item with current type in position pos
+        //     or nullptr otherwise
         template<typename T> T typedItemAt(const QPointF& pos);
 
-        int getThemeIdToAdd(const QPointF& pos) const;
+        // Asks user to select a theme to add
+        // Returns id if user selected theme
+        // Returns -1 otherwise
+        // NOTE: user can create new theme in progress
+        int getThemeIdToAdd() const;
 
+        // Creates new node from theme with id themeId on position pos
         void newNode(int themeId, const QPointF& pos);
+
+        // Creates new edge from beginNode to endNode
         void newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode);
 
-        void deleteNode(GraphNodeItem*);
-        void deleteEdge(GraphEdge*);
+        // Deletes node node
+        void deleteNode(GraphNodeItem* node);
+
+        // Deletes edge edge
+        void deleteEdge(GraphEdge* edge);
 
         int graphId = -1;
 
@@ -40,20 +53,38 @@ class GraphScene : public QGraphicsScene {
         QHash<int, GraphNodeItem*> themeIdToNode;
 
     protected:
-        void mousePressEvent(QGraphicsSceneMouseEvent*) override;
-        void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
-        void mouseReleaseEvent(QGraphicsSceneMouseEvent*) override;
+        // Runs one of other class methods
+        //    depending on mode and mouse button
+        void mousePressEvent(QGraphicsSceneMouseEvent *) override;
 
-        void dragEnterEvent(QGraphicsSceneDragDropEvent*) override;
-        void dragMoveEvent(QGraphicsSceneDragDropEvent*) override;
-        void dropEvent(QGraphicsSceneDragDropEvent*) override;
+        // Draws preview line in EDGE_EDIT_MODE
+        void mouseMoveEvent(QGraphicsSceneMouseEvent *) override;
+
+        // Creates inits edge creation in EDGE_EDIT_MODE
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
+
+        // Filters drag&drop events
+        void dragEnterEvent(QGraphicsSceneDragDropEvent *) override;
+
+        // Filters drag&drop events
+        void dragMoveEvent(QGraphicsSceneDragDropEvent *) override;
+
+        // Creates node from dropped theme
+        void dropEvent(QGraphicsSceneDragDropEvent *) override;
 
     signals:
         void graphsUpdated();
 
     public slots:
+        // Opens graph with id graphId
         void open(int graphId);
+
+        // Closes current graph
         void close();
+
+        // Sets mode to mode
         void setMode(GraphEditMode mode);
+
+        // Recalculates scene rect
         void recalcSceneRect();
 };
