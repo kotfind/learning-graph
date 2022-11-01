@@ -25,9 +25,7 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         &LearningListWidget::close
     );
 
-    themesList->setDisabled(true);
-    exportButton->setDisabled(true);
-    closeButton->setDisabled(true);
+    setDisabled(true);
 }
 
 void LearningListWidget::ui() {
@@ -57,13 +55,9 @@ void LearningListWidget::ui() {
 }
 
 void LearningListWidget::open(int themeId) {
-    themesList->setDisabled(false);
-    exportButton->setDisabled(false);
-    closeButton->setDisabled(false);
+    setDisabled(false);
 }
 
 void LearningListWidget::close() {
-    themesList->setDisabled(true);
-    exportButton->setDisabled(true);
-    closeButton->setDisabled(true);
+    setDisabled(true);
 }
