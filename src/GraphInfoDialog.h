@@ -25,8 +25,8 @@ class GraphInfoDialog : public QDialog {
         int graphId;
 
         QLineEdit* nameEdit;
-        QPushButton* cancelBtn;
-        QPushButton* saveBtn;
+        QPushButton* cancelButton;
+        QPushButton* saveButton;
 
     signals:
         void graphsUpdated();

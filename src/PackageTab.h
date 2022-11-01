@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QPushButton>
+#include <qpushbutton.h>
 
 class PackageTab : public QWidget {
     Q_OBJECT
@@ -17,6 +18,8 @@ class PackageTab : public QWidget {
         // Draws user interface
         void ui();
 
+        QPushButton* createButton;
+        QPushButton* importButton;
         QLineEdit* nameEdit;
         QCheckBox* autoUpdateCheckBox;
         QPushButton* updateButton;
@@ -37,7 +40,7 @@ class PackageTab : public QWidget {
 
     private slots:
         // Opens creation dialog
-        void onCreateBtn();
+        void onCreateButtonClicked();
 
         // Opens PackageInfoDialog for package with id packageId
         void onPackageDoubleClicked(int packageId);

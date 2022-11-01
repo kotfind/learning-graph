@@ -84,7 +84,14 @@ PackageTab::PackageTab(QWidget* parent)
         &QPushButton::pressed,
         this,
         &PackageTab::onExportButtonPressed
-   );
+    );
+
+    connect(
+        createButton,
+        &QPushButton::clicked,
+        this,
+        &PackageTab::onCreateButtonClicked
+    );
 
     update();
     setAutoUpdate(true);
@@ -102,14 +109,12 @@ void PackageTab::ui() {
     vbox->addLayout(hbox);
 
     // Create Button
-    auto* createBtn = new QPushButton(tr("New package"));
-    connect(createBtn, &QPushButton::clicked,
-            this, &PackageTab::onCreateBtn);
-    hbox->addWidget(createBtn);
+    createButton = new QPushButton(tr("New package"));
+    hbox->addWidget(createButton);
 
     // Import Button
-    auto* importBtn = new QPushButton(tr("Import package"));
-    hbox->addWidget(importBtn);
+    importButton = new QPushButton(tr("Import package"));
+    hbox->addWidget(importButton);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -162,7 +167,7 @@ void PackageTab::ui() {
     vbox->addWidget(exportButton);
 }
 
-void PackageTab::onCreateBtn() {
+void PackageTab::onCreateButtonClicked() {
     PackageInfoDialog d(-1, this);
     d.exec();
 }

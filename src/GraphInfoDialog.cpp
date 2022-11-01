@@ -27,14 +27,14 @@ GraphInfoDialog::GraphInfoDialog(int graphId, QWidget* parent)
     );
 
     connect(
-        cancelBtn,
+        cancelButton,
         &QPushButton::pressed,
         this,
         &GraphInfoDialog::reject
     );
 
     connect(
-        saveBtn,
+        saveButton,
         &QPushButton::pressed,
         this,
         &GraphInfoDialog::save
@@ -59,12 +59,12 @@ void GraphInfoDialog::ui() {
 
     hbox->addStretch(1);
 
-    cancelBtn = new QPushButton("Cancel");
-    hbox->addWidget(cancelBtn);
+    cancelButton = new QPushButton("Cancel");
+    hbox->addWidget(cancelButton);
 
-    saveBtn = new QPushButton(graphId == -1 ? tr("Create") : tr("Update"));
-    saveBtn->setDefault(true);
-    hbox->addWidget(saveBtn);
+    saveButton = new QPushButton(graphId == -1 ? tr("Create") : tr("Update"));
+    saveButton->setDefault(true);
+    hbox->addWidget(saveButton);
 }
 
 void GraphInfoDialog::load() {
