@@ -232,49 +232,60 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="MainWindow.cpp" line="19"/>
+        <location filename="MainWindow.cpp" line="20"/>
         <source>Learning Graph</source>
         <translation>Граф Изучения</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="57"/>
+        <location filename="MainWindow.cpp" line="58"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="60"/>
+        <location filename="MainWindow.cpp" line="61"/>
         <source>Font Size</source>
         <translation>Размер Шрифта</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="86"/>
+        <location filename="MainWindow.cpp" line="87"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="94"/>
+        <location filename="MainWindow.cpp" line="95"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Английский</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="101"/>
+        <location filename="MainWindow.cpp" line="102"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>Русский</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="118"/>
+        <location filename="MainWindow.cpp" line="119"/>
         <source>Themes</source>
         <translation>Темы</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="121"/>
+        <location filename="MainWindow.cpp" line="122"/>
         <source>Packages</source>
         <translation>Пакеты</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="124"/>
+        <location filename="MainWindow.cpp" line="125"/>
         <source>Graphs</source>
         <translation>Графы</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="153"/>
+        <source>Info</source>
+        <translation>Информация</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="154"/>
+        <source>Restart the application for changes to take effect.</source>
+        <oldsource>Restart application for changes to take effect.</oldsource>
+        <translation>Перезапустите приложение, чтобы изменения вступили в силу.</translation>
     </message>
 </context>
 <context>

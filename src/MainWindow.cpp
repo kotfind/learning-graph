@@ -13,6 +13,7 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QSettings>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent) {
@@ -143,5 +144,14 @@ void MainWindow::onFontSizeActionTriggered(QAction* action) {
 }
 
 void MainWindow::onLanguageActionTriggered(QAction* action) {
-    qDebug() << "Lang is " + action->data().toString();
+    QSettings settings;
+    if (settings.value("locale") != action->data()) {
+        settings.setValue("locale", action->data());
+
+        QMessageBox::information(
+            this,
+            tr("Info"),
+            tr("Restart the application for changes to take effect.")
+        );
+    }
 }
