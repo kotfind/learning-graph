@@ -195,7 +195,8 @@
     </message>
     <message>
         <location filename="GraphTab.cpp" line="112"/>
-        <source>Auto update</source>
+        <source>Autoupdate</source>
+        <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
@@ -359,7 +360,8 @@
     </message>
     <message>
         <location filename="PackageTab.cpp" line="145"/>
-        <source>Auto update</source>
+        <source>Autoupdate</source>
+        <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
@@ -410,7 +412,8 @@
     </message>
     <message>
         <location filename="PackageTab.cpp" line="296"/>
-        <source>Text (*.txt)</source>
+        <source>Text file (*.txt)</source>
+        <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
@@ -630,7 +633,8 @@
     </message>
     <message>
         <location filename="ThemeTab.cpp" line="169"/>
-        <source>Auto update</source>
+        <source>Autoupdate</source>
+        <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
@@ -661,7 +665,8 @@
     </message>
     <message>
         <location filename="ThemeTab.cpp" line="358"/>
-        <source>Text (*.txt)</source>
+        <source>Text file (*.txt)</source>
+        <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>

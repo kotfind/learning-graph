@@ -166,7 +166,7 @@ void ThemeTab::ui() {
     searchButton = new QPushButton(tr("Search"));
     grid->addWidget(searchButton, 5, 1);
 
-    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(autoUpdateCheckBox, 5, 0);
 
     // Selection
@@ -355,7 +355,7 @@ void ThemeTab::onSelectionChanged() {
 }
 
 void ThemeTab::onExportButtonPressed() {
-    const QString txtFilter = tr("Text (*.txt)");
+    const QString txtFilter = tr("Text file (*.txt)");
 
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(

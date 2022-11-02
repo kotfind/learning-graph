@@ -109,7 +109,7 @@ void GraphTab::ui() {
     nameEdit = new QLineEdit;
     grid->addWidget(nameEdit, 1, 1);
 
-    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(
         autoUpdateCheckBox,
         2, 0

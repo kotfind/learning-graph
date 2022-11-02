@@ -142,7 +142,7 @@ void PackageTab::ui() {
     nameEdit = new QLineEdit;
     grid->addWidget(nameEdit, 1, 1);
 
-    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(
         autoUpdateCheckBox,
         2, 0
@@ -293,7 +293,7 @@ void PackageTab::onSelectionChanged() {
 }
 
 void PackageTab::onExportButtonPressed() {
-    const QString txtFilter = tr("Text (*.txt)");
+    const QString txtFilter = tr("Text file (*.txt)");
 
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
