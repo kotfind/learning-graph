@@ -40,10 +40,10 @@ void MainWindow::ui() {
 }
 
 void MainWindow::uiHeader() {
-    auto* settingsMenu = menuBar()->addMenu("Settings");
+    auto* settingsMenu = menuBar()->addMenu(tr("Settings"));
 
     // Fonts
-    auto* fontSizeMenu = settingsMenu->addMenu("Font Size");
+    auto* fontSizeMenu = settingsMenu->addMenu(tr("Font Size"));
 
     fontSizeActionGroup = new QActionGroup(this);
     fontSizeActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);

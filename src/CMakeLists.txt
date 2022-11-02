@@ -12,6 +12,7 @@ find_package(Qt6 REQUIRED
     Widgets
     Sql
     Svg
+    LinguistTools
 )
 
 qt_standard_project_setup()
@@ -66,4 +67,9 @@ qt_add_resources(learning_graph "res"
         "img/pointer.svg"
         "img/plus.svg"
         "img/cross.svg"
+)
+
+qt_add_translations(learning_graph
+    TS_FILES localeRu.ts
+    QM_FILES_OUTPUT_VARIABLE qm_files
 )

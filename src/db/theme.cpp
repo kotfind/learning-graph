@@ -273,10 +273,10 @@ void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
         }
         first = false;
 
-        out << QObject::tr("NAME:        ") << theme.name << '\n';
-        out << QObject::tr("PACKAGE:     ") << theme.package.name << '\n';
-        out << QObject::tr("LEARNED:     ") << (theme.isLearned ? "Yes" : "No") << '\n';
-        out << QObject::tr("IN WISHLIST: ") << (theme.inWishlist ? "Yes" : "No") << '\n';
+        out << QObject::tr("NAME: ") << theme.name << '\n';
+        out << QObject::tr("PACKAGE: ") << theme.package.name << '\n';
+        out << QObject::tr("LEARNED: ") << (theme.isLearned ? QObject::tr("Yes") : QObject::tr("No")) << '\n';
+        out << QObject::tr("IN WISHLIST: ") << (theme.inWishlist ? QObject::tr("Yes") : QObject::tr("No")) << '\n';
         out << QObject::tr("DESCRIPTION:\n") << theme.description << '\n';
     }
 }

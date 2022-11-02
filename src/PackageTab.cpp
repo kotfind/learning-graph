@@ -208,7 +208,7 @@ void PackageTab::onPackageMenuRequested(int packageId, const QPoint& globalPos) 
     menu.addAction(tr("Delete"), [=]() {
         if (QMessageBox::question(
                 this,
-                "Question",
+                tr("Question"),
                 tr("Delete package \"%1\"?").arg(package::name(packageId)))
                     == QMessageBox::Yes) {
 

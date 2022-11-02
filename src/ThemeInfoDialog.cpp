@@ -185,7 +185,7 @@ void ThemeInfoDialog::save() {
         QMessageBox::critical(
             this,
             tr("Error"),
-            tr("Package should be selected")
+            tr("Package should be selected.")
         );
         return;
     }

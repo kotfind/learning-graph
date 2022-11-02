@@ -47,7 +47,7 @@ void PackageInfoDialog::ui() {
     setLayout(vbox);
 
     // Name
-    auto* nameLbl = new QLabel("Package name:");
+    auto* nameLbl = new QLabel(tr("Package name:"));
     vbox->addWidget(nameLbl);
 
     nameEdit = new QLineEdit;
@@ -59,7 +59,7 @@ void PackageInfoDialog::ui() {
 
     hbox->addStretch(1);
 
-    cancelButton = new QPushButton("Cancel");
+    cancelButton = new QPushButton(tr("Cancel"));
     hbox->addWidget(cancelButton);
 
     saveButton = new QPushButton(packageId == -1 ? tr("Create") : tr("Update"));
