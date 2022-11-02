@@ -22,74 +22,78 @@
         <translation>Панель режимов</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="130"/>
+        <location filename="GraphEditWidget.cpp" line="129"/>
         <source>Scale Bar</source>
         <translation>Панель маштабирования</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="133"/>
+        <location filename="GraphEditWidget.cpp" line="131"/>
         <source>Scale: </source>
         <translation>Маштаб: </translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="139"/>
         <source>Export Bar</source>
-        <translation>Панель экспорта</translation>
+        <translation type="vanished">Панель экспорта</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="142"/>
+        <location filename="GraphEditWidget.cpp" line="137"/>
+        <source>Other Buttons Bar</source>
+        <translation>Другое</translation>
+    </message>
+    <message>
+        <location filename="GraphEditWidget.cpp" line="139"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="147"/>
+        <location filename="GraphEditWidget.cpp" line="144"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="159"/>
-        <location filename="GraphEditWidget.cpp" line="183"/>
+        <location filename="GraphEditWidget.cpp" line="156"/>
+        <location filename="GraphEditWidget.cpp" line="180"/>
         <source>No Graph Loaded</source>
         <translation>Граф не загружен</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="167"/>
+        <location filename="GraphEditWidget.cpp" line="164"/>
         <source>[Graph] %1</source>
         <translation>[Граф] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="207"/>
+        <location filename="GraphEditWidget.cpp" line="204"/>
         <source>[Theme] %1</source>
         <oldsource>[Node] %1</oldsource>
         <translation>[Тема] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="209"/>
+        <location filename="GraphEditWidget.cpp" line="206"/>
         <source>[Edge]</source>
         <translation>[Ребро]</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="231"/>
+        <location filename="GraphEditWidget.cpp" line="228"/>
         <source>JPG image (*.jpg)</source>
         <translation>JPG изображение (*.jpg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="232"/>
+        <location filename="GraphEditWidget.cpp" line="229"/>
         <source>PNG image (*.png)</source>
         <translation>PNG изображение (*.png)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="233"/>
+        <location filename="GraphEditWidget.cpp" line="230"/>
         <source>SVG image (*.svg)</source>
         <translation>SVG изображение (*.svg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="234"/>
+        <location filename="GraphEditWidget.cpp" line="231"/>
         <source>Learning Graph graph (*.graph)</source>
         <translation>Learning Graph граф (*.graph)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="239"/>
+        <location filename="GraphEditWidget.cpp" line="236"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
