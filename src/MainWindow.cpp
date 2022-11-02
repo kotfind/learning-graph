@@ -39,6 +39,13 @@ MainWindow::MainWindow(QWidget* parent)
         this,
         &MainWindow::onFontSizeActionTriggered
     );
+
+    connect(
+        languageActionGroup,
+        &QActionGroup::triggered,
+        this,
+        &MainWindow::onLanguageActionTriggered
+    );
 }
 
 void MainWindow::ui() {
@@ -74,6 +81,29 @@ void MainWindow::uiHeader() {
         fontSizeActionGroup->addAction(action);
         fontSizeMenu->addAction(action);
     }
+
+    // Language
+    auto* languageMenu = settingsMenu->addMenu(tr("Language"));
+
+    languageActionGroup = new QActionGroup(this);
+    languageActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+
+    QSettings settings;
+    const auto lang = settings.value("locale").toString();
+
+    auto* englishLanguageAction = new QAction(tr("English"), this);
+    englishLanguageAction->setCheckable(true);
+    englishLanguageAction->setChecked(lang == "en");
+    englishLanguageAction->setData("en");
+    languageActionGroup->addAction(englishLanguageAction);
+    languageMenu->addAction(englishLanguageAction);
+
+    auto* russianLanguageAction = new QAction(tr("Russian"), this);
+    russianLanguageAction->setCheckable(true);
+    russianLanguageAction->setChecked(lang == "ru");
+    russianLanguageAction->setData("ru");
+    languageActionGroup->addAction(russianLanguageAction);
+    languageMenu->addAction(russianLanguageAction);
 }
 
 void MainWindow::uiBody() {
@@ -110,4 +140,8 @@ void MainWindow::onFontSizeActionTriggered(QAction* action) {
 
     QSettings settings;
     settings.setValue("font", font);
+}
+
+void MainWindow::onLanguageActionTriggered(QAction* action) {
+    qDebug() << "Lang is " + action->data().toString();
 }

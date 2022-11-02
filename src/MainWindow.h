@@ -25,10 +25,13 @@ class MainWindow : public QMainWindow {
 
         GraphTab* graphsTab;
         GraphEditWidget* graphEditTab;
-
         QActionGroup* fontSizeActionGroup;
+        QActionGroup* languageActionGroup;
 
     private slots:
         // Sets font
         void onFontSizeActionTriggered(QAction*);
+
+        // Sets language
+        void onLanguageActionTriggered(QAction*);
 };

@@ -237,27 +237,42 @@
         <translation>Граф Изучения</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="43"/>
+        <location filename="MainWindow.cpp" line="57"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="46"/>
+        <location filename="MainWindow.cpp" line="60"/>
         <source>Font Size</source>
         <translation>Размер Шрифта</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="88"/>
+        <location filename="MainWindow.cpp" line="86"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="94"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="101"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="118"/>
         <source>Themes</source>
         <translation>Темы</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="91"/>
+        <location filename="MainWindow.cpp" line="121"/>
         <source>Packages</source>
         <translation>Пакеты</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="94"/>
+        <location filename="MainWindow.cpp" line="124"/>
         <source>Graphs</source>
         <translation>Графы</translation>
     </message>

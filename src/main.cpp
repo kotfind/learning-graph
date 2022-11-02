@@ -18,6 +18,10 @@ int main(int argc, char** argv) {
     qDebug() << settings.fileName();
 
     // Locale load
+    if (!settings.contains("locale")) {
+        settings.setValue("locale", "en");
+    }
+
     QTranslator translator;
     if (settings.value("locale").toString() == "ru") {
         if (!translator.load("localeRu")) {
