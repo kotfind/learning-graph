@@ -9,4 +9,5 @@ cmake \
     -DCMAKE_BUILD_TYPE=Debug \
     ../src
 cmake --build . -- -j
+cmake --build . --target update_translations
 ./learning_graph

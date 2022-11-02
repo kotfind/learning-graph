@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QSettings>
+#include <QTranslator>
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
@@ -15,6 +16,19 @@ int main(int argc, char** argv) {
 
     QSettings settings;
     qDebug() << settings.fileName();
+
+    // Locale load
+    if (!settings.contains("locale")) {
+        settings.setValue("locale", "en");
+    }
+
+    QTranslator translator;
+    if (settings.value("locale").toString() == "ru") {
+        if (!translator.load("localeRu")) {
+            return 1;
+        }
+        app.installTranslator(&translator);
+    }
 
     // Db
     if (!db::init()) {

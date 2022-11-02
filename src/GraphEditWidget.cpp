@@ -204,7 +204,7 @@ void GraphEditWidget::updateStatus(QMouseEvent* e) {
     GraphNodeItem* node;
     GraphEdge* edge;
     if (node = qgraphicsitem_cast<GraphNodeItem*>(item)) {
-        statusBar()->showMessage(tr("[Node] %1").arg(node->toPlainText()));
+        statusBar()->showMessage(tr("[Theme] %1").arg(node->toPlainText()));
     } else if (edge = qgraphicsitem_cast<GraphEdge*>(item)) {
         statusBar()->showMessage(tr("[Edge]"));
     } else {

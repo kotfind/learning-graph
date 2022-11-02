@@ -150,7 +150,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
 int GraphScene::getThemeIdToAdd() const {
     ComboboxIdDialog d((QWidget*)views()[0]);
     d.setLabel(tr("Choose theme to add:"));
-    d.addItem(tr("<New Node>"), -1);
+    d.addItem(tr("<New Theme>"), -1);
 
     auto themes = theme::readsExceptGraph(graphId);
 

@@ -8,6 +8,8 @@
 #include <QActionGroup>
 
 class MainWindow : public QMainWindow {
+    Q_OBJECT
+
     public:
         MainWindow(QWidget* parent = nullptr);
 
@@ -23,10 +25,13 @@ class MainWindow : public QMainWindow {
 
         GraphTab* graphsTab;
         GraphEditWidget* graphEditTab;
-
         QActionGroup* fontSizeActionGroup;
+        QActionGroup* languageActionGroup;
 
     private slots:
         // Sets font
         void onFontSizeActionTriggered(QAction*);
+
+        // Sets language
+        void onLanguageActionTriggered(QAction*);
 };

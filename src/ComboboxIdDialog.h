@@ -7,6 +7,8 @@
 #include <QLabel>
 
 class ComboboxIdDialog : public QDialog {
+    Q_OBJECT
+
     public:
         ComboboxIdDialog(QWidget* parent = nullptr);
 

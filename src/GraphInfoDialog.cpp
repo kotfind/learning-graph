@@ -47,7 +47,7 @@ void GraphInfoDialog::ui() {
     setLayout(vbox);
 
     // Name
-    auto* nameLbl = new QLabel("Graph name:");
+    auto* nameLbl = new QLabel(tr("Graph name:"));
     vbox->addWidget(nameLbl);
 
     nameEdit = new QLineEdit;
@@ -59,7 +59,7 @@ void GraphInfoDialog::ui() {
 
     hbox->addStretch(1);
 
-    cancelButton = new QPushButton("Cancel");
+    cancelButton = new QPushButton(tr("Cancel"));
     hbox->addWidget(cancelButton);
 
     saveButton = new QPushButton(graphId == -1 ? tr("Create") : tr("Update"));
