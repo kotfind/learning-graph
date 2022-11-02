@@ -32,6 +32,13 @@ MainWindow::MainWindow(QWidget* parent)
         graphEditTab,
         &GraphEditWidget::open
     );
+
+    connect(
+        fontSizeActionGroup,
+        &QActionGroup::triggered,
+        this,
+        &MainWindow::onFontSizeActionTriggered
+    );
 }
 
 void MainWindow::ui() {
@@ -51,13 +58,6 @@ void MainWindow::uiHeader() {
     auto font = qApp->font();
     qApp->setFont(font);
     emit GlobalSignalHandler::getInstance()->fontSet(font);
-
-    connect(
-        fontSizeActionGroup,
-        &QActionGroup::triggered,
-        this,
-        &MainWindow::onFontSizeActionTriggered
-    );
 
     for (int size : QFontDatabase::pointSizes(qApp->font().family())) {
         auto* action = new QAction(QString::number(size), this);
