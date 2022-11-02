@@ -52,10 +52,6 @@ add_executable(learning_graph
     LearningListTab.cpp
 )
 
-add_executable(tests
-    tests/tests.cpp
-)
-
 set(LIBS
     Qt6::Core
     Qt6::Widgets
@@ -64,7 +60,6 @@ set(LIBS
 )
 
 target_link_libraries(learning_graph ${LIBS})
-target_link_libraries(tests ${LIBS})
 
 qt_add_resources(learning_graph "res"
     PREFIX "/"
@@ -79,4 +74,19 @@ qt_add_resources(learning_graph "res"
 qt_add_translations(learning_graph
     TS_FILES localeRu.ts
     QM_FILES_OUTPUT_VARIABLE qm_files
+)
+
+# Tests
+
+add_executable(tests
+    tests/tests.cpp
+)
+
+target_link_libraries(tests ${LIBS})
+
+add_custom_command(
+    TARGET tests
+    POST_BUILD
+    COMMAND ./tests
+    WORKING_DIRECTORY .
 )
