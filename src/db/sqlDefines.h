@@ -5,14 +5,14 @@
 #include <QSqlError>
 
 #define LOG_FAILED_QUERY(query) \
-    qDebug() << QString("QUERY FAILED at %1(%2)")\
+    qDebug().noquote() << QString("QUERY FAILED at %1(%2)")\
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError();
 
 #define PREPARE(query, str) \
 if (!(query).prepare(str)) { \
-    qDebug() << QString("PREPARE FAILED at %1(%2)")\
+    qDebug().noquote() << QString("PREPARE FAILED at %1(%2)")\
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError(); \
@@ -27,7 +27,7 @@ PREPARE(query, str)
 
 #define EXEC(query) \
 if (!(query).exec()) { \
-    qDebug() << QString("EXEC FAILED at %1(%2)")\
+    qDebug().noquote() << QString("EXEC FAILED at %1(%2)")\
         .arg(__FILE__) \
         .arg(__LINE__) \
         << (query).lastError(); \

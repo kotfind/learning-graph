@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     QCoreApplication::setApplicationName("LearningGraph");
 
     QSettings settings;
-    qDebug() << settings.fileName();
+    qDebug().noquote() << QString("Using %1 as settings").arg(settings.fileName());
 
     // Locale load
     if (!settings.contains("locale")) {
