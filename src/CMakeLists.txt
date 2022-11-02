@@ -52,12 +52,19 @@ add_executable(learning_graph
     LearningListTab.cpp
 )
 
-target_link_libraries(learning_graph
+add_executable(tests
+    tests/tests.cpp
+)
+
+set(LIBS
     Qt6::Core
     Qt6::Widgets
     Qt6::Sql
     Qt6::Svg
 )
+
+target_link_libraries(learning_graph ${LIBS})
+target_link_libraries(tests ${LIBS})
 
 qt_add_resources(learning_graph "res"
     PREFIX "/"
