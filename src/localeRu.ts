@@ -160,7 +160,7 @@
     <message>
         <location filename="GraphScene.cpp" line="213"/>
         <location filename="GraphScene.cpp" line="231"/>
-        <location filename="GraphScene.cpp" line="278"/>
+        <location filename="GraphScene.cpp" line="279"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -170,7 +170,7 @@
         <translation>Невозможно провести ребро к удаленной теме</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="279"/>
+        <location filename="GraphScene.cpp" line="280"/>
         <source>This node is already on the graph.</source>
         <translation>Эта тема уже добавлена на граф.</translation>
     </message>
@@ -211,7 +211,7 @@
     <message>
         <location filename="GraphTab.cpp" line="138"/>
         <source>%1 (%2 themes)</source>
-        <translation>%1 (%2 тем)</translation>
+        <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
         <location filename="GraphTab.cpp" line="153"/>
@@ -387,7 +387,7 @@
     <message>
         <location filename="PackageTab.cpp" line="187"/>
         <source>%1 (%2 themes)</source>
-        <translation>%1 (%2 тем)</translation>
+        <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
         <location filename="PackageTab.cpp" line="206"/>
