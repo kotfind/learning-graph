@@ -39,6 +39,20 @@ GraphTab::GraphTab(QWidget* parent)
     );
 
     connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::graphsUpdated,
+        this,
+        &GraphTab::update
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &GraphTab::update
+    );
+
+    connect(
         updateButton,
         &QPushButton::clicked,
         this,

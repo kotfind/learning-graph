@@ -178,58 +178,58 @@
 <context>
     <name>GraphTab</name>
     <message>
-        <location filename="GraphTab.cpp" line="77"/>
+        <location filename="GraphTab.cpp" line="91"/>
         <source>New graph</source>
         <translation>Новый граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="81"/>
+        <location filename="GraphTab.cpp" line="95"/>
         <source>Import graph</source>
         <translation>Импортировать граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="95"/>
+        <location filename="GraphTab.cpp" line="109"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="102"/>
+        <location filename="GraphTab.cpp" line="116"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="110"/>
+        <location filename="GraphTab.cpp" line="124"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="116"/>
+        <location filename="GraphTab.cpp" line="130"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="138"/>
+        <location filename="GraphTab.cpp" line="152"/>
         <source>%1 (%2 themes)</source>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="153"/>
+        <location filename="GraphTab.cpp" line="167"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="157"/>
+        <location filename="GraphTab.cpp" line="171"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="165"/>
+        <location filename="GraphTab.cpp" line="179"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="169"/>
+        <location filename="GraphTab.cpp" line="183"/>
         <source>Delete graph &quot;%1&quot;?</source>
         <translation>Удалить граф &quot;%1&quot;?</translation>
     </message>
