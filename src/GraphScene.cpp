@@ -241,6 +241,7 @@ void GraphScene::deleteNode(GraphNodeItem* node) {
     removeItem(node);
     emit node->deleteEdges();
     node->deleteLater();
+    emit graphsUpdated();
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {
