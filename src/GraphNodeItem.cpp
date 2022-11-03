@@ -7,8 +7,6 @@
 #include <QDebug>
 #include <QMargins>
 
-using namespace db;
-
 GraphNodeItem::GraphNodeItem(int nodeId, QGraphicsItem* parent)
         : QGraphicsTextItem(parent), nodeId(nodeId) {
     setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -67,11 +65,11 @@ void GraphNodeItem::paint(
 }
 
 void GraphNodeItem::load() {
-    auto node = graphNode::read(nodeId);
+    auto node = db::graphNode::read(nodeId);
     setPos(node.x, node.y);
 
-    if (theme::exists(node.themeId)) {
-        auto theme = theme::read(node.themeId);
+    if (db::theme::exists(node.themeId)) {
+        auto theme = db::theme::read(node.themeId);
 
         setPlainText(
             QString("%1 (%2)")
@@ -90,7 +88,7 @@ void GraphNodeItem::load() {
 }
 
 void GraphNodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
-    graphNode::move(nodeId, pos().x(), pos().y());
+    db::graphNode::move(nodeId, pos().x(), pos().y());
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }

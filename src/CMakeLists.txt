@@ -50,6 +50,10 @@ add_executable(learning_graph
     GraphInfoDialog.cpp
 
     LearningListTab.cpp
+
+    filesystem/theme.cpp
+    filesystem/package.cpp
+    filesystem/graph.cpp
 )
 
 target_link_libraries(learning_graph

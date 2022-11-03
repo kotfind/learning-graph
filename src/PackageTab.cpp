@@ -4,6 +4,7 @@
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -15,8 +16,6 @@
 #include <QGridLayout>
 #include <QStandardPaths>
 #include <QFileDialog>
-
-using namespace db;
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -91,6 +90,13 @@ PackageTab::PackageTab(QWidget* parent)
         &QPushButton::clicked,
         this,
         &PackageTab::onCreateButtonClicked
+    );
+
+    connect(
+        importButton,
+        &QPushButton::clicked,
+        this,
+        &PackageTab::onImportButtonPressed
     );
 
     update();
@@ -173,7 +179,7 @@ void PackageTab::onCreateButtonClicked() {
 }
 
 void PackageTab::update() {
-    auto packages = package::reads(nameEdit->text().trimmed());
+    auto packages = db::package::reads(nameEdit->text().trimmed());
 
     packagesList->clear();
     for (const auto& p : packages) {
@@ -209,10 +215,10 @@ void PackageTab::onPackageMenuRequested(int packageId, const QPoint& globalPos) 
         if (QMessageBox::question(
                 this,
                 tr("Question"),
-                tr("Delete package \"%1\"?").arg(package::name(packageId)))
+                tr("Delete package \"%1\"?").arg(db::package::name(packageId)))
                     == QMessageBox::Yes) {
 
-            package::del(packageId);
+            db::package::del(packageId);
 
             emit packagesUpdated();
             emit themesUpdated();
@@ -294,13 +300,13 @@ void PackageTab::onSelectionChanged() {
 
 void PackageTab::onExportButtonPressed() {
     const QString txtFilter = tr("Text file (*.txt)");
-
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
         this,
         tr("Export to ..."),
         QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-        txtFilter,
+        txtFilter + ";;" + packFilter,
         &selectedFilter
     );
 
@@ -308,6 +314,38 @@ void PackageTab::onExportButtonPressed() {
         return;
     }
 
-    appendExtentionIfNot(filename, ".txt");
-    package::exportAsTxt(filename, packagesList->getSelectedIds());
+    if (selectedFilter == txtFilter) {
+        appendExtentionIfNot(filename, ".txt");
+        filesystem::package::exportAsTxt(filename, packagesList->getSelectedIds());
+    } else {
+        appendExtentionIfNot(filename, ".pack");
+        filesystem::package::exportAsPack(filename, packagesList->getSelectedIds());
+    }
+}
+
+void PackageTab::onImportButtonPressed() {
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
+    auto filename = QFileDialog::getOpenFileName(
+        this,
+        tr("Import from ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        packFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    try {
+        filesystem::package::importFromPack(filename);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
+
+    emit packagesUpdated();
 }

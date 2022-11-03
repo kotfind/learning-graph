@@ -7,12 +7,10 @@
 #include <QMessageBox>
 #include <QLabel>
 
-using namespace db;
-
 GraphInfoDialog::GraphInfoDialog(int graphId, QWidget* parent)
         : QDialog(parent), graphId(graphId) {
     setWindowTitle(graphId != -1
-        ? tr("Graph \"%1\" Info").arg(graph::name(graphId))
+        ? tr("Graph \"%1\" Info").arg(db::graph::name(graphId))
         : tr("New Graph")
     );
 
@@ -69,7 +67,7 @@ void GraphInfoDialog::ui() {
 
 void GraphInfoDialog::load() {
     if (graphId != -1) {
-        nameEdit->setText(graph::name(graphId));
+        nameEdit->setText(db::graph::name(graphId));
     }
 }
 
@@ -78,7 +76,7 @@ void GraphInfoDialog::save() {
         Graph p;
         p.id = graphId;
         p.name = nameEdit->text().trimmed();
-        graphId = graph::write(p);
+        graphId = db::graph::write(p);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

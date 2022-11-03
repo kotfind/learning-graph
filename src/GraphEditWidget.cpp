@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "appendExtention.h"
 #include "GlobalSignalHandler.h"
+#include "filesystem/filesystem.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -19,8 +20,6 @@
 #include <QStandardPaths>
 #include <QSvgGenerator>
 #include <QPainter>
-
-using namespace db;
 
 GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
@@ -161,7 +160,7 @@ void GraphEditWidget::uiFooter() {
 void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
-    nameLabel->setText(tr("[Graph] %1").arg(graph::name(graphId)));
+    nameLabel->setText(tr("[Graph] %1").arg(db::graph::name(graphId)));
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
@@ -245,63 +244,20 @@ void GraphEditWidget::exportGraph() {
 
     if (selectedFilter == jpgFilter) {
         appendExtentionIfNot(filename, ".jpg");
-        exportAsJpg(filename);
+        filesystem::graph::exportAsJpg(filename, graphScene);
     } else if (selectedFilter == pngFilter) {
         appendExtentionIfNot(filename, ".png");
-        exportAsPng(filename);
+        filesystem::graph::exportAsPng(filename, graphScene);
     } else if (selectedFilter == svgFilter) {
         appendExtentionIfNot(filename, ".svg");
-        exportAsSvg(filename);
+        filesystem::graph::exportAsSvg(filename, graphScene);
     } else {
         appendExtentionIfNot(filename, ".graph");
     }
 }
 
-void GraphEditWidget::exportAsSvg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName(filename);
-    svgGen.setSize(rect.size().toSize());
-    svgGen.setViewBox(rect);
-    svgGen.setTitle(graph::name(graphId));
-
-    QPainter painter(&svgGen);
-    graphScene->render(&painter, rect, rect);
-}
-
-void GraphEditWidget::exportAsPng(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_ARGB32);
-    img.fill(Qt::transparent);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
-}
-
-void GraphEditWidget::exportAsJpg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_RGB32);
-    img.fill(Qt::white);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
-}
-
 void GraphEditWidget::onGraphsUpdated() {
-    if (graphId != -1 && !graph::exists(graphId)) {
+    if (graphId != -1 && !db::graph::exists(graphId)) {
         close();
     }
 }

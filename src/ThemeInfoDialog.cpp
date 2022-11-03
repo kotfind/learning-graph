@@ -11,11 +11,9 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 
-using namespace db;
-
 ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         : QDialog(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(theme::name(themeId)));
+    setWindowTitle(tr("Theme \"%1\" Info").arg(db::theme::name(themeId)));
 
     ui();
     load();
@@ -55,7 +53,7 @@ int ThemeInfoDialog::getId() {
 
 void ThemeInfoDialog::load() {
     if (themeId != -1) {
-        const Theme t = theme::read(themeId);
+        const Theme t = db::theme::read(themeId);
         themeEdit->setText(t.name);
         packageComboBox->setCurrent(t.package.id);
         isLearnedCheckBox->setChecked(t.isLearned);
@@ -63,7 +61,7 @@ void ThemeInfoDialog::load() {
         descriptionEdit->setText(t.description);
 
         dependsOnList->clear();
-        const auto deps = theme::readsDependencies(themeId);
+        const auto deps = db::theme::readsDependencies(themeId);
         for (const auto& t : deps) {
             dependsOnList->addItem(
                 tr("%1 (%2)")
@@ -202,7 +200,7 @@ void ThemeInfoDialog::save() {
         t.isLearned = isLearnedCheckBox->isChecked();
         t.description = descriptionEdit->toPlainText();
 
-        themeId = theme::write(t);
+        themeId = db::theme::write(t);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

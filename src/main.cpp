@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "db/db.h"
+#include "filesystem/filesystem.h"
 
 #include <QApplication>
 #include <QCoreApplication>

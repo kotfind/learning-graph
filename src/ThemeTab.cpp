@@ -5,6 +5,7 @@
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -17,8 +18,6 @@
 #include <QDataStream>
 #include <QStandardPaths>
 #include <QFileDialog>
-
-using namespace db;
 
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
@@ -189,7 +188,7 @@ void ThemeTab::ui() {
 }
 
 void ThemeTab::update() {
-    auto themes = theme::reads(
+    auto themes = db::theme::reads(
         nameEdit->text().trimmed(),
         packageComboBox->currentData().toInt(),
         wishlistCheckBox->checkState(),
@@ -371,5 +370,5 @@ void ThemeTab::onExportButtonPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    theme::exportAsTxt(filename, themesList->getSelectedIds());
+    filesystem::theme::exportAsTxt(filename, themesList->getSelectedIds());
 }

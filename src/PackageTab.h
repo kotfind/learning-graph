@@ -55,6 +55,9 @@ class PackageTab : public QWidget {
         // Updates selectAll button text
         void onSelectionChanged();
 
-        // Exports package
+        // Exports selected packages
         void onExportButtonPressed();
+
+        // Imports packages
+        void onImportButtonPressed();
 };

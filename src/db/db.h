@@ -1,55 +1,12 @@
 #pragma once
 
+#include "../types.h"
+
 #include <QString>
 #include <QList>
 
 namespace db {
     bool init();
-
-    struct Package {
-        Package();
-
-        int id;
-        QString name;
-        int count;
-    };
-
-    struct Theme {
-        Theme();
-
-        int id;
-        QString name;
-        Package package;
-        bool inWishlist;
-        bool isLearned;
-        QString description;
-    };
-
-    struct Graph {
-        Graph();
-
-        int id;
-        QString name;
-        int count;
-    };
-
-    struct GraphNode {
-        GraphNode();
-
-        int id;
-        int graphId;
-        int themeId;
-        double x;
-        double y;
-    };
-
-    struct ThemeEdge {
-        ThemeEdge();
-
-        int id;
-        int beginId;
-        int endId;
-    };
 
     namespace theme {
         // Returns name of theme with id id
@@ -101,9 +58,6 @@ namespace db {
         // Deletes theme with id id
         void del(int id);
 
-        // Exports themes with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
-
         // Returns true if theme with id id exists in db
         // Return false otherwise
         bool exists(int id);
@@ -118,6 +72,9 @@ namespace db {
 
         // Returns Package structure for package with id id
         Package read(int id);
+
+        // Selects packages with ids ids
+        QList<Package> readsByIds(const QList<int>& ids);
 
         // Returns list of packages with
         // package name LIKE (in SQL terms) %name%
@@ -134,8 +91,7 @@ namespace db {
         // Returns ids of themes from packages with ids packageIds
         QList<int> getThemeIds(const QList<int>& packageIds);
 
-        // Exports packages with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
+        bool unique(const QString& name);
     };
 
     namespace graph {
@@ -186,14 +142,25 @@ namespace db {
         // Returns themeEdges presented on graph with id graphId
         // If themeId != -1, than returns only edges
         //     than begin or end in theme with id themeId
-        QList<ThemeEdge> reads(int graphId, int themeId);
+        QList<ThemeEdge> readsFromGraph(int graphId, int themeId);
+
+        // Returns themeEdges in which both end theme's ids are in ids
+        QList<ThemeEdge> readsFromThemeIds(const QList<int>& ids);
+
+        // Inserts edge
+        //     from theme with id beginId
+        //     to   theme with id endId
+        // into db
+        // Returns edge's is
+        // XXX: won't check type of exception
+        int createByThemes(int beginId, int endId);
 
         // Inserts edge
         //     from node with id beginNodeId
         //     to   node with id endNodeId
         // into db
         // Returns edge's is
-        int create(int beginNodeId, int endNodeId);
+        int createByNodes(int beginNodeId, int endNodeId);
 
         // Deletes edge with id edgeId
         void del(int edgeId);

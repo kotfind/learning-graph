@@ -7,12 +7,10 @@
 #include <QMessageBox>
 #include <QLabel>
 
-using namespace db;
-
 PackageInfoDialog::PackageInfoDialog(int packageId, QWidget* parent)
         : QDialog(parent), packageId(packageId) {
     setWindowTitle(packageId != -1
-        ? tr("Package \"%1\" Info").arg(package::name(packageId))
+        ? tr("Package \"%1\" Info").arg(db::package::name(packageId))
         : tr("New Package")
     );
 
@@ -69,7 +67,7 @@ void PackageInfoDialog::ui() {
 
 void PackageInfoDialog::load() {
     if (packageId != -1) {
-        nameEdit->setText(package::name(packageId));
+        nameEdit->setText(db::package::name(packageId));
     }
 }
 
@@ -78,7 +76,7 @@ void PackageInfoDialog::save() {
         Package p;
         p.id = packageId;
         p.name = nameEdit->text().trimmed();
-        packageId = package::write(p);
+        packageId = db::package::write(p);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

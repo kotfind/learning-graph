@@ -5,6 +5,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
+#include <QStringList>
 
 using namespace db;
 
@@ -169,6 +170,40 @@ QList<int> package::getThemeIds(const QList<int>& packageIds) {
     return ans;
 }
 
-void package::exportAsTxt(const QString& filename, const QList<int>& ids) {
-    theme::exportAsTxt(filename, getThemeIds(ids));
+QList<Package> package::readsByIds(const QList<int>& ids) {
+    PREPARE_NEW(query, QString(" \
+        SELECT p.id, p.name, ( \
+            SELECT COUNT(*) \
+            FROM themes t \
+            WHERE t.packageId = p.id \
+        ) \
+        FROM packages p \
+        WHERE id IN ({ids}) \
+        ORDER BY p.name \
+    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "?")).join(",")))
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
+    EXEC(query)
+
+    QList<Package> packages;
+    while (query.next()) {
+        Package p;
+        p.id = query.value(0).toInt();
+        p.name = query.value(1).toString();
+        p.count = query.value(2).toInt();
+        packages.append(p);
+    }
+    return packages;
+}
+
+bool package::unique(const QString& name) {
+    PREPARE_NEW(query, " \
+        SELECT 1 \
+        FROM packages \
+        WHERE name = ? \
+    ")
+    query.addBindValue(name);
+    EXEC(query)
+    return !query.first();
 }

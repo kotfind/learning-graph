@@ -47,18 +47,6 @@ class GraphEditWidget : public QMainWindow {
         // Is called by mouse event handlers
         void updateStatus(QMouseEvent*);
 
-        // Exports graphs as .jpg into file "filename"
-        void exportAsJpg(const QString& filename);
-
-        // Exports graphs as .png into file "filename"
-        void exportAsPng(const QString& filename);
-
-        // Exports graphs as .svg into file "filename"
-        void exportAsSvg(const QString& filename);
-
-        // Exports graphs as .graph into file "filename"
-        void exportAsGraph(const QString& filename);
-
         int graphId = -1;
 
         GraphScene* graphScene;
@@ -73,8 +61,6 @@ class GraphEditWidget : public QMainWindow {
         QToolBar* modeBar;
         QToolBar* scaleBar;
         QToolBar* otherButtonsBar;
-
-        const QMargins exportMargins = {10, 10, 10, 10};
 
     public slots:
         // Opens graph with id graphId
