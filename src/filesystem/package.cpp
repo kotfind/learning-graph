@@ -26,20 +26,20 @@ void package::exportAsPack(const QString& filename, const QList<int>& ids) {
 
     // Write packages
     auto packages = db::package::readsByIds(ids);
-    out << (int)packages.size();
+    out << (qint32)packages.size();
     for (const auto& p : packages) {
-        out << (int)p.id
+        out << (qint32)p.id
             << p.name;
     }
 
     // Write themes
     auto themeIds = db::package::getThemeIds(ids);
     auto themes = db::theme::readsByIds(themeIds);
-    out << (int)themes.size();
+    out << (qint32)themes.size();
     for (const auto& t : themes) {
-        out << (int)t.id
+        out << (qint32)t.id
             << t.name
-            << (int)t.package.id
+            << (qint32)t.package.id
             << t.description
             << t.inWishlist
             << t.isLearned;
@@ -47,11 +47,11 @@ void package::exportAsPack(const QString& filename, const QList<int>& ids) {
 
     // Write edges
     auto edges = db::themeEdge::readsFromThemeIds(themeIds);
-    out << (int)edges.size();
+    out << (qint32)edges.size();
     for (const auto& e : edges) {
-        out << (int)e.id
-            << (int)e.beginId
-            << (int)e.endId;
+        out << (qint32)e.id
+            << (qint32)e.beginId
+            << (qint32)e.endId;
     }
 }
 
@@ -63,7 +63,7 @@ void package::importFromPack(const QString &filename) {
     QDataStream in(&file);
 
     // Read packages
-    int n;
+    qint32 n;
     in >> n;
     QList<Package> packages(n);
     for (auto& p : packages) {
@@ -104,7 +104,7 @@ void package::importFromPack(const QString &filename) {
     QHash<int, int> newPackageId; // newPackageId[oldId] = newId
 
     for (auto& p : packages) {
-        int oldId = p.id;
+        qint32 oldId = p.id;
         p.id = -1;
         newPackageId[oldId] = p.id = db::package::write(p);
     }
@@ -113,7 +113,7 @@ void package::importFromPack(const QString &filename) {
     QHash<int, int> newThemeId; // newThemeId[oldId] = newId
 
     for (auto& t : themes) {
-        int oldId = t.id;
+        qint32 oldId = t.id;
         t.id = -1;
         t.package.id = newPackageId[t.package.id];
         newThemeId[oldId] = t.id = db::theme::write(t);
