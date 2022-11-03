@@ -20,7 +20,7 @@ namespace filesystem {
         // Exports packages with ids ids into file "filename" as .pack
         void exportAsPack(const QString& filename, const QList<int>& ids);
 
-        // TODO
+        // Imports packages from .pack file "filename"
         void importFromPack(const QString& filename);
     };
 

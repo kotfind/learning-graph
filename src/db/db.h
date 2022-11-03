@@ -91,6 +91,7 @@ namespace db {
         // Returns ids of themes from packages with ids packageIds
         QList<int> getThemeIds(const QList<int>& packageIds);
 
+        // Returns true if name is unique
         bool unique(const QString& name);
     };
 
