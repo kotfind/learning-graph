@@ -126,6 +126,10 @@ void GraphEdge::paint(
 }
 
 void GraphEdge::deleteSelf() {
-    scene()->removeItem(this);
-    deleteLater();
+    // May be false if both ends were deleted simultaneously
+    // (when deleting package)
+    if (scene()) {
+        scene()->removeItem(this);
+        deleteLater();
+    }
 }
