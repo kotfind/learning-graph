@@ -62,38 +62,38 @@
         <translation>[Граф] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="203"/>
+        <location filename="GraphEditWidget.cpp" line="205"/>
         <source>[Theme] %1</source>
         <oldsource>[Node] %1</oldsource>
         <translation>[Тема] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="205"/>
+        <location filename="GraphEditWidget.cpp" line="207"/>
         <source>[Edge]</source>
         <translation>[Ребро]</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="227"/>
+        <location filename="GraphEditWidget.cpp" line="229"/>
         <source>JPG image (*.jpg)</source>
         <translation>JPG изображение (*.jpg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="228"/>
+        <location filename="GraphEditWidget.cpp" line="230"/>
         <source>PNG image (*.png)</source>
         <translation>PNG изображение (*.png)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="229"/>
+        <location filename="GraphEditWidget.cpp" line="231"/>
         <source>SVG image (*.svg)</source>
         <translation>SVG изображение (*.svg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="230"/>
+        <location filename="GraphEditWidget.cpp" line="232"/>
         <source>Learning Graph graph (*.graph)</source>
         <translation>Граф Learning Graph (*.graph)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="235"/>
+        <location filename="GraphEditWidget.cpp" line="237"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>

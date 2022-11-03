@@ -184,6 +184,8 @@ void GraphEditWidget::close() {
     scaleBar->setDisabled(true);
     otherButtonsBar->setDisabled(true);
 
+    scaleSpinBox->setValue(1);
+
     // Write to settings
     QSettings settings;
     settings.remove("graph/id");
