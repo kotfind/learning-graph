@@ -45,13 +45,18 @@ void package::del(int id) {
     QSqlQuery query;
 
     PREPARE(query, " \
+        WITH themesToDeleteIds AS ( \
+            SELECT id \
+            FROM themes \
+            WHERE packageId = ? \
+        ) \
         DELETE \
-        FROM packages \
-        WHERE id = ? \
+        FROM themeEdges \
+        WHERE beginId IN themesToDeleteIds \
+           OR   endId IN themesToDeleteIds \
     ")
     query.addBindValue(id);
     EXEC(query)
-    query.finish();
 
     PREPARE(query, " \
         DELETE \
@@ -60,6 +65,15 @@ void package::del(int id) {
     ")
     query.addBindValue(id);
     EXEC(query)
+
+    PREPARE(query, " \
+        DELETE \
+        FROM packages \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+    query.finish();
 }
 
 int package::write(const Package& p) {
