@@ -78,7 +78,7 @@ ThemeTab::ThemeTab(QWidget* parent)
         selectAllButton,
         &QPushButton::clicked,
         this,
-        &ThemeTab::onSelectAllButtonPressed
+        &ThemeTab::onSelectAllButtonClicked
     );
 
     connect(
@@ -92,7 +92,7 @@ ThemeTab::ThemeTab(QWidget* parent)
         exportButton,
         &QPushButton::clicked,
         this,
-        &ThemeTab::onExportButtonPressed
+        &ThemeTab::onExportButtonClicked
    );
 
     autoUpdateCheckBox->setChecked(true);
@@ -335,7 +335,7 @@ void ThemeTab::onSelectionModeCheckChanged(int state) {
     }
 }
 
-void ThemeTab::onSelectAllButtonPressed() {
+void ThemeTab::onSelectAllButtonClicked() {
     if (themesList->selectedItems().empty()) {
         themesList->selectAll();
     } else {
@@ -353,7 +353,7 @@ void ThemeTab::onSelectionChanged() {
     }
 }
 
-void ThemeTab::onExportButtonPressed() {
+void ThemeTab::onExportButtonClicked() {
     const QString txtFilter = tr("Text file (*.txt)");
 
     QString selectedFilter;

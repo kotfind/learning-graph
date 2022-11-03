@@ -68,7 +68,7 @@ PackageTab::PackageTab(QWidget* parent)
         selectAllButton,
         &QPushButton::clicked,
         this,
-        &PackageTab::onSelectAllButtonPressed
+        &PackageTab::onSelectAllButtonClicked
     );
 
     connect(
@@ -82,7 +82,7 @@ PackageTab::PackageTab(QWidget* parent)
         exportButton,
         &QPushButton::clicked,
         this,
-        &PackageTab::onExportButtonPressed
+        &PackageTab::onExportButtonClicked
     );
 
     connect(
@@ -96,7 +96,7 @@ PackageTab::PackageTab(QWidget* parent)
         importButton,
         &QPushButton::clicked,
         this,
-        &PackageTab::onImportButtonPressed
+        &PackageTab::onImportButtonClicked
     );
 
     update();
@@ -280,7 +280,7 @@ void PackageTab::setAutoUpdate(bool state) {
     }
 }
 
-void PackageTab::onSelectAllButtonPressed() {
+void PackageTab::onSelectAllButtonClicked() {
     if (packagesList->selectedItems().empty()) {
         packagesList->selectAll();
     } else {
@@ -298,7 +298,7 @@ void PackageTab::onSelectionChanged() {
     }
 }
 
-void PackageTab::onExportButtonPressed() {
+void PackageTab::onExportButtonClicked() {
     const QString txtFilter = tr("Text file (*.txt)");
     const QString packFilter = tr("Learning Graph packages (*.pack)");
     QString selectedFilter;
@@ -323,7 +323,7 @@ void PackageTab::onExportButtonPressed() {
     }
 }
 
-void PackageTab::onImportButtonPressed() {
+void PackageTab::onImportButtonClicked() {
     const QString packFilter = tr("Learning Graph packages (*.pack)");
     auto filename = QFileDialog::getOpenFileName(
         this,

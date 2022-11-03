@@ -50,14 +50,14 @@ class PackageTab : public QWidget {
 
         // Selects all if something was selected
         // Clears selection otherwise
-        void onSelectAllButtonPressed();
+        void onSelectAllButtonClicked();
 
         // Updates selectAll button text
         void onSelectionChanged();
 
         // Exports selected packages
-        void onExportButtonPressed();
+        void onExportButtonClicked();
 
         // Imports packages
-        void onImportButtonPressed();
+        void onImportButtonClicked();
 };
