@@ -271,9 +271,9 @@ bool theme::exists(int id) {
 
 QList<Theme> theme::readsDependencies(int themeId) {
     PREPARE_NEW(query, " \
-        SELECT endId \
+        SELECT beginId \
         FROM themeEdges \
-        WHERE beginId = ? \
+        WHERE endId = ? \
     ")
     query.addBindValue(themeId);
     EXEC(query)
