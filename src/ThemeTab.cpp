@@ -5,6 +5,7 @@
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -371,5 +372,5 @@ void ThemeTab::onExportButtonPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    theme::exportAsTxt(filename, themesList->getSelectedIds());
+    filesystem::theme::exportAsTxt(filename, themesList->getSelectedIds());
 }

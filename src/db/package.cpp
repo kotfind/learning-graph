@@ -168,7 +168,3 @@ QList<int> package::getThemeIds(const QList<int>& packageIds) {
     }
     return ans;
 }
-
-void package::exportAsTxt(const QString& filename, const QList<int>& ids) {
-    theme::exportAsTxt(filename, getThemeIds(ids));
-}

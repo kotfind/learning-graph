@@ -24,6 +24,9 @@ class GraphScene : public QGraphicsScene {
         //     or nullptr otherwise
         template<typename T> T typedItemAt(const QPointF& pos);
 
+        // Returns current graphId
+        int getGraphId() const { return graphId; }
+
     private:
         // Asks user to select a theme to add
         // Returns id if user selected theme

@@ -4,6 +4,7 @@
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -309,5 +310,5 @@ void PackageTab::onExportButtonPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    package::exportAsTxt(filename, packagesList->getSelectedIds());
+    filesystem::package::exportAsTxt(filename, packagesList->getSelectedIds());
 }

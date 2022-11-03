@@ -58,9 +58,6 @@ namespace db {
         // Deletes theme with id id
         void del(int id);
 
-        // Exports themes with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
-
         // Returns true if theme with id id exists in db
         // Return false otherwise
         bool exists(int id);
@@ -90,9 +87,6 @@ namespace db {
 
         // Returns ids of themes from packages with ids packageIds
         QList<int> getThemeIds(const QList<int>& packageIds);
-
-        // Exports packages with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace graph {
