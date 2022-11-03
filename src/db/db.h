@@ -90,6 +90,8 @@ namespace db {
 
         // Returns ids of themes from packages with ids packageIds
         QList<int> getThemeIds(const QList<int>& packageIds);
+
+        bool unique(const QString& name);
     };
 
     namespace graph {

@@ -196,3 +196,14 @@ QList<Package> package::readsByIds(const QList<int>& ids) {
     }
     return packages;
 }
+
+bool package::unique(const QString& name) {
+    PREPARE_NEW(query, " \
+        SELECT 1 \
+        FROM packages \
+        WHERE name = ? \
+    ")
+    query.addBindValue(name);
+    EXEC(query)
+    return !query.first();
+}

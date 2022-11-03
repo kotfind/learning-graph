@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QDataStream>
 #include <QDebug>
+#include <QHash>
+#include <qhash.h>
 
 using namespace filesystem;
 
@@ -54,19 +56,14 @@ void package::importFromPack(const QString &filename) {
     int n;
     in >> n;
     QList<Package> packages(n);
-    qDebug() << n << "packages";
     for (auto& p : packages) {
         in >> p.id
            >> p.name;
-        qDebug()
-            << p.id
-            << p.name;
     }
 
     // Read themes
     in >> n;
     QList<Theme> themes(n);
-    qDebug() << n << "themes";
     for (auto& t : themes) {
         in >> t.id
            >> t.name
@@ -74,14 +71,32 @@ void package::importFromPack(const QString &filename) {
            >> t.description
            >> t.inWishlist
            >> t.isLearned;
-        qDebug()
-            << t.id
-            << t.name
-            << t.package.id
-            << t.description
-            << t.inWishlist
-            << t.isLearned;
     }
 
     // Todo merge with db
+    for (const auto& p : packages) {
+        if (!db::package::unique(p.name)) {
+            throw QObject::tr("Cannot import. Package \"%1\" already exists.")
+                .arg(p.name);
+        }
+    }
+
+    // Insert packages
+    QHash<int, int> newPackageId; // newPackageId[oldId] = newId
+
+    for (auto& p : packages) {
+        int oldId = p.id;
+        p.id = -1;
+        newPackageId[oldId] = p.id = db::package::write(p);
+    }
+
+    // Insert themes
+    QHash<int, int> newThemeId; // newThemeId[oldId] = newId
+
+    for (auto& t : themes) {
+        int oldId = t.id;
+        t.id = -1;
+        t.package.id = newPackageId[t.package.id];
+        newThemeId[oldId] = t.id = db::theme::write(t);
+    }
 }

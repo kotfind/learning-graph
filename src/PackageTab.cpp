@@ -92,6 +92,13 @@ PackageTab::PackageTab(QWidget* parent)
         &PackageTab::onCreateButtonClicked
     );
 
+    connect(
+        importButton,
+        &QPushButton::clicked,
+        this,
+        &PackageTab::onImportButtonPressed
+    );
+
     update();
     setAutoUpdate(true);
     autoUpdateCheckBox->setChecked(true);
@@ -294,7 +301,6 @@ void PackageTab::onSelectionChanged() {
 void PackageTab::onExportButtonPressed() {
     const QString txtFilter = tr("Text file (*.txt)");
     const QString packFilter = tr("Learning Graph packages (*.pack)");
-
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
         this,
@@ -315,4 +321,31 @@ void PackageTab::onExportButtonPressed() {
         appendExtentionIfNot(filename, ".pack");
         filesystem::package::exportAsPack(filename, packagesList->getSelectedIds());
     }
+}
+
+void PackageTab::onImportButtonPressed() {
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
+    auto filename = QFileDialog::getOpenFileName(
+        this,
+        tr("Import from ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        packFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    try {
+        filesystem::package::importFromPack(filename);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
+
+    emit packagesUpdated();
 }
