@@ -255,6 +255,7 @@ void GraphEditWidget::exportGraph() {
         filesystem::graph::exportAsSvg(filename, graphScene);
     } else {
         appendExtentionIfNot(filename, ".graph");
+        filesystem::graph::exportAsGraph(filename, graphId);
     }
 }
 

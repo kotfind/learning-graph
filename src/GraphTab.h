@@ -17,6 +17,7 @@ class GraphTab : public QWidget {
         // Draws user interface
         void ui();
 
+        QPushButton* importButton;
         QLineEdit* nameEdit;
         QCheckBox* autoUpdateCheckBox;
         QPushButton* updateButton;
@@ -43,4 +44,7 @@ class GraphTab : public QWidget {
 
         // Opens graph context menu for graph with id graphId
         void onGraphMenuRequested(int graphId, const QPoint& globalPos);
+
+        // Imports graph
+        void onImportButtonClicked();
 };

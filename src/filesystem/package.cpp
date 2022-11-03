@@ -92,7 +92,7 @@ void package::importFromPack(const QString &filename) {
            >> e.endId;
     }
 
-    // Todo merge with db
+    // Merge with db
     for (const auto& p : packages) {
         if (!db::package::unique(p.name)) {
             throw QObject::tr("Cannot import. Package \"%1\" already exists.")

@@ -34,7 +34,10 @@ namespace filesystem {
         // Exports graph from scene graphScene as .svg into file "filename"
         void exportAsSvg(const QString& filename, GraphScene* graphScene);
 
-        // TODO
-        void exportAsGraph(const QString& filename);
+        // Exports graph with id id to file "filename" as .graph
+        void exportAsGraph(const QString& filename, int id);
+
+        // Imports graph from .graph file "filename"
+        void importFromGraph(const QString& filename);
     };
 };

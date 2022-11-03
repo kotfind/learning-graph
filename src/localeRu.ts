@@ -178,60 +178,75 @@
 <context>
     <name>GraphTab</name>
     <message>
-        <location filename="GraphTab.cpp" line="91"/>
+        <location filename="GraphTab.cpp" line="101"/>
         <source>New graph</source>
         <translation>Новый граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="95"/>
+        <location filename="GraphTab.cpp" line="105"/>
         <source>Import graph</source>
         <translation>Импортировать граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="109"/>
+        <location filename="GraphTab.cpp" line="119"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="116"/>
+        <location filename="GraphTab.cpp" line="126"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="124"/>
+        <location filename="GraphTab.cpp" line="134"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="130"/>
+        <location filename="GraphTab.cpp" line="140"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="152"/>
+        <location filename="GraphTab.cpp" line="162"/>
         <source>%1 (%2 themes)</source>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="167"/>
+        <location filename="GraphTab.cpp" line="177"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="171"/>
+        <location filename="GraphTab.cpp" line="181"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="179"/>
+        <location filename="GraphTab.cpp" line="189"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="183"/>
+        <location filename="GraphTab.cpp" line="193"/>
         <source>Delete graph &quot;%1&quot;?</source>
         <translation>Удалить граф &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="244"/>
+        <source>Learning Graph graph (*.graph)</source>
+        <translation>Граф Learning Graph (*.graph)</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="248"/>
+        <source>Import from ...</source>
+        <translation>Импортировать из ...</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="262"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
     </message>
 </context>
 <context>
@@ -528,6 +543,16 @@
         <location filename="filesystem/package.cpp" line="98"/>
         <source>Cannot import. Package &quot;%1&quot; already exists.</source>
         <translation>Импорт невозможен. Пакет &quot;%1&quot; уже существует.</translation>
+    </message>
+    <message>
+        <location filename="filesystem/graph.cpp" line="91"/>
+        <source>Cannot import. Graph &quot;%1&quot; already exists.</source>
+        <translation>Импорт невозможен. Граф &quot;%1&quot; уже существует.</translation>
+    </message>
+    <message>
+        <location filename="filesystem/graph.cpp" line="108"/>
+        <source>Cannot import. Theme &quot;%1 (%2)&quot; does not exist.</source>
+        <translation>Импорт невозможен. Темы &quot;%1 (%2)&quot; не существует.</translation>
     </message>
 </context>
 <context>

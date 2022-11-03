@@ -3,6 +3,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "GraphInfoDialog.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -12,6 +13,8 @@
 #include <QMenu>
 #include <QGridLayout>
 #include <QLabel>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
@@ -74,6 +77,13 @@ GraphTab::GraphTab(QWidget* parent)
         &GraphTab::onCreateButton
     );
 
+    connect(
+        importButton,
+        &QPushButton::clicked,
+        this,
+        &GraphTab::onImportButtonClicked
+    );
+
     update();
     setAutoUpdate(true);
     autoUpdateCheckBox->setChecked(true);
@@ -92,7 +102,7 @@ void GraphTab::ui() {
     hbox->addWidget(createButton);
 
     // Import Button
-    auto* importButton = new QPushButton(tr("Import graph"));
+    importButton = new QPushButton(tr("Import graph"));
     hbox->addWidget(importButton);
 
     // Search section
@@ -228,4 +238,32 @@ void GraphTab::setAutoUpdate(bool state) {
             &GraphTab::update
         );
     }
+}
+
+void GraphTab::onImportButtonClicked() {
+    const QString graphFilter = tr("Learning Graph graph (*.graph)");
+
+    auto filename = QFileDialog::getOpenFileName(
+        this,
+        tr("Import from ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        graphFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    try {
+        filesystem::graph::importFromGraph(filename);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
+
+    emit graphsUpdated();
 }

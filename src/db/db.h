@@ -61,6 +61,11 @@ namespace db {
         // Returns true if theme with id id exists in db
         // Return false otherwise
         bool exists(int id);
+
+        // Returns id of theme with name themeName
+        //     and package name packageName
+        // Returns -1 if not found
+        int find(const QString& packageName, const QString& themeName);
     };
 
     namespace package {
@@ -120,6 +125,9 @@ namespace db {
         // Returns true if graph with id id exists in db
         // Return false otherwise
         bool exists(int id);
+
+        // Returns true if name is unique
+        bool unique(const QString& name);
     };
 
     namespace graphNode {

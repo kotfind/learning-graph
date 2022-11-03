@@ -285,3 +285,21 @@ QList<Theme> theme::readsDependencies(int themeId) {
 
     return theme::readsByIds(ids);
 }
+
+int theme::find(const QString& packageName, const QString& themeName) {
+    PREPARE_NEW(query, " \
+        SELECT t.id \
+        FROM themes t, packages p \
+        WHERE t.packageId == p.id \
+          AND t.name == ? \
+          AND p.name == ? \
+    ")
+    query.addBindValue(themeName);
+    query.addBindValue(packageName);
+    EXEC(query)
+
+    if (!query.next()) {
+        return -1;
+    }
+    return query.value(0).toInt();
+}
