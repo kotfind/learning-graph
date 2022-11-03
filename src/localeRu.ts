@@ -511,7 +511,7 @@
         <translation>Ребро должно начинаться и заканчиваться в различных темах.</translation>
     </message>
     <message>
-        <location filename="filesystem/package.cpp" line="79"/>
+        <location filename="filesystem/package.cpp" line="98"/>
         <source>Cannot import. Package &quot;%1&quot; already exists.</source>
         <translation>Импорт невозможен. Пакет &quot;%1&quot; уже существует.</translation>
     </message>

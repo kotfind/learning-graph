@@ -59,7 +59,7 @@ void GraphScene::open(int graphId) {
         addItem(node);
     }
 
-    auto edges = db::themeEdge::reads(graphId, -1);
+    auto edges = db::themeEdge::readsFromGraph(graphId, -1);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -193,7 +193,7 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     themeIdToNode[themeId] = node;
 
     // Add edges
-    auto edges = db::themeEdge::reads(graphId, themeId);
+    auto edges = db::themeEdge::readsFromGraph(graphId, themeId);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -217,7 +217,7 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     }
 
     try {
-        int edgeId = db::themeEdge::create(beginNode->getId(), endNode->getId());
+        int edgeId = db::themeEdge::createByNodes(beginNode->getId(), endNode->getId());
 
         auto* edge = new GraphEdge(
             edgeId,

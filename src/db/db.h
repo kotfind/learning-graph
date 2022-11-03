@@ -142,14 +142,25 @@ namespace db {
         // Returns themeEdges presented on graph with id graphId
         // If themeId != -1, than returns only edges
         //     than begin or end in theme with id themeId
-        QList<ThemeEdge> reads(int graphId, int themeId);
+        QList<ThemeEdge> readsFromGraph(int graphId, int themeId);
+
+        // Returns themeEdges in which both end theme's ids are in ids
+        QList<ThemeEdge> readsFromThemeIds(const QList<int>& ids);
+
+        // Inserts edge
+        //     from theme with id beginId
+        //     to   theme with id endId
+        // into db
+        // Returns edge's is
+        // XXX: won't check type of exception
+        int createByThemes(int beginId, int endId);
 
         // Inserts edge
         //     from node with id beginNodeId
         //     to   node with id endNodeId
         // into db
         // Returns edge's is
-        int create(int beginNodeId, int endNodeId);
+        int createByNodes(int beginNodeId, int endNodeId);
 
         // Deletes edge with id edgeId
         void del(int edgeId);

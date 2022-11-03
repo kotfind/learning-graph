@@ -26,22 +26,32 @@ void package::exportAsPack(const QString& filename, const QList<int>& ids) {
 
     // Write packages
     auto packages = db::package::readsByIds(ids);
-    out << (qint32)packages.size();
+    out << (int)packages.size();
     for (const auto& p : packages) {
-        out << (qint32)p.id
+        out << (int)p.id
             << p.name;
     }
 
     // Write themes
-    auto themes = db::theme::readsByIds(db::package::getThemeIds(ids));
-    out << (qint32)themes.size();
+    auto themeIds = db::package::getThemeIds(ids);
+    auto themes = db::theme::readsByIds(themeIds);
+    out << (int)themes.size();
     for (const auto& t : themes) {
-        out << (qint32)t.id
+        out << (int)t.id
             << t.name
-            << (qint32)t.package.id
+            << (int)t.package.id
             << t.description
             << t.inWishlist
             << t.isLearned;
+    }
+
+    // Write edges
+    auto edges = db::themeEdge::readsFromThemeIds(themeIds);
+    out << (int)edges.size();
+    for (const auto& e : edges) {
+        out << (int)e.id
+            << (int)e.beginId
+            << (int)e.endId;
     }
 }
 
@@ -73,6 +83,15 @@ void package::importFromPack(const QString &filename) {
            >> t.isLearned;
     }
 
+    // Reads edges
+    in >> n;
+    QList<ThemeEdge> edges(n);
+    for (auto& e : edges) {
+        in >> e.id
+           >> e.beginId
+           >> e.endId;
+    }
+
     // Todo merge with db
     for (const auto& p : packages) {
         if (!db::package::unique(p.name)) {
@@ -98,5 +117,13 @@ void package::importFromPack(const QString &filename) {
         t.id = -1;
         t.package.id = newPackageId[t.package.id];
         newThemeId[oldId] = t.id = db::theme::write(t);
+    }
+
+    // Insert edges
+    for (const auto& e : edges) {
+        db::themeEdge::createByThemes(
+            newThemeId[e.beginId],
+            newThemeId[e.endId]
+        );
     }
 }
