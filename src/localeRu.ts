@@ -430,14 +430,14 @@
     <name>QObject</name>
     <message>
         <location filename="db/theme.cpp" line="100"/>
-        <location filename="db/package.cpp" line="91"/>
+        <location filename="db/package.cpp" line="92"/>
         <location filename="db/graph.cpp" line="91"/>
         <source>Name is not unique.</source>
         <translation>Имя не уникально.</translation>
     </message>
     <message>
         <location filename="db/theme.cpp" line="103"/>
-        <location filename="db/package.cpp" line="94"/>
+        <location filename="db/package.cpp" line="95"/>
         <location filename="db/graph.cpp" line="94"/>
         <source>Name should not be empty.</source>
         <translation>Имя не должно быть пустым.</translation>

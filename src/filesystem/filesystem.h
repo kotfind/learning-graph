@@ -9,16 +9,19 @@ class GraphScene;
 
 namespace filesystem {
     namespace theme {
-        // Exports themes with ids ids into file "filename" as txt
+        // Exports themes with ids ids into file "filename" as .txt
         void exportAsTxt(const QString& filename, const QList<int>& ids);
     };
 
     namespace package {
-        // Exports themes from packages with ids ids into file "filename" as txt
+        // Exports packages with ids ids into file "filename" as .txt
         void exportAsTxt(const QString& filename, const QList<int>& ids);
 
-        // TODO
+        // Exports packages with ids ids into file "filename" as .pack
         void exportAsPack(const QString& filename, const QList<int>& ids);
+
+        // TODO
+        void importFromPack(const QString& filename);
     };
 
     namespace graph {

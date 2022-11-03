@@ -73,6 +73,9 @@ namespace db {
         // Returns Package structure for package with id id
         Package read(int id);
 
+        // Selects packages with ids ids
+        QList<Package> readsByIds(const QList<int>& ids);
+
         // Returns list of packages with
         // package name LIKE (in SQL terms) %name%
         QList<Package> reads(const QString& name);
