@@ -14,8 +14,6 @@
 #include <QGraphicsView>
 #include <qnamespace.h>
 
-using namespace db;
-
 GraphScene::GraphScene()
         : QGraphicsScene() {
     connect(
@@ -54,14 +52,14 @@ void GraphScene::open(int graphId) {
     clear();
     themeIdToNode.clear();
 
-    auto nodes = graphNode::reads(graphId);
+    auto nodes = db::graphNode::reads(graphId);
     for (const auto& n : nodes) {
         auto* node = new GraphNodeItem(n.id);
         themeIdToNode[n.themeId] = node;
         addItem(node);
     }
 
-    auto edges = themeEdge::reads(graphId, -1);
+    auto edges = db::themeEdge::reads(graphId, -1);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -152,7 +150,7 @@ int GraphScene::getThemeIdToAdd() const {
     d.setLabel(tr("Choose theme to add:"));
     d.addItem(tr("<New Theme>"), -1);
 
-    auto themes = theme::readsExceptGraph(graphId);
+    auto themes = db::theme::readsExceptGraph(graphId);
 
     for (const auto t : themes) {
         d.addItem(
@@ -188,14 +186,14 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     n.themeId = themeId;
     n.x = pos.x();
     n.y = pos.y();
-    auto nodeId = graphNode::create(n);
+    auto nodeId = db::graphNode::create(n);
 
     auto* node = new GraphNodeItem(nodeId);
     addItem(node);
     themeIdToNode[themeId] = node;
 
     // Add edges
-    auto edges = themeEdge::reads(graphId, themeId);
+    auto edges = db::themeEdge::reads(graphId, themeId);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -219,7 +217,7 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     }
 
     try {
-        int edgeId = themeEdge::create(beginNode->getId(), endNode->getId());
+        int edgeId = db::themeEdge::create(beginNode->getId(), endNode->getId());
 
         auto* edge = new GraphEdge(
             edgeId,
@@ -239,14 +237,14 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
 }
 
 void GraphScene::deleteNode(GraphNodeItem* node) {
-    graphNode::del(node->getId());
+    db::graphNode::del(node->getId());
     removeItem(node);
     emit node->deleteEdges();
     node->deleteLater();
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {
-    themeEdge::del(edge->getId());
+    db::themeEdge::del(edge->getId());
     removeItem(edge);
     edge->deleteLater();
 }

@@ -21,8 +21,6 @@
 #include <QSvgGenerator>
 #include <QPainter>
 
-using namespace db;
-
 GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
     ui();
@@ -162,7 +160,7 @@ void GraphEditWidget::uiFooter() {
 void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
-    nameLabel->setText(tr("[Graph] %1").arg(graph::name(graphId)));
+    nameLabel->setText(tr("[Graph] %1").arg(db::graph::name(graphId)));
     graphScene->open(graphId);
     graphView->setDisabled(false);
 
@@ -259,7 +257,7 @@ void GraphEditWidget::exportGraph() {
 }
 
 void GraphEditWidget::onGraphsUpdated() {
-    if (graphId != -1 && !graph::exists(graphId)) {
+    if (graphId != -1 && !db::graph::exists(graphId)) {
         close();
     }
 }

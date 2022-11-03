@@ -19,8 +19,6 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 
-using namespace db;
-
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
     ui();
@@ -190,7 +188,7 @@ void ThemeTab::ui() {
 }
 
 void ThemeTab::update() {
-    auto themes = theme::reads(
+    auto themes = db::theme::reads(
         nameEdit->text().trimmed(),
         packageComboBox->currentData().toInt(),
         wishlistCheckBox->checkState(),

@@ -17,8 +17,6 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 
-using namespace db;
-
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
     ui();
@@ -174,7 +172,7 @@ void PackageTab::onCreateButtonClicked() {
 }
 
 void PackageTab::update() {
-    auto packages = package::reads(nameEdit->text().trimmed());
+    auto packages = db::package::reads(nameEdit->text().trimmed());
 
     packagesList->clear();
     for (const auto& p : packages) {
@@ -210,10 +208,10 @@ void PackageTab::onPackageMenuRequested(int packageId, const QPoint& globalPos) 
         if (QMessageBox::question(
                 this,
                 tr("Question"),
-                tr("Delete package \"%1\"?").arg(package::name(packageId)))
+                tr("Delete package \"%1\"?").arg(db::package::name(packageId)))
                     == QMessageBox::Yes) {
 
-            package::del(packageId);
+            db::package::del(packageId);
 
             emit packagesUpdated();
             emit themesUpdated();

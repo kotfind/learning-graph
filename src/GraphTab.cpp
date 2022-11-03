@@ -13,8 +13,6 @@
 #include <QGridLayout>
 #include <QLabel>
 
-using namespace db;
-
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
     ui();
@@ -132,7 +130,7 @@ void GraphTab::onCreateButton() {
 }
 
 void GraphTab::update() {
-    auto graphs = graph::reads(nameEdit->text().trimmed());
+    auto graphs = db::graph::reads(nameEdit->text().trimmed());
 
     graphsList->clear();
     for (const auto& g : graphs) {
@@ -168,10 +166,10 @@ void GraphTab::onGraphMenuRequested(int graphId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete graph \"%1\"?").arg(graph::name(graphId)))
+                tr("Delete graph \"%1\"?").arg(db::graph::name(graphId)))
                     == QMessageBox::Yes) {
 
-            graph::del(graphId);
+            db::graph::del(graphId);
 
             emit graphsUpdated();
         }
