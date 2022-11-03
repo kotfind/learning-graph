@@ -494,10 +494,24 @@
         <translation>В СПИСКЕ ЖЕЛАНИЙ: </translation>
     </message>
     <message>
-        <location filename="filesystem/theme.cpp" line="30"/>
+        <location filename="filesystem/theme.cpp" line="31"/>
         <source>DESCRIPTION:
 </source>
         <translation>ОПИСАНИЕ:
+</translation>
+    </message>
+    <message>
+        <location filename="filesystem/theme.cpp" line="35"/>
+        <source>DEPENDS ON:
+</source>
+        <translation>ЗАВИСИТ ОТ:
+</translation>
+    </message>
+    <message>
+        <location filename="filesystem/theme.cpp" line="37"/>
+        <source>+ %1 (%2)
+</source>
+        <translation>+ %1 (%2)
 </translation>
     </message>
     <message>
