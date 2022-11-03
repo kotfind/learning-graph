@@ -90,7 +90,7 @@
     <message>
         <location filename="GraphEditWidget.cpp" line="230"/>
         <source>Learning Graph graph (*.graph)</source>
-        <translation>Learning Graph граф (*.graph)</translation>
+        <translation>Граф Learning Graph (*.graph)</translation>
     </message>
     <message>
         <location filename="GraphEditWidget.cpp" line="235"/>
@@ -421,7 +421,12 @@
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="300"/>
+        <location filename="PackageTab.cpp" line="296"/>
+        <source>Learning Graph packages (*.pack)</source>
+        <translation>Пакеты Learning Graph (*.pack)</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="301"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>

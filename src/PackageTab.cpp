@@ -293,13 +293,14 @@ void PackageTab::onSelectionChanged() {
 
 void PackageTab::onExportButtonPressed() {
     const QString txtFilter = tr("Text file (*.txt)");
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
 
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
         this,
         tr("Export to ..."),
         QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-        txtFilter,
+        txtFilter + ";;" + packFilter,
         &selectedFilter
     );
 
@@ -307,6 +308,11 @@ void PackageTab::onExportButtonPressed() {
         return;
     }
 
-    appendExtentionIfNot(filename, ".txt");
-    filesystem::package::exportAsTxt(filename, packagesList->getSelectedIds());
+    if (selectedFilter == txtFilter) {
+        appendExtentionIfNot(filename, ".txt");
+        filesystem::package::exportAsTxt(filename, packagesList->getSelectedIds());
+    } else {
+        appendExtentionIfNot(filename, ".pack");
+        filesystem::package::exportAsPack(filename, packagesList->getSelectedIds());
+    }
 }
