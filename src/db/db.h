@@ -28,7 +28,7 @@ namespace db {
         // Theme should be learned if isLearned == Qt::Checked,
         //     should not be learned if isLearned == Qt::Unchecked,
         //     can be or not be learned if isLearned == Qt::PartlyChecked
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> reads(
             const QString& name,
             int packageId,
@@ -38,16 +38,18 @@ namespace db {
 
         // Returns list of themes which are not
         // presenred on graph with id excludeGraphId
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> readsExceptGraph(int excludeGraphId);
 
-        // Selects themes with ids ids
-        // XXX: description is selected
-        QList<Theme> readsByIds(const QList<int>& ids);
+        // Returns list of themes with ids ids
+        // XXX: If full == false,
+        //    than selects id, name and package only
+        // Selects everything otherwise
+        QList<Theme> readsByIds(const QList<int>& ids, bool full);
 
         // Returns list of themes so that
         //     theme with id themeId depends on themes from list
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> readsDependencies(int themeId);
 
         // Inserts theme into db if id == -1,

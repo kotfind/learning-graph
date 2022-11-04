@@ -34,7 +34,7 @@ void package::exportAsPack(const QString& filename, const QList<int>& ids) {
 
     // Write themes
     auto themeIds = db::package::getThemeIds(ids);
-    auto themes = db::theme::readsByIds(themeIds);
+    auto themes = db::theme::readsByIds(themeIds, true);
     out << (qint32)themes.size();
     for (const auto& t : themes) {
         out << (qint32)t.id

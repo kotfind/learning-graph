@@ -16,7 +16,7 @@ void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
     QTextStream out(&file);
 
     bool first = true;
-    auto themes = db::theme::readsByIds(ids);
+    auto themes = db::theme::readsByIds(ids, true);
     for (const auto& theme : themes) {
         if (!first) {
             out << "\n";
