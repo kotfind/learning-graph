@@ -252,28 +252,34 @@
 <context>
     <name>LearningListWidget</name>
     <message>
-        <location filename="LearningListWidget.cpp" line="39"/>
-        <location filename="LearningListWidget.cpp" line="80"/>
+        <location filename="LearningListWidget.cpp" line="40"/>
+        <location filename="LearningListWidget.cpp" line="90"/>
         <source>No list loaded</source>
         <translation>Список не загружен</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="53"/>
+        <location filename="LearningListWidget.cpp" line="54"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="56"/>
+        <location filename="LearningListWidget.cpp" line="57"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="61"/>
-        <source>List for theme %1</source>
-        <translation>Список для темы %1</translation>
+        <location filename="LearningListWidget.cpp" line="62"/>
+        <source>List for theme &quot;%1&quot;</source>
+        <oldsource>List for theme %1</oldsource>
+        <translation>Список для темы &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="LearningListWidget.cpp" line="69"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="79"/>
         <source>%1 (%2)</source>
         <oldsource>%1 from %2</oldsource>
         <translation>%1 (%2)</translation>
@@ -583,6 +589,11 @@
         <location filename="filesystem/graph.cpp" line="108"/>
         <source>Cannot import. Theme &quot;%1 (%2)&quot; does not exist.</source>
         <translation>Импорт невозможен. Темы &quot;%1 (%2)&quot; не существует.</translation>
+    </message>
+    <message>
+        <location filename="db/list.cpp" line="26"/>
+        <source>Cannot build the list. Dependency cycle found.</source>
+        <translation>Невозможно построить список. Обнаружен цикл зависимостей.</translation>
     </message>
 </context>
 <context>

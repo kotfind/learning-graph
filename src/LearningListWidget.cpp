@@ -5,6 +5,7 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QDebug>
 
 using namespace db;
@@ -58,9 +59,18 @@ void LearningListWidget::ui() {
 }
 
 void LearningListWidget::open(int themeId) {
-    mainLabel->setText(tr("List for theme %1").arg(theme::name(themeId)));
+    mainLabel->setText(tr("List for theme \"%1\"").arg(theme::name(themeId)));
 
-    list::build(themeId);
+    try {
+        list::build(themeId);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
     auto themes = list::reads();
 
     themesList->clear();

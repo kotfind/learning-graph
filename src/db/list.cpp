@@ -1,12 +1,43 @@
 #include "db.h"
 #include "sqlDefines.h"
 
+#include <QHash>
+#include <QList>
+#include <QObject>
+
 using namespace db;
+
+enum VertexStatus {
+    NOT_VISITED = 0,
+    IN_PROGRESS = 1,
+    DONE = 2,
+};
+
+void topsort(QHash<int, VertexStatus>& status, QList<int>& ans, int id) {
+    status[id] = IN_PROGRESS;
+    const auto dependsOn = theme::readsDependencies(id);
+    for (const auto& t : dependsOn) {
+        switch (status[t.id]) {
+            case NOT_VISITED:
+                topsort(status, ans, t.id);
+                break;
+
+            case IN_PROGRESS:
+                throw QObject::tr("Cannot build the list. Dependency cycle found.");
+                break;
+
+            case DONE:
+                break;
+        }
+    }
+    status[id] = DONE;
+    ans.append(id);
+}
 
 void list::build(int themeId) {
     QSqlQuery query;
 
-    // delete old list
+    // Delete old list
     PREPARE(query, " \
         DELETE \
         FROM listThemes \
@@ -14,13 +45,20 @@ void list::build(int themeId) {
     EXEC(query)
     query.finish();
 
-    // XXX: dummy
-    PREPARE(query, " \
+    // Build new list
+    QHash<int, VertexStatus> status;
+    QList<int> ids;
+    topsort(status, ids, themeId);
+
+    // Insert list into db
+    PREPARE(query, QString(" \
         INSERT \
         INTO listThemes (themeId) \
-            SELECT id \
-            FROM themes \
-    ")
+        VALUES {ids} \
+    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "(?)")).join(",")))
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
     EXEC(query)
     query.finish();
 }
