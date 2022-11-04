@@ -751,50 +751,50 @@
         <translation>Изучена</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="165"/>
+        <location filename="ThemeTab.cpp" line="166"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="168"/>
+        <location filename="ThemeTab.cpp" line="169"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="175"/>
+        <location filename="ThemeTab.cpp" line="176"/>
         <source>Selection Mode</source>
         <translation>Режим выделения</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="178"/>
-        <location filename="ThemeTab.cpp" line="348"/>
+        <location filename="ThemeTab.cpp" line="179"/>
+        <location filename="ThemeTab.cpp" line="349"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="186"/>
+        <location filename="ThemeTab.cpp" line="187"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="202"/>
+        <location filename="ThemeTab.cpp" line="203"/>
         <source>%1 (%2)</source>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="351"/>
+        <location filename="ThemeTab.cpp" line="352"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="357"/>
+        <location filename="ThemeTab.cpp" line="358"/>
         <source>Text file (*.txt)</source>
         <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="362"/>
+        <location filename="ThemeTab.cpp" line="363"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>

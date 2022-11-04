@@ -159,6 +159,7 @@ void ThemeTab::ui() {
     // Learned List Switch
     learnedCheckBox = new QCheckBox(tr("Learned"));
     learnedCheckBox->setTristate(true);
+    learnedCheckBox->setCheckState(Qt::PartiallyChecked);
     grid->addWidget(learnedCheckBox, 3, 1);
 
     // Search
