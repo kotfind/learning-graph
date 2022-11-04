@@ -252,37 +252,47 @@
 <context>
     <name>LearningListWidget</name>
     <message>
-        <location filename="LearningListWidget.cpp" line="48"/>
-        <location filename="LearningListWidget.cpp" line="98"/>
+        <location filename="LearningListWidget.cpp" line="59"/>
+        <location filename="LearningListWidget.cpp" line="109"/>
         <source>No list loaded</source>
         <translation>Список не загружен</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="62"/>
+        <location filename="LearningListWidget.cpp" line="73"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="65"/>
+        <location filename="LearningListWidget.cpp" line="76"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="70"/>
+        <location filename="LearningListWidget.cpp" line="81"/>
         <source>List for theme &quot;%1&quot;</source>
         <oldsource>List for theme %1</oldsource>
         <translation>Список для темы &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="77"/>
+        <location filename="LearningListWidget.cpp" line="88"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="87"/>
+        <location filename="LearningListWidget.cpp" line="98"/>
         <source>%1 (%2)</source>
         <oldsource>%1 from %2</oldsource>
         <translation>%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="122"/>
+        <source>Text file (*.txt)</source>
+        <translation type="unfinished">Текстовый файл (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="127"/>
+        <source>Export to ...</source>
+        <translation type="unfinished">Экспортировать в ...</translation>
     </message>
 </context>
 <context>

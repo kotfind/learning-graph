@@ -63,7 +63,7 @@ void list::build(int themeId) {
     query.finish();
 }
 
-QList<Theme> list::reads() {
+QList<int> list::getIds() {
     PREPARE_NEW(query, " \
         SELECT themeId \
         FROM listThemes \
@@ -75,5 +75,9 @@ QList<Theme> list::reads() {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::readsByIds(ids, false);
+    return ids;
+}
+
+QList<Theme> list::reads() {
+    return theme::readsByIds(list::getIds(), false);
 }

@@ -30,4 +30,7 @@ class LearningListWidget : public QWidget {
 
         // Opens ThemeContextMenu for theme with id themeId
         void onThemeMenuRequested(int themeId, const QPoint& globalPos);
+
+        // Exports Learning List
+        void onExportButtonClicked();
 };

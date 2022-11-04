@@ -3,11 +3,15 @@
 #include "GlobalSignalHandler.h"
 #include "db/db.h"
 #include "ThemeContextMenu.h"
+#include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 using namespace db;
 
@@ -35,6 +39,13 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         this,
         &LearningListWidget::onThemeMenuRequested
     );
+
+    connect(
+        exportButton,
+        &QPushButton::clicked,
+        this,
+        &LearningListWidget::onExportButtonClicked
+   );
 
     setDisabled(true);
 }
@@ -105,4 +116,24 @@ void LearningListWidget::close() {
 void LearningListWidget::onThemeMenuRequested(int themeId, const QPoint& globalPos) {
     ThemeContextMenu menu(themeId, this);
     menu.exec(globalPos);
+}
+
+void LearningListWidget::onExportButtonClicked() {
+    const QString txtFilter = tr("Text file (*.txt)");
+
+    QString selectedFilter;
+    auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Export to ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        txtFilter,
+        &selectedFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    appendExtentionIfNot(filename, ".txt");
+    filesystem::list::exportAsTxt(filename);
 }

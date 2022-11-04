@@ -224,6 +224,10 @@ QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
 }
 
 QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
+    if (ids.isEmpty()) {
+        return {};
+    }
+
     PREPARE_NEW(query, QString(" \
         SELECT id, name, packageId {selectSection} \
         FROM themes \

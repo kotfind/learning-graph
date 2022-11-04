@@ -55,6 +55,7 @@ add_executable(learning_graph
     filesystem/theme.cpp
     filesystem/package.cpp
     filesystem/graph.cpp
+    filesystem/list.cpp
 )
 
 target_link_libraries(learning_graph

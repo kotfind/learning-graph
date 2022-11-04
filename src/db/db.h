@@ -189,8 +189,10 @@ namespace db {
     namespace list {
         void build(int themeId);
 
-        // Selects themes that
-        // presented in list
+        // Returns themes that are in list
         QList<Theme> reads();
+
+        // Return ids of themes that are in list
+        QList<int> getIds();
     };
 };
