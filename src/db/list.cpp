@@ -13,13 +13,13 @@ enum VertexStatus {
     DONE = 2,
 };
 
-void topsort(QHash<int, VertexStatus>& status, QList<int>& ans, int id) {
-    status[id] = IN_PROGRESS;
-    const auto dependsOn = theme::readsDependencies(id);
-    for (const auto& t : dependsOn) {
-        switch (status[t.id]) {
+void topsort(QHash<int, VertexStatus>& status, QList<int>& ans, int vId) {
+    status[vId] = IN_PROGRESS;
+    const auto dependsOn = theme::getDependenciesIds(vId);
+    for (const auto& uId : dependsOn) {
+        switch (status[uId]) {
             case NOT_VISITED:
-                topsort(status, ans, t.id);
+                topsort(status, ans, uId);
                 break;
 
             case IN_PROGRESS:
@@ -30,8 +30,8 @@ void topsort(QHash<int, VertexStatus>& status, QList<int>& ans, int id) {
                 break;
         }
     }
-    status[id] = DONE;
-    ans.append(id);
+    status[vId] = DONE;
+    ans.append(vId);
 }
 
 void list::build(int themeId) {

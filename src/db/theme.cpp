@@ -275,7 +275,7 @@ bool theme::exists(int id) {
     return query.next();
 }
 
-QList<Theme> theme::readsDependencies(int themeId) {
+QList<int> theme::getDependenciesIds(int themeId) {
     PREPARE_NEW(query, " \
         SELECT beginId \
         FROM themeEdges \
@@ -289,7 +289,14 @@ QList<Theme> theme::readsDependencies(int themeId) {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::readsByIds(ids, false);
+    return ids;
+}
+
+QList<Theme> theme::readsDependencies(int themeId) {
+    return theme::readsByIds(
+        theme::getDependenciesIds(themeId),
+        false
+    );
 }
 
 int theme::find(const QString& packageName, const QString& themeName) {

@@ -52,6 +52,11 @@ namespace db {
         // XXX: Selects id, name and package only
         QList<Theme> readsDependencies(int themeId);
 
+        // Returns list of theme ids so that
+        //     theme with id themeId depends on themes with ids from list
+        // XXX: Selects id, name and package only
+        QList<int> getDependenciesIds(int themeId);
+
         // Inserts theme into db if id == -1,
         //    updates existant theme otherwise
         // Returns theme's id
