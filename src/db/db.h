@@ -145,6 +145,9 @@ namespace db {
 
         // Deletes graphNode with id id
         void del(int id);
+
+        // Returns themeId for node with id id
+        int themeId(int id);
     };
 
     namespace themeEdge {
