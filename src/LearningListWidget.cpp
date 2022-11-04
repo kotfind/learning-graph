@@ -55,6 +55,10 @@ LearningListWidget::LearningListWidget(QWidget* parent)
     );
 
     setDisabled(true);
+
+    if (!db::list::empty()) {
+        load();
+    }
 }
 
 void LearningListWidget::ui() {
@@ -97,8 +101,6 @@ void LearningListWidget::open(int themeId) {
     }
 
     load();
-
-    setDisabled(false);
 }
 
 void LearningListWidget::load() {
@@ -124,6 +126,7 @@ void LearningListWidget::load() {
         );
     }
 
+    setDisabled(false);
 }
 
 void LearningListWidget::close() {

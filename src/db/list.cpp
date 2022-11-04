@@ -122,5 +122,6 @@ bool list::empty() {
         FROM listThemes \
         LIMIT 1 \
     ")
+    EXEC(query)
     return !query.next();
 }
