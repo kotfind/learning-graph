@@ -191,10 +191,11 @@ namespace db {
         void build(int themeId);
 
         // Returns themes that are in list
-        QList<Theme> reads();
+        // Ignores learned themes is ignoreLearned == true
+        QList<Theme> reads(bool ignoreLearned = false);
 
         // Return ids of themes that are in list
-        QList<int> getIds();
+        QList<int> getIds(bool ignoreLearned = false);
 
         // Returns id of theme for which list was build
         int getMainThemeId();

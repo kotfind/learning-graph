@@ -252,18 +252,23 @@
 <context>
     <name>LearningListWidget</name>
     <message>
-        <location filename="LearningListWidget.cpp" line="70"/>
-        <location filename="LearningListWidget.cpp" line="133"/>
+        <location filename="LearningListWidget.cpp" line="76"/>
+        <location filename="LearningListWidget.cpp" line="145"/>
         <source>No list loaded</source>
         <translation>Список не загружен</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="84"/>
+        <location filename="LearningListWidget.cpp" line="80"/>
+        <source>Show learned themes</source>
+        <translation>Отображать изученные темы</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="94"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="87"/>
+        <location filename="LearningListWidget.cpp" line="97"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
@@ -273,28 +278,28 @@
         <translation type="vanished">Список для темы &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="97"/>
+        <location filename="LearningListWidget.cpp" line="107"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="114"/>
+        <location filename="LearningListWidget.cpp" line="126"/>
         <source>List for theme &quot;%1 (%2)&quot;</source>
         <translation>Список для темы &quot;%1 (%2)&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="122"/>
+        <location filename="LearningListWidget.cpp" line="134"/>
         <source>%1 (%2)</source>
         <oldsource>%1 from %2</oldsource>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="147"/>
+        <location filename="LearningListWidget.cpp" line="160"/>
         <source>Text file (*.txt)</source>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="152"/>
+        <location filename="LearningListWidget.cpp" line="165"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>

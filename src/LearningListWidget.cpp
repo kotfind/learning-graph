@@ -54,11 +54,17 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         &LearningListWidget::onThemesUpdated
     );
 
+    connect(
+        showLearnedCheckBox,
+        &QCheckBox::stateChanged,
+        this,
+        &LearningListWidget::onShowLearnedCheckBoxChanged
+    );
+
+    showLearnedCheckBox->setChecked(true);
     setDisabled(true);
 
-    if (!db::list::empty()) {
-        load();
-    }
+    load();
 }
 
 void LearningListWidget::ui() {
@@ -69,6 +75,10 @@ void LearningListWidget::ui() {
     // Title
     mainLabel = new QLabel(tr("No list loaded"));
     vbox->addWidget(mainLabel);
+
+    // Show Learned CheckBox
+    showLearnedCheckBox = new QCheckBox(tr("Show learned themes"));
+    vbox->addWidget(showLearnedCheckBox);
 
     // List
     themesList = new SmartListWidget;
@@ -104,16 +114,18 @@ void LearningListWidget::open(int themeId) {
 }
 
 void LearningListWidget::load() {
-    auto themes = list::reads();
-
-    if (themes.empty()) {
-        close();
+    if (db::list::empty()) {
         return;
     }
 
+    auto themes = list::reads(
+        showLearnedCheckBox->checkState() == Qt::Unchecked
+    );
+
+    auto mainThemeId = db::list::getMainThemeId();
     mainLabel->setText(tr("List for theme \"%1 (%2)\"")
-        .arg(themes.back().name)
-        .arg(themes.back().package.name)
+        .arg(db::theme::name(mainThemeId))
+        .arg(db::theme::packageName(mainThemeId))
     );
 
     themesList->clear();
@@ -135,6 +147,7 @@ void LearningListWidget::close() {
     themesList->clear();
     list::clear();
 
+    showLearnedCheckBox->setChecked(true);
     setDisabled(true);
 }
 
@@ -170,4 +183,8 @@ void LearningListWidget::onThemesUpdated() {
         db::list::deleteDeletedThemes();
         load();
     }
+}
+
+void LearningListWidget::onShowLearnedCheckBoxChanged(int state) {
+    load();
 }

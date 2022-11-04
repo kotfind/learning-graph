@@ -63,11 +63,18 @@ void list::build(int themeId) {
     query.finish();
 }
 
-QList<int> list::getIds() {
-    PREPARE_NEW(query, " \
+QList<int> list::getIds(bool ignoreLearned) {
+    PREPARE_NEW(query, QString(" \
         SELECT themeId \
         FROM listThemes \
-    ")
+        {whereSection} \
+        ").replace(
+            "{whereSection}",
+            ignoreLearned
+            ? "WHERE (SELECT isLearned FROM themes WHERE id == themeId) == 0"
+            : ""
+        )
+    )
     EXEC(query)
 
     QList<int> ids;
@@ -78,8 +85,8 @@ QList<int> list::getIds() {
     return ids;
 }
 
-QList<Theme> list::reads() {
-    return theme::readsByIds(list::getIds(), false);
+QList<Theme> list::reads(bool ignoreLearned) {
+    return theme::readsByIds(list::getIds(ignoreLearned), false);
 }
 
 int list::getMainThemeId() {

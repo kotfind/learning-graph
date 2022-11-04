@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <QCheckBox>
 
 class LearningListWidget : public QWidget {
     Q_OBJECT
@@ -20,6 +21,7 @@ class LearningListWidget : public QWidget {
         void load();
 
         QLabel* mainLabel;
+        QCheckBox* showLearnedCheckBox;
         SmartListWidget* themesList;
         QPushButton* exportButton;
         QPushButton* closeButton;
@@ -40,4 +42,7 @@ class LearningListWidget : public QWidget {
 
         // Checks if some of list's themes were deleted
         void onThemesUpdated();
+
+        // Shows or hides learned themes from list
+        void onShowLearnedCheckBoxChanged(int state);
 };
