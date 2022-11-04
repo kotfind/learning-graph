@@ -228,14 +228,13 @@ QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
         SELECT id, name, packageId {selectSection} \
         FROM themes \
         WHERE id IN ({ids}) \
-        ORDER BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
+        ORDER BY INSTR({idsString}, id) \
         ").replace(
             "{ids}",
             QStringList(QList<QString>(ids.size(), "?")).join(",")
+        ).replace(
+            "{idsString}",
+            QStringList(QList<QString>(ids.size(), "?")).join("||")
         ).replace(
             "{selectSection}",
             full
@@ -243,6 +242,9 @@ QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
                 : ""
         )
     )
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
     for (int id : ids) {
         query.addBindValue(id);
     }
