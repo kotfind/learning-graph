@@ -10,11 +10,10 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlDatabase>
+#include <QSettings>
 
 ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         : QDialog(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(db::theme::name(themeId)));
-
     ui();
     load();
 
@@ -45,6 +44,10 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         this,
         &ThemeInfoDialog::save
     );
+
+    // Read from settings
+    QSettings settings;
+    packageComboBox->setCurrentId(settings.value("themeInfoDialog/packageId").toInt());
 }
 
 int ThemeInfoDialog::getId() {
@@ -55,7 +58,7 @@ void ThemeInfoDialog::load() {
     if (themeId != -1) {
         const Theme t = db::theme::read(themeId);
         themeEdit->setText(t.name);
-        packageComboBox->setCurrent(t.package.id);
+        packageComboBox->setCurrentId(t.package.id);
         isLearnedCheckBox->setChecked(t.isLearned);
         inWishlistCheckBox->setChecked(t.inWishlist);
         descriptionEdit->setText(t.description);
@@ -73,6 +76,8 @@ void ThemeInfoDialog::load() {
 }
 
 void ThemeInfoDialog::ui() {
+    setWindowTitle(tr("Theme \"%1\" Info").arg(db::theme::name(themeId)));
+
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
@@ -173,7 +178,7 @@ void ThemeInfoDialog::createPackage() {
     PackageInfoDialog d(-1, this);
 
     if (d.exec() == QDialog::Accepted) {
-        packageComboBox->setCurrent(d.getId());
+        packageComboBox->setCurrentId(d.getId());
     }
 }
 
@@ -189,6 +194,7 @@ void ThemeInfoDialog::save() {
     }
 
     try {
+        // Write to db
         Package p;
         p.id = packageComboBox->currentData().toInt();
 
@@ -201,6 +207,11 @@ void ThemeInfoDialog::save() {
         t.description = descriptionEdit->toPlainText();
 
         themeId = db::theme::write(t);
+
+        // Write to settings
+        QSettings settings;
+        settings.setValue("themeInfoDialog/packageId", p.id);
+
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

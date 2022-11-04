@@ -32,15 +32,15 @@ void PackageComboBox::update() {
         );
     }
 
-    setCurrent(currentId);
+    setCurrentId(currentId);
 }
 
-void PackageComboBox::setCurrent(int packageId) {
-    currentId = packageId;
+void PackageComboBox::setCurrentId(int packageId) {
     for (int i = 0; i < count(); ++i) {
         if (itemData(i) == packageId) {
             setCurrentIndex(i);
-            break;
+            currentId = packageId;
+            return;
         }
     }
 }

@@ -646,73 +646,73 @@
 <context>
     <name>ThemeInfoDialog</name>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="16"/>
+        <location filename="ThemeInfoDialog.cpp" line="79"/>
         <source>Theme &quot;%1&quot; Info</source>
         <translation>Информация о теме &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="67"/>
+        <location filename="ThemeInfoDialog.cpp" line="70"/>
         <source>%1 (%2)</source>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="88"/>
+        <location filename="ThemeInfoDialog.cpp" line="93"/>
         <source>Theme:</source>
         <translation>Тема:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="102"/>
+        <location filename="ThemeInfoDialog.cpp" line="107"/>
         <source>Package:</source>
         <translation>Пакет:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="108"/>
+        <location filename="ThemeInfoDialog.cpp" line="113"/>
         <source>New package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="119"/>
+        <location filename="ThemeInfoDialog.cpp" line="124"/>
         <source>Learned</source>
         <translation>Изучена</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="122"/>
+        <location filename="ThemeInfoDialog.cpp" line="127"/>
         <source>In Wishlist</source>
         <translation>В списке желаний</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="135"/>
+        <location filename="ThemeInfoDialog.cpp" line="140"/>
         <source>Description:</source>
         <translation>Описание:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="149"/>
+        <location filename="ThemeInfoDialog.cpp" line="154"/>
         <source>Depends on:</source>
         <translation>Зависит от:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="163"/>
+        <location filename="ThemeInfoDialog.cpp" line="168"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="167"/>
+        <location filename="ThemeInfoDialog.cpp" line="172"/>
         <source>Create</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="167"/>
+        <location filename="ThemeInfoDialog.cpp" line="172"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="185"/>
-        <location filename="ThemeInfoDialog.cpp" line="207"/>
+        <location filename="ThemeInfoDialog.cpp" line="190"/>
+        <location filename="ThemeInfoDialog.cpp" line="218"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="186"/>
+        <location filename="ThemeInfoDialog.cpp" line="191"/>
         <source>Package should be selected.</source>
         <oldsource>Package should be selected</oldsource>
         <translation>Нужно выбрать пакет.</translation>

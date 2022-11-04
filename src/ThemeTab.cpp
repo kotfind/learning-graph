@@ -147,7 +147,7 @@ void ThemeTab::ui() {
 
     packageComboBox = new PackageComboBox;
     packageComboBox->setAny(true);
-    packageComboBox->setCurrent(-1);
+    packageComboBox->setCurrentId(-1);
     grid->addWidget(packageComboBox, 2, 1);
 
     // In Wishlist Switch
