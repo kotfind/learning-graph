@@ -10,6 +10,7 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QListWidget>
 
 class ThemeInfoDialog : public QDialog {
     Q_OBJECT
@@ -20,24 +21,31 @@ class ThemeInfoDialog : public QDialog {
         int getId();
 
     private:
+        // Draws user inteface
         void ui();
+
+        // Loads data from db
         void load();
 
         int themeId;
 
         QLineEdit* themeEdit;
-        PackageComboBox* packageCombo;
-        QPushButton* createPackageBtn;
-        QCheckBox* isLearnedCheck;
-        QCheckBox* inWishlistCheck;
-        QTextEdit* descEdit;
-        QPushButton* cancelBtn;
-        QPushButton* saveBtn;
+        PackageComboBox* packageComboBox;
+        QPushButton* createPackageButton;
+        QCheckBox* isLearnedCheckBox;
+        QCheckBox* inWishlistCheckBox;
+        QTextEdit* descriptionEdit;
+        QPushButton* cancelButton;
+        QPushButton* saveButton;
+        QListWidget* dependsOnList;
 
     signals:
         void themesUpdated();
 
     private slots:
+        // Opens package creation dialog
         void createPackage();
+
+        // Writes theme to db
         void save();
 };

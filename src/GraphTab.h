@@ -14,11 +14,14 @@ class GraphTab : public QWidget {
         GraphTab(QWidget* parent = nullptr);
 
     private:
+        // Draws user interface
         void ui();
 
+        QPushButton* importButton;
         QLineEdit* nameEdit;
         QCheckBox* autoUpdateCheckBox;
         QPushButton* updateButton;
+        QPushButton* createButton;
         SmartListWidget* graphsList;
 
     signals:
@@ -26,11 +29,22 @@ class GraphTab : public QWidget {
         void open(int graphId);
 
     public slots:
+        // (Re)loads graphsList from db
         void update();
+
+        // Sets autoupdate mode to state
         void setAutoUpdate(bool state);
 
     private slots:
-        void onCreateBtn();
-        void graphDoubleClicked(int graphId);
-        void graphMenuRequested(int graphId, const QPoint& globalPos);
+        // Opens create dialog
+        void onCreateButton();
+
+        // Opens graph with id graphId
+        void onGraphDoubleClicked(int graphId);
+
+        // Opens graph context menu for graph with id graphId
+        void onGraphMenuRequested(int graphId, const QPoint& globalPos);
+
+        // Imports graph
+        void onImportButtonClicked();
 };

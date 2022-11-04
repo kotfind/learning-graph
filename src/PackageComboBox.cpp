@@ -5,8 +5,6 @@
 
 #include <QDebug>
 
-using namespace db;
-
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
     connect(
@@ -26,7 +24,7 @@ void PackageComboBox::update() {
         addItem(tr("<Any>"), -1);
     }
 
-    auto packages = package::reads("");
+    auto packages = db::package::reads("");
     for (const auto& p : packages) {
         addItem(
             p.name,

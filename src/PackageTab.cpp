@@ -4,6 +4,7 @@
 #include "GlobalSignalHandler.h"
 #include "PackageInfoDialog.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -15,8 +16,6 @@
 #include <QGridLayout>
 #include <QStandardPaths>
 #include <QFileDialog>
-
-using namespace db;
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -38,21 +37,21 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         packagesList,
-        &SmartListWidget::menuRequested,
+        &SmartListWidget::itemMenuRequested,
         this,
         &PackageTab::onPackageMenuRequested
     );
 
     connect(
         packagesList,
-        &SmartListWidget::doubleClicked,
+        &SmartListWidget::itemDoubleClicked,
         this,
         &PackageTab::onPackageDoubleClicked
     );
 
     connect(
         updateButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &PackageTab::update
     );
@@ -67,9 +66,9 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         selectAllButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
-        &PackageTab::onSelectAllButtonPressed
+        &PackageTab::onSelectAllButtonClicked
     );
 
     connect(
@@ -81,10 +80,24 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
-        &PackageTab::onExportButtonPressed
-   );
+        &PackageTab::onExportButtonClicked
+    );
+
+    connect(
+        createButton,
+        &QPushButton::clicked,
+        this,
+        &PackageTab::onCreateButtonClicked
+    );
+
+    connect(
+        importButton,
+        &QPushButton::clicked,
+        this,
+        &PackageTab::onImportButtonClicked
+    );
 
     update();
     setAutoUpdate(true);
@@ -102,14 +115,12 @@ void PackageTab::ui() {
     vbox->addLayout(hbox);
 
     // Create Button
-    auto* createBtn = new QPushButton(tr("New package"));
-    connect(createBtn, &QPushButton::clicked,
-            this, &PackageTab::onCreateBtn);
-    hbox->addWidget(createBtn);
+    createButton = new QPushButton(tr("New package"));
+    hbox->addWidget(createButton);
 
     // Import Button
-    auto* importBtn = new QPushButton(tr("Import package"));
-    hbox->addWidget(importBtn);
+    importButton = new QPushButton(tr("Import package"));
+    hbox->addWidget(importButton);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -137,7 +148,7 @@ void PackageTab::ui() {
     nameEdit = new QLineEdit;
     grid->addWidget(nameEdit, 1, 1);
 
-    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(
         autoUpdateCheckBox,
         2, 0
@@ -162,13 +173,13 @@ void PackageTab::ui() {
     vbox->addWidget(exportButton);
 }
 
-void PackageTab::onCreateBtn() {
+void PackageTab::onCreateButtonClicked() {
     PackageInfoDialog d(-1, this);
     d.exec();
 }
 
 void PackageTab::update() {
-    auto packages = package::reads(nameEdit->text().trimmed());
+    auto packages = db::package::reads(nameEdit->text().trimmed());
 
     packagesList->clear();
     for (const auto& p : packages) {
@@ -203,11 +214,11 @@ void PackageTab::onPackageMenuRequested(int packageId, const QPoint& globalPos) 
     menu.addAction(tr("Delete"), [=]() {
         if (QMessageBox::question(
                 this,
-                "Question",
-                tr("Delete package \"%1\"?").arg(package::name(packageId)))
+                tr("Question"),
+                tr("Delete package \"%1\"?").arg(db::package::name(packageId)))
                     == QMessageBox::Yes) {
 
-            package::del(packageId);
+            db::package::del(packageId);
 
             emit packagesUpdated();
             emit themesUpdated();
@@ -269,7 +280,7 @@ void PackageTab::setAutoUpdate(bool state) {
     }
 }
 
-void PackageTab::onSelectAllButtonPressed() {
+void PackageTab::onSelectAllButtonClicked() {
     if (packagesList->selectedItems().empty()) {
         packagesList->selectAll();
     } else {
@@ -287,15 +298,15 @@ void PackageTab::onSelectionChanged() {
     }
 }
 
-void PackageTab::onExportButtonPressed() {
-    const QString txtFilter = tr("Text (*.txt)");
-
+void PackageTab::onExportButtonClicked() {
+    const QString txtFilter = tr("Text file (*.txt)");
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
         this,
         tr("Export to ..."),
         QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-        txtFilter,
+        txtFilter + ";;" + packFilter,
         &selectedFilter
     );
 
@@ -303,6 +314,38 @@ void PackageTab::onExportButtonPressed() {
         return;
     }
 
-    appendExtentionIfNot(filename, ".txt");
-    package::exportAsTxt(filename, packagesList->getSelectedIds());
+    if (selectedFilter == txtFilter) {
+        appendExtentionIfNot(filename, ".txt");
+        filesystem::package::exportAsTxt(filename, packagesList->getSelectedIds());
+    } else {
+        appendExtentionIfNot(filename, ".pack");
+        filesystem::package::exportAsPack(filename, packagesList->getSelectedIds());
+    }
+}
+
+void PackageTab::onImportButtonClicked() {
+    const QString packFilter = tr("Learning Graph packages (*.pack)");
+    auto filename = QFileDialog::getOpenFileName(
+        this,
+        tr("Import from ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        packFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    try {
+        filesystem::package::importFromPack(filename);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
+
+    emit packagesUpdated();
 }

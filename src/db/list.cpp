@@ -37,5 +37,5 @@ QList<Theme> list::reads() {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::reads(ids);
+    return theme::readsByIds(ids, false);
 }

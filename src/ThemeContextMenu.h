@@ -9,6 +9,7 @@ class ThemeContextMenu : public QMenu {
         ThemeContextMenu(int themeId, QWidget* parent = nullptr);
 
     private:
+        // Draws user interface
         void ui();
 
         int themeId;

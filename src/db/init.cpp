@@ -99,17 +99,17 @@ QString getDbFilename() {
 bool db::init() {
     auto dbFilename = getDbFilename();
     if (dbFilename.isEmpty()) {
-        qDebug() << "Couldn't get database file path";
+        qDebug().noquote() << "Couldn't get database file path";
         return false;
     }
-    qDebug() << QString("Using %1 as database").arg(dbFilename);
+    qDebug().noquote() << QString("Using %1 as database").arg(dbFilename);
 
     bool firstRun = !QFileInfo::exists(dbFilename);
 
     auto db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbFilename);
     if (!db.open()) {
-        qDebug() << db.lastError();
+        qDebug().noquote() << db.lastError();
         return false;
     }
 

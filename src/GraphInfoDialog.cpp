@@ -7,12 +7,10 @@
 #include <QMessageBox>
 #include <QLabel>
 
-using namespace db;
-
 GraphInfoDialog::GraphInfoDialog(int graphId, QWidget* parent)
         : QDialog(parent), graphId(graphId) {
     setWindowTitle(graphId != -1
-        ? tr("Graph \"%1\" Info").arg(graph::name(graphId))
+        ? tr("Graph \"%1\" Info").arg(db::graph::name(graphId))
         : tr("New Graph")
     );
 
@@ -27,15 +25,15 @@ GraphInfoDialog::GraphInfoDialog(int graphId, QWidget* parent)
     );
 
     connect(
-        cancelBtn,
-        &QPushButton::pressed,
+        cancelButton,
+        &QPushButton::clicked,
         this,
         &GraphInfoDialog::reject
     );
 
     connect(
-        saveBtn,
-        &QPushButton::pressed,
+        saveButton,
+        &QPushButton::clicked,
         this,
         &GraphInfoDialog::save
     );
@@ -47,7 +45,7 @@ void GraphInfoDialog::ui() {
     setLayout(vbox);
 
     // Name
-    auto* nameLbl = new QLabel("Graph name:");
+    auto* nameLbl = new QLabel(tr("Graph name:"));
     vbox->addWidget(nameLbl);
 
     nameEdit = new QLineEdit;
@@ -59,17 +57,17 @@ void GraphInfoDialog::ui() {
 
     hbox->addStretch(1);
 
-    cancelBtn = new QPushButton("Cancel");
-    hbox->addWidget(cancelBtn);
+    cancelButton = new QPushButton(tr("Cancel"));
+    hbox->addWidget(cancelButton);
 
-    saveBtn = new QPushButton(graphId == -1 ? tr("Create") : tr("Update"));
-    saveBtn->setDefault(true);
-    hbox->addWidget(saveBtn);
+    saveButton = new QPushButton(graphId == -1 ? tr("Create") : tr("Update"));
+    saveButton->setDefault(true);
+    hbox->addWidget(saveButton);
 }
 
 void GraphInfoDialog::load() {
     if (graphId != -1) {
-        nameEdit->setText(graph::name(graphId));
+        nameEdit->setText(db::graph::name(graphId));
     }
 }
 
@@ -78,7 +76,7 @@ void GraphInfoDialog::save() {
         Graph p;
         p.id = graphId;
         p.name = nameEdit->text().trimmed();
-        graphId = graph::write(p);
+        graphId = db::graph::write(p);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

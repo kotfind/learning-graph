@@ -11,21 +11,26 @@ class PackageInfoDialog : public QDialog {
     public:
         PackageInfoDialog(int packageId, QWidget* parent = nullptr);
 
+        // Returns current package's id
         int getId() const { return packageId; }
 
     private:
+        // Draws user interface
         void ui();
+
+        // Loads data from db
         void load();
 
         int packageId;
 
         QLineEdit* nameEdit;
-        QPushButton* cancelBtn;
-        QPushButton* saveBtn;
+        QPushButton* cancelButton;
+        QPushButton* saveButton;
 
     signals:
         void packagesUpdated();
 
     private slots:
+        // Writes package to db
         void save();
 };

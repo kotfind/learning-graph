@@ -11,11 +11,9 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 
-using namespace db;
-
 ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         : QDialog(parent), themeId(themeId) {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(theme::name(themeId)));
+    setWindowTitle(tr("Theme \"%1\" Info").arg(db::theme::name(themeId)));
 
     ui();
     load();
@@ -28,22 +26,22 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
     );
 
     connect(
-        createPackageBtn,
-        &QPushButton::pressed,
+        createPackageButton,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::createPackage
     );
 
     connect(
-        cancelBtn,
-        &QPushButton::pressed,
+        cancelButton,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::reject
     );
 
     connect(
-        saveBtn,
-        &QPushButton::pressed,
+        saveButton,
+        &QPushButton::clicked,
         this,
         &ThemeInfoDialog::save
     );
@@ -55,12 +53,22 @@ int ThemeInfoDialog::getId() {
 
 void ThemeInfoDialog::load() {
     if (themeId != -1) {
-        const Theme t = theme::read(themeId);
+        const Theme t = db::theme::read(themeId);
         themeEdit->setText(t.name);
-        packageCombo->setCurrent(t.package.id);
-        isLearnedCheck->setChecked(t.isLearned);
-        inWishlistCheck->setChecked(t.inWishlist);
-        descEdit->setText(t.description);
+        packageComboBox->setCurrent(t.package.id);
+        isLearnedCheckBox->setChecked(t.isLearned);
+        inWishlistCheckBox->setChecked(t.inWishlist);
+        descriptionEdit->setText(t.description);
+
+        dependsOnList->clear();
+        const auto deps = db::theme::readsDependencies(themeId);
+        for (const auto& t : deps) {
+            dependsOnList->addItem(
+                tr("%1 (%2)")
+                    .arg(t.name)
+                    .arg(t.package.name)
+            );
+        }
     }
 }
 
@@ -94,11 +102,11 @@ void ThemeInfoDialog::ui() {
     auto* packageLbl = new QLabel(tr("Package:"));
     packageBox->addWidget(packageLbl);
 
-    packageCombo = new PackageComboBox;
-    packageBox->addWidget(packageCombo);
+    packageComboBox = new PackageComboBox;
+    packageBox->addWidget(packageComboBox);
 
-    createPackageBtn = new QPushButton(tr("New package"));
-    packageBox->addWidget(createPackageBtn);
+    createPackageButton = new QPushButton(tr("New package"));
+    packageBox->addWidget(createPackageButton);
 
     // Checkboxes
     auto* checkFrame = new QFrame;
@@ -108,11 +116,11 @@ void ThemeInfoDialog::ui() {
     auto* checkBox = new QHBoxLayout;
     checkFrame->setLayout(checkBox);
 
-    isLearnedCheck = new QCheckBox(tr("Learned"));
-    checkBox->addWidget(isLearnedCheck);
+    isLearnedCheckBox = new QCheckBox(tr("Learned"));
+    checkBox->addWidget(isLearnedCheckBox);
 
-    inWishlistCheck = new QCheckBox(tr("In Wishlist"));
-    checkBox->addWidget(inWishlistCheck);
+    inWishlistCheckBox = new QCheckBox(tr("In Wishlist"));
+    checkBox->addWidget(inWishlistCheckBox);
 
     checkBox->addStretch(1);
 
@@ -127,8 +135,23 @@ void ThemeInfoDialog::ui() {
     auto* descLbl = new QLabel(tr("Description:"));
     descBox->addWidget(descLbl);
 
-    descEdit = new QTextEdit;
-    descBox->addWidget(descEdit);
+    descriptionEdit = new QTextEdit;
+    descBox->addWidget(descriptionEdit);
+
+    // Depends on list
+    auto* dependsOnFrame = new QFrame;
+    dependsOnFrame->setFrameShape(QFrame::StyledPanel);
+    vbox->addWidget(dependsOnFrame);
+
+    auto* dependsOnBox = new QVBoxLayout;
+    dependsOnFrame->setLayout(dependsOnBox);
+
+    auto* dependsOnLabel = new QLabel(tr("Depends on:"));
+    dependsOnBox->addWidget(dependsOnLabel);
+
+    dependsOnList = new QListWidget;
+    dependsOnList->setSelectionMode(QAbstractItemView::NoSelection);
+    dependsOnBox->addWidget(dependsOnList);
 
     // Buttons Layout
     auto* hbox = new QHBoxLayout;
@@ -137,47 +160,47 @@ void ThemeInfoDialog::ui() {
     hbox->addStretch(1);
 
     // Cancel Button
-    cancelBtn = new QPushButton(tr("Cancel"));
-    hbox->addWidget(cancelBtn, 0);
+    cancelButton = new QPushButton(tr("Cancel"));
+    hbox->addWidget(cancelButton, 0);
 
     // Save Button
-    saveBtn = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
-    saveBtn->setDefault(true);
-    hbox->addWidget(saveBtn, 0);
+    saveButton = new QPushButton(themeId == -1 ? tr("Create") : tr("Update"));
+    saveButton->setDefault(true);
+    hbox->addWidget(saveButton, 0);
 }
 
 void ThemeInfoDialog::createPackage() {
     PackageInfoDialog d(-1, this);
 
     if (d.exec() == QDialog::Accepted) {
-        packageCombo->setCurrent(d.getId());
+        packageComboBox->setCurrent(d.getId());
     }
 }
 
 void ThemeInfoDialog::save() {
     // Check package
-    if (!packageCombo->currentData().isValid()) {
+    if (!packageComboBox->currentData().isValid()) {
         QMessageBox::critical(
             this,
             tr("Error"),
-            tr("Package should be selected")
+            tr("Package should be selected.")
         );
         return;
     }
 
     try {
         Package p;
-        p.id = packageCombo->currentData().toInt();
+        p.id = packageComboBox->currentData().toInt();
 
         Theme t;
         t.id = themeId;
         t.name = themeEdit->text().trimmed();
         t.package = p;
-        t.inWishlist = inWishlistCheck->isChecked();
-        t.isLearned = isLearnedCheck->isChecked();
-        t.description = descEdit->toPlainText();
+        t.inWishlist = inWishlistCheckBox->isChecked();
+        t.isLearned = isLearnedCheckBox->isChecked();
+        t.description = descriptionEdit->toPlainText();
 
-        themeId = theme::write(t);
+        themeId = db::theme::write(t);
     } catch (const QString& msg) {
         QMessageBox::critical(
             this,

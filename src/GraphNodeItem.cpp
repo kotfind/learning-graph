@@ -7,8 +7,6 @@
 #include <QDebug>
 #include <QMargins>
 
-using namespace db;
-
 GraphNodeItem::GraphNodeItem(int nodeId, QGraphicsItem* parent)
         : QGraphicsTextItem(parent), nodeId(nodeId) {
     setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -60,26 +58,21 @@ void GraphNodeItem::paint(
 
     // Border
     auto w = qp->pen().width();
-    auto r = boundingRect();
-
-    r.size().rwidth() -= w;
-    r.size().rheight() -= w;
-
-    qp->drawRect(r);
+    qp->drawRect(boundingRect() - QMargins(w, w, w, w));
 
     // Text
     QGraphicsTextItem::paint(qp, options, widget);
 }
 
 void GraphNodeItem::load() {
-    auto node = graphNode::read(nodeId);
+    auto node = db::graphNode::read(nodeId);
     setPos(node.x, node.y);
 
-    if (theme::exists(node.themeId)) {
-        auto theme = theme::read(node.themeId);
+    if (db::theme::exists(node.themeId)) {
+        auto theme = db::theme::read(node.themeId);
 
         setPlainText(
-            QString("%1 from %2")
+            QString("%1 (%2)")
                 .arg(theme.name)
                 .arg(theme.package.name)
         );
@@ -95,7 +88,7 @@ void GraphNodeItem::load() {
 }
 
 void GraphNodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
-    graphNode::move(nodeId, pos().x(), pos().y());
+    db::graphNode::move(nodeId, pos().x(), pos().y());
 
     QGraphicsTextItem::mouseReleaseEvent(e);
 }

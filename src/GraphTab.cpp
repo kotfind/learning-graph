@@ -3,6 +3,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "GraphInfoDialog.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -12,8 +13,8 @@
 #include <QMenu>
 #include <QGridLayout>
 #include <QLabel>
-
-using namespace db;
+#include <QFileDialog>
+#include <QStandardPaths>
 
 GraphTab::GraphTab(QWidget* parent)
         : QWidget(parent) {
@@ -28,21 +29,35 @@ GraphTab::GraphTab(QWidget* parent)
 
     connect(
         graphsList,
-        &SmartListWidget::doubleClicked,
+        &SmartListWidget::itemDoubleClicked,
         this,
-        &GraphTab::graphDoubleClicked
+        &GraphTab::onGraphDoubleClicked
     );
 
     connect(
         graphsList,
-        &SmartListWidget::menuRequested,
+        &SmartListWidget::itemMenuRequested,
         this,
-        &GraphTab::graphMenuRequested
+        &GraphTab::onGraphMenuRequested
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::graphsUpdated,
+        this,
+        &GraphTab::update
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &GraphTab::update
     );
 
     connect(
         updateButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphTab::update
     );
@@ -53,6 +68,20 @@ GraphTab::GraphTab(QWidget* parent)
         [this](int state) {
             setAutoUpdate(state == Qt::Checked);
         }
+    );
+
+    connect(
+        createButton,
+        &QPushButton::clicked,
+        this,
+        &GraphTab::onCreateButton
+    );
+
+    connect(
+        importButton,
+        &QPushButton::clicked,
+        this,
+        &GraphTab::onImportButtonClicked
     );
 
     update();
@@ -69,14 +98,12 @@ void GraphTab::ui() {
     vbox->addLayout(hbox);
 
     // Create Button
-    auto* createBtn = new QPushButton(tr("New graph"));
-    connect(createBtn, &QPushButton::clicked,
-            this, &GraphTab::onCreateBtn);
-    hbox->addWidget(createBtn);
+    createButton = new QPushButton(tr("New graph"));
+    hbox->addWidget(createButton);
 
     // Import Button
-    auto* importBtn = new QPushButton(tr("Import graph"));
-    hbox->addWidget(importBtn);
+    importButton = new QPushButton(tr("Import graph"));
+    hbox->addWidget(importButton);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -104,7 +131,7 @@ void GraphTab::ui() {
     nameEdit = new QLineEdit;
     grid->addWidget(nameEdit, 1, 1);
 
-    autoUpdateCheckBox = new QCheckBox(tr("Auto update"));
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(
         autoUpdateCheckBox,
         2, 0
@@ -121,13 +148,13 @@ void GraphTab::ui() {
     vbox->addWidget(graphsList);
 }
 
-void GraphTab::onCreateBtn() {
+void GraphTab::onCreateButton() {
     GraphInfoDialog d(-1, this);
     d.exec();
 }
 
 void GraphTab::update() {
-    auto graphs = graph::reads(nameEdit->text().trimmed());
+    auto graphs = db::graph::reads(nameEdit->text().trimmed());
 
     graphsList->clear();
     for (const auto& g : graphs) {
@@ -140,11 +167,11 @@ void GraphTab::update() {
     }
 }
 
-void GraphTab::graphDoubleClicked(int graphId) {
+void GraphTab::onGraphDoubleClicked(int graphId) {
     emit open(graphId);
 }
 
-void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
+void GraphTab::onGraphMenuRequested(int graphId, const QPoint& globalPos) {
     QMenu menu;
 
     menu.addAction(tr("Open"), [=]() {
@@ -163,10 +190,10 @@ void GraphTab::graphMenuRequested(int graphId, const QPoint& globalPos) {
         if (QMessageBox::question(
                 this,
                 "Question",
-                tr("Delete graph \"%1\"?").arg(graph::name(graphId)))
+                tr("Delete graph \"%1\"?").arg(db::graph::name(graphId)))
                     == QMessageBox::Yes) {
 
-            graph::del(graphId);
+            db::graph::del(graphId);
 
             emit graphsUpdated();
         }
@@ -211,4 +238,32 @@ void GraphTab::setAutoUpdate(bool state) {
             &GraphTab::update
         );
     }
+}
+
+void GraphTab::onImportButtonClicked() {
+    const QString graphFilter = tr("Learning Graph graph (*.graph)");
+
+    auto filename = QFileDialog::getOpenFileName(
+        this,
+        tr("Import from ..."),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        graphFilter
+    );
+
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    try {
+        filesystem::graph::importFromGraph(filename);
+    } catch (const QString& msg) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            msg
+        );
+        return;
+    }
+
+    emit graphsUpdated();
 }

@@ -66,7 +66,7 @@ void LearningListWidget::open(int themeId) {
     themesList->clear();
     for (const auto& t : themes) {
         themesList->addItem(
-            tr("%1 from %2")
+            tr("%1 (%2)")
                 .arg(t.name)
                 .arg(t.package.name),
             t.id

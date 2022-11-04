@@ -5,6 +5,7 @@
 #include "GlobalSignalHandler.h"
 #include "ThemeContextMenu.h"
 #include "appendExtention.h"
+#include "filesystem/filesystem.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -18,14 +19,12 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 
-using namespace db;
-
 ThemeTab::ThemeTab(QWidget* parent)
         : QWidget(parent) {
     ui();
 
     connect(
-        createBtn,
+        createButton,
         &QPushButton::clicked,
         [this]() {
             (new ThemeInfoDialog(-1, this))->exec();
@@ -33,14 +32,14 @@ ThemeTab::ThemeTab(QWidget* parent)
     );
 
     connect(
-        searchBtn,
+        searchButton,
         &QPushButton::clicked,
         this,
         &ThemeTab::update
     );
 
     connect(
-        autoUpdateCheck,
+        autoUpdateCheckBox,
         &QCheckBox::stateChanged,
         [this](int state) {
             setAutoUpdate(state == Qt::Checked);
@@ -49,27 +48,27 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     connect(
         themesList,
-        &SmartListWidget::doubleClicked,
+        &SmartListWidget::itemDoubleClicked,
         this,
         &ThemeTab::onThemeDoubleClicked
     );
 
     connect(
         themesList,
-        &SmartListWidget::menuRequested,
+        &SmartListWidget::itemMenuRequested,
         this,
         &ThemeTab::onThemeMenuRequested
     );
 
     connect(
         themesList,
-        &SmartListWidget::dragRequested,
+        &SmartListWidget::itemDragRequested,
         this,
         &ThemeTab::onThemeDragRequested
     );
 
     connect(
-        selectionModeCheck,
+        selectionModeCheckBox,
         &QCheckBox::stateChanged,
         this,
         &ThemeTab::onSelectionModeCheckChanged
@@ -77,9 +76,9 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     connect(
         selectAllButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
-        &ThemeTab::onSelectAllButtonPressed
+        &ThemeTab::onSelectAllButtonClicked
     );
 
     connect(
@@ -91,13 +90,13 @@ ThemeTab::ThemeTab(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
-        &ThemeTab::onExportButtonPressed
+        &ThemeTab::onExportButtonClicked
    );
 
-    autoUpdateCheck->setChecked(true);
-    selectionModeCheck->setChecked(false);
+    autoUpdateCheckBox->setChecked(true);
+    selectionModeCheckBox->setChecked(false);
     selectAllButton->setDisabled(true);
     exportButton->setDisabled(true);
     update();
@@ -118,8 +117,8 @@ void ThemeTab::ui() {
     setLayout(vbox);
 
     // Create Button
-    createBtn = new QPushButton(tr("New theme"));
-    vbox->addWidget(createBtn);
+    createButton = new QPushButton(tr("New theme"));
+    vbox->addWidget(createButton);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -146,35 +145,35 @@ void ThemeTab::ui() {
     auto* packageLbl = new QLabel(tr("Package:"));
     grid->addWidget(packageLbl, 2, 0, Qt::AlignRight);
 
-    packageCombo = new PackageComboBox;
-    packageCombo->setAny(true);
-    packageCombo->setCurrent(-1);
-    grid->addWidget(packageCombo, 2, 1);
+    packageComboBox = new PackageComboBox;
+    packageComboBox->setAny(true);
+    packageComboBox->setCurrent(-1);
+    grid->addWidget(packageComboBox, 2, 1);
 
     // In Wishlist Switch
-    wishlistCheck = new QCheckBox(tr("In Wishlist"));
-    wishlistCheck->setTristate(true);
-    wishlistCheck->setCheckState(Qt::PartiallyChecked);
-    grid->addWidget(wishlistCheck, 4, 1);
+    wishlistCheckBox = new QCheckBox(tr("In Wishlist"));
+    wishlistCheckBox->setTristate(true);
+    wishlistCheckBox->setCheckState(Qt::PartiallyChecked);
+    grid->addWidget(wishlistCheckBox, 4, 1);
 
     // Learned List Switch
-    learnedCheck = new QCheckBox(tr("Learned"));
-    learnedCheck->setTristate(true);
-    grid->addWidget(learnedCheck, 3, 1);
+    learnedCheckBox = new QCheckBox(tr("Learned"));
+    learnedCheckBox->setTristate(true);
+    grid->addWidget(learnedCheckBox, 3, 1);
 
     // Search
-    searchBtn = new QPushButton(tr("Search"));
-    grid->addWidget(searchBtn, 5, 1);
+    searchButton = new QPushButton(tr("Search"));
+    grid->addWidget(searchButton, 5, 1);
 
-    autoUpdateCheck = new QCheckBox(tr("Auto update"));
-    grid->addWidget(autoUpdateCheck, 5, 0);
+    autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
+    grid->addWidget(autoUpdateCheckBox, 5, 0);
 
     // Selection
     auto* hbox = new QHBoxLayout;
     vbox->addLayout(hbox);
 
-    selectionModeCheck = new QCheckBox(tr("Selection Mode"));
-    hbox->addWidget(selectionModeCheck);
+    selectionModeCheckBox = new QCheckBox(tr("Selection Mode"));
+    hbox->addWidget(selectionModeCheckBox);
 
     selectAllButton = new QPushButton(tr("Select All"));
     hbox->addWidget(selectAllButton);
@@ -189,18 +188,18 @@ void ThemeTab::ui() {
 }
 
 void ThemeTab::update() {
-    auto themes = theme::reads(
+    auto themes = db::theme::reads(
         nameEdit->text().trimmed(),
-        packageCombo->currentData().toInt(),
-        wishlistCheck->checkState(),
-        learnedCheck->checkState()
+        packageComboBox->currentData().toInt(),
+        wishlistCheckBox->checkState(),
+        learnedCheckBox->checkState()
     );
 
     themesList->clear();
 
     for (const auto& t : themes) {
         themesList->addItem(
-            tr("%1 from %2")
+            tr("%1 (%2)")
                 .arg(t.name)
                 .arg(t.package.name),
             t.id
@@ -210,7 +209,7 @@ void ThemeTab::update() {
 
 void ThemeTab::setAutoUpdate(bool state) {
     if (state)  {
-        searchBtn->setDisabled(true);
+        searchButton->setDisabled(true);
 
         connect(
             GlobalSignalHandler::getInstance(),
@@ -234,21 +233,21 @@ void ThemeTab::setAutoUpdate(bool state) {
         );
 
         connect(
-            packageCombo,
+            packageComboBox,
             &PackageComboBox::currentIndexChanged,
             this,
             &ThemeTab::update
         );
 
         connect(
-            wishlistCheck,
+            wishlistCheckBox,
             &QCheckBox::stateChanged,
             this,
             &ThemeTab::update
         );
 
         connect(
-            learnedCheck,
+            learnedCheckBox,
             &QCheckBox::stateChanged,
             this,
             &ThemeTab::update
@@ -256,7 +255,7 @@ void ThemeTab::setAutoUpdate(bool state) {
 
         update();
     } else {
-        searchBtn->setDisabled(false);
+        searchButton->setDisabled(false);
 
         disconnect(
             GlobalSignalHandler::getInstance(),
@@ -281,21 +280,21 @@ void ThemeTab::setAutoUpdate(bool state) {
         );
 
         disconnect(
-            packageCombo,
+            packageComboBox,
             &PackageComboBox::currentIndexChanged,
             this,
             &ThemeTab::update
         );
 
         disconnect(
-            wishlistCheck,
+            wishlistCheckBox,
             &QCheckBox::stateChanged,
             this,
             &ThemeTab::update
         );
 
         disconnect(
-            learnedCheck,
+            learnedCheckBox,
             &QCheckBox::stateChanged,
             this,
             &ThemeTab::update
@@ -336,7 +335,7 @@ void ThemeTab::onSelectionModeCheckChanged(int state) {
     }
 }
 
-void ThemeTab::onSelectAllButtonPressed() {
+void ThemeTab::onSelectAllButtonClicked() {
     if (themesList->selectedItems().empty()) {
         themesList->selectAll();
     } else {
@@ -354,8 +353,8 @@ void ThemeTab::onSelectionChanged() {
     }
 }
 
-void ThemeTab::onExportButtonPressed() {
-    const QString txtFilter = tr("Text (*.txt)");
+void ThemeTab::onExportButtonClicked() {
+    const QString txtFilter = tr("Text file (*.txt)");
 
     QString selectedFilter;
     auto filename = QFileDialog::getSaveFileName(
@@ -371,5 +370,5 @@ void ThemeTab::onExportButtonPressed() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    theme::exportAsTxt(filename, themesList->getSelectedIds());
+    filesystem::theme::exportAsTxt(filename, themesList->getSelectedIds());
 }

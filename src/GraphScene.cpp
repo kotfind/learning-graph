@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "GlobalSignalHandler.h"
 #include "ThemeInfoDialog.h"
+#include "ThemeContextMenu.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -12,9 +13,6 @@
 #include <QRectF>
 #include <QMarginsF>
 #include <QGraphicsView>
-#include <qnamespace.h>
-
-using namespace db;
 
 GraphScene::GraphScene()
         : QGraphicsScene() {
@@ -54,14 +52,14 @@ void GraphScene::open(int graphId) {
     clear();
     themeIdToNode.clear();
 
-    auto nodes = graphNode::reads(graphId);
+    auto nodes = db::graphNode::reads(graphId);
     for (const auto& n : nodes) {
         auto* node = new GraphNodeItem(n.id);
         themeIdToNode[n.themeId] = node;
         addItem(node);
     }
 
-    auto edges = themeEdge::reads(graphId, -1);
+    auto edges = db::themeEdge::readsFromGraph(graphId, -1);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -80,38 +78,50 @@ void GraphScene::close() {
 }
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
-    if (!(e->buttons() & Qt::LeftButton)) {
-        return;
-    }
-
     auto pos = e->scenePos();
-    int themeId;
-    switch (mode) {
-        case NEW_NODE_EDIT_MODE:
-            if ((themeId = getThemeIdToAdd(pos)) != -1) {
-                newNode(themeId, pos);
-            }
-            break;
+    if (e->buttons() & Qt::LeftButton) {
+        int themeId;
+        switch (mode) {
+            case NEW_NODE_EDIT_MODE:
+                if ((themeId = getThemeIdToAdd()) != -1) {
+                    newNode(themeId, pos);
+                }
+                break;
 
-        case EDGE_EDIT_MODE:
-            pressedNode = typedItemAt<GraphNodeItem*>(pos);
-            edgePreviewLine = new QGraphicsLineItem(QLineF(pos, pos));
-            addItem(edgePreviewLine);
-            break;
+            case EDGE_EDIT_MODE:
+                pressedNode = typedItemAt<GraphNodeItem*>(pos);
+                edgePreviewLine = new QGraphicsLineItem(QLineF(pos, pos));
+                addItem(edgePreviewLine);
+                break;
 
-        case CURSOR_EDIT_MODE:
-            QGraphicsScene::mousePressEvent(e);
-            break;
+            case CURSOR_EDIT_MODE:
+                QGraphicsScene::mousePressEvent(e);
+                break;
 
-        case DELETE_EDIT_MODE:
-            GraphNodeItem* node;
-            GraphEdge* edge;
-            if (node = typedItemAt<GraphNodeItem*>(pos)) {
-                deleteNode(node);
-            } else if (edge = typedItemAt<GraphEdge*>(pos)) {
-                deleteEdge(edge);
-            }
-            break;
+            case DELETE_EDIT_MODE:
+                GraphNodeItem* node;
+                GraphEdge* edge;
+                if (node = typedItemAt<GraphNodeItem*>(pos)) {
+                    deleteNode(node);
+                } else if (edge = typedItemAt<GraphEdge*>(pos)) {
+                    deleteEdge(edge);
+                }
+                break;
+        }
+    } else if (e->buttons() & Qt::RightButton) {
+        GraphNodeItem* node;
+        if ((node = typedItemAt<GraphNodeItem*>(pos)) && !node->isDeleted()) {
+            auto* menu = new ThemeContextMenu(
+                db::graphNode::themeId(node->getId()),
+                views()[0]
+            );
+            menu->move(
+                views()[0]->mapToGlobal(
+                    views()[0]->mapFromScene(pos)
+                )
+            );
+            menu->show();
+        }
     }
 }
 
@@ -147,12 +157,12 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseReleaseEvent(e);
 }
 
-int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
-    ComboboxIdDialog d((QWidget*)views()[0]);
+int GraphScene::getThemeIdToAdd() const {
+    ComboboxIdDialog d(views()[0]);
     d.setLabel(tr("Choose theme to add:"));
-    d.addItem(tr("<New Node>"), -1);
+    d.addItem(tr("<New Theme>"), -1);
 
-    auto themes = theme::reads(graphId);
+    auto themes = db::theme::readsExceptGraph(graphId);
 
     for (const auto t : themes) {
         d.addItem(
@@ -170,7 +180,7 @@ int GraphScene::getThemeIdToAdd(const QPointF& pos) const {
     auto themeId = d.getId();
 
     if (themeId == -1) {
-        ThemeInfoDialog d(-1, (QWidget*)views()[0]);
+        ThemeInfoDialog d(-1, views()[0]);
 
         if (d.exec() == QDialog::Rejected) {
             return -1;
@@ -188,14 +198,14 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
     n.themeId = themeId;
     n.x = pos.x();
     n.y = pos.y();
-    auto nodeId = graphNode::create(n);
+    auto nodeId = db::graphNode::create(n);
 
     auto* node = new GraphNodeItem(nodeId);
     addItem(node);
     themeIdToNode[themeId] = node;
 
     // Add edges
-    auto edges = themeEdge::reads(graphId, themeId);
+    auto edges = db::themeEdge::readsFromGraph(graphId, themeId);
     for (const auto& e : edges) {
         auto* edge = new GraphEdge(
             e.id,
@@ -211,7 +221,7 @@ void GraphScene::newNode(int themeId, const QPointF& pos) {
 void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     if (beginNode->isDeleted() || endNode->isDeleted()) {
         QMessageBox::critical(
-            (QWidget*)views()[0],
+            views()[0],
             tr("Error"),
             tr("Cannot add edge to deleted node")
         );
@@ -219,7 +229,7 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
     }
 
     try {
-        int edgeId = themeEdge::create(beginNode->getId(), endNode->getId());
+        int edgeId = db::themeEdge::createByNodes(beginNode->getId(), endNode->getId());
 
         auto* edge = new GraphEdge(
             edgeId,
@@ -229,7 +239,7 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
         addItem(edge);
     } catch (const QString& msg) {
         QMessageBox::critical(
-            (QWidget*)views()[0],
+            views()[0],
             tr("Error"),
             msg
         );
@@ -239,14 +249,15 @@ void GraphScene::newEdge(GraphNodeItem* beginNode, GraphNodeItem* endNode) {
 }
 
 void GraphScene::deleteNode(GraphNodeItem* node) {
-    graphNode::del(node->getId());
+    db::graphNode::del(node->getId());
     removeItem(node);
     emit node->deleteEdges();
     node->deleteLater();
+    emit graphsUpdated();
 }
 
 void GraphScene::deleteEdge(GraphEdge* edge) {
-    themeEdge::del(edge->getId());
+    db::themeEdge::del(edge->getId());
     removeItem(edge);
     edge->deleteLater();
 }
@@ -276,7 +287,7 @@ void GraphScene::dropEvent(QGraphicsSceneDragDropEvent* e) {
 
     if (themeIdToNode.contains(themeId)) {
         QMessageBox::critical(
-            (QWidget*)views()[0],
+            views()[0],
             tr("Error"),
             tr("This node is already on the graph.")
         );

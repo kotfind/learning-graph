@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "appendExtention.h"
 #include "GlobalSignalHandler.h"
+#include "filesystem/filesystem.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -19,8 +20,6 @@
 #include <QStandardPaths>
 #include <QSvgGenerator>
 #include <QPainter>
-
-using namespace db;
 
 GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
@@ -45,14 +44,14 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
 
     connect(
         exportButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphEditWidget::exportGraph
     );
 
     connect(
         closeButton,
-        &QPushButton::pressed,
+        &QPushButton::clicked,
         this,
         &GraphEditWidget::close
     );
@@ -86,45 +85,43 @@ void GraphEditWidget::ui() {
 void GraphEditWidget::uiHeader() {
     // Mode Bar
     modeBar = addToolBar(tr("Mode Bar"));
-    modeBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    auto* modeBtns = new QButtonGroup(this);
+    auto* modeButtons = new QButtonGroup(this);
     connect(
-        modeBtns,
+        modeButtons,
         &QButtonGroup::idPressed,
         [this] (int id) {
             graphScene->setMode((GraphEditMode)id);
         }
     );
 
-    auto* pointerBtn = new QToolButton;
-    pointerBtn->setIcon(QIcon(":pointer.svg"));
-    pointerBtn->setCheckable(true);
-    pointerBtn->setChecked(true);
-    modeBtns->addButton(pointerBtn, CURSOR_EDIT_MODE);
-    modeBar->addWidget(pointerBtn);
+    auto* pointerButton = new QToolButton;
+    pointerButton->setIcon(QIcon(":pointer.svg"));
+    pointerButton->setCheckable(true);
+    pointerButton->setChecked(true);
+    modeButtons->addButton(pointerButton, CURSOR_EDIT_MODE);
+    modeBar->addWidget(pointerButton);
 
-    auto* arrowBtn = new QToolButton;
-    arrowBtn->setIcon(QIcon(":arrow.svg"));
-    arrowBtn->setCheckable(true);
-    modeBtns->addButton(arrowBtn, EDGE_EDIT_MODE);
-    modeBar->addWidget(arrowBtn);
+    auto* arrowButton = new QToolButton;
+    arrowButton->setIcon(QIcon(":arrow.svg"));
+    arrowButton->setCheckable(true);
+    modeButtons->addButton(arrowButton, EDGE_EDIT_MODE);
+    modeBar->addWidget(arrowButton);
 
-    auto* newNodeBtn = new QToolButton;
-    newNodeBtn->setIcon(QIcon(":plus.svg"));
-    newNodeBtn->setCheckable(true);
-    modeBtns->addButton(newNodeBtn, NEW_NODE_EDIT_MODE);
-    modeBar->addWidget(newNodeBtn);
+    auto* newNodeButton = new QToolButton;
+    newNodeButton->setIcon(QIcon(":plus.svg"));
+    newNodeButton->setCheckable(true);
+    modeButtons->addButton(newNodeButton, NEW_NODE_EDIT_MODE);
+    modeBar->addWidget(newNodeButton);
 
-    auto* deleteBtn = new QToolButton;
-    deleteBtn->setIcon(QIcon(":cross.svg"));
-    deleteBtn->setCheckable(true);
-    modeBtns->addButton(deleteBtn, DELETE_EDIT_MODE);
-    modeBar->addWidget(deleteBtn);
+    auto* deleteButton = new QToolButton;
+    deleteButton->setIcon(QIcon(":cross.svg"));
+    deleteButton->setCheckable(true);
+    modeButtons->addButton(deleteButton, DELETE_EDIT_MODE);
+    modeBar->addWidget(deleteButton);
 
     // Scale Bar
     scaleBar = addToolBar(tr("Scale Bar"));
-    scaleBar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     scaleBar->addWidget(new QLabel(tr("Scale: ")));
 
@@ -132,8 +129,7 @@ void GraphEditWidget::uiHeader() {
     scaleBar->addWidget(scaleSpinBox);
 
     // Other Buttons Bar
-    otherButtonsBar = addToolBar(tr("Export Bar"));
-    otherButtonsBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    otherButtonsBar = addToolBar(tr("Other Buttons Bar"));
 
     exportButton = new QPushButton(tr("Export"));
     otherButtonsBar->addWidget(exportButton);
@@ -160,7 +156,7 @@ void GraphEditWidget::uiFooter() {
 void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
-    nameLabel->setText(tr("[Graph] %1").arg(graph::name(graphId)));
+    nameLabel->setText(tr("[Graph] %1").arg(db::graph::name(graphId)));
     graphScene->open(graphId);
 
     setDisabled(false);
@@ -178,6 +174,8 @@ void GraphEditWidget::close() {
 
     setDisabled(true);
 
+    scaleSpinBox->setValue(1);
+
     // Write to settings
     QSettings settings;
     settings.remove("graph/id");
@@ -194,7 +192,7 @@ void GraphEditWidget::updateStatus(QMouseEvent* e) {
     GraphNodeItem* node;
     GraphEdge* edge;
     if (node = qgraphicsitem_cast<GraphNodeItem*>(item)) {
-        statusBar()->showMessage(tr("[Node] %1").arg(node->toPlainText()));
+        statusBar()->showMessage(tr("[Theme] %1").arg(node->toPlainText()));
     } else if (edge = qgraphicsitem_cast<GraphEdge*>(item)) {
         statusBar()->showMessage(tr("[Edge]"));
     } else {
@@ -238,63 +236,21 @@ void GraphEditWidget::exportGraph() {
 
     if (selectedFilter == jpgFilter) {
         appendExtentionIfNot(filename, ".jpg");
-        exportAsJpg(filename);
+        filesystem::graph::exportAsJpg(filename, graphScene);
     } else if (selectedFilter == pngFilter) {
         appendExtentionIfNot(filename, ".png");
-        exportAsPng(filename);
+        filesystem::graph::exportAsPng(filename, graphScene);
     } else if (selectedFilter == svgFilter) {
         appendExtentionIfNot(filename, ".svg");
-        exportAsSvg(filename);
+        filesystem::graph::exportAsSvg(filename, graphScene);
     } else {
         appendExtentionIfNot(filename, ".graph");
+        filesystem::graph::exportAsGraph(filename, graphId);
     }
 }
 
-void GraphEditWidget::exportAsSvg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName(filename);
-    svgGen.setSize(rect.size().toSize());
-    svgGen.setViewBox(rect);
-    svgGen.setTitle(graph::name(graphId));
-
-    QPainter painter(&svgGen);
-    graphScene->render(&painter, rect, rect);
-}
-
-void GraphEditWidget::exportAsPng(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_ARGB32);
-    img.fill(Qt::transparent);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
-}
-
-void GraphEditWidget::exportAsJpg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_RGB32);
-    img.fill(Qt::white);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
-}
-
 void GraphEditWidget::onGraphsUpdated() {
-    if (graphId != -1 && !graph::exists(graphId)) {
+    if (graphId != -1 && !db::graph::exists(graphId)) {
         close();
     }
 }

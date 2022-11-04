@@ -8,16 +8,16 @@ ComboboxIdDialog::ComboboxIdDialog(QWidget* parent)
     ui();
 
     connect(
-        okBtn,
-        &QPushButton::pressed,
+        okButton,
+        &QPushButton::clicked,
         this,
         &QDialog::accept
     );
-    okBtn->setDefault(true);
+    okButton->setDefault(true);
 
     connect(
-        cancelBtn,
-        &QPushButton::pressed,
+        cancelButton,
+        &QPushButton::clicked,
         this,
         &QDialog::reject
     );
@@ -27,32 +27,33 @@ void ComboboxIdDialog::ui() {
     auto* vbox = new QVBoxLayout;
     setLayout(vbox);
 
-    lbl = new QLabel;
-    vbox->addWidget(lbl);
+    label = new QLabel;
+    vbox->addWidget(label);
 
-    combo = new QComboBox;
-    vbox->addWidget(combo);
+    combobox = new QComboBox;
+    vbox->addWidget(combobox);
 
     auto* hbox = new QHBoxLayout;
     vbox->addLayout(hbox);
 
     hbox->addStretch(1);
 
-    cancelBtn = new QPushButton("Cancel");
-    hbox->addWidget(cancelBtn);
+    cancelButton = new QPushButton(tr("Cancel"));
+    hbox->addWidget(cancelButton);
 
-    okBtn = new QPushButton("Ok");
-    hbox->addWidget(okBtn);
+    okButton = new QPushButton(tr("Ok"));
+    okButton->setDefault(true);
+    hbox->addWidget(okButton);
 }
 
 void ComboboxIdDialog::addItem(const QString& name, int id) {
-    combo->addItem(name, id);
+    combobox->addItem(name, id);
 }
 
-void ComboboxIdDialog::setLabel(const QString& label) {
-    lbl->setText(label);
+void ComboboxIdDialog::setLabel(const QString& str) {
+    label->setText(str);
 }
 
 int ComboboxIdDialog::getId() {
-    return combo->currentData().toInt();
+    return combobox->currentData().toInt();
 }

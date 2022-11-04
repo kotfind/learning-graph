@@ -7,6 +7,8 @@
 #include <QLabel>
 
 class LearningListWidget : public QWidget {
+    Q_OBJECT
+
     public:
         LearningListWidget(QWidget* parent = nullptr);
 
