@@ -6,9 +6,9 @@
 
 using namespace filesystem;
 
-void list::exportAsTxt(const QString& filename) {
+void list::exportAsTxt(const QString& filename, bool ignoreLearned) {
     theme::exportAsTxt(
         filename,
-        db::list::getIds()
+        db::list::getIds(ignoreLearned)
     );
 }

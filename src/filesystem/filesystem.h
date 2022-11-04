@@ -43,6 +43,6 @@ namespace filesystem {
 
     namespace list {
         // Exports themes from learning list into file "filename" as .txt
-        void exportAsTxt(const QString& filename);
+        void exportAsTxt(const QString& filename, bool ignoreLearned = false);
     };
 };

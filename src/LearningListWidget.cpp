@@ -173,7 +173,10 @@ void LearningListWidget::onExportButtonClicked() {
     }
 
     appendExtentionIfNot(filename, ".txt");
-    filesystem::list::exportAsTxt(filename);
+    filesystem::list::exportAsTxt(
+        filename,
+        showLearnedCheckBox->checkState() == Qt::Unchecked
+    );
 }
 
 void LearningListWidget::onThemesUpdated() {
