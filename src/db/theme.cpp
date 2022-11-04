@@ -144,7 +144,7 @@ QList<Theme> theme::reads(
         SELECT id, name, packageId \
         FROM themes \
         WHERE {whereSection} \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -203,7 +203,7 @@ QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
             FROM graphNodes \
             WHERE graphId = ? \
         ) \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -224,18 +224,21 @@ QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
 }
 
 QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
+    if (ids.isEmpty()) {
+        return {};
+    }
+
     PREPARE_NEW(query, QString(" \
         SELECT id, name, packageId {selectSection} \
         FROM themes \
         WHERE id IN ({ids}) \
-        GROUP BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
+        ORDER BY INSTR({idsString}, id) \
         ").replace(
             "{ids}",
             QStringList(QList<QString>(ids.size(), "?")).join(",")
+        ).replace(
+            "{idsString}",
+            QStringList(QList<QString>(ids.size(), "?")).join("||")
         ).replace(
             "{selectSection}",
             full
@@ -243,6 +246,9 @@ QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
                 : ""
         )
     )
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
     for (int id : ids) {
         query.addBindValue(id);
     }
@@ -275,7 +281,7 @@ bool theme::exists(int id) {
     return query.next();
 }
 
-QList<Theme> theme::readsDependencies(int themeId) {
+QList<int> theme::getDependenciesIds(int themeId) {
     PREPARE_NEW(query, " \
         SELECT beginId \
         FROM themeEdges \
@@ -289,7 +295,14 @@ QList<Theme> theme::readsDependencies(int themeId) {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::readsByIds(ids, false);
+    return ids;
+}
+
+QList<Theme> theme::readsDependencies(int themeId) {
+    return theme::readsByIds(
+        theme::getDependenciesIds(themeId),
+        false
+    );
 }
 
 int theme::find(const QString& packageName, const QString& themeName) {

@@ -32,6 +32,7 @@ add_executable(learning_graph
     db/graph.cpp
     db/graphNode.cpp
     db/themeEdge.cpp
+    db/list.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
@@ -49,11 +50,12 @@ add_executable(learning_graph
     GraphView.cpp
     GraphInfoDialog.cpp
 
-    LearningListTab.cpp
+    LearningListWidget.cpp
 
     filesystem/theme.cpp
     filesystem/package.cpp
     filesystem/graph.cpp
+    filesystem/list.cpp
 )
 
 target_link_libraries(learning_graph

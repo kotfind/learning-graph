@@ -25,8 +25,6 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
     ui();
 
-    graphView->setDisabled(true);
-
     graphScene = new GraphScene;
     graphView->setScene(graphScene);
 
@@ -67,9 +65,7 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
 
     graphScene->setMode(CURSOR_EDIT_MODE);
 
-    modeBar->setDisabled(true);
-    scaleBar->setDisabled(true);
-    otherButtonsBar->setDisabled(true);
+    setDisabled(true);
 
     // Load from settings
     QSettings settings;
@@ -162,11 +158,8 @@ void GraphEditWidget::open(int graphId) {
 
     nameLabel->setText(tr("[Graph] %1").arg(db::graph::name(graphId)));
     graphScene->open(graphId);
-    graphView->setDisabled(false);
 
-    modeBar->setDisabled(false);
-    scaleBar->setDisabled(false);
-    otherButtonsBar->setDisabled(false);
+    setDisabled(false);
 
     // Write to settings
     QSettings settings;
@@ -178,11 +171,8 @@ void GraphEditWidget::close() {
 
     nameLabel->setText(tr("No Graph Loaded"));
     graphScene->close();
-    graphView->setDisabled(true);
 
-    modeBar->setDisabled(true);
-    scaleBar->setDisabled(true);
-    otherButtonsBar->setDisabled(true);
+    setDisabled(true);
 
     scaleSpinBox->setValue(1);
 

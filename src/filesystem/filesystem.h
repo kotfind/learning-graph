@@ -40,4 +40,9 @@ namespace filesystem {
         // Imports graph from .graph file "filename"
         void importFromGraph(const QString& filename);
     };
+
+    namespace list {
+        // Exports themes from learning list into file "filename" as .txt
+        void exportAsTxt(const QString& filename, bool ignoreLearned = false);
+    };
 };

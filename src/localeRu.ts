@@ -17,17 +17,17 @@
 <context>
     <name>GraphEditWidget</name>
     <message>
-        <location filename="GraphEditWidget.cpp" line="91"/>
+        <location filename="GraphEditWidget.cpp" line="87"/>
         <source>Mode Bar</source>
         <translation>Панель режимов</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="128"/>
+        <location filename="GraphEditWidget.cpp" line="124"/>
         <source>Scale Bar</source>
         <translation>Панель маштабирования</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="130"/>
+        <location filename="GraphEditWidget.cpp" line="126"/>
         <source>Scale: </source>
         <translation>Маштаб: </translation>
     </message>
@@ -36,64 +36,64 @@
         <translation type="vanished">Панель экспорта</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="136"/>
+        <location filename="GraphEditWidget.cpp" line="132"/>
         <source>Other Buttons Bar</source>
         <translation>Другое</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="138"/>
+        <location filename="GraphEditWidget.cpp" line="134"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="143"/>
+        <location filename="GraphEditWidget.cpp" line="139"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="155"/>
-        <location filename="GraphEditWidget.cpp" line="179"/>
+        <location filename="GraphEditWidget.cpp" line="151"/>
+        <location filename="GraphEditWidget.cpp" line="172"/>
         <source>No Graph Loaded</source>
         <translation>Граф не загружен</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="163"/>
+        <location filename="GraphEditWidget.cpp" line="159"/>
         <source>[Graph] %1</source>
         <translation>[Граф] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="205"/>
+        <location filename="GraphEditWidget.cpp" line="195"/>
         <source>[Theme] %1</source>
         <oldsource>[Node] %1</oldsource>
         <translation>[Тема] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="207"/>
+        <location filename="GraphEditWidget.cpp" line="197"/>
         <source>[Edge]</source>
         <translation>[Ребро]</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="229"/>
+        <location filename="GraphEditWidget.cpp" line="219"/>
         <source>JPG image (*.jpg)</source>
         <translation>JPG изображение (*.jpg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="230"/>
+        <location filename="GraphEditWidget.cpp" line="220"/>
         <source>PNG image (*.png)</source>
         <translation>PNG изображение (*.png)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="231"/>
+        <location filename="GraphEditWidget.cpp" line="221"/>
         <source>SVG image (*.svg)</source>
         <translation>SVG изображение (*.svg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="232"/>
+        <location filename="GraphEditWidget.cpp" line="222"/>
         <source>Learning Graph graph (*.graph)</source>
         <translation>Граф Learning Graph (*.graph)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="237"/>
+        <location filename="GraphEditWidget.cpp" line="227"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
@@ -250,6 +250,61 @@
     </message>
 </context>
 <context>
+    <name>LearningListWidget</name>
+    <message>
+        <location filename="LearningListWidget.cpp" line="76"/>
+        <location filename="LearningListWidget.cpp" line="145"/>
+        <source>No list loaded</source>
+        <translation>Список не загружен</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="80"/>
+        <source>Show learned themes</source>
+        <translation>Отображать изученные темы</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="94"/>
+        <source>Export</source>
+        <translation>Экспорт</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="97"/>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <source>List for theme &quot;%1&quot;</source>
+        <oldsource>List for theme %1</oldsource>
+        <translation type="vanished">Список для темы &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="107"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="126"/>
+        <source>List for theme &quot;%1 (%2)&quot;</source>
+        <translation>Список для темы &quot;%1 (%2)&quot;</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="134"/>
+        <source>%1 (%2)</source>
+        <oldsource>%1 from %2</oldsource>
+        <translation>%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="160"/>
+        <source>Text file (*.txt)</source>
+        <translation>Текстовый файл (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="165"/>
+        <source>Export to ...</source>
+        <translation>Экспортировать в ...</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="MainWindow.cpp" line="20"/>
@@ -297,12 +352,12 @@
         <translation>Графы</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="153"/>
+        <location filename="MainWindow.cpp" line="157"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="154"/>
+        <location filename="MainWindow.cpp" line="158"/>
         <source>Restart the application for changes to take effect.</source>
         <oldsource>Restart application for changes to take effect.</oldsource>
         <translation>Перезапустите приложение, чтобы изменения вступили в силу.</translation>
@@ -554,31 +609,36 @@
         <source>Cannot import. Theme &quot;%1 (%2)&quot; does not exist.</source>
         <translation>Импорт невозможен. Темы &quot;%1 (%2)&quot; не существует.</translation>
     </message>
+    <message>
+        <location filename="db/list.cpp" line="26"/>
+        <source>Cannot build the list. Dependency cycle found.</source>
+        <translation>Невозможно построить список. Обнаружен цикл зависимостей.</translation>
+    </message>
 </context>
 <context>
     <name>ThemeContextMenu</name>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="25"/>
+        <location filename="ThemeContextMenu.cpp" line="32"/>
         <source>Watch/ Edit</source>
         <translation>Посмотреть/ изменить</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="28"/>
+        <location filename="ThemeContextMenu.cpp" line="36"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="31"/>
+        <location filename="ThemeContextMenu.cpp" line="39"/>
         <source>Question</source>
         <translation>Вопрос</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="32"/>
+        <location filename="ThemeContextMenu.cpp" line="40"/>
         <source>Delete theme &quot;%1&quot;?</source>
         <translation>Удалить тему &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="41"/>
+        <location filename="ThemeContextMenu.cpp" line="51"/>
         <source>Build Learning List</source>
         <translation>Построить Список Изучения</translation>
     </message>

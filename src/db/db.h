@@ -52,6 +52,11 @@ namespace db {
         // XXX: Selects id, name and package only
         QList<Theme> readsDependencies(int themeId);
 
+        // Returns list of theme ids so that
+        //     theme with id themeId depends on themes with ids from list
+        // XXX: Selects id, name and package only
+        QList<int> getDependenciesIds(int themeId);
+
         // Inserts theme into db if id == -1,
         //    updates existant theme otherwise
         // Returns theme's id
@@ -178,5 +183,32 @@ namespace db {
 
         // Deletes edge with id edgeId
         void del(int edgeId);
+    };
+
+    // Learning List
+    namespace list {
+        // Builds list for theme with id themeId
+        void build(int themeId);
+
+        // Returns themes that are in list
+        // Ignores learned themes is ignoreLearned == true
+        QList<Theme> reads(bool ignoreLearned = false);
+
+        // Return ids of themes that are in list
+        QList<int> getIds(bool ignoreLearned = false);
+
+        // Returns id of theme for which list was build
+        int getMainThemeId();
+
+        // Deletes records with themeIds
+        //     that were deleted from themes table
+        void deleteDeletedThemes();
+
+        // Clears list
+        void clear();
+
+        // Returns true if list's empty
+        // Returns false otherwise
+        bool empty();
     };
 };
