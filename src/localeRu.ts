@@ -252,34 +252,34 @@
 <context>
     <name>LearningListWidget</name>
     <message>
-        <location filename="LearningListWidget.cpp" line="40"/>
-        <location filename="LearningListWidget.cpp" line="90"/>
+        <location filename="LearningListWidget.cpp" line="48"/>
+        <location filename="LearningListWidget.cpp" line="98"/>
         <source>No list loaded</source>
         <translation>Список не загружен</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="54"/>
+        <location filename="LearningListWidget.cpp" line="62"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="57"/>
+        <location filename="LearningListWidget.cpp" line="65"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="62"/>
+        <location filename="LearningListWidget.cpp" line="70"/>
         <source>List for theme &quot;%1&quot;</source>
         <oldsource>List for theme %1</oldsource>
         <translation>Список для темы &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="69"/>
+        <location filename="LearningListWidget.cpp" line="77"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="79"/>
+        <location filename="LearningListWidget.cpp" line="87"/>
         <source>%1 (%2)</source>
         <oldsource>%1 from %2</oldsource>
         <translation>%1 (%2)</translation>

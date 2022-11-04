@@ -2,6 +2,7 @@
 
 #include "GlobalSignalHandler.h"
 #include "db/db.h"
+#include "ThemeContextMenu.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -26,6 +27,13 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         &QPushButton::pressed,
         this,
         &LearningListWidget::close
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::itemMenuRequested,
+        this,
+        &LearningListWidget::onThemeMenuRequested
     );
 
     setDisabled(true);
@@ -92,4 +100,9 @@ void LearningListWidget::close() {
     themesList->clear();
 
     setDisabled(true);
+}
+
+void LearningListWidget::onThemeMenuRequested(int themeId, const QPoint& globalPos) {
+    ThemeContextMenu menu(themeId, this);
+    menu.exec(globalPos);
 }

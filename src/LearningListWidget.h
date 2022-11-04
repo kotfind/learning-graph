@@ -21,6 +21,13 @@ class LearningListWidget : public QWidget {
         QPushButton* closeButton;
 
     private slots:
+        // Inits build of learning list for theme themeId
+        //    and opens it
         void open(int themeId);
+
+        // Closes opened learning list
         void close();
+
+        // Opens ThemeContextMenu for theme with id themeId
+        void onThemeMenuRequested(int themeId, const QPoint& globalPos);
 };
