@@ -144,7 +144,7 @@ QList<Theme> theme::reads(
         SELECT id, name, packageId \
         FROM themes \
         WHERE {whereSection} \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -203,7 +203,7 @@ QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
             FROM graphNodes \
             WHERE graphId = ? \
         ) \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -228,7 +228,7 @@ QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
         SELECT id, name, packageId {selectSection} \
         FROM themes \
         WHERE id IN ({ids}) \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
