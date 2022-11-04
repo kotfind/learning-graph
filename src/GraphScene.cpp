@@ -111,16 +111,15 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     } else if (e->buttons() & Qt::RightButton) {
         GraphNodeItem* node;
         if ((node = typedItemAt<GraphNodeItem*>(pos)) && !node->isDeleted()) {
-            auto* menu = new ThemeContextMenu(
+            ThemeContextMenu menu(
                 db::graphNode::themeId(node->getId()),
                 views()[0]
             );
-            menu->move(
+            menu.exec(
                 views()[0]->mapToGlobal(
                     views()[0]->mapFromScene(pos)
                 )
             );
-            menu->show();
         }
     }
 }

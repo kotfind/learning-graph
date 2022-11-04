@@ -147,30 +147,30 @@
 <context>
     <name>GraphScene</name>
     <message>
-        <location filename="GraphScene.cpp" line="162"/>
+        <location filename="GraphScene.cpp" line="161"/>
         <source>Choose theme to add:</source>
         <translation>Выберете тему для добавления:</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="163"/>
+        <location filename="GraphScene.cpp" line="162"/>
         <source>&lt;New Theme&gt;</source>
         <oldsource>&lt;New Node&gt;</oldsource>
         <translation>&lt;Новая Тема&gt;</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="225"/>
-        <location filename="GraphScene.cpp" line="243"/>
-        <location filename="GraphScene.cpp" line="291"/>
+        <location filename="GraphScene.cpp" line="224"/>
+        <location filename="GraphScene.cpp" line="242"/>
+        <location filename="GraphScene.cpp" line="290"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="226"/>
+        <location filename="GraphScene.cpp" line="225"/>
         <source>Cannot add edge to deleted node</source>
         <translation>Невозможно провести ребро к удаленной теме</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="292"/>
+        <location filename="GraphScene.cpp" line="291"/>
         <source>This node is already on the graph.</source>
         <translation>Эта тема уже добавлена на граф.</translation>
     </message>
