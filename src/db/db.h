@@ -187,6 +187,7 @@ namespace db {
 
     // Learning List
     namespace list {
+        // Builds list for theme with id themeId
         void build(int themeId);
 
         // Returns themes that are in list
@@ -194,5 +195,19 @@ namespace db {
 
         // Return ids of themes that are in list
         QList<int> getIds();
+
+        // Returns id of theme for which list was build
+        int getMainThemeId();
+
+        // Deletes records with themeIds
+        //     that were deleted from themes table
+        void deleteDeletedThemes();
+
+        // Clears list
+        void clear();
+
+        // Returns true if list's empty
+        // Returns false otherwise
+        bool empty();
     };
 };

@@ -81,3 +81,46 @@ QList<int> list::getIds() {
 QList<Theme> list::reads() {
     return theme::readsByIds(list::getIds(), false);
 }
+
+int list::getMainThemeId() {
+    PREPARE_NEW(query, " \
+        SELECT themeId \
+        FROM listThemes \
+        ORDER BY id DESC \
+        LIMIT 1 \
+    ")
+    EXEC(query)
+    if (!query.first()) {
+        throw 0;
+    }
+    return query.value(0).toInt();
+}
+
+void list::deleteDeletedThemes() {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM listThemes \
+        WHERE themeId NOT IN ( \
+            SELECT id \
+            FROM themes \
+        ) \
+    ")
+    EXEC(query)
+}
+
+void list::clear() {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM listThemes \
+    ")
+    EXEC(query)
+}
+
+bool list::empty() {
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM listThemes \
+        LIMIT 1 \
+    ")
+    return !query.next();
+}

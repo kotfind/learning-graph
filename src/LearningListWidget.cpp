@@ -45,7 +45,14 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         &QPushButton::clicked,
         this,
         &LearningListWidget::onExportButtonClicked
-   );
+    );
+
+    connect(
+        GlobalSignalHandler::getInstance(),
+        &GlobalSignalHandler::themesUpdated,
+        this,
+        &LearningListWidget::onThemesUpdated
+    );
 
     setDisabled(true);
 }
@@ -78,8 +85,6 @@ void LearningListWidget::ui() {
 }
 
 void LearningListWidget::open(int themeId) {
-    mainLabel->setText(tr("List for theme \"%1\"").arg(theme::name(themeId)));
-
     try {
         list::build(themeId);
     } catch (const QString& msg) {
@@ -90,7 +95,24 @@ void LearningListWidget::open(int themeId) {
         );
         return;
     }
+
+    load();
+
+    setDisabled(false);
+}
+
+void LearningListWidget::load() {
     auto themes = list::reads();
+
+    if (themes.empty()) {
+        close();
+        return;
+    }
+
+    mainLabel->setText(tr("List for theme \"%1 (%2)\"")
+        .arg(themes.back().name)
+        .arg(themes.back().package.name)
+    );
 
     themesList->clear();
     for (const auto& t : themes) {
@@ -102,13 +124,13 @@ void LearningListWidget::open(int themeId) {
         );
     }
 
-    setDisabled(false);
 }
 
 void LearningListWidget::close() {
     mainLabel->setText(tr("No list loaded"));
 
     themesList->clear();
+    list::clear();
 
     setDisabled(true);
 }
@@ -136,4 +158,13 @@ void LearningListWidget::onExportButtonClicked() {
 
     appendExtentionIfNot(filename, ".txt");
     filesystem::list::exportAsTxt(filename);
+}
+
+void LearningListWidget::onThemesUpdated() {
+    if (db::list::empty() || !db::theme::exists(db::list::getMainThemeId())) {
+        close();
+    } else {
+        db::list::deleteDeletedThemes();
+        load();
+    }
 }

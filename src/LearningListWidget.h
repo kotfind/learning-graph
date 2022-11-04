@@ -13,7 +13,11 @@ class LearningListWidget : public QWidget {
         LearningListWidget(QWidget* parent = nullptr);
 
     private:
+        // Draws user interface
         void ui();
+
+        // (Re)loads data from db
+        void load();
 
         QLabel* mainLabel;
         SmartListWidget* themesList;
@@ -33,4 +37,7 @@ class LearningListWidget : public QWidget {
 
         // Exports Learning List
         void onExportButtonClicked();
+
+        // Checks if some of list's themes were deleted
+        void onThemesUpdated();
 };
