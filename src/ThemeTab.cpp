@@ -118,7 +118,7 @@ void ThemeTab::ui() {
 
     // Create Button
     createButton = new QPushButton(tr("New theme"));
-    vbox->addWidget(createButton);
+    vbox->addWidget(createButton, 0, Qt::AlignRight);
 
     // Search section
     auto* searchFrame = new QFrame;
@@ -163,7 +163,7 @@ void ThemeTab::ui() {
 
     // Search
     searchButton = new QPushButton(tr("Search"));
-    grid->addWidget(searchButton, 5, 1);
+    grid->addWidget(searchButton, 5, 1, 1, 1, Qt::AlignRight);
 
     autoUpdateCheckBox = new QCheckBox(tr("Autoupdate"));
     grid->addWidget(autoUpdateCheckBox, 5, 0);
@@ -176,7 +176,7 @@ void ThemeTab::ui() {
     hbox->addWidget(selectionModeCheckBox);
 
     selectAllButton = new QPushButton(tr("Select All"));
-    hbox->addWidget(selectAllButton);
+    hbox->addWidget(selectAllButton, 0, Qt::AlignRight);
 
     // Themes List
     themesList = new SmartListWidget;
@@ -184,7 +184,7 @@ void ThemeTab::ui() {
 
     // Export
     exportButton = new QPushButton(tr("Export"));
-    vbox->addWidget(exportButton);
+    vbox->addWidget(exportButton, 0, Qt::AlignHCenter);
 }
 
 void ThemeTab::update() {

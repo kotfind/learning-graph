@@ -140,7 +140,9 @@ void GraphTab::ui() {
     updateButton = new QPushButton(tr("Search"));
     grid->addWidget(
         updateButton,
-        2, 1
+        2, 1,
+        1, 1,
+        Qt::AlignRight
     );
 
     // Graphs List

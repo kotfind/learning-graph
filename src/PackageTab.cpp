@@ -157,12 +157,14 @@ void PackageTab::ui() {
     updateButton = new QPushButton(tr("Search"));
     grid->addWidget(
         updateButton,
-        2, 1
+        2, 1,
+        1, 1,
+        Qt::AlignRight
     );
 
     // Selection
     selectAllButton = new QPushButton(tr("Select All"));
-    vbox->addWidget(selectAllButton);
+    vbox->addWidget(selectAllButton, 0, Qt::AlignRight);
 
     // Packages List
     packagesList = new SmartListWidget;
@@ -170,7 +172,7 @@ void PackageTab::ui() {
 
     // Export
     exportButton = new QPushButton(tr("Export"));
-    vbox->addWidget(exportButton);
+    vbox->addWidget(exportButton, 0, Qt::AlignHCenter);
 }
 
 void PackageTab::onCreateButtonClicked() {
