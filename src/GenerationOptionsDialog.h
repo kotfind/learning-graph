@@ -16,7 +16,7 @@ class GenerationOptionsDialog : public QDialog {
         // Draws user interface
         void ui();
 
-        QLineEdit* linkEdit;
+        QLineEdit* nameEdit;
         QSpinBox* depthLimitSpinBox;
         QSpinBox* quantityLimitSpinBox;
         QPushButton* cancelButton;

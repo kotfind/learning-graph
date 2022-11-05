@@ -42,13 +42,13 @@ void GenerationOptionsDialog::ui() {
             .arg(db::package::name(packageId))
     ), 1, 1, 1, 2, Qt::AlignHCenter);
 
-    // Link
+    // Name of article
     grid->addWidget(new QLabel(
-        tr("Link to Wikipedia article:")
+        tr("Name of Wikipedia article:")
     ), 2, 1, 1, 2, Qt::AlignLeft);
 
-    linkEdit = new QLineEdit;
-    grid->addWidget(linkEdit, 3, 1, 1, 2);
+    nameEdit = new QLineEdit;
+    grid->addWidget(nameEdit, 3, 1, 1, 2);
 
     // Depth Limit SpinBox
     grid->addWidget(new QLabel(

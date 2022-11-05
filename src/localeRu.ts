@@ -24,8 +24,9 @@
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="47"/>
-        <source>Link to Wikipedia article:</source>
-        <translation>Ссылка на статью из Wikipedia:</translation>
+        <source>Name of Wikipedia article:</source>
+        <oldsource>Link to Wikipedia article:</oldsource>
+        <translation>Название статьи на Wikipedia:</translation>
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="55"/>
