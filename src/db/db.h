@@ -105,6 +105,11 @@ namespace db {
 
         // Returns true if name is unique
         bool unique(const QString& name);
+
+        // Returns true if theme with name name
+        //     is in package with id packageId
+        // Returns false otherwise
+        bool hasTheme(int packageId, const QString& name);
     };
 
     namespace graph {
