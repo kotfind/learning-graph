@@ -6,7 +6,8 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QPushButton>
-#include <qpushbutton.h>
+#include <QMenu>
+#include <QAction>
 
 class PackageTab : public QWidget {
     Q_OBJECT
@@ -27,6 +28,10 @@ class PackageTab : public QWidget {
         QPushButton* selectAllButton;
         QPushButton* exportButton;
 
+        QMenu* createMenu;
+        QAction* createEmptyPackageAction;
+        QAction* generatePackageAction;
+
     signals:
         void packagesUpdated();
         void themesUpdated();
@@ -39,9 +44,6 @@ class PackageTab : public QWidget {
         void setAutoUpdate(bool state);
 
     private slots:
-        // Opens creation dialog
-        void onCreateButtonClicked();
-
         // Opens PackageInfoDialog for package with id packageId
         void onPackageDoubleClicked(int packageId);
 
@@ -60,4 +62,10 @@ class PackageTab : public QWidget {
 
         // Imports packages
         void onImportButtonClicked();
+
+        // Creates empty package
+        void onCreateEmptyPackageActionTriggered();
+
+        // Generates package
+        void onGeneratePackageActionTriggered();
 };

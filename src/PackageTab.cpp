@@ -86,17 +86,24 @@ PackageTab::PackageTab(QWidget* parent)
     );
 
     connect(
-        createButton,
-        &QPushButton::clicked,
-        this,
-        &PackageTab::onCreateButtonClicked
-    );
-
-    connect(
         importButton,
         &QPushButton::clicked,
         this,
         &PackageTab::onImportButtonClicked
+    );
+
+    connect(
+        createEmptyPackageAction,
+        &QAction::triggered,
+        this,
+        &PackageTab::onCreateEmptyPackageActionTriggered
+    );
+
+    connect(
+        generatePackageAction,
+        &QAction::triggered,
+        this,
+        &PackageTab::onGeneratePackageActionTriggered
     );
 
     update();
@@ -173,11 +180,16 @@ void PackageTab::ui() {
     // Export
     exportButton = new QPushButton(tr("Export"));
     vbox->addWidget(exportButton, 0, Qt::AlignHCenter);
-}
 
-void PackageTab::onCreateButtonClicked() {
-    PackageInfoDialog d(-1, this);
-    d.exec();
+    // Create Menu
+    createMenu = new QMenu(createButton);
+    createButton->setMenu(createMenu);
+
+    createEmptyPackageAction = new QAction(tr("Create Empty Package"), createMenu);
+    createMenu->addAction(createEmptyPackageAction);
+
+    generatePackageAction = new QAction(tr("Generate Package"), createMenu);
+    createMenu->addAction(generatePackageAction);
 }
 
 void PackageTab::update() {
@@ -350,4 +362,17 @@ void PackageTab::onImportButtonClicked() {
     }
 
     emit packagesUpdated();
+}
+
+void PackageTab::onCreateEmptyPackageActionTriggered() {
+    PackageInfoDialog d(-1, this);
+    d.exec();
+}
+
+void PackageTab::onGeneratePackageActionTriggered() {
+    PackageInfoDialog d(-1, this);
+    if (d.exec() == QDialog::Rejected) {
+        return;
+    }
+    qDebug() << "Generate";
 }
