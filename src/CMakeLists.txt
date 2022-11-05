@@ -56,6 +56,8 @@ add_executable(learning_graph
     filesystem/package.cpp
     filesystem/graph.cpp
     filesystem/list.cpp
+
+    GenerationOptionsDialog.cpp
 )
 
 target_link_libraries(learning_graph

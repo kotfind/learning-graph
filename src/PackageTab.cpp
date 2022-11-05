@@ -5,6 +5,7 @@
 #include "PackageInfoDialog.h"
 #include "appendExtention.h"
 #include "filesystem/filesystem.h"
+#include "GenerationOptionsDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -370,9 +371,16 @@ void PackageTab::onCreateEmptyPackageActionTriggered() {
 }
 
 void PackageTab::onGeneratePackageActionTriggered() {
-    PackageInfoDialog d(-1, this);
-    if (d.exec() == QDialog::Rejected) {
+    PackageInfoDialog packageDialog(-1, this);
+    if (packageDialog.exec() == QDialog::Rejected) {
         return;
     }
-    qDebug() << "Generate";
+    int packageId = packageDialog.getId();
+
+    GenerationOptionsDialog optionsDialog(packageId, this);
+    if (optionsDialog.exec() == QDialog::Rejected) {
+        db::package::del(packageId);
+        emit packagesUpdated();
+        return;
+    }
 }
