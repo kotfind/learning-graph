@@ -422,7 +422,6 @@ void PackageTab::onEdgeDirectionQuestionRequested(
         const QString& first,
         const QString& second
     ) {
-    qDebug() << "Reply";
     DependencyDirectionDialog d(first, second, this);
     d.exec();
     emit dirrectionQuestionReplied(d.getDirection());

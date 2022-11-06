@@ -581,8 +581,8 @@
         <translation>Ошибка</translation>
     </message>
     <message>
+        <location filename="PackageTab.cpp" line="433"/>
         <location filename="PackageTab.cpp" line="434"/>
-        <location filename="PackageTab.cpp" line="435"/>
         <source>Graph Generation Done</source>
         <translation type="unfinished"></translation>
     </message>

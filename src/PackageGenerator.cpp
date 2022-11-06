@@ -23,8 +23,6 @@ void PackageGenerator::exec(
         int quantityLimit
     ) {
 
-    qDebug() << "Exec" << articleName;
-
     // Init
     queue.clear();
     nameToId.clear();
@@ -44,15 +42,11 @@ void PackageGenerator::exec(
 }
 
 void PackageGenerator::processNext() {
-    qDebug() << "ProcessNext";
     if (queue.empty()) { // TODO: Check limits
         emit done();
         return;
     }
 
-    qDebug() << "Ask"
-        << db::theme::name(queue.front().parentId)
-        << queue.front().currentName;
     emit dependencyDirectionQuestionRequested(
         db::theme::name(queue.front().parentId), 
         queue.front().currentName
@@ -60,8 +54,6 @@ void PackageGenerator::processNext() {
 }
 
 void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
-    qDebug() << "Reply got";
-
     if (dir == CANCEL_DIRECTION) {
         queue.pop_front();
         processNext();
@@ -97,14 +89,19 @@ void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
 }
 
 QUrl PackageGenerator::getApiRequestUrl(const QString& name) {
-    return QUrl(baseRequestUrl.arg(name));
+    auto url = baseRequestUrl;
+    url = url.replace("{articleName}",  name);
+    return QUrl(url);
 }
 
 void PackageGenerator::parseReplyData(const QByteArray& data, QString& name, QString& prettyName, QString& description, QList<QString>& linkNames) {
     auto json = QJsonDocument::fromJson(data);
     const auto& query = json["query"];
+    prettyName = query["pages"][0]["title"].toString();
     name = query["normalized"][0]["from"].toString();
-    prettyName = query["normalized"][0]["to"].toString();
+    if (name.isEmpty()) { // Happens if query["normalized"] doesn't exist
+        name = prettyName;
+    }
     description = query["pages"][0]["extract"].toString();
     const auto links = query["pages"][0]["links"].toArray();
     for (int i = 0; i < links.size(); ++i) { // foreach won't work
@@ -129,8 +126,6 @@ void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
         linkNames
     );
     reply->deleteLater();
-
-    qDebug() << "Networkd Replied" << name;
 
     Theme t = db::theme::read(nameToId[name]);
     t.name = name;

@@ -56,7 +56,7 @@ class PackageGenerator : public QObject {
         int depthLimit;
         int quantityLimit;
 
-        const QString baseRequestUrl = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cextracts&titles=%1&formatversion=2&pllimit=500&exsentences=1&exintro=1&explaintext=1";
+        const QString baseRequestUrl = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cextracts%7Cinfo&titles={articleName}&formatversion=2&pllimit=500&exsentences=1&explaintext=1&exsectionformat=plain";
 
         QNetworkAccessManager* manager;
 
