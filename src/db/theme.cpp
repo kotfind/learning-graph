@@ -322,3 +322,20 @@ int theme::find(const QString& packageName, const QString& themeName) {
     }
     return query.value(0).toInt();
 }
+
+int theme::find(int packageId, const QString& themeName) {
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM themes \
+        WHERE name == ? \
+          AND packageId == ? \
+    ")
+    query.addBindValue(themeName);
+    query.addBindValue(packageId);
+    EXEC(query)
+
+    if (!query.next()) {
+        return -1;
+    }
+    return query.value(0).toInt();
+}

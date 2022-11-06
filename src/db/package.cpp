@@ -221,3 +221,17 @@ bool package::unique(const QString& name) {
     EXEC(query)
     return !query.first();
 }
+
+bool package::hasTheme(int packageId, const QString& name) {
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM themes \
+        WHERE packageId = ? \
+          AND name = ? \
+        LIMIT 1 \
+    ")
+    query.addBindValue(packageId);
+    query.addBindValue(name);
+    EXEC(query)
+    return query.next();
+}

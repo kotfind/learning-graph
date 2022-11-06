@@ -5,6 +5,8 @@
 #include "PackageInfoDialog.h"
 #include "appendExtention.h"
 #include "filesystem/filesystem.h"
+#include "GenerationOptionsDialog.h"
+#include "DependencyDirectionDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -16,6 +18,7 @@
 #include <QGridLayout>
 #include <QStandardPaths>
 #include <QFileDialog>
+#include <qmessagebox.h>
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -86,17 +89,48 @@ PackageTab::PackageTab(QWidget* parent)
     );
 
     connect(
-        createButton,
-        &QPushButton::clicked,
-        this,
-        &PackageTab::onCreateButtonClicked
-    );
-
-    connect(
         importButton,
         &QPushButton::clicked,
         this,
         &PackageTab::onImportButtonClicked
+    );
+
+    connect(
+        createEmptyPackageAction,
+        &QAction::triggered,
+        this,
+        &PackageTab::onCreateEmptyPackageActionTriggered
+    );
+
+    connect(
+        generatePackageAction,
+        &QAction::triggered,
+        this,
+        &PackageTab::onGeneratePackageActionTriggered
+    );
+
+    // Package Generator
+    packageGenerator = new PackageGenerator(this);
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::dependencyDirectionQuestionRequested,
+        this,
+        &PackageTab::onEdgeDirectionQuestionRequested
+    );
+
+    connect(
+        this,
+        &PackageTab::dirrectionQuestionReplied,
+        packageGenerator,
+        &PackageGenerator::onDirrectionReplied
+    );
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::done,
+        this,
+        &PackageTab::onGenerationDone
     );
 
     update();
@@ -173,11 +207,16 @@ void PackageTab::ui() {
     // Export
     exportButton = new QPushButton(tr("Export"));
     vbox->addWidget(exportButton, 0, Qt::AlignHCenter);
-}
 
-void PackageTab::onCreateButtonClicked() {
-    PackageInfoDialog d(-1, this);
-    d.exec();
+    // Create Menu
+    createMenu = new QMenu(createButton);
+    createButton->setMenu(createMenu);
+
+    createEmptyPackageAction = new QAction(tr("Create Empty Package"), createMenu);
+    createMenu->addAction(createEmptyPackageAction);
+
+    generatePackageAction = new QAction(tr("Generate Package"), createMenu);
+    createMenu->addAction(generatePackageAction);
 }
 
 void PackageTab::update() {
@@ -350,4 +389,61 @@ void PackageTab::onImportButtonClicked() {
     }
 
     emit packagesUpdated();
+}
+
+void PackageTab::onCreateEmptyPackageActionTriggered() {
+    PackageInfoDialog d(-1, this);
+    d.exec();
+}
+
+void PackageTab::onGeneratePackageActionTriggered() {
+    PackageInfoDialog packageDialog(-1, this);
+    if (packageDialog.exec() == QDialog::Rejected) {
+        return;
+    }
+    int packageId = packageDialog.getId();
+
+    GenerationOptionsDialog optionsDialog(packageId, this);
+    if (optionsDialog.exec() == QDialog::Rejected) {
+        db::package::del(packageId);
+        emit packagesUpdated();
+        return;
+    }
+
+    if (optionsDialog.getName().isEmpty()) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            tr("Cannot generate package. Article name is empty.")
+        );
+        db::package::del(packageId);
+        emit packagesUpdated();
+        return;
+    }
+
+    packageGenerator->exec(
+        packageId,
+        optionsDialog.getLanguage(),
+        optionsDialog.getName(),
+        optionsDialog.getQuantityLimit()
+    );
+}
+
+void PackageTab::onEdgeDirectionQuestionRequested(
+        const QString& first,
+        const QString& second
+    ) {
+    DependencyDirectionDialog d(first, second, this);
+    d.exec();
+    emit dirrectionQuestionReplied(d.getDirection());
+}
+
+void PackageTab::onGenerationDone() {
+    QMessageBox::information(
+        this,
+        tr("Graph Generation Done"),
+        tr("Graph Generation Done")
+    );
+
+    emit themesUpdated();
 }

@@ -13,6 +13,7 @@ find_package(Qt6 REQUIRED
     Sql
     Svg
     LinguistTools
+    Network
 )
 
 qt_standard_project_setup()
@@ -56,6 +57,10 @@ add_executable(learning_graph
     filesystem/package.cpp
     filesystem/graph.cpp
     filesystem/list.cpp
+
+    GenerationOptionsDialog.cpp
+    PackageGenerator.cpp
+    DependencyDirectionDialog.cpp
 )
 
 target_link_libraries(learning_graph
@@ -63,6 +68,7 @@ target_link_libraries(learning_graph
     Qt6::Widgets
     Qt6::Sql
     Qt6::Svg
+    Qt6::Network
 )
 
 qt_add_resources(learning_graph "res"

@@ -15,6 +15,87 @@
     </message>
 </context>
 <context>
+    <name>DependencyDirectionDialog</name>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="54"/>
+        <source>Dependency Direction Dialog</source>
+        <translation>Диалог Направления Зависимости</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="61"/>
+        <source>Select dependency directon.</source>
+        <translation>Выберете направление зависимости.</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="65"/>
+        <location filename="DependencyDirectionDialog.cpp" line="70"/>
+        <source>&quot;%1&quot; depends on &quot;%2&quot;</source>
+        <translation>&quot;%1&quot; зависит от &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="74"/>
+        <source>Skip dependency</source>
+        <oldsource>Ignore dependency</oldsource>
+        <translation>Пропустить зависимость</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="78"/>
+        <source>Skip all dependences with &quot;%1&quot;</source>
+        <translation>Пропустить все зависимости с &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="82"/>
+        <source>Skip All</source>
+        <translation>Пропустить все</translation>
+    </message>
+</context>
+<context>
+    <name>GenerationOptionsDialog</name>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="31"/>
+        <location filename="GenerationOptionsDialog.cpp" line="41"/>
+        <source>Generation Options for Package &quot;%1&quot;</source>
+        <translation>Опции генерации пакета &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="55"/>
+        <source>Language of Wikipedia:</source>
+        <translation>Язык Wikipedia:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="59"/>
+        <source>English</source>
+        <translation>Английский</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="60"/>
+        <source>Russian</source>
+        <translation>Русский</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="47"/>
+        <source>Name of Wikipedia article:</source>
+        <oldsource>Link to Wikipedia article:</oldsource>
+        <translation>Название статьи на Wikipedia:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="65"/>
+        <source>Limit of Themes Quantity:</source>
+        <oldsource>Limit of Generation Depth:</oldsource>
+        <translation>Ограничение на количество тем:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="80"/>
+        <source>Cancel</source>
+        <translation>Отменить</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="83"/>
+        <source>Ok</source>
+        <translation>Ок</translation>
+    </message>
+</context>
+<context>
     <name>GraphEditWidget</name>
     <message>
         <location filename="GraphEditWidget.cpp" line="87"/>
@@ -413,103 +494,125 @@
 <context>
     <name>PackageTab</name>
     <message>
-        <location filename="PackageTab.cpp" line="118"/>
+        <location filename="PackageTab.cpp" line="152"/>
         <source>New package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="122"/>
+        <location filename="PackageTab.cpp" line="156"/>
         <source>Import package</source>
         <translation>Импортировать пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="136"/>
+        <location filename="PackageTab.cpp" line="170"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="143"/>
+        <location filename="PackageTab.cpp" line="177"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="151"/>
+        <location filename="PackageTab.cpp" line="185"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="157"/>
+        <location filename="PackageTab.cpp" line="191"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="166"/>
-        <location filename="PackageTab.cpp" line="295"/>
+        <location filename="PackageTab.cpp" line="200"/>
+        <location filename="PackageTab.cpp" line="334"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="174"/>
+        <location filename="PackageTab.cpp" line="208"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="189"/>
+        <location filename="PackageTab.cpp" line="215"/>
+        <source>Create Empty Package</source>
+        <translation>Создать пустой пакет</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="218"/>
+        <source>Generate Package</source>
+        <translation>Сгенерировать пакет</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="228"/>
         <source>%1 (%2 themes)</source>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="208"/>
+        <location filename="PackageTab.cpp" line="247"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="216"/>
+        <location filename="PackageTab.cpp" line="255"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="219"/>
+        <location filename="PackageTab.cpp" line="258"/>
         <source>Question</source>
         <translation>Вопрос</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="220"/>
+        <location filename="PackageTab.cpp" line="259"/>
         <source>Delete package &quot;%1&quot;?</source>
         <translation>Удалить пакет &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="298"/>
+        <location filename="PackageTab.cpp" line="337"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="304"/>
+        <location filename="PackageTab.cpp" line="343"/>
         <source>Text file (*.txt)</source>
         <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="305"/>
-        <location filename="PackageTab.cpp" line="329"/>
+        <location filename="PackageTab.cpp" line="344"/>
+        <location filename="PackageTab.cpp" line="368"/>
         <source>Learning Graph packages (*.pack)</source>
         <translation>Пакеты Learning Graph (*.pack)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="309"/>
+        <location filename="PackageTab.cpp" line="348"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="332"/>
+        <location filename="PackageTab.cpp" line="371"/>
         <source>Import from ...</source>
         <translation>Импортировать из ...</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="346"/>
+        <location filename="PackageTab.cpp" line="385"/>
+        <location filename="PackageTab.cpp" line="416"/>
         <source>Error</source>
         <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="417"/>
+        <source>Cannot generate package. Article name is empty.</source>
+        <translation>Невозможно сгенерировать пакет. Название статьи не заполнено.</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="444"/>
+        <location filename="PackageTab.cpp" line="445"/>
+        <source>Graph Generation Done</source>
+        <translation>Генерация графа завершена</translation>
     </message>
 </context>
 <context>

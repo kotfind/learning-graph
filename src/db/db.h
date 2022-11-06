@@ -73,6 +73,11 @@ namespace db {
         //     and package name packageName
         // Returns -1 if not found
         int find(const QString& packageName, const QString& themeName);
+
+        // Returns id of theme with name themeName
+        //     and package with id packageId
+        // Returns -1 if not found
+        int find(int packageId, const QString& themeName);
     };
 
     namespace package {
@@ -105,6 +110,11 @@ namespace db {
 
         // Returns true if name is unique
         bool unique(const QString& name);
+
+        // Returns true if theme with name name
+        //     is in package with id packageId
+        // Returns false otherwise
+        bool hasTheme(int packageId, const QString& name);
     };
 
     namespace graph {
