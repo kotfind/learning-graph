@@ -1,0 +1,76 @@
+#include "DependencyDirectionDialog.h"
+#include "DependencyDirection.h"
+
+#include <QVBoxLayout>
+#include <QLabel>
+
+DependencyDirectionDialog::DependencyDirectionDialog(
+    const QString& first,
+    const QString& second,
+    QWidget* parent)
+    : QDialog(parent) {
+
+    ui(first, second);
+
+    connect(
+        rightButton,
+        &QPushButton::clicked,
+        this,
+        &DependencyDirectionDialog::onRightButtonClicked
+    );
+
+    connect(
+        leftButton,
+        &QPushButton::clicked,
+        this,
+        &DependencyDirectionDialog::onLeftButtonClicked
+    );
+
+    connect(
+        cancelButton,
+        &QPushButton::clicked,
+        this,
+        &DependencyDirectionDialog::onCancelButtonClicked
+    );
+}
+
+void DependencyDirectionDialog::ui(const QString& first, const QString& second) {
+    // Title
+    setWindowTitle(tr("Dependency Direction Dialog"));
+
+    // Layout
+    auto* vbox = new QVBoxLayout;
+    setLayout(vbox);
+
+    // Label
+    vbox->addWidget(new QLabel(tr("Select dependency directon.")));
+
+    // Buttons
+    rightButton = new QPushButton(
+        tr("\"%1\" depends on \"%2\"").arg(first).arg(second)
+    );
+    vbox->addWidget(rightButton);
+
+    leftButton = new QPushButton(
+        tr("\"%1\" depends on \"%2\"").arg(second).arg(first)
+    );
+    vbox->addWidget(leftButton);
+
+    cancelButton = new QPushButton(tr("Ignore dependency"));
+    vbox->addWidget(cancelButton);
+}
+
+void DependencyDirectionDialog::onRightButtonClicked() {
+    direction = RIGHT_DIRECTION;
+    emit accept();
+}
+
+void DependencyDirectionDialog::onLeftButtonClicked() {
+    direction = LEFT_DIRECTION;
+    emit accept();
+}
+
+void DependencyDirectionDialog::onCancelButtonClicked() {
+    direction = CANCEL_DIRECTION;
+    emit accept();
+}

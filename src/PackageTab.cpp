@@ -6,6 +6,7 @@
 #include "appendExtention.h"
 #include "filesystem/filesystem.h"
 #include "GenerationOptionsDialog.h"
+#include "DependencyDirectionDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -422,7 +423,9 @@ void PackageTab::onEdgeDirectionQuestionRequested(
         const QString& second
     ) {
     qDebug() << "Reply";
-    emit dirrectionQuestionReplied(CANCEL_DIRECTION);
+    DependencyDirectionDialog d(first, second, this);
+    d.exec();
+    emit dirrectionQuestionReplied(d.getDirection());
 }
 
 void PackageTab::onGenerationDone() {

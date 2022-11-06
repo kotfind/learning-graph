@@ -60,6 +60,7 @@ add_executable(learning_graph
 
     GenerationOptionsDialog.cpp
     PackageGenerator.cpp
+    DependencyDirectionDialog.cpp
 )
 
 target_link_libraries(learning_graph
