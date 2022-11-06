@@ -106,28 +106,24 @@ void resetAll() {
 int main() {
     init();
 
-    Theme t;
+    Theme t1, t2;
     Package p;
     Graph g;
 
-    // TEST GROUP
     TEST_GROUP_BEGIN("package renaming")
 
-    // TEST
     p.id = 1;
     p.name = "pack";
     db::package::write(p);
     TEST_COMPARE(db::package::name(p.id), p.name)
     resetPackages();
 
-    // TEST
     p.id = 1;
     p.name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     db::package::write(p);
     TEST_COMPARE(db::package::name(p.id), p.name)
     resetPackages();
 
-    // TEST
     p.id = 1;
     p.name = "";
     try {
@@ -140,7 +136,6 @@ int main() {
     }
     resetPackages();
 
-    // TEST
     p.id = 1;
     p.name = "p2";
     try {
@@ -157,24 +152,20 @@ int main() {
 
 
 
-    // TEST GROUP
     TEST_GROUP_BEGIN("graph renaming")
 
-    // TEST
     g.id = 1;
     g.name = "graph";
     db::graph::write(g);
     TEST_COMPARE(db::graph::name(g.id), g.name)
     resetGraphs();
 
-    // TEST
     g.id = 1;
     g.name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     db::graph::write(g);
     TEST_COMPARE(db::graph::name(g.id), g.name)
     resetGraphs();
 
-    // TEST
     g.id = 1;
     g.name = "";
     try {
@@ -187,7 +178,6 @@ int main() {
     }
     resetGraphs();
 
-    // TEST
     g.id = 1;
     g.name = "g2";
     try {
@@ -204,10 +194,8 @@ int main() {
 
 
 
-    // TEST GROUP
     TEST_GROUP_BEGIN("theme filters")
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "",
@@ -218,7 +206,6 @@ int main() {
         (QList<int>{1, 2, 3, 4, 5, 6, 7, 8, 9})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "",
@@ -229,18 +216,6 @@ int main() {
         (QList<int>{1, 2, 3, 4, 5})
     )
 
-    // TEST
-    TEST_COMPARE(
-        toIds(db::theme::reads(
-            "",
-            -1,
-            Qt::Checked,
-            Qt::PartiallyChecked
-        )),
-        (QList<int>{1, 4, 5, 6, 9})
-    )
-
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "",
@@ -251,7 +226,6 @@ int main() {
         (QList<int>{1, 3, 6, 8})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "a",
@@ -262,7 +236,6 @@ int main() {
         (QList<int>{1})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "th",
@@ -273,7 +246,6 @@ int main() {
         (QList<int>{})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "t",
@@ -284,7 +256,6 @@ int main() {
         (QList<int>{5, 6, 7, 8, 9})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "t",
@@ -295,7 +266,6 @@ int main() {
         (QList<int>{5})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "t",
@@ -306,7 +276,6 @@ int main() {
         (QList<int>{5})
     )
 
-    // TEST
     TEST_COMPARE(
         toIds(db::theme::reads(
             "t",
@@ -316,6 +285,56 @@ int main() {
         )),
         (QList<int>{})
     )
+
+    TEST_GROUP_END
+
+
+
+    TEST_GROUP_BEGIN("creating theme")
+
+    t1.id = -1;
+    t1.name = "theme";
+    t1.package.id = 1;
+    t1.description = "description";
+    t1.isLearned = true;
+    t1.inWishlist = false;
+    t1.id = db::theme::write(t1);
+    t2 = db::theme::read(t1.id);
+    TEST_CHECK(
+        t1.name == t2.name &&
+        t1.package.id == t2.package.id &&
+        db::package::name(t1.package.id) == t2.package.name &&
+        t1.description == t2.description &&
+        t1.isLearned == t2.isLearned &&
+        t1.inWishlist == t2.inWishlist
+    )
+    resetThemes();
+
+    t1.id = -1;
+    t1.name = "";
+    t1.package.id = 1;
+    try {
+        db::theme::write(t1);
+        TEST_FAILED
+    } catch(const QString&) {
+        TEST_PASSED
+    } catch(...) {
+        TEST_FAILED
+    }
+    resetThemes();
+
+    t1.id = -1;
+    t1.name = "a";
+    t1.package.id = 1;
+    try {
+        db::theme::write(t1);
+        TEST_FAILED
+    } catch(const QString&) {
+        TEST_PASSED
+    } catch(...) {
+        TEST_FAILED
+    }
+    resetThemes();
 
     TEST_GROUP_END
 }
