@@ -118,6 +118,11 @@ void PackageGenerator::parseReplyData(const QByteArray& data, QString& name, QSt
 }
 
 void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
+    if (reply->error() != QNetworkReply::NoError) {
+        reply->deleteLater();
+        return;
+    }
+
     QString name;
     QString prettyName;
     QString description;

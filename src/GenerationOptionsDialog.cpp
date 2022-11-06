@@ -68,7 +68,7 @@ void GenerationOptionsDialog::ui() {
     quantityLimitSpinBox = new QSpinBox;
     quantityLimitSpinBox->setMaximum(1);
     quantityLimitSpinBox->setMaximum(10000);
-    quantityLimitSpinBox->setValue(20);
+    quantityLimitSpinBox->setValue(64);
     grid->addWidget(quantityLimitSpinBox, 5, 2);
 
     // Buttons
