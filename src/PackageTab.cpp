@@ -410,6 +410,17 @@ void PackageTab::onGeneratePackageActionTriggered() {
         return;
     }
 
+    if (optionsDialog.getName().isEmpty()) {
+        QMessageBox::critical(
+            this,
+            tr("Error"),
+            tr("Cannot generate package. Article name is empty.")
+        );
+        db::package::del(packageId);
+        emit packagesUpdated();
+        return;
+    }
+
     packageGenerator->exec(
         packageId,
         optionsDialog.getLanguage(),

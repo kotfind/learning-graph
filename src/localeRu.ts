@@ -599,12 +599,18 @@
     </message>
     <message>
         <location filename="PackageTab.cpp" line="385"/>
+        <location filename="PackageTab.cpp" line="416"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="433"/>
-        <location filename="PackageTab.cpp" line="434"/>
+        <location filename="PackageTab.cpp" line="417"/>
+        <source>Cannot generate package. Article name is empty.</source>
+        <translation>Невозможно сгенерировать пакет. Название статьи не заполнено.</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="444"/>
+        <location filename="PackageTab.cpp" line="445"/>
         <source>Graph Generation Done</source>
         <translation>Генерация графа завершена</translation>
     </message>
