@@ -64,7 +64,7 @@ void DependencyDirectionDialog::ui(const QString& first, const QString& second) 
     );
     vbox->addWidget(leftButton);
 
-    cancelButton = new QPushButton(tr("Ignore dependency"));
+    cancelButton = new QPushButton(tr("Skip dependency"));
     vbox->addWidget(cancelButton);
 
     skipAllButton = new QPushButton(tr("Skip All"));

@@ -19,28 +19,29 @@
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="47"/>
         <source>Dependency Direction Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалог Направления Зависимости</translation>
     </message>
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="54"/>
         <source>Select dependency directon.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберете направление зависимости.</translation>
     </message>
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="58"/>
         <location filename="DependencyDirectionDialog.cpp" line="63"/>
         <source>&quot;%1&quot; depends on &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; зависит от &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="67"/>
-        <source>Ignore dependency</source>
-        <translation type="unfinished"></translation>
+        <source>Skip dependency</source>
+        <oldsource>Ignore dependency</oldsource>
+        <translation>Пропустить зависимость</translation>
     </message>
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="70"/>
         <source>Skip All</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропустить все</translation>
     </message>
 </context>
 <context>
@@ -589,7 +590,7 @@
         <location filename="PackageTab.cpp" line="433"/>
         <location filename="PackageTab.cpp" line="434"/>
         <source>Graph Generation Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Генерация графа завершена</translation>
     </message>
 </context>
 <context>
