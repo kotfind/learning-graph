@@ -12,6 +12,9 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QDrag>
+#include <QMimeData>
+#include <QByteArray>
 
 using namespace db;
 
@@ -38,6 +41,13 @@ LearningListWidget::LearningListWidget(QWidget* parent)
         &SmartListWidget::itemMenuRequested,
         this,
         &LearningListWidget::onThemeMenuRequested
+    );
+
+    connect(
+        themesList,
+        &SmartListWidget::itemDragRequested,
+        this,
+        &LearningListWidget::onThemeDragRequested
     );
 
     connect(
@@ -190,4 +200,18 @@ void LearningListWidget::onThemesUpdated() {
 
 void LearningListWidget::onShowLearnedCheckBoxChanged(int state) {
     load();
+}
+
+void LearningListWidget::onThemeDragRequested(int themeId) {
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << themeId;
+
+    auto* mimeData = new QMimeData;
+    mimeData->setData("application/x-themeid", data);
+
+    auto* drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+
+    drag->exec(Qt::CopyAction);
 }

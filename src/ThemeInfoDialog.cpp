@@ -109,7 +109,7 @@ void ThemeInfoDialog::ui() {
     packageComboBox = new PackageComboBox;
     packageBox->addWidget(packageComboBox);
 
-    createPackageButton = new QPushButton(tr("New package"));
+    createPackageButton = new QPushButton(tr("Create empty package"));
     packageBox->addWidget(createPackageButton);
 
     // Checkboxes

@@ -34,6 +34,9 @@ class LearningListWidget : public QWidget {
         // Closes opened learning list
         void close();
 
+        // Creates QDrag with current themeId
+        void onThemeDragRequested(int themeId);
+
         // Opens ThemeContextMenu for theme with id themeId
         void onThemeMenuRequested(int themeId, const QPoint& globalPos);
 
