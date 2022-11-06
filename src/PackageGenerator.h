@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DependencyDirection.h"
+
 #include <QObject>
 #include <QString>
 #include <QHash>
@@ -13,12 +15,6 @@ class PackageGenerator : public QObject {
     Q_OBJECT
 
     public:
-        enum EdgeDirection {
-            LEFT_DIRECTION,
-            RIGHT_DIRECTION,
-            CANCEL_DIRECTION
-        };
-
         // Creates generator that reads data from Wikipedia
         PackageGenerator(
             QObject* parent = nullptr
@@ -70,14 +66,14 @@ class PackageGenerator : public QObject {
 
     signals:
         void done();
-        void edgeDirectionQuestionRequested(
+        void dependencyDirectionQuestionRequested(
             const QString& first,
             const QString& second
         );
 
     public slots:
-        // As a response for edgeDirectionQuestionRequested
-        void onDirrectionReplied(EdgeDirection dir);
+        // As a response for dependencyDirectionQuestionRequested
+        void onDirrectionReplied(DependencyDirection dir);
 
     private slots:
         // Processes http response

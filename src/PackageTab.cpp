@@ -113,7 +113,7 @@ PackageTab::PackageTab(QWidget* parent)
 
     connect(
         packageGenerator,
-        &PackageGenerator::edgeDirectionQuestionRequested,
+        &PackageGenerator::dependencyDirectionQuestionRequested,
         this,
         &PackageTab::onEdgeDirectionQuestionRequested
     );
@@ -422,7 +422,7 @@ void PackageTab::onEdgeDirectionQuestionRequested(
         const QString& second
     ) {
     qDebug() << "Reply";
-    emit dirrectionQuestionReplied(PackageGenerator::CANCEL_DIRECTION);
+    emit dirrectionQuestionReplied(CANCEL_DIRECTION);
 }
 
 void PackageTab::onGenerationDone() {
@@ -433,5 +433,4 @@ void PackageTab::onGenerationDone() {
     );
 
     emit themesUpdated();
-    emit packagesUpdated();
 }

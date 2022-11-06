@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DependencyDirection.h"
 #include "PackageGenerator.h"
 #include "SmartListWidget.h"
 
@@ -38,7 +39,7 @@ class PackageTab : public QWidget {
     signals:
         void packagesUpdated();
         void themesUpdated();
-        void dirrectionQuestionReplied(PackageGenerator::EdgeDirection);
+        void dirrectionQuestionReplied(DependencyDirection);
 
     public slots:
         // (Re)loads data from db

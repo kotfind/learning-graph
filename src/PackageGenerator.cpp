@@ -53,13 +53,13 @@ void PackageGenerator::processNext() {
     qDebug() << "Ask"
         << db::theme::name(queue.front().parentId)
         << queue.front().currentName;
-    emit edgeDirectionQuestionRequested(
+    emit dependencyDirectionQuestionRequested(
         db::theme::name(queue.front().parentId), 
         queue.front().currentName
     );
 }
 
-void PackageGenerator::onDirrectionReplied(EdgeDirection dir) {
+void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
     qDebug() << "Reply got";
 
     if (dir == CANCEL_DIRECTION) {
