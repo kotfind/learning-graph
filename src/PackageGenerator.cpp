@@ -19,6 +19,7 @@ PackageGenerator::PackageGenerator(QObject* parent)
 
 void PackageGenerator::exec(
         int packageId,
+        const QString& language,
         const QString& articleName,
         int depthLimit,
         int quantityLimit
@@ -28,6 +29,7 @@ void PackageGenerator::exec(
     queue.clear();
     nameToId.clear();
     this->packageId = packageId;
+    this->language = language;
     this->depthLimit = depthLimit;
     this->quantityLimit = quantityLimit;
 
@@ -93,7 +95,8 @@ void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
 
 QUrl PackageGenerator::getApiRequestUrl(const QString& name) {
     auto url = baseRequestUrl;
-    url = url.replace("{articleName}", QString(QUrl::toPercentEncoding(name)));
+    url.replace("{language}", language);
+    url.replace("{articleName}", QString(QUrl::toPercentEncoding(name)));
     return QUrl(url);
 }
 

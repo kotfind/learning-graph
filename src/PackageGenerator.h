@@ -26,6 +26,7 @@ class PackageGenerator : public QObject {
         //     or if generated more than quantityLimit themes
         void exec(
             int packageId,
+            const QString& language,
             const QString& articleName,
             int depthLimit,
             int quantityLimit
@@ -52,11 +53,12 @@ class PackageGenerator : public QObject {
         // Returns url for api request by Wikipedia article's name
         QUrl getApiRequestUrl(const QString& name);
 
+        QString language;
         int packageId;
         int depthLimit;
         int quantityLimit;
 
-        const QString baseRequestUrl = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cextracts%7Cinfo&titles={articleName}&formatversion=2&pllimit=500&exsentences=1&explaintext=1&exsectionformat=plain";
+        const QString baseRequestUrl = "https://{language}.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cextracts%7Cinfo&titles={articleName}&formatversion=2&pllimit=500&exsentences=1&explaintext=1&exsectionformat=plain";
 
         QNetworkAccessManager* manager;
 

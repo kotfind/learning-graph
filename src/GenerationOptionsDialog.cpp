@@ -50,31 +50,41 @@ void GenerationOptionsDialog::ui() {
     nameEdit = new QLineEdit;
     grid->addWidget(nameEdit, 3, 1, 1, 2);
 
+    // Language
+    grid->addWidget(new QLabel(
+        tr("Language of Wikipedia:")
+    ), 4, 1, Qt::AlignRight);
+
+    languageComboBox = new QComboBox;
+    languageComboBox->addItem(tr("English"), "en");
+    languageComboBox->addItem(tr("Russian"), "ru");
+    grid->addWidget(languageComboBox, 4, 2);
+
     // Depth Limit SpinBox
     grid->addWidget(new QLabel(
         tr("Limit of Generation Depth:")
-    ), 4, 1, Qt::AlignRight);
+    ), 5, 1, Qt::AlignRight);
 
     depthLimitSpinBox = new QSpinBox;
     depthLimitSpinBox->setMaximum(1);
     depthLimitSpinBox->setMaximum(50);
     depthLimitSpinBox->setValue(4);
-    grid->addWidget(depthLimitSpinBox, 4, 2);
+    grid->addWidget(depthLimitSpinBox, 5, 2);
 
     // Quantity Limit SpinBox
     grid->addWidget(new QLabel(
         tr("Limit of Themes Quantity:")
-    ), 5, 1, Qt::AlignRight);
+    ), 6, 1, Qt::AlignRight);
 
     quantityLimitSpinBox = new QSpinBox;
     quantityLimitSpinBox->setMaximum(1);
     quantityLimitSpinBox->setMaximum(10000);
     quantityLimitSpinBox->setValue(20);
-    grid->addWidget(quantityLimitSpinBox, 5, 2);
+    grid->addWidget(quantityLimitSpinBox, 6, 2);
 
     // Buttons
     auto* hbox = new QHBoxLayout;
-    grid->addLayout(hbox, 6, 1, 1, 2);
+    grid->addLayout(hbox, 7, 1, 1, 2);
 
     hbox->addStretch(1);
 

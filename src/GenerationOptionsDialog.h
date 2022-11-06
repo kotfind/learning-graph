@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QPushButton>
+#include <QComboBox>
 
 class GenerationOptionsDialog : public QDialog {
     Q_OBJECT
@@ -21,10 +22,14 @@ class GenerationOptionsDialog : public QDialog {
         // Returns value of nameEdit
         QString getName() { return nameEdit->text(); }
 
+        // Returns value of languageComboBox ("ru" or "en")
+        QString getLanguage() { return languageComboBox->currentData().toString(); }
+
     private:
         // Draws user interface
         void ui();
 
+        QComboBox* languageComboBox;
         QLineEdit* nameEdit;
         QSpinBox* depthLimitSpinBox;
         QSpinBox* quantityLimitSpinBox;
