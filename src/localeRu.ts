@@ -41,7 +41,7 @@
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="78"/>
         <source>Skip all dependences with &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропустить все зависимости с &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="DependencyDirectionDialog.cpp" line="82"/>

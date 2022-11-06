@@ -6,6 +6,8 @@
 #include <QPushButton>
 
 class DependencyDirectionDialog : public QDialog {
+    Q_OBJECT
+
     public:
         // Dialog asks dependency direction
         //     between first and second
