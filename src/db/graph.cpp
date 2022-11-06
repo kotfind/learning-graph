@@ -179,3 +179,16 @@ bool graph::unique(const QString &name) {
     EXEC(query)
     return !query.first();
 }
+
+bool graph::hasTheme(int graphId, int themeId) {
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM graphNodes \
+        WHERE graphId = ? \
+          AND themeId = ? \
+    ")
+    query.addBindValue(graphId);
+    query.addBindValue(themeId);
+    EXEC(query)
+    return query.next();
+}

@@ -145,6 +145,11 @@ namespace db {
 
         // Returns true if name is unique
         bool unique(const QString& name);
+
+        // Returns true if theme with id themeId
+        //     is in graph with id graphId
+        // Returns false otherwise
+        bool hasTheme(int graphId, int themeId);
     };
 
     namespace graphNode {
@@ -169,6 +174,8 @@ namespace db {
         // Deletes nodes with whose themes were deleted
         //     from graph with id graphId
         void deleteDeletedThemes(int graphId);
+
+
     };
 
     namespace themeEdge {

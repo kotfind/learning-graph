@@ -284,7 +284,7 @@ void GraphScene::dropEvent(QGraphicsSceneDragDropEvent* e) {
     int themeId;
     stream >> themeId;
 
-    if (themeIdToNode.contains(themeId)) {
+    if (db::graph::hasTheme(graphId, themeId)) {
         QMessageBox::critical(
             views()[0],
             tr("Error"),
