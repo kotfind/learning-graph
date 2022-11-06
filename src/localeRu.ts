@@ -17,24 +17,29 @@
 <context>
     <name>DependencyDirectionDialog</name>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="39"/>
+        <location filename="DependencyDirectionDialog.cpp" line="47"/>
         <source>Dependency Direction Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="46"/>
+        <location filename="DependencyDirectionDialog.cpp" line="54"/>
         <source>Select dependency directon.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="50"/>
-        <location filename="DependencyDirectionDialog.cpp" line="55"/>
+        <location filename="DependencyDirectionDialog.cpp" line="58"/>
+        <location filename="DependencyDirectionDialog.cpp" line="63"/>
         <source>&quot;%1&quot; depends on &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="59"/>
+        <location filename="DependencyDirectionDialog.cpp" line="67"/>
         <source>Ignore dependency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="70"/>
+        <source>Skip All</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

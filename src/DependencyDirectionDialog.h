@@ -27,6 +27,7 @@ class DependencyDirectionDialog : public QDialog {
         QPushButton* rightButton;
         QPushButton* leftButton;
         QPushButton* cancelButton;
+        QPushButton* skipAllButton;
 
         DependencyDirection direction = CANCEL_DIRECTION;
 
@@ -38,8 +39,12 @@ class DependencyDirectionDialog : public QDialog {
         // Sets direction to LEFT_DIRECTION
         // Emits accept
         void onLeftButtonClicked();
-        //
+
         // Sets direction to CANCEL_DIRECTION
         // Emits accept
         void onCancelButtonClicked();
+
+        // Sets direction to SKIP_ALL_DIRECTIONS
+        // Emits accept
+        void onSkipAllButtonClicked();
 };

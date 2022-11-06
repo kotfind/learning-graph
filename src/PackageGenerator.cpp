@@ -1,5 +1,6 @@
 #include "PackageGenerator.h"
 
+#include "DependencyDirection.h"
 #include "db/db.h"
 
 #include <QDebug>
@@ -54,7 +55,9 @@ void PackageGenerator::processNext() {
 }
 
 void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
-    if (dir == CANCEL_DIRECTION) {
+    if (dir == SKIP_ALL_DIRECTIONS) {
+        emit done();
+    } else if (dir == CANCEL_DIRECTION) {
         queue.pop_front();
         processNext();
     } else {

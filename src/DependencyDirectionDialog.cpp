@@ -1,4 +1,5 @@
 #include "DependencyDirectionDialog.h"
+
 #include "DependencyDirection.h"
 
 #include <QVBoxLayout>
@@ -32,6 +33,13 @@ DependencyDirectionDialog::DependencyDirectionDialog(
         this,
         &DependencyDirectionDialog::onCancelButtonClicked
     );
+
+    connect(
+        skipAllButton,
+        &QPushButton::clicked,
+        this,
+        &DependencyDirectionDialog::onSkipAllButtonClicked
+    );
 }
 
 void DependencyDirectionDialog::ui(const QString& first, const QString& second) {
@@ -58,6 +66,9 @@ void DependencyDirectionDialog::ui(const QString& first, const QString& second) 
 
     cancelButton = new QPushButton(tr("Ignore dependency"));
     vbox->addWidget(cancelButton);
+
+    skipAllButton = new QPushButton(tr("Skip All"));
+    vbox->addWidget(skipAllButton);
 }
 
 void DependencyDirectionDialog::onRightButtonClicked() {
@@ -72,5 +83,10 @@ void DependencyDirectionDialog::onLeftButtonClicked() {
 
 void DependencyDirectionDialog::onCancelButtonClicked() {
     direction = CANCEL_DIRECTION;
+    emit accept();
+}
+
+void DependencyDirectionDialog::onSkipAllButtonClicked() {
+    direction = SKIP_ALL_DIRECTIONS;
     emit accept();
 }
