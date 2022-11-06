@@ -420,6 +420,7 @@ void PackageTab::onEdgeDirectionQuestionRequested(
         const QString& first,
         const QString& second
     ) {
+    qDebug() << "Reply";
     emit dirrectionQuestionReplied(PackageGenerator::CANCEL_DIRECTION);
 }
 
@@ -433,5 +434,5 @@ void PackageTab::onGenerationDone() {
     emit themesUpdated();
     emit packagesUpdated();
 
-    delete packageGenerator;
+    packageGenerator->deleteLater();
 }

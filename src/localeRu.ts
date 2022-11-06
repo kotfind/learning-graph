@@ -557,8 +557,8 @@
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="429"/>
         <location filename="PackageTab.cpp" line="430"/>
+        <location filename="PackageTab.cpp" line="431"/>
         <source>Graph Generation Done</source>
         <translation type="unfinished"></translation>
     </message>

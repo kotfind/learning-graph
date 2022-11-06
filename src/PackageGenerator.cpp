@@ -2,6 +2,8 @@
 
 #include "db/db.h"
 
+#include <QDebug>
+
 PackageGenerator::PackageGenerator(
     int packageId,
     int depthLimit,
@@ -25,6 +27,8 @@ PackageGenerator::PackageGenerator(
 }
 
 void PackageGenerator::exec(const QString& articleName) {
+    qDebug() << "Exec" << articleName;
+
     // Insert dummy to db
     Theme t;
     t.id = -1;
@@ -37,11 +41,15 @@ void PackageGenerator::exec(const QString& articleName) {
 }
 
 void PackageGenerator::processNext() {
+    qDebug() << "ProcessNext";
     if (queue.empty()) { // TODO: Check limits
         emit done();
         return;
     }
 
+    qDebug() << "Ask"
+        << db::theme::name(queue.front().parentId)
+        << queue.front().currentName;
     emit edgeDirectionQuestionRequested(
         db::theme::name(queue.front().parentId), 
         queue.front().currentName
@@ -49,7 +57,10 @@ void PackageGenerator::processNext() {
 }
 
 void PackageGenerator::onDirrectionReplied(EdgeDirection dir) {
+    qDebug() << "Reply got";
+
     if (dir == CANCEL_DIRECTION) {
+        queue.pop_front();
         processNext();
     } else {
         if (!db::package::hasTheme(
@@ -76,10 +87,10 @@ void PackageGenerator::onDirrectionReplied(EdgeDirection dir) {
             }
 
             manager->get(QNetworkRequest(getApiRequestUrl(queue.front().currentName)));
+
+            queue.pop_front();
         }
     }
-
-    queue.pop_front();
 }
 
 QUrl PackageGenerator::getApiRequestUrl(const QString& name) {
@@ -116,6 +127,8 @@ void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
     );
     reply->deleteLater();
 
+    qDebug() << "Networkd Replied" << name;
+
     Theme t = db::theme::read(nameToId[name]);
     t.name = name;
     t.description = description;
@@ -127,4 +140,6 @@ void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
             linkName
         });
     }
+
+    processNext();
 }
