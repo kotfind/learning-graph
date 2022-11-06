@@ -44,10 +44,6 @@ ThemeInfoDialog::ThemeInfoDialog(int themeId, QWidget* parent)
         this,
         &ThemeInfoDialog::save
     );
-
-    // Read from settings
-    QSettings settings;
-    packageComboBox->setCurrentId(settings.value("themeInfoDialog/packageId").toInt());
 }
 
 int ThemeInfoDialog::getId() {
@@ -55,7 +51,10 @@ int ThemeInfoDialog::getId() {
 }
 
 void ThemeInfoDialog::load() {
-    if (themeId != -1) {
+    if (themeId == -1) {
+        QSettings settings;
+        packageComboBox->setCurrentId(settings.value("themeInfoDialog/packageId").toInt());
+    } else {
         const Theme t = db::theme::read(themeId);
         themeEdit->setText(t.name);
         packageComboBox->setCurrentId(t.package.id);
