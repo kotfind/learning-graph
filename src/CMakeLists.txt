@@ -63,13 +63,15 @@ add_executable(learning_graph
     DependencyDirectionDialog.cpp
 )
 
-target_link_libraries(learning_graph
+set(LIBS
     Qt6::Core
     Qt6::Widgets
     Qt6::Sql
     Qt6::Svg
     Qt6::Network
 )
+
+target_link_libraries(learning_graph ${LIBS})
 
 qt_add_resources(learning_graph "res"
     PREFIX "/"
@@ -84,4 +86,24 @@ qt_add_resources(learning_graph "res"
 qt_add_translations(learning_graph
     TS_FILES localeRu.ts
     QM_FILES_OUTPUT_VARIABLE qm_files
+)
+
+# Tests
+
+add_executable(tests
+    db/theme.cpp
+    db/package.cpp
+    db/graph.cpp
+    db/themeEdge.cpp
+
+    tests/tests.cpp
+)
+
+target_link_libraries(tests ${LIBS})
+
+add_custom_command(
+    TARGET tests
+    POST_BUILD
+    COMMAND ./tests
+    WORKING_DIRECTORY .
 )
