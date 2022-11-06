@@ -24,7 +24,10 @@ QString __TEST_GROUP_NAME__;
 
 #define TEST_FAILED \
     qDebug().noquote() << \
-        QString("Test %1: FAILED").arg(__TEST_NUMBER__);\
+        QString("Test %1: FAILED at %2 (%3)") \
+            .arg(__TEST_NUMBER__) \
+            .arg(__FILE__) \
+            .arg(__LINE__); \
     ++__TEST_NUMBER__; \
     ++__TESTS_FAILED__;
 
