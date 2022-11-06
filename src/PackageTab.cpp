@@ -414,7 +414,6 @@ void PackageTab::onGeneratePackageActionTriggered() {
         packageId,
         optionsDialog.getLanguage(),
         optionsDialog.getName(),
-        optionsDialog.getDepthLimit(),
         optionsDialog.getQuantityLimit()
     );
 }

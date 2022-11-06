@@ -21,7 +21,6 @@ void PackageGenerator::exec(
         int packageId,
         const QString& language,
         const QString& articleName,
-        int depthLimit,
         int quantityLimit
     ) {
 
@@ -30,7 +29,6 @@ void PackageGenerator::exec(
     nameToId.clear();
     this->packageId = packageId;
     this->language = language;
-    this->depthLimit = depthLimit;
     this->quantityLimit = quantityLimit;
 
     // Insert dummy to db
@@ -45,7 +43,7 @@ void PackageGenerator::exec(
 }
 
 void PackageGenerator::processNext() {
-    if (queue.empty()) { // TODO: Check limits
+    if (queue.empty() || db::package::count(packageId) > quantityLimit) {
         emit done();
         return;
     }

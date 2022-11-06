@@ -13,9 +13,6 @@ class GenerationOptionsDialog : public QDialog {
     public:
         GenerationOptionsDialog(int packageId, QWidget* parent = nullptr);
 
-        // Returns value of depthLimitSpinBox
-        int getDepthLimit() { return depthLimitSpinBox->value(); }
-
         // Returns value of quantityLimitSpinBox
         int getQuantityLimit() { return quantityLimitSpinBox->value(); }
 
@@ -31,7 +28,6 @@ class GenerationOptionsDialog : public QDialog {
 
         QComboBox* languageComboBox;
         QLineEdit* nameEdit;
-        QSpinBox* depthLimitSpinBox;
         QSpinBox* quantityLimitSpinBox;
         QPushButton* cancelButton;
         QPushButton* okButton;

@@ -22,13 +22,11 @@ class PackageGenerator : public QObject {
         
         // Starts generator from article "articleName"
         // Writes result to package with id packageId
-        // Stops generation if search depth is greather than depthLimit
-        //     or if generated more than quantityLimit themes
+        // Stops generation if generated more than quantityLimit themes
         void exec(
             int packageId,
             const QString& language,
             const QString& articleName,
-            int depthLimit,
             int quantityLimit
         );
 
@@ -55,7 +53,6 @@ class PackageGenerator : public QObject {
 
         QString language;
         int packageId;
-        int depthLimit;
         int quantityLimit;
 
         const QString baseRequestUrl = "https://{language}.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cextracts%7Cinfo&titles={articleName}&formatversion=2&pllimit=500&exsentences=1&explaintext=1&exsectionformat=plain";

@@ -55,17 +55,17 @@
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="55"/>
         <source>Language of Wikipedia:</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык Wikipedia:</translation>
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="59"/>
         <source>English</source>
-        <translation type="unfinished">Английский</translation>
+        <translation>Английский</translation>
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="60"/>
         <source>Russian</source>
-        <translation type="unfinished">Русский</translation>
+        <translation>Русский</translation>
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="47"/>
@@ -75,21 +75,17 @@
     </message>
     <message>
         <location filename="GenerationOptionsDialog.cpp" line="65"/>
-        <source>Limit of Generation Depth:</source>
-        <translation>Ограничение на глубину генерации:</translation>
-    </message>
-    <message>
-        <location filename="GenerationOptionsDialog.cpp" line="76"/>
         <source>Limit of Themes Quantity:</source>
+        <oldsource>Limit of Generation Depth:</oldsource>
         <translation>Ограничение на количество тем:</translation>
     </message>
     <message>
-        <location filename="GenerationOptionsDialog.cpp" line="91"/>
+        <location filename="GenerationOptionsDialog.cpp" line="80"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="GenerationOptionsDialog.cpp" line="94"/>
+        <location filename="GenerationOptionsDialog.cpp" line="83"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
@@ -602,8 +598,8 @@
         <translation>Ошибка</translation>
     </message>
     <message>
+        <location filename="PackageTab.cpp" line="433"/>
         <location filename="PackageTab.cpp" line="434"/>
-        <location filename="PackageTab.cpp" line="435"/>
         <source>Graph Generation Done</source>
         <translation>Генерация графа завершена</translation>
     </message>
