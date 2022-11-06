@@ -12,7 +12,7 @@ void resetAll();
 // Inits db
 void init() {
     auto db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("tmp.sqlite"); // FIXME
+    db.setDatabaseName(":memory:");
     db.open();
 
     QSqlQuery("PRAGMA foreign_keys=OFF");
