@@ -78,6 +78,33 @@ void resetThemes() {
     ");
 }
 
+// Resets themeEdges db table and inserts sample data
+void resetThemeEdges() {
+    QSqlQuery("DROP TABLE IF EXISTS themeEdges");
+    QSqlQuery(" \
+        CREATE TABLE themeEdges( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            beginId INT NOT NULL REFERENCES themes(id), \
+            endId INT NOT NULL REFERENCES themes(id), \
+            UNIQUE (beginId, endId), \
+            CHECK (beginId != endId) \
+        ) \
+    ");
+    QSqlQuery(" \
+        INSERT \
+        INTO themeEdges \
+        VALUES \
+            (1,1,2), \
+            (2,1,3), \
+            (3,3,4), \
+            (4,2,4), \
+            (5,5,7), \
+            (6,6,5), \
+            (7,7,8), \
+            (8,8,6) \
+    ");
+}
+
 // Resets graphs db table and inserts sample data
 void resetGraphs() {
     QSqlQuery("DROP TABLE IF EXISTS graphs");
@@ -101,6 +128,7 @@ void resetAll() {
     resetPackages();
     resetThemes();
     resetGraphs();
+    resetAll();
 }
 
 int main() {
@@ -335,6 +363,27 @@ int main() {
         TEST_FAILED
     }
     resetThemes();
+
+    TEST_GROUP_END
+
+
+
+    TEST_GROUP_BEGIN("package and theme delition")
+
+    db::theme::del(1);
+    TEST_CHECK(
+        QSqlQuery("SELECT COUNT(*) FROM themes").value(0).toInt() == 8 &&
+        QSqlQuery("SELECT COUNT(*) FROM themeEdges").value(0).toInt() == 6
+    )
+    resetAll();
+
+    db::package::del(1);
+    TEST_CHECK(
+        QSqlQuery("SELECT COUNT(*) FROM packages").value(0).toInt() == 1 &&
+        QSqlQuery("SELECT COUNT(*) FROM themes").value(0).toInt() == 4 &&
+        QSqlQuery("SELECT COUNT(*) FROM themeEdges").value(0).toInt() == 2
+    )
+    resetAll();
 
     TEST_GROUP_END
 }

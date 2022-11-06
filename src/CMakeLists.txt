@@ -94,6 +94,7 @@ add_executable(tests
     db/theme.cpp
     db/package.cpp
     db/graph.cpp
+    db/themeEdge.cpp
 
     tests/tests.cpp
 )
