@@ -108,6 +108,30 @@ PackageTab::PackageTab(QWidget* parent)
         &PackageTab::onGeneratePackageActionTriggered
     );
 
+    // Package Generator
+    packageGenerator = new PackageGenerator(this);
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::edgeDirectionQuestionRequested,
+        this,
+        &PackageTab::onEdgeDirectionQuestionRequested
+    );
+
+    connect(
+        this,
+        &PackageTab::dirrectionQuestionReplied,
+        packageGenerator,
+        &PackageGenerator::onDirrectionReplied
+    );
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::done,
+        this,
+        &PackageTab::onGenerationDone
+    );
+
     update();
     setAutoUpdate(true);
     autoUpdateCheckBox->setChecked(true);
@@ -385,35 +409,12 @@ void PackageTab::onGeneratePackageActionTriggered() {
         return;
     }
 
-    packageGenerator = new PackageGenerator(
+    packageGenerator->exec(
         packageId,
+        optionsDialog.getName(),
         optionsDialog.getDepthLimit(),
-        optionsDialog.getQuantityLimit(),
-        this
+        optionsDialog.getQuantityLimit()
     );
-
-    connect(
-        packageGenerator,
-        &PackageGenerator::edgeDirectionQuestionRequested,
-        this,
-        &PackageTab::onEdgeDirectionQuestionRequested
-    );
-
-    connect(
-        this,
-        &PackageTab::dirrectionQuestionReplied,
-        packageGenerator,
-        &PackageGenerator::onDirrectionReplied
-    );
-
-    connect(
-        packageGenerator,
-        &PackageGenerator::done,
-        this,
-        &PackageTab::onGenerationDone
-    );
-
-    packageGenerator->exec(optionsDialog.getName());
 }
 
 void PackageTab::onEdgeDirectionQuestionRequested(
@@ -433,6 +434,4 @@ void PackageTab::onGenerationDone() {
 
     emit themesUpdated();
     emit packagesUpdated();
-
-    packageGenerator->deleteLater();
 }

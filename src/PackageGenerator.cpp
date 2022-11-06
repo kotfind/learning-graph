@@ -4,18 +4,8 @@
 
 #include <QDebug>
 
-PackageGenerator::PackageGenerator(
-    int packageId,
-    int depthLimit,
-    int quantityLimit,
-    QObject* parent)
-        : QObject(parent),
-          packageId(packageId),
-          depthLimit(depthLimit),
-          quantityLimit(quantityLimit),
-          queue(),
-          nameToId() {
-
+PackageGenerator::PackageGenerator(QObject* parent)
+        : QObject(parent), queue(), nameToId() {
     manager = new QNetworkAccessManager(this);
 
     connect(
@@ -26,8 +16,21 @@ PackageGenerator::PackageGenerator(
     );
 }
 
-void PackageGenerator::exec(const QString& articleName) {
+void PackageGenerator::exec(
+        int packageId,
+        const QString& articleName,
+        int depthLimit,
+        int quantityLimit
+    ) {
+
     qDebug() << "Exec" << articleName;
+
+    // Init
+    queue.clear();
+    nameToId.clear();
+    this->packageId = packageId;
+    this->depthLimit = depthLimit;
+    this->quantityLimit = quantityLimit;
 
     // Insert dummy to db
     Theme t;

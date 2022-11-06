@@ -19,19 +19,21 @@ class PackageGenerator : public QObject {
             CANCEL_DIRECTION
         };
 
-        // Creates generator which reads data from Wikipedia
-        //     and writes it as package with id packageId
-        // Stops generation if search depth is greather than depthLimit
-        //     or if generated more than quantityLimit themes
+        // Creates generator that reads data from Wikipedia
         PackageGenerator(
-            int packageId,
-            int depthLimit,
-            int quantityLimit,
             QObject* parent = nullptr
         );
         
         // Starts generator from article "articleName"
-        void exec(const QString& articleName);
+        // Writes result to package with id packageId
+        // Stops generation if search depth is greather than depthLimit
+        //     or if generated more than quantityLimit themes
+        void exec(
+            int packageId,
+            const QString& articleName,
+            int depthLimit,
+            int quantityLimit
+        );
 
     private:
         struct QueueItem {
