@@ -15,19 +15,100 @@
     </message>
 </context>
 <context>
+    <name>DependencyDirectionDialog</name>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="54"/>
+        <source>Dependency Direction Dialog</source>
+        <translation>Диалог Направления Зависимости</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="61"/>
+        <source>Select dependency directon.</source>
+        <translation>Выберете направление зависимости.</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="65"/>
+        <location filename="DependencyDirectionDialog.cpp" line="70"/>
+        <source>&quot;%1&quot; depends on &quot;%2&quot;</source>
+        <translation>&quot;%1&quot; зависит от &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="74"/>
+        <source>Skip dependency</source>
+        <oldsource>Ignore dependency</oldsource>
+        <translation>Пропустить зависимость</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="78"/>
+        <source>Skip all dependences with &quot;%1&quot;</source>
+        <translation>Пропустить все зависимости с &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="82"/>
+        <source>Skip All</source>
+        <translation>Пропустить все</translation>
+    </message>
+</context>
+<context>
+    <name>GenerationOptionsDialog</name>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="31"/>
+        <location filename="GenerationOptionsDialog.cpp" line="41"/>
+        <source>Generation Options for Package &quot;%1&quot;</source>
+        <translation>Опции генерации пакета &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="55"/>
+        <source>Language of Wikipedia:</source>
+        <translation>Язык Wikipedia:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="59"/>
+        <source>English</source>
+        <translation>Английский</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="60"/>
+        <source>Russian</source>
+        <translation>Русский</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="47"/>
+        <source>Name of Wikipedia article:</source>
+        <oldsource>Link to Wikipedia article:</oldsource>
+        <translation>Название статьи на Wikipedia:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="65"/>
+        <source>Limit of Themes Quantity:</source>
+        <oldsource>Limit of Generation Depth:</oldsource>
+        <translation>Ограничение на количество тем:</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="80"/>
+        <source>Cancel</source>
+        <translation>Отменить</translation>
+    </message>
+    <message>
+        <location filename="GenerationOptionsDialog.cpp" line="83"/>
+        <source>Ok</source>
+        <translation>Ок</translation>
+    </message>
+</context>
+<context>
     <name>GraphEditWidget</name>
     <message>
-        <location filename="GraphEditWidget.cpp" line="92"/>
+        <location filename="GraphEditWidget.cpp" line="94"/>
         <source>Mode Bar</source>
         <translation>Панель режимов</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="129"/>
+        <location filename="GraphEditWidget.cpp" line="131"/>
         <source>Scale Bar</source>
         <translation>Панель маштабирования</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="131"/>
+        <location filename="GraphEditWidget.cpp" line="133"/>
         <source>Scale: </source>
         <translation>Маштаб: </translation>
     </message>
@@ -36,64 +117,69 @@
         <translation type="vanished">Панель экспорта</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="137"/>
+        <location filename="GraphEditWidget.cpp" line="139"/>
         <source>Other Buttons Bar</source>
         <translation>Другое</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="139"/>
+        <location filename="GraphEditWidget.cpp" line="141"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="144"/>
+        <location filename="GraphEditWidget.cpp" line="146"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="156"/>
-        <location filename="GraphEditWidget.cpp" line="180"/>
+        <location filename="GraphEditWidget.cpp" line="151"/>
+        <source>Clear Deleted Themes</source>
+        <translation>Убрать удаленные темы</translation>
+    </message>
+    <message>
+        <location filename="GraphEditWidget.cpp" line="163"/>
+        <location filename="GraphEditWidget.cpp" line="184"/>
         <source>No Graph Loaded</source>
         <translation>Граф не загружен</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="164"/>
+        <location filename="GraphEditWidget.cpp" line="171"/>
         <source>[Graph] %1</source>
         <translation>[Граф] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="204"/>
+        <location filename="GraphEditWidget.cpp" line="207"/>
         <source>[Theme] %1</source>
         <oldsource>[Node] %1</oldsource>
         <translation>[Тема] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="206"/>
+        <location filename="GraphEditWidget.cpp" line="209"/>
         <source>[Edge]</source>
         <translation>[Ребро]</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="228"/>
+        <location filename="GraphEditWidget.cpp" line="231"/>
         <source>JPG image (*.jpg)</source>
         <translation>JPG изображение (*.jpg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="229"/>
+        <location filename="GraphEditWidget.cpp" line="232"/>
         <source>PNG image (*.png)</source>
         <translation>PNG изображение (*.png)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="230"/>
+        <location filename="GraphEditWidget.cpp" line="233"/>
         <source>SVG image (*.svg)</source>
         <translation>SVG изображение (*.svg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="231"/>
+        <location filename="GraphEditWidget.cpp" line="234"/>
         <source>Learning Graph graph (*.graph)</source>
-        <translation>Learning Graph граф (*.graph)</translation>
+        <translation>Граф Learning Graph (*.graph)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="236"/>
+        <location filename="GraphEditWidget.cpp" line="239"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
@@ -101,37 +187,37 @@
 <context>
     <name>GraphInfoDialog</name>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="15"/>
+        <location filename="GraphInfoDialog.cpp" line="13"/>
         <source>Graph &quot;%1&quot; Info</source>
         <translation>Информация о графе &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="16"/>
+        <location filename="GraphInfoDialog.cpp" line="14"/>
         <source>New Graph</source>
         <translation>Новый граф</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="50"/>
+        <location filename="GraphInfoDialog.cpp" line="48"/>
         <source>Graph name:</source>
         <translation>Имя графа:</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="62"/>
+        <location filename="GraphInfoDialog.cpp" line="60"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="65"/>
+        <location filename="GraphInfoDialog.cpp" line="63"/>
         <source>Create</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="65"/>
+        <location filename="GraphInfoDialog.cpp" line="63"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="GraphInfoDialog.cpp" line="85"/>
+        <location filename="GraphInfoDialog.cpp" line="83"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -139,7 +225,7 @@
 <context>
     <name>GraphNodeItem</name>
     <message>
-        <location filename="GraphNodeItem.cpp" line="84"/>
+        <location filename="GraphNodeItem.cpp" line="82"/>
         <source>&lt;i&gt;Deleted&lt;/i&gt;</source>
         <translation>&lt;i&gt;Удалена&lt;/i&gt;</translation>
     </message>
@@ -147,30 +233,30 @@
 <context>
     <name>GraphScene</name>
     <message>
-        <location filename="GraphScene.cpp" line="152"/>
+        <location filename="GraphScene.cpp" line="161"/>
         <source>Choose theme to add:</source>
         <translation>Выберете тему для добавления:</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="153"/>
+        <location filename="GraphScene.cpp" line="162"/>
         <source>&lt;New Theme&gt;</source>
         <oldsource>&lt;New Node&gt;</oldsource>
         <translation>&lt;Новая Тема&gt;</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="215"/>
-        <location filename="GraphScene.cpp" line="233"/>
-        <location filename="GraphScene.cpp" line="280"/>
+        <location filename="GraphScene.cpp" line="224"/>
+        <location filename="GraphScene.cpp" line="242"/>
+        <location filename="GraphScene.cpp" line="290"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="216"/>
+        <location filename="GraphScene.cpp" line="225"/>
         <source>Cannot add edge to deleted node</source>
         <translation>Невозможно провести ребро к удаленной теме</translation>
     </message>
     <message>
-        <location filename="GraphScene.cpp" line="281"/>
+        <location filename="GraphScene.cpp" line="291"/>
         <source>This node is already on the graph.</source>
         <translation>Эта тема уже добавлена на граф.</translation>
     </message>
@@ -178,60 +264,130 @@
 <context>
     <name>GraphTab</name>
     <message>
-        <location filename="GraphTab.cpp" line="79"/>
+        <location filename="GraphTab.cpp" line="101"/>
         <source>New graph</source>
         <translation>Новый граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="83"/>
+        <location filename="GraphTab.cpp" line="105"/>
         <source>Import graph</source>
         <translation>Импортировать граф</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="97"/>
+        <location filename="GraphTab.cpp" line="119"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="104"/>
+        <location filename="GraphTab.cpp" line="126"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="112"/>
+        <location filename="GraphTab.cpp" line="134"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="118"/>
+        <location filename="GraphTab.cpp" line="140"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="140"/>
+        <location filename="GraphTab.cpp" line="164"/>
         <source>%1 (%2 themes)</source>
-        <translation>%1 (%2 тем)</translation>
+        <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="155"/>
+        <location filename="GraphTab.cpp" line="179"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="159"/>
+        <location filename="GraphTab.cpp" line="183"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="167"/>
+        <location filename="GraphTab.cpp" line="191"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="GraphTab.cpp" line="171"/>
+        <location filename="GraphTab.cpp" line="195"/>
         <source>Delete graph &quot;%1&quot;?</source>
         <translation>Удалить граф &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="246"/>
+        <source>Learning Graph graph (*.graph)</source>
+        <translation>Граф Learning Graph (*.graph)</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="250"/>
+        <source>Import from ...</source>
+        <translation>Импортировать из ...</translation>
+    </message>
+    <message>
+        <location filename="GraphTab.cpp" line="264"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+</context>
+<context>
+    <name>LearningListWidget</name>
+    <message>
+        <location filename="LearningListWidget.cpp" line="76"/>
+        <location filename="LearningListWidget.cpp" line="145"/>
+        <source>No list loaded</source>
+        <translation>Список не загружен</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="80"/>
+        <source>Show learned themes</source>
+        <translation>Отображать изученные темы</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="94"/>
+        <source>Export</source>
+        <translation>Экспорт</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="97"/>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <source>List for theme &quot;%1&quot;</source>
+        <oldsource>List for theme %1</oldsource>
+        <translation type="vanished">Список для темы &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="107"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="126"/>
+        <source>List for theme &quot;%1 (%2)&quot;</source>
+        <translation>Список для темы &quot;%1 (%2)&quot;</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="134"/>
+        <source>%1 (%2)</source>
+        <oldsource>%1 from %2</oldsource>
+        <translation>%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="160"/>
+        <source>Text file (*.txt)</source>
+        <translation>Текстовый файл (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="LearningListWidget.cpp" line="165"/>
+        <source>Export to ...</source>
+        <translation>Экспортировать в ...</translation>
     </message>
 </context>
 <context>
@@ -282,12 +438,12 @@
         <translation>Графы</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="153"/>
+        <location filename="MainWindow.cpp" line="157"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="154"/>
+        <location filename="MainWindow.cpp" line="158"/>
         <source>Restart the application for changes to take effect.</source>
         <oldsource>Restart application for changes to take effect.</oldsource>
         <translation>Перезапустите приложение, чтобы изменения вступили в силу.</translation>
@@ -296,8 +452,8 @@
 <context>
     <name>PackageComboBox</name>
     <message>
-        <location filename="PackageComboBox.cpp" line="26"/>
-        <location filename="PackageComboBox.cpp" line="57"/>
+        <location filename="PackageComboBox.cpp" line="24"/>
+        <location filename="PackageComboBox.cpp" line="55"/>
         <source>&lt;Any&gt;</source>
         <translation>&lt;Любой&gt;</translation>
     </message>
@@ -305,37 +461,37 @@
 <context>
     <name>PackageInfoDialog</name>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="15"/>
+        <location filename="PackageInfoDialog.cpp" line="13"/>
         <source>Package &quot;%1&quot; Info</source>
         <translation>Информация о пакете &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="16"/>
+        <location filename="PackageInfoDialog.cpp" line="14"/>
         <source>New Package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="50"/>
+        <location filename="PackageInfoDialog.cpp" line="48"/>
         <source>Package name:</source>
         <translation>Имя пакета:</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="62"/>
+        <location filename="PackageInfoDialog.cpp" line="60"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="65"/>
+        <location filename="PackageInfoDialog.cpp" line="63"/>
         <source>Create</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="65"/>
+        <location filename="PackageInfoDialog.cpp" line="63"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="PackageInfoDialog.cpp" line="85"/>
+        <location filename="PackageInfoDialog.cpp" line="83"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -343,145 +499,197 @@
 <context>
     <name>PackageTab</name>
     <message>
-        <location filename="PackageTab.cpp" line="112"/>
+        <location filename="PackageTab.cpp" line="152"/>
         <source>New package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="116"/>
+        <location filename="PackageTab.cpp" line="156"/>
         <source>Import package</source>
         <translation>Импортировать пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="130"/>
+        <location filename="PackageTab.cpp" line="170"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="137"/>
+        <location filename="PackageTab.cpp" line="177"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="145"/>
+        <location filename="PackageTab.cpp" line="185"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="151"/>
+        <location filename="PackageTab.cpp" line="191"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="158"/>
-        <location filename="PackageTab.cpp" line="287"/>
+        <location filename="PackageTab.cpp" line="200"/>
+        <location filename="PackageTab.cpp" line="334"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="166"/>
+        <location filename="PackageTab.cpp" line="208"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="181"/>
-        <source>%1 (%2 themes)</source>
-        <translation>%1 (%2 тем)</translation>
+        <location filename="PackageTab.cpp" line="215"/>
+        <source>Create Empty Package</source>
+        <translation>Создать пустой пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="200"/>
+        <location filename="PackageTab.cpp" line="218"/>
+        <source>Generate Package</source>
+        <translation>Сгенерировать пакет</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="228"/>
+        <source>%1 (%2 themes)</source>
+        <translation>%1 (%2 тем(-а, -ы))</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="247"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="208"/>
+        <location filename="PackageTab.cpp" line="255"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="211"/>
+        <location filename="PackageTab.cpp" line="258"/>
         <source>Question</source>
         <translation>Вопрос</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="212"/>
+        <location filename="PackageTab.cpp" line="259"/>
         <source>Delete package &quot;%1&quot;?</source>
         <translation>Удалить пакет &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="290"/>
+        <location filename="PackageTab.cpp" line="337"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="296"/>
+        <location filename="PackageTab.cpp" line="343"/>
         <source>Text file (*.txt)</source>
         <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="301"/>
+        <location filename="PackageTab.cpp" line="344"/>
+        <location filename="PackageTab.cpp" line="368"/>
+        <source>Learning Graph packages (*.pack)</source>
+        <translation>Пакеты Learning Graph (*.pack)</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="348"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="371"/>
+        <source>Import from ...</source>
+        <translation>Импортировать из ...</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="385"/>
+        <location filename="PackageTab.cpp" line="416"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="417"/>
+        <source>Cannot generate package. Article name is empty.</source>
+        <translation>Невозможно сгенерировать пакет. Название статьи не заполнено.</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="444"/>
+        <location filename="PackageTab.cpp" line="445"/>
+        <source>Graph Generation Done</source>
+        <translation>Генерация графа завершена</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <location filename="db/theme.cpp" line="100"/>
-        <location filename="db/package.cpp" line="91"/>
+        <location filename="db/package.cpp" line="106"/>
         <location filename="db/graph.cpp" line="91"/>
         <source>Name is not unique.</source>
         <translation>Имя не уникально.</translation>
     </message>
     <message>
         <location filename="db/theme.cpp" line="103"/>
-        <location filename="db/package.cpp" line="94"/>
+        <location filename="db/package.cpp" line="109"/>
         <location filename="db/graph.cpp" line="94"/>
         <source>Name should not be empty.</source>
         <translation>Имя не должно быть пустым.</translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="276"/>
+        <location filename="filesystem/theme.cpp" line="26"/>
         <source>NAME: </source>
         <oldsource>NAME:        </oldsource>
         <translation>ИМЯ: </translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="277"/>
+        <location filename="filesystem/theme.cpp" line="27"/>
         <source>PACKAGE: </source>
         <oldsource>PACKAGE:     </oldsource>
         <translation>ПАКЕТ: </translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="278"/>
+        <location filename="filesystem/theme.cpp" line="28"/>
         <source>LEARNED: </source>
         <oldsource>LEARNED:     </oldsource>
         <translation>ИЗУЧЕНА: </translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="278"/>
-        <location filename="db/theme.cpp" line="279"/>
+        <location filename="filesystem/theme.cpp" line="28"/>
+        <location filename="filesystem/theme.cpp" line="29"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="278"/>
-        <location filename="db/theme.cpp" line="279"/>
+        <location filename="filesystem/theme.cpp" line="28"/>
+        <location filename="filesystem/theme.cpp" line="29"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="279"/>
+        <location filename="filesystem/theme.cpp" line="29"/>
         <source>IN WISHLIST: </source>
         <translation>В СПИСКЕ ЖЕЛАНИЙ: </translation>
     </message>
     <message>
-        <location filename="db/theme.cpp" line="280"/>
+        <location filename="filesystem/theme.cpp" line="31"/>
         <source>DESCRIPTION:
 </source>
         <translation>ОПИСАНИЕ:
+</translation>
+    </message>
+    <message>
+        <location filename="filesystem/theme.cpp" line="35"/>
+        <source>DEPENDS ON:
+</source>
+        <translation>ЗАВИСИТ ОТ:
+</translation>
+    </message>
+    <message>
+        <location filename="filesystem/theme.cpp" line="37"/>
+        <source>+ %1 (%2)
+</source>
+        <translation>+ %1 (%2)
 </translation>
     </message>
     <message>
@@ -494,31 +702,51 @@
         <source>The begining and ending of the edge should be different nodes.</source>
         <translation>Ребро должно начинаться и заканчиваться в различных темах.</translation>
     </message>
+    <message>
+        <location filename="filesystem/package.cpp" line="98"/>
+        <source>Cannot import. Package &quot;%1&quot; already exists.</source>
+        <translation>Импорт невозможен. Пакет &quot;%1&quot; уже существует.</translation>
+    </message>
+    <message>
+        <location filename="filesystem/graph.cpp" line="91"/>
+        <source>Cannot import. Graph &quot;%1&quot; already exists.</source>
+        <translation>Импорт невозможен. Граф &quot;%1&quot; уже существует.</translation>
+    </message>
+    <message>
+        <location filename="filesystem/graph.cpp" line="108"/>
+        <source>Cannot import. Theme &quot;%1 (%2)&quot; does not exist.</source>
+        <translation>Импорт невозможен. Темы &quot;%1 (%2)&quot; не существует.</translation>
+    </message>
+    <message>
+        <location filename="db/list.cpp" line="26"/>
+        <source>Cannot build the list. Dependency cycle found.</source>
+        <translation>Невозможно построить список. Обнаружен цикл зависимостей.</translation>
+    </message>
 </context>
 <context>
     <name>ThemeContextMenu</name>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="27"/>
+        <location filename="ThemeContextMenu.cpp" line="32"/>
         <source>Watch/ Edit</source>
         <translation>Посмотреть/ изменить</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="30"/>
+        <location filename="ThemeContextMenu.cpp" line="36"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="33"/>
+        <location filename="ThemeContextMenu.cpp" line="39"/>
         <source>Question</source>
         <translation>Вопрос</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="34"/>
+        <location filename="ThemeContextMenu.cpp" line="40"/>
         <source>Delete theme &quot;%1&quot;?</source>
         <translation>Удалить тему &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="ThemeContextMenu.cpp" line="43"/>
+        <location filename="ThemeContextMenu.cpp" line="51"/>
         <source>Build Learning List</source>
         <translation>Построить Список Изучения</translation>
     </message>
@@ -526,7 +754,7 @@
 <context>
     <name>ThemeInfoDialog</name>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="18"/>
+        <location filename="ThemeInfoDialog.cpp" line="78"/>
         <source>Theme &quot;%1&quot; Info</source>
         <translation>Информация о теме &quot;%1&quot;</translation>
     </message>
@@ -536,63 +764,63 @@
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="90"/>
+        <location filename="ThemeInfoDialog.cpp" line="92"/>
         <source>Theme:</source>
         <translation>Тема:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="104"/>
+        <location filename="ThemeInfoDialog.cpp" line="106"/>
         <source>Package:</source>
         <translation>Пакет:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="110"/>
+        <location filename="ThemeInfoDialog.cpp" line="112"/>
         <source>New package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="121"/>
+        <location filename="ThemeInfoDialog.cpp" line="123"/>
         <source>Learned</source>
         <translation>Изучена</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="124"/>
+        <location filename="ThemeInfoDialog.cpp" line="126"/>
         <source>In Wishlist</source>
         <translation>В списке желаний</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="137"/>
+        <location filename="ThemeInfoDialog.cpp" line="139"/>
         <source>Description:</source>
         <translation>Описание:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="151"/>
+        <location filename="ThemeInfoDialog.cpp" line="153"/>
         <source>Depends on:</source>
         <translation>Зависит от:</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="165"/>
+        <location filename="ThemeInfoDialog.cpp" line="167"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="169"/>
+        <location filename="ThemeInfoDialog.cpp" line="171"/>
         <source>Create</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="169"/>
+        <location filename="ThemeInfoDialog.cpp" line="171"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="187"/>
-        <location filename="ThemeInfoDialog.cpp" line="209"/>
+        <location filename="ThemeInfoDialog.cpp" line="189"/>
+        <location filename="ThemeInfoDialog.cpp" line="217"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="ThemeInfoDialog.cpp" line="188"/>
+        <location filename="ThemeInfoDialog.cpp" line="190"/>
         <source>Package should be selected.</source>
         <oldsource>Package should be selected</oldsource>
         <translation>Нужно выбрать пакет.</translation>
@@ -601,32 +829,32 @@
 <context>
     <name>ThemeTab</name>
     <message>
-        <location filename="ThemeTab.cpp" line="121"/>
+        <location filename="ThemeTab.cpp" line="120"/>
         <source>New theme</source>
         <translation>Новая тема</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="135"/>
+        <location filename="ThemeTab.cpp" line="134"/>
         <source>Search section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="139"/>
+        <location filename="ThemeTab.cpp" line="138"/>
         <source>Theme:</source>
         <translation>Тема:</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="146"/>
+        <location filename="ThemeTab.cpp" line="145"/>
         <source>Package:</source>
         <translation>Пакет:</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="155"/>
+        <location filename="ThemeTab.cpp" line="154"/>
         <source>In Wishlist</source>
         <translation>В списке желаний</translation>
     </message>
     <message>
-        <location filename="ThemeTab.cpp" line="161"/>
+        <location filename="ThemeTab.cpp" line="160"/>
         <source>Learned</source>
         <translation>Изучена</translation>
     </message>

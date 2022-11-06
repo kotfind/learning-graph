@@ -85,3 +85,33 @@ void graphNode::del(int id) {
     query.addBindValue(id);
     EXEC(query)
 }
+
+int graphNode::themeId(int id) {
+    PREPARE_NEW(query, " \
+        SELECT themeId \
+        FROM graphNodes \
+        WHERE id = ? \
+    ")
+    query.addBindValue(id);
+    EXEC(query)
+
+    if (!query.next()) {
+        throw 0;
+    }
+
+    return query.value(0).toInt();
+}
+
+void graphNode::deleteDeletedThemes(int graphId) {
+    PREPARE_NEW(query, " \
+        DELETE \
+        FROM graphNodes \
+        WHERE graphId = ? \
+          AND themeId NOT IN ( \
+              SELECT id \
+              FROM themes \
+          ) \
+    ")
+    query.addBindValue(graphId);
+    EXEC(query)
+}

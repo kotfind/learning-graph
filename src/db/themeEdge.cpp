@@ -8,7 +8,7 @@ using namespace db;
 
 ThemeEdge::ThemeEdge() : id(-1) {}
 
-QList<ThemeEdge> themeEdge::reads(int graphId, int themeId) {
+QList<ThemeEdge> themeEdge::readsFromGraph(int graphId, int themeId) {
     QString queryString = " \
         WITH themeIds AS ( \
             SELECT themeId \
@@ -57,7 +57,7 @@ QList<ThemeEdge> themeEdge::reads(int graphId, int themeId) {
     return edges;
 }
 
-int themeEdge::create(int beginNodeId, int endNodeId) {
+int themeEdge::createByNodes(int beginNodeId, int endNodeId) {
     PREPARE_NEW(query, " \
         INSERT \
         INTO themeEdges(beginId, endId) \
@@ -98,4 +98,40 @@ void themeEdge::del(int edgeId) {
     ");
     query.addBindValue(edgeId);
     EXEC(query)
+}
+
+QList<ThemeEdge> themeEdge::readsFromThemeIds(const QList<int>& ids) {
+    PREPARE_NEW(query, QString(" \
+        WITH ids AS (VALUES {ids}) \
+        SELECT id, beginId, endId \
+        FROM themeEdges \
+        WHERE beginId IN ids \
+          AND endId IN ids \
+    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "(?)")).join(",")))
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
+    EXEC(query)
+
+    QList<ThemeEdge> edges;
+    while (query.next()) {
+        ThemeEdge e;
+        e.id = query.value(0).toInt();
+        e.beginId = query.value(1).toInt();
+        e.endId = query.value(2).toInt();
+        edges.append(e);
+    }
+    return edges;
+}
+
+int themeEdge::createByThemes(int beginId, int endId) {
+    PREPARE_NEW(query, " \
+        INSERT \
+        INTO themeEdges(beginId, endId) \
+        VALUES (?, ?)")
+    query.addBindValue(beginId);
+    query.addBindValue(endId);
+    EXEC(query)
+
+    return query.lastInsertId().toInt();
 }

@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 
+#include "LearningListWidget.h"
 #include "ThemeTab.h"
 #include "PackageTab.h"
-#include "LearningListTab.h"
 #include "GlobalSignalHandler.h"
 
 #include <QTabWidget>
@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(
         graphsTab,
         &GraphTab::open,
-        graphEditTab,
+        graphEditWidget,
         &GraphEditWidget::open
     );
 
@@ -124,9 +124,13 @@ void MainWindow::uiBody() {
     graphsTab = new GraphTab;
     leftTabs->addTab(graphsTab, tr("Graphs"));
 
-    // Graph tabs
-    graphEditTab = new GraphEditWidget;
-    splitter->addWidget(graphEditTab);
+    // Graph Edit tab
+    graphEditWidget = new GraphEditWidget;
+    splitter->addWidget(graphEditWidget);
+
+    // Learning List tab
+    learningListWidget = new LearningListWidget;
+    splitter->addWidget(learningListWidget);
 
     // Splitter stretch
     splitter->setStretchFactor(0, 0);

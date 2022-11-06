@@ -1,0 +1,9 @@
+#pragma once
+
+enum DependencyDirection {
+    LEFT_DIRECTION,
+    RIGHT_DIRECTION,
+    CANCEL_DIRECTION,
+    SKIP_CURRENT_DIRECTIONS,
+    SKIP_ALL_DIRECTIONS
+};

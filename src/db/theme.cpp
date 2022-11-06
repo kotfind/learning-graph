@@ -140,12 +140,11 @@ QList<Theme> theme::reads(
     Qt::CheckState inWishlist,
     Qt::CheckState isLearned
     ) {
-
     QString queryString = " \
-        SELECT id, name, packageId, isLearned, inWishlist \
+        SELECT id, name, packageId \
         FROM themes \
         WHERE {whereSection} \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -190,8 +189,6 @@ QList<Theme> theme::reads(
         t.id = query.value(0).toInt();
         t.name = query.value(1).toString();
         t.package = package::read(query.value(2).toInt());
-        t.inWishlist = query.value(4).toBool();
-        t.isLearned = query.value(3).toBool();
         themes.append(t);
     }
     return themes;
@@ -199,14 +196,14 @@ QList<Theme> theme::reads(
 
 QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
     PREPARE_NEW(query, " \
-        SELECT id, name, packageId, isLearned, inWishlist \
+        SELECT id, name, packageId \
         FROM themes \
         WHERE id NOT IN ( \
             SELECT themeId \
             FROM graphNodes \
             WHERE graphId = ? \
         ) \
-        GROUP BY ( \
+        ORDER BY ( \
             SELECT name \
             FROM packages \
             WHERE id = packageId \
@@ -221,24 +218,37 @@ QList<Theme> theme::readsExceptGraph(int excludeGraphId) {
         t.id = query.value(0).toInt();
         t.name = query.value(1).toString();
         t.package = package::read(query.value(2).toInt());
-        t.inWishlist = query.value(4).toBool();
-        t.isLearned = query.value(3).toBool();
         themes.append(t);
     }
     return themes;
 }
 
-QList<Theme> theme::readsByIds(const QList<int>& ids) {
+QList<Theme> theme::readsByIds(const QList<int>& ids, bool full) {
+    if (ids.isEmpty()) {
+        return {};
+    }
+
     PREPARE_NEW(query, QString(" \
-        SELECT id, name, packageId, isLearned, inWishlist, description \
+        SELECT id, name, packageId {selectSection} \
         FROM themes \
         WHERE id IN ({ids}) \
-        GROUP BY ( \
-            SELECT name \
-            FROM packages \
-            WHERE id = packageId \
-        ), name \
-    ").replace("{ids}", QStringList(QList<QString>(ids.size(), "?")).join(",")))
+        ORDER BY INSTR({idsString}, id) \
+        ").replace(
+            "{ids}",
+            QStringList(QList<QString>(ids.size(), "?")).join(",")
+        ).replace(
+            "{idsString}",
+            QStringList(QList<QString>(ids.size(), "?")).join("||")
+        ).replace(
+            "{selectSection}",
+            full
+                ? ", isLearned, inWishlist, description"
+                : ""
+        )
+    )
+    for (int id : ids) {
+        query.addBindValue(id);
+    }
     for (int id : ids) {
         query.addBindValue(id);
     }
@@ -250,35 +260,14 @@ QList<Theme> theme::readsByIds(const QList<int>& ids) {
         t.id = query.value(0).toInt();
         t.name = query.value(1).toString();
         t.package = package::read(query.value(2).toInt());
-        t.isLearned = query.value(3).toBool();
-        t.inWishlist = query.value(4).toBool();
-        t.description = query.value(5).toString();
+        if (full) {
+            t.isLearned = query.value(3).toBool();
+            t.inWishlist = query.value(4).toBool();
+            t.description = query.value(5).toString();
+        }
         themes.append(t);
     }
     return themes;
-}
-
-void theme::exportAsTxt(const QString& filename, const QList<int>& ids) {
-    QFile file(filename);
-    if (!file.open(QFile::WriteOnly)) {
-        throw 0;
-    }
-    QTextStream out(&file);
-
-    bool first = true;
-    auto themes = theme::readsByIds(ids);
-    for (const auto& theme : themes) {
-        if (!first) {
-            out << "\n";
-        }
-        first = false;
-
-        out << QObject::tr("NAME: ") << theme.name << '\n';
-        out << QObject::tr("PACKAGE: ") << theme.package.name << '\n';
-        out << QObject::tr("LEARNED: ") << (theme.isLearned ? QObject::tr("Yes") : QObject::tr("No")) << '\n';
-        out << QObject::tr("IN WISHLIST: ") << (theme.inWishlist ? QObject::tr("Yes") : QObject::tr("No")) << '\n';
-        out << QObject::tr("DESCRIPTION:\n") << theme.description << '\n';
-    }
 }
 
 bool theme::exists(int id) {
@@ -292,11 +281,11 @@ bool theme::exists(int id) {
     return query.next();
 }
 
-QList<Theme> theme::readsDependencies(int themeId) {
+QList<int> theme::getDependenciesIds(int themeId) {
     PREPARE_NEW(query, " \
-        SELECT endId \
+        SELECT beginId \
         FROM themeEdges \
-        WHERE beginId = ? \
+        WHERE endId = ? \
     ")
     query.addBindValue(themeId);
     EXEC(query)
@@ -306,5 +295,47 @@ QList<Theme> theme::readsDependencies(int themeId) {
         ids.append(query.value(0).toInt());
     }
 
-    return theme::readsByIds(ids);
+    return ids;
+}
+
+QList<Theme> theme::readsDependencies(int themeId) {
+    return theme::readsByIds(
+        theme::getDependenciesIds(themeId),
+        false
+    );
+}
+
+int theme::find(const QString& packageName, const QString& themeName) {
+    PREPARE_NEW(query, " \
+        SELECT t.id \
+        FROM themes t, packages p \
+        WHERE t.packageId == p.id \
+          AND t.name == ? \
+          AND p.name == ? \
+    ")
+    query.addBindValue(themeName);
+    query.addBindValue(packageName);
+    EXEC(query)
+
+    if (!query.next()) {
+        return -1;
+    }
+    return query.value(0).toInt();
+}
+
+int theme::find(int packageId, const QString& themeName) {
+    PREPARE_NEW(query, " \
+        SELECT id \
+        FROM themes \
+        WHERE name == ? \
+          AND packageId == ? \
+    ")
+    query.addBindValue(themeName);
+    query.addBindValue(packageId);
+    EXEC(query)
+
+    if (!query.next()) {
+        return -1;
+    }
+    return query.value(0).toInt();
 }

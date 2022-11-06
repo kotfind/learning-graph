@@ -1,55 +1,12 @@
 #pragma once
 
+#include "../types.h"
+
 #include <QString>
 #include <QList>
 
 namespace db {
     bool init();
-
-    struct Package {
-        Package();
-
-        int id;
-        QString name;
-        int count;
-    };
-
-    struct Theme {
-        Theme();
-
-        int id;
-        QString name;
-        Package package;
-        bool inWishlist;
-        bool isLearned;
-        QString description;
-    };
-
-    struct Graph {
-        Graph();
-
-        int id;
-        QString name;
-        int count;
-    };
-
-    struct GraphNode {
-        GraphNode();
-
-        int id;
-        int graphId;
-        int themeId;
-        double x;
-        double y;
-    };
-
-    struct ThemeEdge {
-        ThemeEdge();
-
-        int id;
-        int beginId;
-        int endId;
-    };
 
     namespace theme {
         // Returns name of theme with id id
@@ -71,7 +28,7 @@ namespace db {
         // Theme should be learned if isLearned == Qt::Checked,
         //     should not be learned if isLearned == Qt::Unchecked,
         //     can be or not be learned if isLearned == Qt::PartlyChecked
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> reads(
             const QString& name,
             int packageId,
@@ -81,17 +38,24 @@ namespace db {
 
         // Returns list of themes which are not
         // presenred on graph with id excludeGraphId
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> readsExceptGraph(int excludeGraphId);
 
-        // Selects themes with ids ids
-        // XXX: description is selected
-        QList<Theme> readsByIds(const QList<int>& ids);
+        // Returns list of themes with ids ids
+        // XXX: If full == false,
+        //    than selects id, name and package only
+        // Selects everything otherwise
+        QList<Theme> readsByIds(const QList<int>& ids, bool full);
 
         // Returns list of themes so that
         //     theme with id themeId depends on themes from list
-        // XXX: No description selected
+        // XXX: Selects id, name and package only
         QList<Theme> readsDependencies(int themeId);
+
+        // Returns list of theme ids so that
+        //     theme with id themeId depends on themes with ids from list
+        // XXX: Selects id, name and package only
+        QList<int> getDependenciesIds(int themeId);
 
         // Inserts theme into db if id == -1,
         //    updates existant theme otherwise
@@ -101,12 +65,19 @@ namespace db {
         // Deletes theme with id id
         void del(int id);
 
-        // Exports themes with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
-
         // Returns true if theme with id id exists in db
         // Return false otherwise
         bool exists(int id);
+
+        // Returns id of theme with name themeName
+        //     and package name packageName
+        // Returns -1 if not found
+        int find(const QString& packageName, const QString& themeName);
+
+        // Returns id of theme with name themeName
+        //     and package with id packageId
+        // Returns -1 if not found
+        int find(int packageId, const QString& themeName);
     };
 
     namespace package {
@@ -118,6 +89,9 @@ namespace db {
 
         // Returns Package structure for package with id id
         Package read(int id);
+
+        // Selects packages with ids ids
+        QList<Package> readsByIds(const QList<int>& ids);
 
         // Returns list of packages with
         // package name LIKE (in SQL terms) %name%
@@ -134,8 +108,13 @@ namespace db {
         // Returns ids of themes from packages with ids packageIds
         QList<int> getThemeIds(const QList<int>& packageIds);
 
-        // Exports packages with ids ids into file "filename" as txt
-        void exportAsTxt(const QString& filename, const QList<int>& ids);
+        // Returns true if name is unique
+        bool unique(const QString& name);
+
+        // Returns true if theme with name name
+        //     is in package with id packageId
+        // Returns false otherwise
+        bool hasTheme(int packageId, const QString& name);
     };
 
     namespace graph {
@@ -163,6 +142,9 @@ namespace db {
         // Returns true if graph with id id exists in db
         // Return false otherwise
         bool exists(int id);
+
+        // Returns true if name is unique
+        bool unique(const QString& name);
     };
 
     namespace graphNode {
@@ -180,22 +162,66 @@ namespace db {
 
         // Deletes graphNode with id id
         void del(int id);
+
+        // Returns themeId for node with id id
+        int themeId(int id);
+
+        // Deletes nodes with whose themes were deleted
+        //     from graph with id graphId
+        void deleteDeletedThemes(int graphId);
     };
 
     namespace themeEdge {
         // Returns themeEdges presented on graph with id graphId
         // If themeId != -1, than returns only edges
         //     than begin or end in theme with id themeId
-        QList<ThemeEdge> reads(int graphId, int themeId);
+        QList<ThemeEdge> readsFromGraph(int graphId, int themeId);
+
+        // Returns themeEdges in which both end theme's ids are in ids
+        QList<ThemeEdge> readsFromThemeIds(const QList<int>& ids);
+
+        // Inserts edge
+        //     from theme with id beginId
+        //     to   theme with id endId
+        // into db
+        // Returns edge's is
+        // XXX: won't check type of exception
+        int createByThemes(int beginId, int endId);
 
         // Inserts edge
         //     from node with id beginNodeId
         //     to   node with id endNodeId
         // into db
         // Returns edge's is
-        int create(int beginNodeId, int endNodeId);
+        int createByNodes(int beginNodeId, int endNodeId);
 
         // Deletes edge with id edgeId
         void del(int edgeId);
+    };
+
+    namespace list {
+        // Builds list for theme with id themeId
+        void build(int themeId);
+
+        // Returns themes that are in list
+        // Ignores learned themes is ignoreLearned == true
+        QList<Theme> reads(bool ignoreLearned = false);
+
+        // Return ids of themes that are in list
+        QList<int> getIds(bool ignoreLearned = false);
+
+        // Returns id of theme for which list was build
+        int getMainThemeId();
+
+        // Deletes records with themeIds
+        //     that were deleted from themes table
+        void deleteDeletedThemes();
+
+        // Clears list
+        void clear();
+
+        // Returns true if list's empty
+        // Returns false otherwise
+        bool empty();
     };
 };

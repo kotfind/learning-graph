@@ -10,7 +10,8 @@ class PackageComboBox : public QComboBox {
         PackageComboBox(QWidget* parent = nullptr);
 
         // Sets current item to package with id packageId
-        void setCurrent(int packageId);
+        // Won't change anything this package isn't in combobox
+        void setCurrentId(int packageId);
 
         // Adds option "<Any>" if v == true
         // Deletes it otherwise

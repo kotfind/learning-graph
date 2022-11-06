@@ -4,6 +4,7 @@
 #include "db/db.h"
 #include "appendExtention.h"
 #include "GlobalSignalHandler.h"
+#include "filesystem/filesystem.h"
 
 #include <QWidget>
 #include <QFrame>
@@ -20,13 +21,9 @@
 #include <QSvgGenerator>
 #include <QPainter>
 
-using namespace db;
-
 GraphEditWidget::GraphEditWidget(QWidget* parent)
         : QMainWindow(parent) {
     ui();
-
-    graphView->setDisabled(true);
 
     graphScene = new GraphScene;
     graphView->setScene(graphScene);
@@ -66,11 +63,16 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphEditWidget::onGraphsUpdated
     );
 
+    connect(
+        clearDeletedButton,
+        &QPushButton::clicked,
+        this,
+        &GraphEditWidget::onClearDeleteButtonClicked
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
 
-    modeBar->setDisabled(true);
-    scaleBar->setDisabled(true);
-    otherButtonsBar->setDisabled(true);
+    setDisabled(true);
 
     // Load from settings
     QSettings settings;
@@ -143,6 +145,11 @@ void GraphEditWidget::uiHeader() {
 
     closeButton = new QPushButton(tr("Close"));
     otherButtonsBar->addWidget(closeButton);
+
+    otherButtonsBar->addSeparator();
+
+    clearDeletedButton = new QPushButton(tr("Clear Deleted Themes"));
+    otherButtonsBar->addWidget(clearDeletedButton);
 }
 
 void GraphEditWidget::uiBody() {
@@ -161,13 +168,10 @@ void GraphEditWidget::uiFooter() {
 void GraphEditWidget::open(int graphId) {
     this->graphId = graphId;
 
-    nameLabel->setText(tr("[Graph] %1").arg(graph::name(graphId)));
+    nameLabel->setText(tr("[Graph] %1").arg(db::graph::name(graphId)));
     graphScene->open(graphId);
-    graphView->setDisabled(false);
 
-    modeBar->setDisabled(false);
-    scaleBar->setDisabled(false);
-    otherButtonsBar->setDisabled(false);
+    setDisabled(false);
 
     // Write to settings
     QSettings settings;
@@ -179,11 +183,10 @@ void GraphEditWidget::close() {
 
     nameLabel->setText(tr("No Graph Loaded"));
     graphScene->close();
-    graphView->setDisabled(true);
 
-    modeBar->setDisabled(true);
-    scaleBar->setDisabled(true);
-    otherButtonsBar->setDisabled(true);
+    setDisabled(true);
+
+    scaleSpinBox->setValue(1);
 
     // Write to settings
     QSettings settings;
@@ -245,63 +248,26 @@ void GraphEditWidget::exportGraph() {
 
     if (selectedFilter == jpgFilter) {
         appendExtentionIfNot(filename, ".jpg");
-        exportAsJpg(filename);
+        filesystem::graph::exportAsJpg(filename, graphScene);
     } else if (selectedFilter == pngFilter) {
         appendExtentionIfNot(filename, ".png");
-        exportAsPng(filename);
+        filesystem::graph::exportAsPng(filename, graphScene);
     } else if (selectedFilter == svgFilter) {
         appendExtentionIfNot(filename, ".svg");
-        exportAsSvg(filename);
+        filesystem::graph::exportAsSvg(filename, graphScene);
     } else {
         appendExtentionIfNot(filename, ".graph");
+        filesystem::graph::exportAsGraph(filename, graphId);
     }
-}
-
-void GraphEditWidget::exportAsSvg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName(filename);
-    svgGen.setSize(rect.size().toSize());
-    svgGen.setViewBox(rect);
-    svgGen.setTitle(graph::name(graphId));
-
-    QPainter painter(&svgGen);
-    graphScene->render(&painter, rect, rect);
-}
-
-void GraphEditWidget::exportAsPng(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_ARGB32);
-    img.fill(Qt::transparent);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
-}
-
-void GraphEditWidget::exportAsJpg(const QString& filename) {
-    graphScene->clearSelection();
-
-    const auto rect = graphScene->itemsBoundingRect() + exportMargins;
-
-    QImage img(rect.size().toSize(), QImage::Format_RGB32);
-    img.fill(Qt::white);
-
-    QPainter painter(&img);
-    graphScene->render(&painter, QRectF(), rect);
-
-    img.save(filename);
 }
 
 void GraphEditWidget::onGraphsUpdated() {
-    if (graphId != -1 && !graph::exists(graphId)) {
+    if (graphId != -1 && !db::graph::exists(graphId)) {
         close();
     }
+}
+
+void GraphEditWidget::onClearDeleteButtonClicked() {
+    db::graphNode::deleteDeletedThemes(graphId);
+    open(graphId);
 }

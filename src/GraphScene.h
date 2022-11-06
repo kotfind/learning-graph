@@ -24,6 +24,9 @@ class GraphScene : public QGraphicsScene {
         //     or nullptr otherwise
         template<typename T> T typedItemAt(const QPointF& pos);
 
+        // Returns current graphId
+        int getGraphId() const { return graphId; }
+
     private:
         // Asks user to select a theme to add
         // Returns id if user selected theme
@@ -55,12 +58,13 @@ class GraphScene : public QGraphicsScene {
     protected:
         // Runs one of other class methods
         //    depending on mode and mouse button
+        // Inits ThemeContextMenu on right click
         void mousePressEvent(QGraphicsSceneMouseEvent *) override;
 
         // Draws preview line in EDGE_EDIT_MODE
         void mouseMoveEvent(QGraphicsSceneMouseEvent *) override;
 
-        // Creates inits edge creation in EDGE_EDIT_MODE
+        // Inits edge creation in EDGE_EDIT_MODE
         void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
 
         // Filters drag&drop events

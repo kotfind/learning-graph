@@ -58,11 +58,11 @@ class ThemeTab : public QWidget {
 
         // Selects all if something was selected
         // Clears selection otherwise
-        void onSelectAllButtonPressed();
+        void onSelectAllButtonClicked();
 
         // Updates selectAll button text
         void onSelectionChanged();
 
         // Exports theme
-        void onExportButtonPressed();
+        void onExportButtonClicked();
 };

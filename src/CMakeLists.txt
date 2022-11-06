@@ -13,6 +13,7 @@ find_package(Qt6 REQUIRED
     Sql
     Svg
     LinguistTools
+    Network
 )
 
 qt_standard_project_setup()
@@ -32,6 +33,7 @@ add_executable(learning_graph
     db/graph.cpp
     db/graphNode.cpp
     db/themeEdge.cpp
+    db/list.cpp
 
     ThemeContextMenu.cpp
     ThemeInfoDialog.cpp
@@ -49,7 +51,16 @@ add_executable(learning_graph
     GraphView.cpp
     GraphInfoDialog.cpp
 
-    LearningListTab.cpp
+    LearningListWidget.cpp
+
+    filesystem/theme.cpp
+    filesystem/package.cpp
+    filesystem/graph.cpp
+    filesystem/list.cpp
+
+    GenerationOptionsDialog.cpp
+    PackageGenerator.cpp
+    DependencyDirectionDialog.cpp
 )
 
 set(LIBS
@@ -57,6 +68,7 @@ set(LIBS
     Qt6::Widgets
     Qt6::Sql
     Qt6::Svg
+    Qt6::Network
 )
 
 target_link_libraries(learning_graph ${LIBS})

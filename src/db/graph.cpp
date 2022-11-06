@@ -168,3 +168,14 @@ bool graph::exists(int id) {
     EXEC(query)
     return query.next();
 }
+
+bool graph::unique(const QString &name) {
+    PREPARE_NEW(query, " \
+        SELECT 1 \
+        FROM graphs \
+        WHERE name = ? \
+    ")
+    query.addBindValue(name);
+    EXEC(query)
+    return !query.first();
+}

@@ -5,8 +5,6 @@
 
 #include <QDebug>
 
-using namespace db;
-
 PackageComboBox::PackageComboBox(QWidget* parent)
         : QComboBox(parent) {
     connect(
@@ -26,7 +24,7 @@ void PackageComboBox::update() {
         addItem(tr("<Any>"), -1);
     }
 
-    auto packages = package::reads("");
+    auto packages = db::package::reads("");
     for (const auto& p : packages) {
         addItem(
             p.name,
@@ -34,15 +32,15 @@ void PackageComboBox::update() {
         );
     }
 
-    setCurrent(currentId);
+    setCurrentId(currentId);
 }
 
-void PackageComboBox::setCurrent(int packageId) {
-    currentId = packageId;
+void PackageComboBox::setCurrentId(int packageId) {
     for (int i = 0; i < count(); ++i) {
         if (itemData(i) == packageId) {
             setCurrentIndex(i);
-            break;
+            currentId = packageId;
+            return;
         }
     }
 }
