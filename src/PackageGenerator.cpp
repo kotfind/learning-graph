@@ -72,7 +72,7 @@ void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
             t.package.id = packageId;
             t.id = nameToId[queue.front().currentName] = db::theme::write(t);
 
-            if (dir == RIGHT_DIRECTION) {
+            if (dir == LEFT_DIRECTION) {
                 db::themeEdge::createByThemes(
                     queue.front().parentId,
                     t.id
