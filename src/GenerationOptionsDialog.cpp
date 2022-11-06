@@ -82,5 +82,6 @@ void GenerationOptionsDialog::ui() {
     hbox->addWidget(cancelButton);
 
     okButton = new QPushButton(tr("Ok"));
+    okButton->setDefault(true);
     hbox->addWidget(okButton);
 }

@@ -17,6 +17,7 @@
 #include <QGridLayout>
 #include <QStandardPaths>
 #include <QFileDialog>
+#include <qmessagebox.h>
 
 PackageTab::PackageTab(QWidget* parent)
         : QWidget(parent) {
@@ -383,4 +384,54 @@ void PackageTab::onGeneratePackageActionTriggered() {
         emit packagesUpdated();
         return;
     }
+
+    packageGenerator = new PackageGenerator(
+        packageId,
+        optionsDialog.getDepthLimit(),
+        optionsDialog.getQuantityLimit(),
+        this
+    );
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::edgeDirectionQuestionRequested,
+        this,
+        &PackageTab::onEdgeDirectionQuestionRequested
+    );
+
+    connect(
+        this,
+        &PackageTab::dirrectionQuestionReplied,
+        packageGenerator,
+        &PackageGenerator::onDirrectionReplied
+    );
+
+    connect(
+        packageGenerator,
+        &PackageGenerator::done,
+        this,
+        &PackageTab::onGenerationDone
+    );
+
+    packageGenerator->exec(optionsDialog.getName());
+}
+
+void PackageTab::onEdgeDirectionQuestionRequested(
+        const QString& first,
+        const QString& second
+    ) {
+    emit dirrectionQuestionReplied(PackageGenerator::CANCEL_DIRECTION);
+}
+
+void PackageTab::onGenerationDone() {
+    QMessageBox::information(
+        this,
+        tr("Graph Generation Done"),
+        tr("Graph Generation Done")
+    );
+
+    emit themesUpdated();
+    emit packagesUpdated();
+
+    delete packageGenerator;
 }

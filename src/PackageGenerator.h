@@ -28,7 +28,7 @@ class PackageGenerator : public QObject {
             int depthLimit,
             int quantityLimit,
             QObject* parent = nullptr
-          );
+        );
         
         // Starts generator from article "articleName"
         void exec(const QString& articleName);
@@ -75,9 +75,9 @@ class PackageGenerator : public QObject {
 
     public slots:
         // As a response for edgeDirectionQuestionRequested
-        void onDirrectionReplyGot(EdgeDirection dir);
+        void onDirrectionReplied(EdgeDirection dir);
 
     private slots:
         // Processes http response
-        void onNetworkReplyGot(QNetworkReply* reply);
+        void onNetworkReplied(QNetworkReply* reply);
 };

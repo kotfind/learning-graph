@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PackageGenerator.h"
 #include "SmartListWidget.h"
 
 #include <QWidget>
@@ -32,9 +33,12 @@ class PackageTab : public QWidget {
         QAction* createEmptyPackageAction;
         QAction* generatePackageAction;
 
+        PackageGenerator* packageGenerator;
+
     signals:
         void packagesUpdated();
         void themesUpdated();
+        void dirrectionQuestionReplied(PackageGenerator::EdgeDirection);
 
     public slots:
         // (Re)loads data from db
@@ -68,4 +72,14 @@ class PackageTab : public QWidget {
 
         // Generates package
         void onGeneratePackageActionTriggered();
+
+        // Inits question dialog
+        // Emits dirrectionQuestionReplied signal
+        void onEdgeDirectionQuestionRequested(
+            const QString& first,
+            const QString& second
+        );
+
+        // Shows info messsage
+        void onGenerationDone();
 };

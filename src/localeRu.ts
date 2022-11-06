@@ -448,113 +448,119 @@
 <context>
     <name>PackageTab</name>
     <message>
-        <location filename="PackageTab.cpp" line="126"/>
+        <location filename="PackageTab.cpp" line="127"/>
         <source>New package</source>
         <translation>Новый пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="130"/>
+        <location filename="PackageTab.cpp" line="131"/>
         <source>Import package</source>
         <translation>Импортировать пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="144"/>
+        <location filename="PackageTab.cpp" line="145"/>
         <source>Search Section</source>
         <translation>Раздел поиска</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="151"/>
+        <location filename="PackageTab.cpp" line="152"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="159"/>
+        <location filename="PackageTab.cpp" line="160"/>
         <source>Autoupdate</source>
         <oldsource>Auto update</oldsource>
         <translation>Автообновление</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="165"/>
+        <location filename="PackageTab.cpp" line="166"/>
         <source>Search</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="174"/>
-        <location filename="PackageTab.cpp" line="308"/>
+        <location filename="PackageTab.cpp" line="175"/>
+        <location filename="PackageTab.cpp" line="309"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="182"/>
+        <location filename="PackageTab.cpp" line="183"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="189"/>
+        <location filename="PackageTab.cpp" line="190"/>
         <source>Create Empty Package</source>
         <translation>Создать пустой пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="192"/>
+        <location filename="PackageTab.cpp" line="193"/>
         <source>Generate Package</source>
         <translation>Сгенерировать пакет</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="202"/>
+        <location filename="PackageTab.cpp" line="203"/>
         <source>%1 (%2 themes)</source>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="221"/>
+        <location filename="PackageTab.cpp" line="222"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="229"/>
+        <location filename="PackageTab.cpp" line="230"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="232"/>
+        <location filename="PackageTab.cpp" line="233"/>
         <source>Question</source>
         <translation>Вопрос</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="233"/>
+        <location filename="PackageTab.cpp" line="234"/>
         <source>Delete package &quot;%1&quot;?</source>
         <translation>Удалить пакет &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="311"/>
+        <location filename="PackageTab.cpp" line="312"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="317"/>
+        <location filename="PackageTab.cpp" line="318"/>
         <source>Text file (*.txt)</source>
         <oldsource>Text (*.txt)</oldsource>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="318"/>
-        <location filename="PackageTab.cpp" line="342"/>
+        <location filename="PackageTab.cpp" line="319"/>
+        <location filename="PackageTab.cpp" line="343"/>
         <source>Learning Graph packages (*.pack)</source>
         <translation>Пакеты Learning Graph (*.pack)</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="322"/>
+        <location filename="PackageTab.cpp" line="323"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="345"/>
+        <location filename="PackageTab.cpp" line="346"/>
         <source>Import from ...</source>
         <translation>Импортировать из ...</translation>
     </message>
     <message>
-        <location filename="PackageTab.cpp" line="359"/>
+        <location filename="PackageTab.cpp" line="360"/>
         <source>Error</source>
         <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="PackageTab.cpp" line="429"/>
+        <location filename="PackageTab.cpp" line="430"/>
+        <source>Graph Generation Done</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

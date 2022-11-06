@@ -20,11 +20,19 @@ PackageGenerator::PackageGenerator(
         manager,
         &QNetworkAccessManager::finished,
         this,
-        &PackageGenerator::onNetworkReplyGot
+        &PackageGenerator::onNetworkReplied
     );
 }
 
 void PackageGenerator::exec(const QString& articleName) {
+    // Insert dummy to db
+    Theme t;
+    t.id = -1;
+    t.name = articleName;
+    t.package.id = packageId;
+    t.id = nameToId[articleName] = db::theme::write(t);
+
+    // Init request
     manager->get(QNetworkRequest(getApiRequestUrl(articleName)));
 }
 
@@ -40,7 +48,7 @@ void PackageGenerator::processNext() {
     );
 }
 
-void PackageGenerator::onDirrectionReplyGot(EdgeDirection dir) {
+void PackageGenerator::onDirrectionReplied(EdgeDirection dir) {
     if (dir == CANCEL_DIRECTION) {
         processNext();
     } else {
@@ -94,7 +102,7 @@ void PackageGenerator::parseReplyData(const QByteArray& data, QString& name, QSt
     }
 }
 
-void PackageGenerator::onNetworkReplyGot(QNetworkReply* reply) {
+void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
     QString name;
     QString prettyName;
     QString description;
