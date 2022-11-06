@@ -35,6 +35,13 @@ DependencyDirectionDialog::DependencyDirectionDialog(
     );
 
     connect(
+        skipCurrentButton,
+        &QPushButton::clicked,
+        this,
+        &DependencyDirectionDialog::onSkipCurrentButtonClicked
+    );
+
+    connect(
         skipAllButton,
         &QPushButton::clicked,
         this,
@@ -67,6 +74,11 @@ void DependencyDirectionDialog::ui(const QString& first, const QString& second) 
     cancelButton = new QPushButton(tr("Skip dependency"));
     vbox->addWidget(cancelButton);
 
+    skipCurrentButton = new QPushButton(
+        tr("Skip all dependences with \"%1\"").arg(first)
+    );
+    vbox->addWidget(skipCurrentButton);
+
     skipAllButton = new QPushButton(tr("Skip All"));
     vbox->addWidget(skipAllButton);
 }
@@ -83,6 +95,11 @@ void DependencyDirectionDialog::onLeftButtonClicked() {
 
 void DependencyDirectionDialog::onCancelButtonClicked() {
     direction = CANCEL_DIRECTION;
+    emit accept();
+}
+
+void DependencyDirectionDialog::onSkipCurrentButtonClicked() {
+    direction = SKIP_CURRENT_DIRECTIONS;
     emit accept();
 }
 

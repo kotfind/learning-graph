@@ -27,6 +27,7 @@ void PackageGenerator::exec(
     // Init
     queue.clear();
     nameToId.clear();
+    idsToSkip.clear();
     this->packageId = packageId;
     this->language = language;
     this->quantityLimit = quantityLimit;
@@ -48,15 +49,23 @@ void PackageGenerator::processNext() {
         return;
     }
 
-    emit dependencyDirectionQuestionRequested(
-        db::theme::name(queue.front().parentId), 
-        queue.front().currentName
-    );
+    if (idsToSkip.contains(queue.front().parentId)) {
+        onDirrectionReplied(CANCEL_DIRECTION);
+    } else {
+        emit dependencyDirectionQuestionRequested(
+            db::theme::name(queue.front().parentId), 
+            queue.front().currentName
+        );
+    }
 }
 
 void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
     if (dir == SKIP_ALL_DIRECTIONS) {
         emit done();
+    } else if (dir == SKIP_CURRENT_DIRECTIONS) {
+        idsToSkip.insert(queue.front().parentId);
+        queue.pop_front();
+        processNext();
     } else if (dir == CANCEL_DIRECTION) {
         queue.pop_front();
         processNext();

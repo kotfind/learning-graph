@@ -17,29 +17,34 @@
 <context>
     <name>DependencyDirectionDialog</name>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="47"/>
+        <location filename="DependencyDirectionDialog.cpp" line="54"/>
         <source>Dependency Direction Dialog</source>
         <translation>Диалог Направления Зависимости</translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="54"/>
+        <location filename="DependencyDirectionDialog.cpp" line="61"/>
         <source>Select dependency directon.</source>
         <translation>Выберете направление зависимости.</translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="58"/>
-        <location filename="DependencyDirectionDialog.cpp" line="63"/>
+        <location filename="DependencyDirectionDialog.cpp" line="65"/>
+        <location filename="DependencyDirectionDialog.cpp" line="70"/>
         <source>&quot;%1&quot; depends on &quot;%2&quot;</source>
         <translation>&quot;%1&quot; зависит от &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="67"/>
+        <location filename="DependencyDirectionDialog.cpp" line="74"/>
         <source>Skip dependency</source>
         <oldsource>Ignore dependency</oldsource>
         <translation>Пропустить зависимость</translation>
     </message>
     <message>
-        <location filename="DependencyDirectionDialog.cpp" line="70"/>
+        <location filename="DependencyDirectionDialog.cpp" line="78"/>
+        <source>Skip all dependences with &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DependencyDirectionDialog.cpp" line="82"/>
         <source>Skip All</source>
         <translation>Пропустить все</translation>
     </message>

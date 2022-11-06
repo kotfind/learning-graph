@@ -63,6 +63,8 @@ class PackageGenerator : public QObject {
 
         QHash<QString, int> nameToId;
 
+        QSet<int> idsToSkip;
+
     signals:
         void done();
         void dependencyDirectionQuestionRequested(
