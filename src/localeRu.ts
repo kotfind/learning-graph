@@ -98,17 +98,17 @@
 <context>
     <name>GraphEditWidget</name>
     <message>
-        <location filename="GraphEditWidget.cpp" line="87"/>
+        <location filename="GraphEditWidget.cpp" line="94"/>
         <source>Mode Bar</source>
         <translation>Панель режимов</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="124"/>
+        <location filename="GraphEditWidget.cpp" line="131"/>
         <source>Scale Bar</source>
         <translation>Панель маштабирования</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="126"/>
+        <location filename="GraphEditWidget.cpp" line="133"/>
         <source>Scale: </source>
         <translation>Маштаб: </translation>
     </message>
@@ -117,64 +117,69 @@
         <translation type="vanished">Панель экспорта</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="132"/>
+        <location filename="GraphEditWidget.cpp" line="139"/>
         <source>Other Buttons Bar</source>
         <translation>Другое</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="134"/>
+        <location filename="GraphEditWidget.cpp" line="141"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="139"/>
+        <location filename="GraphEditWidget.cpp" line="146"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="GraphEditWidget.cpp" line="151"/>
-        <location filename="GraphEditWidget.cpp" line="172"/>
+        <source>Clear Deleted Themes</source>
+        <translation>Убрать удаленные темы</translation>
+    </message>
+    <message>
+        <location filename="GraphEditWidget.cpp" line="163"/>
+        <location filename="GraphEditWidget.cpp" line="184"/>
         <source>No Graph Loaded</source>
         <translation>Граф не загружен</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="159"/>
+        <location filename="GraphEditWidget.cpp" line="171"/>
         <source>[Graph] %1</source>
         <translation>[Граф] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="195"/>
+        <location filename="GraphEditWidget.cpp" line="207"/>
         <source>[Theme] %1</source>
         <oldsource>[Node] %1</oldsource>
         <translation>[Тема] %1</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="197"/>
+        <location filename="GraphEditWidget.cpp" line="209"/>
         <source>[Edge]</source>
         <translation>[Ребро]</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="219"/>
+        <location filename="GraphEditWidget.cpp" line="231"/>
         <source>JPG image (*.jpg)</source>
         <translation>JPG изображение (*.jpg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="220"/>
+        <location filename="GraphEditWidget.cpp" line="232"/>
         <source>PNG image (*.png)</source>
         <translation>PNG изображение (*.png)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="221"/>
+        <location filename="GraphEditWidget.cpp" line="233"/>
         <source>SVG image (*.svg)</source>
         <translation>SVG изображение (*.svg)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="222"/>
+        <location filename="GraphEditWidget.cpp" line="234"/>
         <source>Learning Graph graph (*.graph)</source>
         <translation>Граф Learning Graph (*.graph)</translation>
     </message>
     <message>
-        <location filename="GraphEditWidget.cpp" line="227"/>
+        <location filename="GraphEditWidget.cpp" line="239"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>

@@ -57,6 +57,7 @@ class GraphEditWidget : public QMainWindow {
         ScaleSpinBox* scaleSpinBox;
         QPushButton* exportButton;
         QPushButton* closeButton;
+        QPushButton* clearDeletedButton;
 
         QToolBar* modeBar;
         QToolBar* scaleBar;
@@ -75,4 +76,7 @@ class GraphEditWidget : public QMainWindow {
 
         // Closes current graph if it was deleted
         void onGraphsUpdated();
+
+        // Clears deleted nodes from grpah
+        void onClearDeleteButtonClicked();
 };

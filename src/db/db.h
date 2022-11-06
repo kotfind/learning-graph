@@ -165,6 +165,10 @@ namespace db {
 
         // Returns themeId for node with id id
         int themeId(int id);
+
+        // Deletes nodes with whose themes were deleted
+        //     from graph with id graphId
+        void deleteDeletedThemes(int graphId);
     };
 
     namespace themeEdge {
@@ -195,7 +199,6 @@ namespace db {
         void del(int edgeId);
     };
 
-    // Learning List
     namespace list {
         // Builds list for theme with id themeId
         void build(int themeId);

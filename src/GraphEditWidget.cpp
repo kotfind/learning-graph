@@ -63,6 +63,13 @@ GraphEditWidget::GraphEditWidget(QWidget* parent)
         &GraphEditWidget::onGraphsUpdated
     );
 
+    connect(
+        clearDeletedButton,
+        &QPushButton::clicked,
+        this,
+        &GraphEditWidget::onClearDeleteButtonClicked
+    );
+
     graphScene->setMode(CURSOR_EDIT_MODE);
 
     setDisabled(true);
@@ -138,6 +145,11 @@ void GraphEditWidget::uiHeader() {
 
     closeButton = new QPushButton(tr("Close"));
     otherButtonsBar->addWidget(closeButton);
+
+    otherButtonsBar->addSeparator();
+
+    clearDeletedButton = new QPushButton(tr("Clear Deleted Themes"));
+    otherButtonsBar->addWidget(clearDeletedButton);
 }
 
 void GraphEditWidget::uiBody() {
@@ -253,4 +265,9 @@ void GraphEditWidget::onGraphsUpdated() {
     if (graphId != -1 && !db::graph::exists(graphId)) {
         close();
     }
+}
+
+void GraphEditWidget::onClearDeleteButtonClicked() {
+    db::graphNode::deleteDeletedThemes(graphId);
+    open(graphId);
 }
