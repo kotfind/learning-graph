@@ -1,11 +1,11 @@
 #include "testDefines.h"
 
 #include "../db/db.h"
+#include "../db/sqlDefines.h"
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QList>
-#include <qsqlquery.h>
 
 void resetAll();
 
@@ -128,7 +128,7 @@ void resetAll() {
     resetPackages();
     resetThemes();
     resetGraphs();
-    resetAll();
+    resetThemeEdges();
 }
 
 int main() {
@@ -370,19 +370,42 @@ int main() {
 
     TEST_GROUP_BEGIN("package and theme delition")
 
+    QSqlQuery q1, q2, q3;
+
     db::theme::del(1);
+    PREPARE(q1, "SELECT COUNT(*) FROM themes")
+    PREPARE(q2, "SELECT COUNT(*) FROM themeEdges")
+    EXEC(q1)
+    EXEC(q2)
+    q1.next();
+    q2.next();
     TEST_CHECK(
-        QSqlQuery("SELECT COUNT(*) FROM themes").value(0).toInt() == 8 &&
-        QSqlQuery("SELECT COUNT(*) FROM themeEdges").value(0).toInt() == 6
+        q1.value(0).toInt() == 8 &&
+        q2.value(0).toInt() == 6
     )
+    q1.finish();
+    q2.finish();
     resetAll();
 
     db::package::del(1);
+    db::theme::del(1);
+    PREPARE(q1, "SELECT COUNT(*) FROM packages")
+    PREPARE(q2, "SELECT COUNT(*) FROM themes")
+    PREPARE(q3, "SELECT COUNT(*) FROM themeEdges")
+    EXEC(q1)
+    EXEC(q2)
+    EXEC(q3)
+    q1.next();
+    q2.next();
+    q3.next();
     TEST_CHECK(
-        QSqlQuery("SELECT COUNT(*) FROM packages").value(0).toInt() == 1 &&
-        QSqlQuery("SELECT COUNT(*) FROM themes").value(0).toInt() == 4 &&
-        QSqlQuery("SELECT COUNT(*) FROM themeEdges").value(0).toInt() == 2
+        q1.value(0).toInt() == 1 &&
+        q2.value(0).toInt() == 4 &&
+        q3.value(0).toInt() == 2
     )
+    q1.finish();
+    q2.finish();
+    q3.finish();
     resetAll();
 
     TEST_GROUP_END
