@@ -61,8 +61,6 @@ class PackageGenerator : public QObject {
 
         QQueue<QueueItem> queue;
 
-        QHash<QString, int> nameToId;
-
         QSet<int> idsToSkip;
 
     signals:

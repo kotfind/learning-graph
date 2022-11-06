@@ -6,7 +6,7 @@
 #include <QDebug>
 
 PackageGenerator::PackageGenerator(QObject* parent)
-        : QObject(parent), queue(), nameToId() {
+        : QObject(parent), queue() {
     manager = new QNetworkAccessManager(this);
 
     connect(
@@ -26,7 +26,6 @@ void PackageGenerator::exec(
 
     // Init
     queue.clear();
-    nameToId.clear();
     idsToSkip.clear();
     this->packageId = packageId;
     this->language = language;
@@ -37,7 +36,7 @@ void PackageGenerator::exec(
     t.id = -1;
     t.name = articleName;
     t.package.id = packageId;
-    t.id = nameToId[articleName] = db::theme::write(t);
+    db::theme::write(t);
 
     // Init request
     manager->get(QNetworkRequest(getApiRequestUrl(articleName)));
@@ -79,7 +78,7 @@ void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
             t.id = -1;
             t.name = queue.front().currentName;
             t.package.id = packageId;
-            t.id = nameToId[queue.front().currentName] = db::theme::write(t);
+            t.id = db::theme::write(t);
 
             if (dir == LEFT_DIRECTION) {
                 db::themeEdge::createByThemes(
@@ -145,10 +144,10 @@ void PackageGenerator::onNetworkReplied(QNetworkReply* reply) {
     );
     reply->deleteLater();
 
-    Theme t = db::theme::read(nameToId[name]);
+    Theme t = db::theme::read(db::theme::find(packageId, name));
     t.name = name;
     t.description = description;
-    db::theme::write(t);
+    t.id = db::theme::write(t);
 
     for (const auto& linkName : linkNames) {
         queue.push_back({
