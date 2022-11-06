@@ -91,8 +91,9 @@ qt_add_translations(learning_graph
 # Tests
 
 add_executable(tests
-    db/package.cpp
     db/theme.cpp
+    db/package.cpp
+    db/graph.cpp
 
     tests/tests.cpp
 )

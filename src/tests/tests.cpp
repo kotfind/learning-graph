@@ -5,8 +5,9 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QList>
+#include <qsqlquery.h>
 
-void resetDb();
+void resetAll();
 
 // Inits db
 void init() {
@@ -14,7 +15,9 @@ void init() {
     db.setDatabaseName("tmp.sqlite"); // FIXME
     db.open();
 
-    resetDb();
+    QSqlQuery("PRAGMA foreign_keys=OFF");
+
+    resetAll();
 }
 
 // Return list of ids of themes from themes
@@ -27,9 +30,8 @@ QList<int> toIds(const QList<Theme>& themes) {
     return ans;
 }
 
-// Resets db and inserts sample data
-void resetDb() {
-    // Packages
+// Resets packages db table and inserts sample data
+void resetPackages() {
     QSqlQuery("DROP TABLE IF EXISTS packages");
     QSqlQuery(" \
         CREATE TABLE packages( \
@@ -44,8 +46,10 @@ void resetDb() {
             (1, 'p1'), \
             (2, 'p2') \
     ");
+}
 
-    // Themes
+// Resets themes db table and inserts sample data
+void resetThemes() {
     QSqlQuery("DROP TABLE IF EXISTS themes");
     QSqlQuery(" \
         CREATE TABLE themes( \
@@ -74,10 +78,37 @@ void resetDb() {
     ");
 }
 
+// Resets graphs db table and inserts sample data
+void resetGraphs() {
+    QSqlQuery("DROP TABLE IF EXISTS graphs");
+    QSqlQuery(" \
+        CREATE TABLE graphs( \
+            id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            name VARCHAR(255) NOT NULL UNIQUE \
+        ) \
+    ");
+    QSqlQuery(" \
+        INSERT \
+        INTO graphs \
+        VALUES \
+            (1, 'g1'), \
+            (2, 'g2') \
+    ");
+}
+
+// Resets db and inserts sample data
+void resetAll() {
+    resetPackages();
+    resetThemes();
+    resetGraphs();
+}
+
 int main() {
     init();
 
+    Theme t;
     Package p;
+    Graph g;
 
     // TEST GROUP
     TEST_GROUP_BEGIN("package renaming")
@@ -87,14 +118,14 @@ int main() {
     p.name = "pack";
     db::package::write(p);
     TEST_COMPARE(db::package::name(p.id), p.name)
-    resetDb();
+    resetPackages();
 
     // TEST
     p.id = 1;
     p.name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     db::package::write(p);
     TEST_COMPARE(db::package::name(p.id), p.name)
-    resetDb();
+    resetPackages();
 
     // TEST
     p.id = 1;
@@ -107,7 +138,7 @@ int main() {
     } catch (...) {
         TEST_FAILED
     }
-    resetDb();
+    resetPackages();
 
     // TEST
     p.id = 1;
@@ -120,7 +151,54 @@ int main() {
     } catch (...) {
         TEST_FAILED
     }
-    resetDb();
+    resetPackages();
+
+    TEST_GROUP_END
+
+
+
+    // TEST GROUP
+    TEST_GROUP_BEGIN("graph renaming")
+
+    // TEST
+    g.id = 1;
+    g.name = "graph";
+    db::graph::write(g);
+    TEST_COMPARE(db::graph::name(g.id), g.name)
+    resetGraphs();
+
+    // TEST
+    g.id = 1;
+    g.name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    db::graph::write(g);
+    TEST_COMPARE(db::graph::name(g.id), g.name)
+    resetGraphs();
+
+    // TEST
+    g.id = 1;
+    g.name = "";
+    try {
+        db::graph::write(g);
+        TEST_FAILED
+    } catch (const QString&) {
+        TEST_PASSED
+    } catch (...) {
+        TEST_FAILED
+    }
+    resetGraphs();
+
+    // TEST
+    g.id = 1;
+    g.name = "g2";
+    try {
+        db::graph::write(g);
+        TEST_FAILED
+    } catch (const QString&) {
+        TEST_PASSED
+    } catch (...) {
+        TEST_FAILED
+    }
+    resetGraphs();
 
     TEST_GROUP_END
 
@@ -130,13 +208,6 @@ int main() {
     TEST_GROUP_BEGIN("theme filters")
 
     // TEST
-    qDebug() <<
-        db::theme::reads(
-            "",
-            -1,
-            Qt::PartiallyChecked,
-            Qt::PartiallyChecked
-        ).size();
     TEST_COMPARE(
         toIds(db::theme::reads(
             "",
