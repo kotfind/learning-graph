@@ -161,7 +161,7 @@ void GraphTab::update() {
     graphsList->clear();
     for (const auto& g : graphs) {
         graphsList->addItem(
-            tr("%1 (%2 themes)")
+            tr("%1 (%2 theme(-s))")
                 .arg(g.name)
                 .arg(g.count),
             g.id

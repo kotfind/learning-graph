@@ -225,7 +225,7 @@ void PackageTab::update() {
     packagesList->clear();
     for (const auto& p : packages) {
         packagesList->addItem(
-            tr("%1 (%2 themes)")
+            tr("%1 (%2 theme(-s))")
                 .arg(p.name)
                 .arg(p.count),
             p.id
