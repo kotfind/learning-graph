@@ -93,7 +93,7 @@ void PackageGenerator::onDirrectionReplied(DependencyDirection dir) {
 
 QUrl PackageGenerator::getApiRequestUrl(const QString& name) {
     auto url = baseRequestUrl;
-    url = url.replace("{articleName}",  name);
+    url = url.replace("{articleName}", QString(QUrl::toPercentEncoding(name)));
     return QUrl(url);
 }
 
