@@ -52,10 +52,13 @@ int ThemeInfoDialog::getId() {
 
 void ThemeInfoDialog::load() {
     if (themeId == -1) {
+        setWindowTitle(tr("New Theme"));
+
         QSettings settings;
         packageComboBox->setCurrentId(settings.value("themeInfoDialog/packageId").toInt());
     } else {
         const Theme t = db::theme::read(themeId);
+        setWindowTitle(tr("Theme \"%1\" Info").arg(t.name));
         themeEdit->setText(t.name);
         packageComboBox->setCurrentId(t.package.id);
         isLearnedCheckBox->setChecked(t.isLearned);
@@ -75,8 +78,6 @@ void ThemeInfoDialog::load() {
 }
 
 void ThemeInfoDialog::ui() {
-    setWindowTitle(tr("Theme \"%1\" Info").arg(db::theme::name(themeId)));
-
     // Main Layout
     auto* vbox = new QVBoxLayout(this);
     setLayout(vbox);
