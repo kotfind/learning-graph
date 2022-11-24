@@ -85,7 +85,7 @@ qt_add_resources(learning_graph "res"
 
 qt_add_translations(learning_graph
     TS_FILES localeRu.ts
-    QM_FILES_OUTPUT_VARIABLE qm_files
+    RESOURCE_PREFIX "/"
 )
 
 # Tests

@@ -296,7 +296,8 @@
     </message>
     <message>
         <location filename="GraphTab.cpp" line="164"/>
-        <source>%1 (%2 themes)</source>
+        <source>%1 (%2 theme(-s))</source>
+        <oldsource>%1 (%2 themes)</oldsource>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
@@ -338,23 +339,23 @@
 <context>
     <name>LearningListWidget</name>
     <message>
-        <location filename="LearningListWidget.cpp" line="76"/>
-        <location filename="LearningListWidget.cpp" line="145"/>
+        <location filename="LearningListWidget.cpp" line="86"/>
+        <location filename="LearningListWidget.cpp" line="155"/>
         <source>No list loaded</source>
         <translation>Список не загружен</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="80"/>
+        <location filename="LearningListWidget.cpp" line="90"/>
         <source>Show learned themes</source>
         <translation>Отображать изученные темы</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="94"/>
+        <location filename="LearningListWidget.cpp" line="104"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="97"/>
+        <location filename="LearningListWidget.cpp" line="107"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
@@ -364,28 +365,28 @@
         <translation type="vanished">Список для темы &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="107"/>
+        <location filename="LearningListWidget.cpp" line="117"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="126"/>
+        <location filename="LearningListWidget.cpp" line="136"/>
         <source>List for theme &quot;%1 (%2)&quot;</source>
         <translation>Список для темы &quot;%1 (%2)&quot;</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="134"/>
+        <location filename="LearningListWidget.cpp" line="144"/>
         <source>%1 (%2)</source>
         <oldsource>%1 from %2</oldsource>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="160"/>
+        <location filename="LearningListWidget.cpp" line="170"/>
         <source>Text file (*.txt)</source>
         <translation>Текстовый файл (*.txt)</translation>
     </message>
     <message>
-        <location filename="LearningListWidget.cpp" line="165"/>
+        <location filename="LearningListWidget.cpp" line="175"/>
         <source>Export to ...</source>
         <translation>Экспортировать в ...</translation>
     </message>
@@ -552,7 +553,8 @@
     </message>
     <message>
         <location filename="PackageTab.cpp" line="228"/>
-        <source>%1 (%2 themes)</source>
+        <source>%1 (%2 theme(-s))</source>
+        <oldsource>%1 (%2 theme(-s))$</oldsource>
         <translation>%1 (%2 тем(-а, -ы))</translation>
     </message>
     <message>
@@ -775,7 +777,8 @@
     </message>
     <message>
         <location filename="ThemeInfoDialog.cpp" line="112"/>
-        <source>New package</source>
+        <source>Create empty package</source>
+        <oldsource>New package</oldsource>
         <translation>Новый пакет</translation>
     </message>
     <message>

@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
     QTranslator translator;
     if (settings.value("locale").toString() == "ru") {
-        if (!translator.load("localeRu")) {
+        if (!translator.load(":localeRu")) {
             return 1;
         }
         app.installTranslator(&translator);
