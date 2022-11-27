@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+pdflatex main.tex
+zathura main.pdf
